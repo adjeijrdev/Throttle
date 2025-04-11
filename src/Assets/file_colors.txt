@@ -1,0 +1,15 @@
+--clr-white: #FFFFFF
+--clr-black: #000000
+--clr-red: #D11515
+--clr-green: #43A047
+--background-clr: #F4F9FF
+--primary-turquoise: #006984
+--primary-blue-black: #06264D
+
+designer-colors{
+--dark-green: #003627
+--colorash: #CDD4DB
+--logo-color: #0EA47A
+--darker-gray: #6B6B6B
+
+}
