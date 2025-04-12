@@ -19,19 +19,23 @@ export default function Login() {
   return (
     <div className="main-container-box">
       <div className="green-side">
-        <div className="text-on-green">
-          <h1>
-            Welcome <span className="to-text">to</span>{" "}
-            <span className="throttle-text" >Throttle</span>
-          </h1>
-          <h3>Smart & Seamless Delivery Management!</h3>
-          <pre>{text}</pre>
+        <div className="TextBox">
+          <div className="text-on-green">
+            <h1>
+              Welcome <span className="to-text">to</span>
+              <span className="throttle-text"> Throttle</span>
+            </h1>
+            <h3>Smart & Seamless Delivery Management!</h3>
+            <pre>{text}</pre>
+          </div>
         </div>
-        <div className="blurred-box">
-          <img src={BluredBackground} alt="Blurred-box" />
-        </div>
-        <div className="man-box">
-          <img src={Man} alt="Man-model" />
+        <div className="Images">
+          <div className="blurred-box">
+            <img src={BluredBackground} alt="Blurred-box" />
+          </div>
+          <div className="man-box">
+            <img src={Man} alt="Man-model" />
+          </div>
         </div>
       </div>
       <div className="form"></div>
