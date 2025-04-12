@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router";
 import "./App.css";
 
 //importing components
-// import Login from "./Pages/Login";
+import Login from "./Pages/Auth/Login";
 import HomeLayout from "./Layouts/HomeLayout";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import DailyDelivery from "./Pages/DailyDelivery/DailyDelivery";
@@ -30,7 +30,7 @@ function App() {
             <Route path="/cod" element={<Cod />} />
             <Route path="/bulk-update" element={<BulkUpdate />} />
           </Route>
-          {/* <Route path="/login" element={<Login />} /> */}
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </Router>

@@ -28,8 +28,8 @@ export default function HomeLayout() {
         <div className="header">
           <div className="user-card">
             <div className="text">
-              <p>Adjei Junior</p>
-              <h6>Manager</h6>
+              <h4>John Doe </h4>
+              <p>Manager</p>
             </div>
             <div className="image"></div>
           </div>
