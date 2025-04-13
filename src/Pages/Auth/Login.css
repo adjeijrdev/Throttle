@@ -52,7 +52,7 @@
   object-fit: cover;
 }
 .man-box {
-  width: 85%;
+  width: 80%;
   height: 85%;
   z-index: 3;
   position: relative;
@@ -128,3 +128,81 @@
 }
 
 /* FORM STYLING */
+.white-container {
+  width: 100%;
+  height: 100%;
+  padding: 35% 13% 30% 13%;
+}
+.input-fields input {
+  display: block;
+  width: 100%;
+}
+.button-and-sign-up {
+  text-align: center;
+}
+.button-and-sign-up button {
+  width: 100%;
+}
+/* line-and-text */
+.line-and-text {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 7.6rem;
+}
+.line-and-text::before,
+.line-and-text::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid var(--primary-blue-black);
+}
+.line-and-text:not(:empty)::before {
+  margin-right: 10px;
+}
+.line-and-text:not(:empty)::after {
+  margin-left: 10px;
+}
+.line-and-text span {
+  font-size: 14px;
+  color: #333;
+}
+.input-box {
+  max-width: 47rem;
+  max-height: 5.1rem;
+  display: flex;
+  gap: 1.3rem;
+  padding: 1.1rem 2.4rem;
+  border: solid 2px var(--dark-green);
+  margin-bottom: 1.3rem;
+  /* background-color: #17654F; */
+  border-radius: 1.4rem;
+  font-size: 9rem;
+}
+.input-box input {
+  background: transparent;
+  /* padding: 0.2rem; */
+  border: none;
+  font-size: 1.4rem;
+}
+.input-box input:focus {
+  outline: none;
+  border: none;
+  background: transparent;
+}
+.button-and-sign-up button {
+  /* padding: 1.1rem 2.4rem; */
+  border: solid 2px var(--dark-green);
+  margin-bottom: 1.3rem;
+  height: 5rem;
+  max-height: 5.1rem;
+  background-color: var(--dark-green);
+  border-radius: 1.4rem;
+  font-size: 1.7rem;
+  color: var(--clr-white);
+}
+.logo-form {
+  margin-bottom: 3.6rem;
+}
+.input-fields {
+  margin-bottom: 6.6rem;
+}

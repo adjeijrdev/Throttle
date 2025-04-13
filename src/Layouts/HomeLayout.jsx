@@ -1,5 +1,4 @@
-import { Outlet } from "react-router";
-import { NavLink } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import "./HomeLayout.css";
 
 import Logo from "../Assets/logos/LOGO-img.png";
@@ -7,10 +6,12 @@ import SideLink from "../Components/SideLink";
 import { SideNavLinks } from "../items/Links";
 
 export default function HomeLayout() {
+  const navigate = useNavigate();
+
   return (
     <div className="main-container">
       <div className="left-side-bar">
-        <div className="logo">
+        <div className="logo" onClick={() => navigate("/login")}>
           <img src={Logo} alt="" />
         </div>
         <div className="links">
