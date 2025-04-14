@@ -5,13 +5,16 @@ import Logo from "../Assets/logos/LOGO-img.png";
 import SideLink from "../Components/SideLink";
 import { SideNavLinks } from "../items/Links";
 
+//LINKS
+import DashBoardLogo from "../Assets/icons/dashboard.png";
+
 export default function HomeLayout() {
   const navigate = useNavigate();
 
   return (
     <div className="main-container">
       <div className="left-side-bar">
-        <div className="logo" onClick={() => navigate("/login")}>
+        < div className="logo" onClick={() => navigate("/login")}>
           <img src={Logo} alt="" />
         </div>
         <div className="links">
@@ -23,7 +26,11 @@ export default function HomeLayout() {
               url={Nav.url}
             />
           ))}
-        </div>
+          {/* <div className="Link" onClick={() => navigate(url)}>
+            <img src={DashBoardLogo} alt="dashboard" />
+            <NavLink to="/dashboard">dashboard </NavLink>
+          </div> */}
+        </div> 
       </div>
       <div className="main-working-space">
         <div className="header">

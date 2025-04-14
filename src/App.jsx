@@ -14,6 +14,8 @@ import ThirdParties from "./Pages/3PLS/ThirdParties";
 import BulkSearch from "./Pages/BulkSearch/BulkSearch";
 import Cod from "./Pages/COD/Cod";
 import BulkUpdate from "./Pages/BulkUpdate/BulkUpdate";
+import Register from "./Pages/Auth/Register"
+import Media from "./Pages/Media";
 
 function App() {
   return (
@@ -31,6 +33,10 @@ function App() {
             <Route path="/bulk-update" element={<BulkUpdate />} />
           </Route>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />}/>
+          <Route path="/media" element={<Media />}/>
+
+
         </Routes>
       </div>
     </Router>

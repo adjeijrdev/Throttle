@@ -70,7 +70,7 @@ export default function Login() {
             <button onClick={() => navigate("/")}>Login</button>
             <div className="sign-up">
               <span>
-                Don't have an Account? <Link>Register</Link>
+                Don't have an Account?   <Link to="/register"> Register</Link>
               </span>
             </div>
           </div>
