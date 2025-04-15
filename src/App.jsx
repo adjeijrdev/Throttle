@@ -22,8 +22,8 @@ function App() {
     <Router>
       <div>
         <Routes>
-          <Route exact path="/" element={<HomeLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+          <Route exact  element={<HomeLayout />}>
+            <Route path="/" element={<Dashboard />} />
             <Route path="/daily-delivery" element={<DailyDelivery />} />
             <Route path="/search" element={<Search />} />
             <Route path="/vendor-account" element={<VendorAccount />} />

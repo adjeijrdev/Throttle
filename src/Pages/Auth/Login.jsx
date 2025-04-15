@@ -11,7 +11,7 @@ import padLock from "../../Assets/input_icons/padlock.png";
 export default function Login() {
   const navigate = useNavigate();
 
-  const text = `
+  const text =`
   A powerful delivery management system designed to act as a trusted
   middleman between businesses and customers. Whether you're a vendor,
   rider, or administrator, our platform ensures smooth order
@@ -67,7 +67,7 @@ export default function Login() {
           </div>
           <div className="remember-me"></div>
           <div className="button-and-sign-up">
-            <button onClick={() => navigate("/")}>Login</button>
+            <button onClick={() => navigate("/")}> Login </button>
             <div className="sign-up">
               <span>
                 Don't have an Account?   <Link to="/register"> Register</Link>
@@ -79,3 +79,4 @@ export default function Login() {
     </div>
   );
 }
+

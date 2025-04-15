@@ -12,7 +12,7 @@ export const SideNavLinks = [
     id: 1,
     name: "Dashboard",
     icon: dashboard,
-    url: "/dashboard",
+    url: "/",
   },
   {
     id: 2,
