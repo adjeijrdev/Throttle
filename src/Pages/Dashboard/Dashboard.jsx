@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Dashboard.css";
 import Pagination from "./Pagination";
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const [currentPage, setCurrentPage] = useState(1);
     const totalPages = 5;
 
@@ -31,12 +31,28 @@ export default function Dashboard() {
     { id: "ORD-003", date: "2025-05-11", destination: "Teshie", vendor: "Vendor K", amount: "GHS 300", status: "Assigned", recipient: "Maya Doe", deliveryDate: "2025-06-11" },
     // More rows...
   ];
+
+  const [enteredDate,setEnteredDate]= useState('');
+
+  const dateChangeHandler = (event) =>{
+    setEnteredDate(event.target.value); 
+};
   return  (
   <div className="dashboard-content">
   <div className="subheader">
-          <div className="overview">Overview</div> 
+    <div className="overview_container">
+    <div className="overview">Overview</div>
+    <div className="date__control">
+                    <input type='date' min= "2019-01-01" max="2050-12-31"
+                    value={enteredDate} 
+                     onChange={dateChangeHandler}/>
+                </div>
+
+    </div>
+          
           <div className="overviewtext">Visual summary of key sales performance metrics and your data</div>
       </div>
+     
 
 {/* Stats Cards */}
 <div className="stats-grid">
@@ -49,7 +65,14 @@ export default function Dashboard() {
 </div>
 
 <div className="subheader">
-          <div className="overview">Daily Orders</div> 
+  <div className="overview_container">
+  <div className="overview">Daily Orders</div> 
+  <div className="button_container">
+  <button className="export_button">Export</button>
+  <button className="filter_button">Filter</button>
+  <button className="addorder_button">Add Order +</button>
+  </div>
+  </div>
           <div className="overviewtext">Visual summary of key sales performance metrics and your data</div>
           
       </div>
