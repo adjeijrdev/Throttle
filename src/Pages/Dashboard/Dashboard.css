@@ -9,6 +9,7 @@
   }
   .stats-card {
     background: var(--main-theme);
+    color:var(--clr-white) ;
     border-radius: 1rem;
     text-align: center;
     padding-top: 1rem;
@@ -106,6 +107,7 @@
   height: 4rem;
   max-width: 100%;
   background-color:var(--main-theme);
+  color:var(--clr-white) ;
 }
 .button_container{
   color: var(--colorash);
@@ -119,6 +121,5 @@
   border: 0.1rem solid #ccc;
   width: 12rem;
   max-width: 100%;
-  float: right;
 }
 
