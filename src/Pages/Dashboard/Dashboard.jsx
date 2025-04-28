@@ -39,21 +39,16 @@ export default function Dashboard(props) {
 };
   return  (
   <div className="dashboard-content">
-  <div className="subheader">
     <div className="overview_container">
     <div className="overview">Overview</div>
     <div className="date__control">
                     <input type='date' min= "2019-01-01" max="2050-12-31"
                     value={enteredDate} 
                      onChange={dateChangeHandler}/>
-                </div>
-
     </div>
-          
+    </div>
           <div className="overviewtext">Visual summary of key sales performance metrics and your data</div>
-      </div>
-     
-
+      
 {/* Stats Cards */}
 <div className="stats-grid">
   {orderStats.map((stat) => (
@@ -64,7 +59,6 @@ export default function Dashboard(props) {
   ))}
 </div>
 
-<div className="subheader">
   <div className="overview_container">
   <div className="overview">Daily Orders</div> 
   <div className="button_container">
@@ -75,7 +69,6 @@ export default function Dashboard(props) {
   </div>
           <div className="overviewtext">Visual summary of key sales performance metrics and your data</div>
           
-      </div>
 {/* Orders Table */}
 <div className="table-container">
 <table className="orders-table">

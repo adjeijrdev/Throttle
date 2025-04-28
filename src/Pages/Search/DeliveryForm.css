@@ -1,0 +1,32 @@
+.new-delivery__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+    padding: 1rem;
+  }
+  
+  .new-delivery__control label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .new-delivery__control input {
+    font: inherit;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border: 0.2rem solid #ccc;
+    width: 30rem;
+    height: 5rem;
+    max-width: 100%;
+  }
+  .details_title{
+    text-align: left;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  

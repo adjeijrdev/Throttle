@@ -1,0 +1,104 @@
+.overview{
+    color: var(--clr-black);
+    font-size: 2rem;
+    margin-left: 1rem;
+    font-weight: bold;
+}
+.overviewtext{
+    font-size: 0.5rem;
+    margin-left: 0.9rem;
+    margin-bottom: 1rem;
+    border-bottom: 0.25rem solid #ddd;
+}
+
+.searchcontent{
+    display: flex;
+}
+.control_container{
+    display: grid;
+}
+
+.searchcontent{
+    display: flex;
+}
+.to{
+    width: 4rem;
+    height: 4rem;
+    background-color: white;
+    border: 0.2rem solid #ddd;
+    border-radius: 0.5rem;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2.5rem;
+}
+.date__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    text-align: left; 
+    padding: 2rem;
+    background-color:white;
+    border-radius: 1.2rem;
+  }
+  
+  .date__control label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .date__control input {
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border: 0.2rem solid #ccc;
+    width: 30rem;
+    height: 5rem;
+  }
+  .see{
+    color: white;
+  }
+
+  .status__controls {
+    margin-top: 2rem;
+    text-align: left; 
+    padding: 2rem;
+    background-color: white;
+    border-radius: 1.2rem;
+    
+  }
+  
+  .status__control label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .status__control input {
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border: 0.2rem solid #ccc;
+    width: 100%;
+    height: 5rem;
+  }
+  .resetbtn{
+    width: 20rem;
+    height: 4rem;
+    border-radius: 1rem;
+    border: 0.2rem solid #ccc;
+  }
+  .searchbtn{
+    width: 20rem;
+    height: 4rem;
+    border-radius: 1rem;
+    border: 0.2rem solid #ccc;
+   background-color: var(--main-theme);
+  }
+   .btncontainer{
+    display: flex;
+    justify-content: center;
+    margin-top: 15rem;
+    gap:2rem;
+    float: right;
+   }

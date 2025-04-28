@@ -4,7 +4,7 @@ import Pagination from "./Pagination";
 
 
 export default function DailyDelivery(props) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(2);
     const totalPages = 5;
 
     const handlePageChange = (newPage) => {
@@ -37,7 +37,6 @@ export default function DailyDelivery(props) {
   <div className="dashboard-content">
      
 
-<div className="subheader">
   <div className="overview_container">
   <div className="overview">Daily Orders</div> 
   <div className="button_container">
@@ -52,7 +51,6 @@ export default function DailyDelivery(props) {
   </div>
           <div className="overviewtext">Visual summary of key sales performance metrics and your data</div>
           
-      </div>
 {/* Orders Table */}
 <div className="table-container">
 <table className="orders-table">
