@@ -27,6 +27,7 @@
   font-weight: 800;
   color: var(--main-theme);
   margin-bottom: -10px;
+  animation: fadeIn 0.3s ease;
 }
 .register-modal-button {
   margin-top: 0px;
@@ -39,14 +40,27 @@
   align-items: center;
   gap: 0.9rem;
   padding: 1.3rem;
+  transition: background-color 0.2s ease;
 }
-.register-modal-button p{
-    font-size: 2.1rem;
-    font-weight: 500;
-    color: var(--main-theme);
+.register-modal-button p {
+  font-size: 2.1rem;
+  font-weight: 500;
+  color: var(--main-theme);
 }
-.register-modal-button img{
-    background-color: var(--main-theme);
-    padding: 0.4rem;
-    border-radius: 4px;
+.register-modal-button img {
+  background-color: var(--main-theme);
+  padding: 0.4rem;
+  border-radius: 4px;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

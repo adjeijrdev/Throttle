@@ -11,12 +11,15 @@ import padLock from "../../Assets/input_icons/padlock.png";
 import RegisterAppModal from "../../Modals/RegisterAppModal";
 
 export default function Login() {
-  const [ isModalOpen, setIsModalOpen ] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   //in-components functions
+  const toggleModalOpen = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
-  const text =`
+  const text = `
   A powerful delivery management system designed to act as a trusted
   middleman between businesses and customers. Whether you're a vendor,
   rider, or administrator, our platform ensures smooth order
@@ -74,8 +77,12 @@ export default function Login() {
             <button onClick={() => navigate("/")}> Login </button>
             <div className="sign-up">
               <span>
-                Don't have an Account?   <Link to="/register"> Register</Link>
-                <RegisterAppModal isOpen={true}  />
+                Don't have an Account?{" "}
+                <Link onClick={toggleModalOpen}> Register</Link>
+                <RegisterAppModal
+                  isOpen={isModalOpen}
+                  onCLose={toggleModalOpen}
+                />
               </span>
             </div>
           </div>
@@ -84,4 +91,3 @@ export default function Login() {
     </div>
   );
 }
-
