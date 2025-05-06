@@ -78,7 +78,7 @@ export default function Login() {
             <div className="sign-up">
               <span>
                 Don't have an Account?{" "}
-                <Link onClick={toggleModalOpen}> Register</Link>
+                <Link  onClick={toggleModalOpen}> Register</Link>
                 <RegisterAppModal
                   isOpen={isModalOpen}
                   onCLose={toggleModalOpen}

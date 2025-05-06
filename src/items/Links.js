@@ -4,7 +4,8 @@ import search from "../Assets/icons/search.png";
 import bulkSearchIcon from "../Assets/icons/Bulk-search.png";
 import bulkUpadateIcon from "../Assets/icons/Bulk-update.png";
 import COD from "../Assets/icons/COD.png";
-import plsIcon from "../Assets/icons/3pls.png";
+// import plsIcon from "../Assets/icons/3pls.png";
+import plsIcon from "../Assets/icons/Rider.png";
 import VendorAccountIcon from "../Assets/icons/vendor-account.png";
 
 export const SideNavLinks = [

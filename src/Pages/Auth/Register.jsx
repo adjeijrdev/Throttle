@@ -30,7 +30,7 @@ export default function Register() {
           <img src={Logo} alt="Throttle-logo" />
         </div>
         <div className="registring-part-form-contianer">
-          <Stepper />
+          <Stepper name="Vendor"/>
         </div>
       </div>
     </div>
