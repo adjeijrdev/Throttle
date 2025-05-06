@@ -9,7 +9,7 @@ const steps = [
   "Account Details",
 ];
 
-const Stepper = () => {
+const Stepper = ({ name }) => {
   const [currentStep, setCurrentStep] = useState(0);
 
   const nextStep = () => {
@@ -26,7 +26,7 @@ const Stepper = () => {
 
   return (
     <div className="form-container">
-      <h2 className="form-title">Registration process as a Vendor </h2>
+      <h2 className="form-title">Registration process as a { name } </h2>
 
       <div className="stepper">
         {steps.map((label, index) => (
