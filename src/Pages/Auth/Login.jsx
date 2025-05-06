@@ -56,6 +56,22 @@ export default function Login() {
           <div className="line-and-text">
             <span>Login or signup</span>
           </div>
+          <div className="form-group">
+          <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="user_role" value="admin" required/> Admin
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="user_role" value="vendor"/> Vendor
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="user_role" value="dispatcher"/> Dispatcher
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="user_role" value="rider"/> Rider
+      </label>
+    </div>
+            </div>
           <div className="input-fields">
             <div className="input-box">
               <img src={EmailIcon} alt="emailIcon" />

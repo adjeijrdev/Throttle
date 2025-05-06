@@ -133,6 +133,14 @@
   height: 100%;
   padding: 30% 13% 30% 15%;
 }
+.radio-group {
+  display: flex;
+  gap: 1.5rem; /* Space between buttons */
+  margin-top: 0.4rem;
+}
+.radio-group label {
+  font-weight: bold;
+}
 .input-fields {
   width: 100%;
   display: flex;
@@ -172,7 +180,7 @@
   color: #333;
 }
 .input-box {
-  width: 43.8rem;
+  width: 45rem;
   min-width: 43.7rem;
   max-width: 47rem;
 
