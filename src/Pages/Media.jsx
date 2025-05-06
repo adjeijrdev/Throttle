@@ -1,9 +1,10 @@
+import TryModal from "../Modals/RegisterAppModal"
 import "./Media.css"
 
 export default function Media() {
   return (
     <div className="saint">
-        <h1>Oh why!?</h1>
+        <TryModal isOpen={true} />
     </div>
   )
 }

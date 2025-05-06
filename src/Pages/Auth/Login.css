@@ -84,7 +84,7 @@
 }
 .text-on-green h1 {
   font-family: "Poppins", sans-serif;
-  font-size: clamp(20px,6.6rem, 70px ); 
+  font-size: clamp(20px, 6.6rem, 70px);
   font-weight: 150;
   font-style: normal;
   margin-bottom: 0%;
@@ -133,6 +133,11 @@
   height: 100%;
   padding: 30% 13% 30% 15%;
 }
+.input-fields {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .input-fields input {
   display: block;
   width: 100%;
@@ -167,8 +172,10 @@
   color: #333;
 }
 .input-box {
+  width: 43.8rem;
+  min-width: 43.7rem;
   max-width: 47rem;
-  max-width: 46.8rem;
+
   max-height: 5.1rem;
   min-height: 5rem;
   display: flex;
@@ -213,19 +220,18 @@
 .input-fields {
   margin-bottom: 6.6rem;
 }
-.sign-up span{
+.sign-up span {
   margin-top: 3px;
-  font-size: 1.4rem
+  font-size: 1.4rem;
 }
-.sign-up span a{
+.sign-up span a {
   text-decoration: none;
   color: var(--dark-green);
   font-weight: 500;
   font-size: 1.5rem;
 }
 
-
-//MEDIA QUERY
+/* //MEDIA QUERY */
 @media screen and (max-width: 976px) {
   .text-on-green {
     width: 80%;

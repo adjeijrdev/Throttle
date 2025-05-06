@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import "./Login.css";
 
@@ -7,11 +8,18 @@ import Man from "../../Assets/man.png";
 import Logo from "../../Assets/logos/LOGO-img.png";
 import EmailIcon from "../../Assets/input_icons/emailuser.png";
 import padLock from "../../Assets/input_icons/padlock.png";
+import RegisterAppModal from "../../Modals/RegisterAppModal";
 
 export default function Login() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const text =`
+  //in-components functions
+  const toggleModalOpen = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const text = `
   A powerful delivery management system designed to act as a trusted
   middleman between businesses and customers. Whether you're a vendor,
   rider, or administrator, our platform ensures smooth order
@@ -48,7 +56,6 @@ export default function Login() {
           <div className="line-and-text">
             <span>Login or signup</span>
           </div>
-          <div className="radio-fields"></div>
           <div className="input-fields">
             <div className="input-box">
               <img src={EmailIcon} alt="emailIcon" />
@@ -70,7 +77,12 @@ export default function Login() {
             <button onClick={() => navigate("/")}> Login </button>
             <div className="sign-up">
               <span>
-                Don't have an Account?   <Link to="/register"> Register</Link>
+                Don't have an Account?{" "}
+                <Link  onClick={toggleModalOpen}> Register</Link>
+                <RegisterAppModal
+                  isOpen={isModalOpen}
+                  onCLose={toggleModalOpen}
+                />
               </span>
             </div>
           </div>
@@ -79,4 +91,3 @@ export default function Login() {
     </div>
   );
 }
-

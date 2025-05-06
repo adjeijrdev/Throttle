@@ -16,6 +16,7 @@ import Cod from "./Pages/COD/Cod";
 import BulkUpdate from "./Pages/BulkUpdate/BulkUpdate";
 import Register from "./Pages/Auth/Register"
 import Media from "./Pages/Media";
+import RiderRegistration from "./Pages/Auth/RiderRegistration";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />}/>
+          <Route path="/register-rider" element={<RiderRegistration />} />
           <Route path="/media" element={<Media />}/>
 
 

@@ -1,62 +1,73 @@
-.register{
-    font-size: 5.6rem;
-    color: var(--clr-green);
-    text-align: center;
+.register {
+  font-size: 5.6rem;
+  color: var(--clr-green);
+  text-align: center;
 }
-.Register-main-container{
-    width: 100vw;
-    height: 100vh;
-    background: radial-gradient(
-      circle at 85% 50%,
-      var(--light-green-gradient),
-      var(--dark-green)
-    );
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    overflow: hidden;
+.Register-main-container {
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(
+    circle at 85% 50%,
+    var(--light-green-gradient),
+    var(--dark-green)
+  );
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  overflow: hidden;
 }
-.green-left{
-    width: 25%;
-    height: 100%;
-
+.green-left {
+  width: 25%;
+  height: 100%;
 }
-.white-right{
-    width: 75%;
-    height: 100%;
-    background-color: var(--clr-white);
+.white-right {
+  width: 75%;
+  height: 100%;
+  background-color: var(--clr-white);
 }
-.register-text-left{
-    width: 100%;
-    height: 30%;
-    color: var(--clr-white);
-    padding-top: 20%;
-    padding-left: 10%;
-    padding-right: 5%;
-    padding-bottom: 9%;
+.register-text-left {
+  width: 100%;
+  height: 30%;
+  color: var(--clr-white);
+  padding-top: 20%;
+  padding-left: 10%;
+  padding-right: 5%;
+  padding-bottom: 9%;
 }
-.register-text-left h1{
-    font-size: clamp(32px, 5.3rem, 58px);
-    line-height:4.8rem;
-    font-weight: 200;
-    text-align: left;
-
+.register-text-left h1 {
+  font-size: clamp(32px, 5.3rem, 58px);
+  line-height: 4.8rem;
+  font-weight: 200;
+  text-align: left;
 }
-.register-text-left h3{
-    font-size: clamp(15px, 2.3rem, 38px);
-    line-height:2.8rem;
-    font-weight: 200;
-    margin-top: 1rem;
-    text-align: left;
-
+.register-text-left h3 {
+  font-size: clamp(15px, 2.3rem, 38px);
+  line-height: 2.8rem;
+  font-weight: 200;
+  margin-top: 1rem;
+  text-align: left;
 }
-.blurred-image-green{
-    width: 100%;
-    height: 70%;
-    object-fit:fill;
+.blurred-image-green {
+  width: 100%;
+  height: 70%;
+  object-fit: fill;
 }
-.blurred-image-green img{
-    width: 96rem;
-    height: 55rem;
-    margin-top: 20%;
+.blurred-image-green img {
+  width: 96rem;
+  height: 50rem;
+  margin-top: 35%;
+}
+.registering-part-logo {
+  width: 38rem;
+  margin: 5rem auto;
+}
+.registring-part-form-contianer {
+ padding-top: 5rem;
+  width: 110rem;
+  height: 63rem;
+  min-width: 109.3rem;
+  background-color: var(--clr-white);
+  border-radius: 4px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
 }

@@ -7,7 +7,7 @@ import Logo from "../../Assets/logos/LOGO-img.png";
 //importing personal component
 import Stepper from "../../Components/Stepper";
 
-export default function Register() {
+export default function RiderRegistration() {
   return (
     <div className="Register-main-container">
       <div className="green-left">
@@ -30,7 +30,7 @@ export default function Register() {
           <img src={Logo} alt="Throttle-logo" />
         </div>
         <div className="registring-part-form-contianer">
-          <Stepper name="Vendor"/>
+          <Stepper name="Rider"/>
         </div>
       </div>
     </div>
