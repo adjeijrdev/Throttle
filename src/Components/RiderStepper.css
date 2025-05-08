@@ -68,36 +68,56 @@
     margin-top: 0.5rem;
     font-size: 0.875rem;
   }
-  
   .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     gap: 1.5rem;
     margin-bottom: 2rem;
+    justify-content: center;
+    align-items: center;
   }
   
   .form-group {
     display: flex;
     flex-direction: column;
   }
+  .form-group_vehicle {
+    display: flex;
+    flex-direction: column;
+  }
   
   .form__grid{
     display:grid;
-    grid-template-rows: repeat(minmax(10rem, 1fr));
+    grid-template-rows: repeat(minmax(20rem, 1fr));
     gap: 1rem;
     margin-bottom: 2rem;
+    justify-content: center;
+    align-items: center;
   }
   .form-group label {
     font-size: 1rem;
     margin-bottom: 0.5rem;
   }
   
+  .form-group_vehicle label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
   .form-group input {
     padding: 0.75rem 1rem;
     border: 1px solid #065f46;
     background-color: #CCE1DB;
     border-radius: 0.75rem;
     font-size: 1rem;
+  }
+
+  .form-group_vehicle input {
+    padding: 0.75rem 1rem;
+    border: 1px solid #065f46;
+    background-color: #CCE1DB;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    width: 35rem;
   }
   
   .buttons {
@@ -135,7 +155,10 @@
     gap: 1.5rem; /* Space between buttons */
     margin-top: 0.4rem;
   }
-  .radio-inline{
+  .radio-option_gender{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
     border: 0.1rem solid #065f46;
     padding: 0.5rem;
     border-radius: 0.75rem;

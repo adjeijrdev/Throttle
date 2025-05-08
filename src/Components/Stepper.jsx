@@ -11,6 +11,71 @@ const steps = [
 
 const Stepper = ({ name }) => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState({
+
+// Business info
+businessname:"",
+businessaddress:"",
+businesstype:"",
+country:"",
+regnumber:"",
+years:"",
+
+// Contact details
+vendorname:"",
+email:"",
+phone:"",
+website:"",
+
+
+// Payment&Billing
+bankname: "",
+momoname: "",
+banknumber: "",
+momonumber: "",
+
+
+// Document Uploads
+additionalDocs: [],
+
+// Account details
+accountemail: "",
+password: "",
+confirmpassword: "",
+
+
+
+  });
+
+  
+  const handleChange = (e) => {
+    const { name, value, type, files } = e.target;
+    
+    if (type === "file") {
+      if (name === "additionalDocs") {
+        setFormData(prev => ({
+          ...prev,
+          [name]: Array.from(files)
+        }));
+      } else {
+        setFormData(prev => ({
+          ...prev,
+          [name]: files[0]
+        }));
+      }
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    // Here you would typically send data to your API
+  };
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
@@ -25,7 +90,7 @@ const Stepper = ({ name }) => {
   };
 
   return (
-    <div className="form-container">
+    <form onSubmit={handleSubmit} className="form-container">
       <h2 className="form-title">Registration process as a { name } </h2>
 
       <div className="stepper">
@@ -52,27 +117,51 @@ const Stepper = ({ name }) => {
           <div className="form-grid">
             <div className="form-group">
               <label>Business Name</label>
-              <input type="text" placeholder="business name" />
+              <input type="text"
+              name="businessname"
+              value={formData.businessname}
+              onChange={handleChange}
+               placeholder="business name" />
             </div>
             <div className="form-group">
               <label>Business Address</label>
-              <input type="text" placeholder="address" />
+              <input type="text"
+              name="businessaddress"
+              value={formData.businessaddress}
+              onChange={handleChange}
+               placeholder="address" />
             </div>
             <div className="form-group">
               <label>Business Type (e.g. Electronics, Clothing)</label>
-              <input type="text" placeholder="business type" />
+              <input type="text"
+              name="businesstype"
+              value={formData.businesstype}
+              onChange={handleChange}
+               placeholder="business type" />
             </div>
             <div className="form-group">
               <label>Country & City of Operation</label>
-              <input type="text" placeholder="country" />
+              <input type="text" 
+              name="country"
+              value={formData.country}
+              onChange={handleChange}
+              placeholder="country" />
             </div>
             <div className="form-group">
               <label>Business Registration Number</label>
-              <input type="text" placeholder="number" />
+              <input type="text"
+              name="regnumber"
+              value={formData.regnumber}
+              onChange={handleChange}
+               placeholder="number" />
             </div>
             <div className="form-group">
               <label>Years in Operation</label>
-              <input type="text" placeholder="year" />
+              <input type="text"
+              name="years"
+              value={formData.years} 
+              onChange={handleChange}
+              placeholder="year" />
             </div>
           </div>
         )}
@@ -81,19 +170,35 @@ const Stepper = ({ name }) => {
           <div className="form-grid">
             <div className="form-group">
               <label> Name</label>
-              <input type="text" placeholder="name" />
+              <input type="text"
+              name="vendorname"
+              value={formData.vendorname}
+              onChange={handleChange}
+               placeholder="name" />
             </div>
             <div className="form-group">
               <label>Email</label>
-              <input type="text" placeholder="email" />
+              <input type="text"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+               placeholder="email" />
             </div>
             <div className="form-group">
               <label>Phone Number</label>
-              <input type="text" placeholder="number" />
+              <input type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+               placeholder="number" />
             </div>
             <div className="form-group">
               <label>Business Website</label>
-              <input type="text" placeholder="link" />
+              <input type="text"
+              name="website"
+              value={formData.website}
+              onChange={handleChange}
+               placeholder="link" />
             </div>
           </div>
         )}
@@ -103,19 +208,35 @@ const Stepper = ({ name }) => {
           <div className="form-grid">
             <div className="form-group">
               <label>Bank Name</label>
-              <input type="text" placeholder="bank name" />
+              <input type="text"
+              name="bankname"
+              value={formData.bankname}
+              onChange={handleChange}
+               placeholder="bank name" />
             </div>
             <div className="form-group">
               <label>Mobile Money Name</label>
-              <input type="text" placeholder="momo name" />
+              <input type="text"
+              name="momoname"
+              value={formData.momoname}
+              onChange={handleChange}
+               placeholder="momo name" />
             </div>
             <div className="form-group">
               <label>Bank Account Number</label>
-              <input type="text" placeholder=" account number" />
+              <input type="text"
+              name="banknumber"
+              value={formData.banknumber}
+              onChange={handleChange}
+               placeholder=" account number" />
             </div>
             <div className="form-group">
               <label>Mobile Money Number</label>
-              <input type="text" placeholder="momo number" />
+              <input type="text" 
+              name="momonumber"
+              value={formData.momonumber}
+              onChange={handleChange}
+              placeholder="momo number" />
             </div>
           </div>
         )}
@@ -124,93 +245,16 @@ const Stepper = ({ name }) => {
               
 {/* Step 4 - Document Uploads */}
 {currentStep === 3 && ( 
-  <div className="form-grid">
+  <div className="form-grid_document">
+     <label>Additional Documents</label>
     <div className="form-group document-upload">
-      <label>Profile Photo</label>
-      <div className="upload-area">
-        <input 
-          type="file" 
-          id="profilePhoto" 
-          accept="image/*" 
-          className="file-input"
-        />
-        <label htmlFor="profilePhoto" className="upload-label">
-          <span>Click to upload</span>
-          <p>JPEG, PNG (Max 2MB)</p>
-        </label>
-      </div>
-    </div>
-
-    <div className="form-group document-upload">
-      <label>Driver's License (Front)</label>
-      <div className="upload-area">
-        <input 
-          type="file" 
-          id="licenseFront" 
-          accept="image/*,.pdf" 
-          className="file-input"
-        />
-        <label htmlFor="licenseFront" className="upload-label">
-          <span>Click to upload</span>
-          <p>JPEG, PNG, PDF (Max 5MB)</p>
-        </label>
-      </div>
-    </div>
-
-    <div className="form-group document-upload">
-      <label>Driver's License (Back)</label>
-      <div className="upload-area">
-        <input 
-          type="file" 
-          id="licenseBack" 
-          accept="image/*,.pdf" 
-          className="file-input"
-        />
-        <label htmlFor="licenseBack" className="upload-label">
-          <span>Click to upload</span>
-          <p>JPEG, PNG, PDF (Max 5MB)</p>
-        </label>
-      </div>
-    </div>
-
-    <div className="form-group document-upload">
-      <label>Vehicle Insurance</label>
-      <div className="upload-area">
-        <input 
-          type="file" 
-          id="insurance" 
-          accept="image/*,.pdf" 
-          className="file-input"
-        />
-        <label htmlFor="insurance" className="upload-label">
-          <span>Click to upload</span>
-          <p>JPEG, PNG, PDF (Max 5MB)</p>
-        </label>
-      </div>
-    </div>
-
-    <div className="form-group document-upload">
-      <label>Vehicle Registration</label>
-      <div className="upload-area">
-        <input 
-          type="file" 
-          id="registration" 
-          accept="image/*,.pdf" 
-          className="file-input"
-        />
-        <label htmlFor="registration" className="upload-label">
-          <span>Click to upload</span>
-          <p>JPEG, PNG, PDF (Max 5MB)</p>
-        </label>
-      </div>
-    </div>
-
-    <div className="form-group document-upload">
-      <label>Additional Documents (Optional)</label>
+     
       <div className="upload-area">
         <input 
           type="file" 
           id="additionalDocs" 
+          name="additionalDocs"
+          onChange={handleChange}
           accept="image/*,.pdf" 
           multiple
           className="file-input"
@@ -227,17 +271,29 @@ const Stepper = ({ name }) => {
  {/* Step 5 - Account Details */}
  {currentStep === 4 && (
           <div className="form__grid">
-            <div className="form-group">
+            <div className="form-group_vehicle">
               <label>Account Email</label>
-              <input type="text" placeholder="Enter your email" />
+              <input type="text" 
+              name="accountemail"
+              value={formData.accountemail}
+              onChange={handleChange}
+              placeholder="Enter your email" />
             </div>
-            <div className="form-group">
+            <div className="form-group_vehicle">
               <label>Password</label>
-              <input type="text" placeholder="password" />
+              <input type="text"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+               placeholder="password" />
             </div>
-            <div className="form-group">
+            <div className="form-group_vehicle">
               <label>Confirm Password</label>
-              <input type="text" placeholder="Confirm Password" />
+              <input type="text"
+              name="confirmpassword"
+              value={formData.confirmpassword}
+              onChange={handleChange}
+               placeholder="Confirm Password" />
             </div>
           </div>
         )}
@@ -262,7 +318,7 @@ const Stepper = ({ name }) => {
           </button>
         )}
       </div>
-    </div>
+    </form>
   );
 };
 

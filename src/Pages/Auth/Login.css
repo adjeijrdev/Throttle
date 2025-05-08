@@ -138,6 +138,12 @@
   gap: 1.5rem; /* Space between buttons */
   margin-top: 0.4rem;
 }
+.radio-option{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+}
 .radio-group label {
   font-weight: bold;
 }

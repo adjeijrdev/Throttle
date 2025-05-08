@@ -74,14 +74,39 @@
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
 }
+.form-group_vehicle {
+  display: flex;
+  flex-direction: column;
+}
 
+.form__grid{
+  display:grid;
+  grid-template-rows: repeat(minmax(20rem, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+.form-grid_document{
+  display:grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
+}
 .form-group label {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.form-group_vehicle label {
   font-size: 1rem;
   margin-bottom: 0.5rem;
 }
@@ -92,6 +117,14 @@
   background-color: #CCE1DB;
   border-radius: 0.75rem;
   font-size: 1rem;
+}
+.form-group_vehicle input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #065f46;
+  background-color: #CCE1DB;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  width: 35rem;
 }
 
 .buttons {
@@ -124,17 +157,6 @@
   border: 2px solid #065f46;
 }
 
-.radio-group {
-  display: flex;
-  gap: 1.5rem; /* Space between buttons */
-  margin-top: 0.4rem;
-}
-.radio-inline{
-  border: 0.1rem solid #065f46;
-  padding: 0.5rem;
-  border-radius: 0.75rem;
-}
-
 
 input[type="email"],
 input[type="tel"] {
@@ -143,12 +165,6 @@ input[type="tel"] {
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-top: 5px;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
 }
 
 @media (max-width: 768px) {
