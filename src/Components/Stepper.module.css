@@ -144,6 +144,7 @@
   display: flex;
   justify-content: center;
   gap: 1.5rem;
+  /* position: relative; */
 }
 
 .btn-filled,
@@ -159,6 +160,8 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  position: relative;
+  bottom: -15.3rem;
 }
 .btn{
   width: 1.5rem;

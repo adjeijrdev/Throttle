@@ -174,8 +174,8 @@
 }
 
 .radio-button input[type="radio"]:checked + label::before {
-  border-color: var(--dark-green);
-  background-color: var(--dark-green);
+  border-color: var(--main-theme);
+  background-color: var(--main-theme);
   box-shadow: inset 0 0 0 3px #fff;
 }
 
@@ -205,15 +205,27 @@
 } */
 
 /* line-and-text */
-.line-and-text {
+.line-box{
+  width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin-top: -2rem;
+  padding: 0;
+}
+.line-and-text {
+  display: flex;
+  width: 75%;
+  align-items: center;
   text-align: center;
-  margin-bottom: 7.6rem;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  
 }
 .line-and-text::before,
 .line-and-text::after {
   content: "";
+  
   flex: 1;
   border-bottom: 1px solid var(--primary-blue-black);
 }
@@ -227,6 +239,8 @@
   font-size: 14px;
   color: #333;
 }
+
+/* INPUT FIELDS */
 .input-box {
   width: 45rem;
   min-width: 43.7rem;
@@ -238,7 +252,7 @@
   display: flex;
   gap: 1.3rem;
   padding: 1.1rem 2.4rem;
-  border: solid 2px var(--dark-green);
+  border: solid 1px var(--main-theme);
   margin-bottom: 1.3rem;
   /* background-color: #17654F; */
   border-radius: 1.4rem;
@@ -249,7 +263,7 @@
   background-color: transparent;
   color: black;
   font-style: italic;
-  border: solid 0.8px var(--dark-green);
+  border: solid 0.8px var(--main-theme);
 }
 .input-box input {
   background: transparent;
@@ -300,11 +314,11 @@
 .button-and-sign-up button {
   /* padding: 1.1rem 2.4rem; */
   width: 45rem;
-  border: solid 2px var(--dark-green);
+  border: solid 2px var(--main-theme);
   margin-bottom: 1.3rem;
   height: 5rem;
   max-height: 5.1rem;
-  background-color: var(--dark-green);
+  background-color: var(--main-theme);
   border-radius: 1.4rem;
   font-size: 1.7rem;
   color: var(--clr-white);

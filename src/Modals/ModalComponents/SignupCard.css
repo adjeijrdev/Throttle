@@ -48,14 +48,14 @@
 .register-modal-button:hover{
  cursor: pointer;
   border: 1.9px solid var(--main-theme);
-  background-color: var(--dark-green);
+  background-color: var(--light-green-gradient);
   
   transition: background-color 0.2s ease;
  
  /* filter: invert(0.8); */
 }
 .register-modal-button:hover p{
-  color: var(--clr-white);
+  color: var(--main-theme);
 }
 .register-modal-button p {
   font-size: 2.1rem;

@@ -66,8 +66,10 @@ export default function Login() {
           <div className="logo logo-form">
             <img src={Logo} alt="Throttle-logo" />
           </div>
-          <div className="line-and-text">
-            <span>Login or signup</span>
+          <div className="line-box">
+            <div className="line-and-text">
+              <span>Login or signup</span>
+            </div>
           </div>
           <div className="radio-button-group">
             <div className="radio-button">
@@ -142,7 +144,7 @@ export default function Login() {
 
             {/* <input className="input" type="password" /> */}
           </div>
-          <div className="remember-me"></div>
+          {/* <div className="remember-me"><p>Forget Password</p></div> */}
           <div className="button-and-sign-up">
             <button onClick={() => navigate("/")}> Login </button>
             <div className="sign-up">
