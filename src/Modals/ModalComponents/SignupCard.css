@@ -20,8 +20,10 @@
   background-color: white;
   padding: 2.6rem;
   text-align: center;
+  box-shadow: 3px 2px 19px var(--darker-gray);
   z-index: 101;
 }
+
 .modal-background .register-modal-card h2 {
   padding-top: 14px;
   font-size: 2.8rem;
@@ -45,33 +47,15 @@
 }
 .register-modal-button:hover{
  cursor: pointer;
+  border: 1.9px solid var(--main-theme);
+  background-color: var(--dark-green);
+  
+  transition: background-color 0.2s ease;
+ 
  /* filter: invert(0.8); */
 }
-.register-modal-button {
-  margin-top: 0px;
-  width: 100%;
-  border: 1.9px solid var(--main-theme);
-  height: 6rem;
-  margin-bottom: 9px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 1.3rem;
-  transition: background-color 0.2s ease;
-}
-.register-modal-button :hover{
-  margin-top: 0px;
-  width: 100%;
-  border: 1.9px solid var(--main-theme);
-  height: 6rem;
-  margin-bottom: 9px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.6rem;
-  transition: background-color 0.2s ease;
+.register-modal-button:hover p{
+  color: var(--clr-white);
 }
 .register-modal-button p {
   font-size: 2.1rem;
@@ -82,6 +66,7 @@
   background-color: var(--main-theme);
   padding: 0.4rem;
   border-radius: 4px;
+  border: 1.5px solid var(--clr-white);
 }
 
 /* ANIMATION */
