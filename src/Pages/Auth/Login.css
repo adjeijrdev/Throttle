@@ -133,35 +133,77 @@
   height: 100%;
   padding: 30% 13% 30% 15%;
 }
-.radio-group {
+
+/* RADIO BUTTON STYLING */
+.radio-button-group {
   display: flex;
-  gap: 1.5rem; /* Space between buttons */
-  margin-top: 0.4rem;
-}
-.radio-option{
-  display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 8px;
+}
+
+.radio-button {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.radio-button input[type="radio"] {
+  display: none;
+}
+
+.radio-button label {
+  padding-left: 30px;
   cursor: pointer;
-  border: none;
+  position: relative;
+  font-size: 1.5rem;
+  font-weight: 400;
 }
-.radio-group label {
-  font-weight: bold;
+
+.radio-button label::before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
-.input-fields {
-  width: 100%;
+
+.radio-button input[type="radio"]:checked + label::before {
+  border-color: var(--dark-green);
+  background-color: var(--dark-green);
+  box-shadow: inset 0 0 0 3px #fff;
+}
+
+.radio-button label::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #fff;
+  display: none;
+}
+
+/* .radio-button input[type="radio"]:checked + label::after {
   display: flex;
-  flex-direction: column;
-}
-.input-fields input {
-  display: block;
-  width: 100%;
-}
-.button-and-sign-up {
-  text-align: center;
-}
-.button-and-sign-up button {
-  width: 100%;
-}
+  justify-content: center;
+  align-items: center;
+  background-color: #34c759;
+  box-shadow: none;
+  left: 6px;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+} */
+
 /* line-and-text */
 .line-and-text {
   display: flex;
@@ -189,6 +231,7 @@
   width: 45rem;
   min-width: 43.7rem;
   max-width: 47rem;
+  background-color: var(--input-background);
 
   max-height: 5.1rem;
   min-height: 5rem;
@@ -201,19 +244,62 @@
   border-radius: 1.4rem;
   font-size: 9rem;
 }
+.input-box:hover{
+  box-shadow: 2px 1px 5px var(--clr-green);
+  background-color: transparent;
+  color: black;
+  font-style: italic;
+  border: solid 0.8px var(--dark-green);
+}
 .input-box input {
   background: transparent;
   /* padding: 0.2rem; */
   border: none;
   font-size: 1.4rem;
 }
+.input-fields .login_email-box {
+  align-items: center;
+}
+.input-fields .login_email-box input {
+  border: none;
+  margin-left: -14px;
+}
+.input-password-box-1{
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+}
+.input-password-box-1 input{
+ width: 90%;
+}
+.input-password-box-1 button{
+  background-color: transparent;
+  border: none;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+}
+.input-password-box-1 button svg{
+  color: rgb(82, 82, 82);
+  width: 20px;
+  height: 20px;
+
+}
 .input-box input:focus {
   outline: none;
   border: none;
   background: transparent;
 }
+.button-and-sign-up{
+  margin-top: -4px;
+  display: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 .button-and-sign-up button {
   /* padding: 1.1rem 2.4rem; */
+  width: 45rem;
   border: solid 2px var(--dark-green);
   margin-bottom: 1.3rem;
   height: 5rem;
@@ -224,10 +310,27 @@
   color: var(--clr-white);
   cursor: pointer;
 }
-/* .button-and-sign-up button:hover{
-  background-color: var(--light-green-gradient);
-  color: black;
-} */
+.button-and-sign-up button:hover{
+  background-color: var(--input-background);
+  height: 6rem;
+  font-size: 2rem;
+  color: var(--dark-green);
+  border: none;
+  /* color: var(--background-clr); */
+  border: solid 2px var(--dark-green);
+  box-shadow: 2px 1px 5px var(--darker-gray);
+  
+}
+.button-and-sign-up button:active{
+  background-color: var(--main-theme);
+  height: 6rem;
+  font-size: 2rem;
+  color: var(--dark-green);
+  border: none;
+  /* color: var(--background-clr); */
+  
+  
+}
 .logo-form {
   margin-bottom: 3.6rem;
 }
@@ -244,6 +347,15 @@
   font-weight: 500;
   font-size: 1.5rem;
 }
+.sign-up span a:hover {
+  text-decoration: none;
+  color: var(--input-background);
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 
 /* //MEDIA QUERY */
 @media screen and (max-width: 976px) {

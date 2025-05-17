@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate, Link } from "react-router";
 import "./Login.css";
 
@@ -12,7 +13,18 @@ import RegisterAppModal from "../../Modals/RegisterAppModal";
 
 export default function Login() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
+
+  const toggleVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
   //in-components functions
   const toggleModalOpen = () => {
@@ -48,6 +60,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+      {/* WHITE SECTION AND FORM */}
       <div className="form">
         <div className="white-container">
           <div className="logo logo-form">
@@ -56,34 +69,75 @@ export default function Login() {
           <div className="line-and-text">
             <span>Login or signup</span>
           </div>
-          <div className="form-group">
-          <div class="radio-group">
-      <label class="radio-option">
-        <input type="radio" name="user_role" value="admin" required/> Admin
-      </label>
-      <label class="radio-option">
-        <input type="radio" name="user_role" value="vendor"/> Vendor
-      </label>
-      <label class="radio-option">
-        <input type="radio" name="user_role" value="dispatcher"/> Dispatcher
-      </label>
-      <label class="radio-option">
-        <input type="radio" name="user_role" value="rider"/> Rider
-      </label>
-    </div>
+          <div className="radio-button-group">
+            <div className="radio-button">
+              <input
+                type="radio"
+                id="Admin"
+                name="option"
+                value="Admin"
+                checked={selectedOption === "Admin"}
+                onChange={handleOptionChange}
+              />
+              <label htmlFor="Admin">Admin</label>
             </div>
+            <div className="radio-button">
+              <input
+                type="radio"
+                id="Vendor"
+                name="option"
+                value="Vendor"
+                checked={selectedOption === "Vendor"}
+                onChange={handleOptionChange}
+              />
+              <label htmlFor="Vendor">Vendor</label>
+            </div>
+            <div className="radio-button">
+              <input
+                type="radio"
+                id="Dispatcher"
+                name="option"
+                value="Dispatcher"
+                checked={selectedOption === "Dispatcher"}
+                onChange={handleOptionChange}
+              />
+              <label htmlFor="Dispatcher">Dispatcher</label>
+            </div>
+            <div className="radio-button">
+              <input
+                type="radio"
+                id="Rider"
+                name="option"
+                value="Rider"
+                checked={selectedOption === "Rider"}
+                onChange={handleOptionChange}
+              />
+              <label htmlFor="Rider">Rider</label>
+            </div>
+          </div>
           <div className="input-fields">
-            <div className="input-box">
+            <div className="input-box login_email-box">
               <img src={EmailIcon} alt="emailIcon" />
               <input
-                className="input"
+                // className="input"
                 type="email"
                 placeholder="Enter your email"
               />
             </div>
-            <div className="input-box">
+            <div className="input-box input-password-box-1">
               <img src={padLock} alt="padlock" />
-              <input type="password" placeholder="Enter password" />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter password"
+              />
+              <button
+                type="button"
+                onClick={toggleVisibility}
+                className="toggle-btn"
+                aria-label="Toggle Password"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
             </div>
 
             {/* <input className="input" type="password" /> */}
@@ -94,7 +148,7 @@ export default function Login() {
             <div className="sign-up">
               <span>
                 Don't have an Account?{" "}
-                <Link  onClick={toggleModalOpen}> Register</Link>
+                <Link onClick={toggleModalOpen}> Register</Link>
                 <RegisterAppModal
                   isOpen={isModalOpen}
                   onCLose={toggleModalOpen}
