@@ -11,20 +11,25 @@
   color: #064e3b;
 }
 
+/* STEPPER STYLING */
 .stepper {
   display: flex;
   justify-content: space-between;
   margin-bottom: 3rem;
   position: relative;
 }
-
+.stepper p{
+  color: var(--clr-black);
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+}
 .step-item {
   flex: 1;
   text-align: center;
   position: relative;
 }
 
-.step-item::after {
+/* .step-item::after {
   content: "";
   position: absolute;
   top: 1rem;
@@ -33,51 +38,48 @@
   height: 10px;
   background-color: var(--clr-green);
   z-index: -1;
-} 
-.step-item:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: 18px;
-  left: 50%;
-  width: 100%;
-  height: 2px;
-  background-color: #cce7e1;
-  z-index: -1;
-}
-
+}  */
 .step-item:last-child::after {
   display: none;
 }
 
 .step-circle {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.8rem;
+  height: 2.8rem;
   margin: 0 auto;
   border-radius: 50%;
   background-color: white;
-  border: 0.125rem solid #064e3b;
+  border: 0.125rem solid var(--dark-green);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: #064e3b;
+  color: var(--dark-green);
 }
-
 .step-circle.active {
-  background-color: #064e3b;
+  background-color: var(--dark-green);
+  color: white;
+}
+.step-circle.completed {
+  background-color: var(--dark-green);
   color: white;
 }
 
-.step-circle.completed {
-  background-color: #064e3b;
-  color: white;
+.step-circle:not(:last-child).completed::after {
+  content: "";
+  position: absolute;
+  top: 27%;
+  left: 61%;
+  width: 90%;
+  height: 2px;
+  background: var(--dark-green);
+  
 }
 
 .step-label {
   margin-top: 0.5rem;
   font-size: 0.875rem;
 }
-
 
 /* FORM STYLING */
 .form-grid {
@@ -98,16 +100,16 @@
   flex-direction: column;
 }
 
-.form__grid{
-  display:grid;
+.form__grid {
+  display: grid;
   grid-template-rows: repeat(minmax(20rem, 1fr));
   gap: 1rem;
   margin-bottom: 2rem;
   justify-content: center;
   align-items: center;
 }
-.form-grid_document{
-  display:grid;
+.form-grid_document {
+  display: grid;
   gap: 1rem;
   margin-bottom: 2rem;
   justify-content: center;
@@ -125,14 +127,14 @@
 .form-group input {
   padding: 0.75rem 1rem;
   border: 1px solid #065f46;
-  background-color: #CCE1DB;
+  background-color: #cce1db;
   border-radius: 0.75rem;
   font-size: 1rem;
 }
 .form-group_vehicle input {
   padding: 0.75rem 1rem;
   border: 1px solid #065f46;
-  background-color: #CCE1DB;
+  background-color: #cce1db;
   border-radius: 0.75rem;
   font-size: 1rem;
   width: 35rem;
@@ -146,11 +148,11 @@
 
 .btn-filled,
 .btn-outline {
-  width: 33rem;
-  height: 128px;
+  width: 50%;
+  height: 4rem;
   padding: 0.84rem 2rem;
   border-radius: 0.95rem;
-  font-size: 1.9rem;
+  font-size: 1.5rem;
   font-weight: 500;
   cursor: pointer;
   display: flex;
@@ -158,19 +160,24 @@
   justify-content: center;
   gap: 0.5rem;
 }
+.btn{
+  width: 1.5rem;
+  height: 1.2rem;
+}
 
 .btn-filled {
-  background-color: #065f46;
+  background-color: var(--dark-green);
   color: white;
+  width:100%;
   border: none;
 }
 
 .btn-outline {
   background-color: white;
-  color: #065f46;
-  border: 2px solid #065f46;
+  color: var(--dark-green);
+  width: 100%;
+  border: 2px solid var(--dark-green);
 }
-
 
 input[type="email"],
 input[type="tel"] {

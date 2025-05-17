@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./RiderStepper.css";
+// import "./RiderStepper.css";
 
 const steps = [
   "Personal Info",
