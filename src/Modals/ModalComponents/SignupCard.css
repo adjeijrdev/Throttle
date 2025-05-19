@@ -15,7 +15,7 @@
 .modal-background .register-modal-card {
   width: 46rem;
   max-width: 48rem;
-  height: 26rem;
+  height: auto;
   border-radius: 15px;
   background-color: white;
   padding: 2.6rem;
