@@ -4,15 +4,16 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(128, 128, 128, 0.5);
+  background-color: rgba(128, 128, 128, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0 auto;
+  margin: 0 auto;
   z-index: 100;
+  overflow: none;
 }
 .modal-background .main-card {
-  width: 106rem;
+  width: 72rem;
   /* max-width: 48rem; */
   height: auto;
   display: flex;
@@ -21,18 +22,49 @@
   justify-content: center;
   border-radius: 15px;
   background-color: white;
-  padding: 4.6rem;
+  padding: 6.6rem 0px;
   text-align: center;
-  box-shadow: 3px 2px 19px var(--darker-gray);
+  margin-top: 0px;
+  color: var(--main-theme);
+  box-shadow: 0.2px 0px 50px rgba(128, 128, 128, 0.3);
   z-index: 101;
 }
+/* .text{
+  width: 100%;
+} */
+.modal-background .main-card h1, h2, p{
+  color: var(--main-theme);
+  /* margin: 1rem; */
+  margin-bottom: 1rem;
+}
+.subtitle{
+  font-weight: 520;
+}
+.subtitle span{
+  font-weight: bold;
+}
+.modal-background .main-card h1{
+  font-size: 2.4rem;
+  margin-bottom: 4px;
+}
+.modal-background .main-card p{
+  width: 100%;
+  font-size: 1.4rem;
+  font-style: italic;
+  font-weight: bold;
+}
+.modal-background .main-card h2{
+  font-weight: 400;
+}
 .modal-background .main-card img{
-    width: 65px;
-    height: 65px;
+    width: 75px;
+    height: 75px;
+    /* margin: 12px; */
+    margin-bottom: 10px;
 }
 .modal-background .main-card .button{
-    width: 50%;
-    height: 3.6rem;
+    width: 40%;
+    height: 3.8rem;
 
 }
 .modal-background .main-card .button button{
@@ -41,6 +73,9 @@
     background-color: var(--main-theme);
     border: none;
     color: var(--clr-white);
-    border-radius: 12px;
+    border-radius: 9px;
     font-size: 200;
+    margin: 13px 0px;
+    font-weight: 300;
+    font-size: small;
 }

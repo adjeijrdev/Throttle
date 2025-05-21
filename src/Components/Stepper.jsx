@@ -5,6 +5,8 @@ import style from "./Stepper.module.css";
 import LeftSVG from "../Assets/icons/Left.png";
 import rightSVG from "../Assets/icons/right-svg.png";
 import check from "../Assets/icons/Check.png";
+// import SuccessModal from "../Modals/SuccessfulModal/SuccessModal";
+import SuccessfulRegistration from "../Modals/SuccessfulRegistration";
 
 const steps = [
   "Business Info",
@@ -45,6 +47,12 @@ const Stepper = ({ name }) => {
     password: "",
     confirmpassword: "",
   });
+
+  const [ isOpen, setIsOpen ] = useState(false);
+
+   const toggleModalOpen = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -110,7 +118,7 @@ const Stepper = ({ name }) => {
         ))}
       </div>
 
-      <div className={style["form-step"]}>
+      <div className={style["form-step"]} >
         {currentStep === 0 && (
           <div className={style["form-grid"]}>
             <div className={style["form-group"]}>
@@ -341,11 +349,12 @@ const Stepper = ({ name }) => {
             Next <img className={style.btn} src={rightSVG} alt="right" />
           </div>
         ) : (
-          <button className={style['btn-filled']} onClick={() => alert("Submitted!")}>
+          <button className={style['btn-filled']} onClick={ toggleModalOpen} >
             Submit
           </button>
         )}
       </div>
+     <SuccessfulRegistration isOpen={isOpen} />
     </form>
   );
 };
