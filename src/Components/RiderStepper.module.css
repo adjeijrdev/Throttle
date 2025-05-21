@@ -1,230 +1,342 @@
 .form-container {
-    width: 90%;
-    max-width: 60rem;
-    margin: 2rem auto;
-    font-family: "Arial", sans-serif;
-  }
-  
-  .form-title {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
-    color: #064e3b;
-  }
-  
-  .stepper {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 3rem;
-    position: relative;
-  }
-  
-  .step-item {
-    flex: 1;
-    text-align: center;
-    position: relative;
-  }
-  
-  .step-item::after {
-    content: "";
-    position: absolute;
-    top: 1rem;
-    right: -50%;
-    width: 100%;
-    height: 0.125rem;
-    background-color: #cbd5e0;
-    z-index: -1;
-  }
-  
-  .step-item:last-child::after {
-    display: none;
-  }
-  
-  .step-circle {
-    width: 2.5rem;
-    height: 2.5rem;
-    margin: 0 auto;
-    border-radius: 50%;
-    background-color: white;
-    border: 0.125rem solid #064e3b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: #064e3b;
-  }
-  
-  .step-circle.active {
-    background-color: #064e3b;
-    color: white;
-  }
-  
-  .step-circle.completed {
-    background-color: #064e3b;
-    color: white;
-  }
-  
-  .step-label {
-    margin-top: 0.5rem;
-    font-size: 0.875rem;
-  }
+  width: 90%;
+  max-width: 60rem;
+  margin: 2rem auto;
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  color: #064e3b;
+}
+
+/* STEPPER STYLING */
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  position: relative;
+}
+.stepper p {
+  color: var(--clr-black);
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+}
+.step-item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+/* .step-item::after {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  right: -50%;
+  width: 100%;
+  height: 10px;
+  background-color: var(--clr-green);
+  z-index: -1;
+}  */
+.step-item:last-child::after {
+  display: none;
+}
+
+.step-circle {
+  width: 2.8rem;
+  height: 2.8rem;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: white;
+  border: 0.125rem solid var(--dark-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--dark-green);
+}
+.step-circle.active {
+  background-color: var(--dark-green);
+  color: white;
+}
+.step-circle.completed {
+  background-color: var(--dark-green);
+  color: white;
+}
+
+.step-circle:not(:last-child).completed::after {
+  content: "";
+  position: absolute;
+  top: 27%;
+  left: 61%;
+  width: 90%;
+  height: 2px;
+  background: var(--dark-green);
+}
+
+.step-label {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* FORM STYLING */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.form__grid {
+  display: grid;
+  grid-template-rows: repeat(minmax(20rem, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+.form-grid_document {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+.form-group label {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-top: 0.9rem;
+}
+
+.form-group input {
+  padding: 0.75rem 1rem;
+  width: 100%;
+  height: 4rem;
+  color: var(--clr-black);
+  border: 1px solid var(--main-theme);
+  background-color: var(--input-background);
+  border-radius: 1.1rem;
+  font-size: 1rem;
+}
+.form-group input::placeholder {
+  color: var(--main-theme);
+  font-family: "Poppins", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+.form-group_vehicle input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #065f46;
+  background-color: #cce1db;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  width: 35rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  /* position: relative; */
+}
+
+.btn-filled,
+.btn-outline {
+  width: 50%;
+  height: 4rem;
+  padding: 0.84rem 2rem;
+  border-radius: 0.95rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 3.5rem;
+  position: relative;
+  /* bottom: -15.3rem; */
+}
+.btn {
+  width: 1.5rem;
+  height: 1.2rem;
+}
+
+.btn-filled {
+  background-color: var(--dark-green);
+  color: white;
+  width: 70%;
+  border: none;
+}
+
+.btn-outline {
+  background-color: white;
+  color: var(--dark-green);
+  width: 70%;
+  border: 2px solid var(--dark-green);
+}
+
+input[type="email"],
+input[type="tel"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--main-theme);
+  color: var(--clr-black);
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+@media (max-width: 768px) {
   .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    justify-content: center;
-    align-items: center;
+    grid-template-columns: 1fr;
   }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-  .form-group_vehicle {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form__grid{
-    display:grid;
-    grid-template-rows: repeat(minmax(20rem, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-    justify-content: center;
-    align-items: center;
-  }
-  .form-group label {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .form-group_vehicle label {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  .form-group input {
-    padding: 0.75rem 1rem;
-    border: 1px solid #065f46;
-    background-color: #CCE1DB;
-    border-radius: 0.75rem;
-    font-size: 1rem;
-  }
+}
 
-  .form-group_vehicle input {
-    padding: 0.75rem 1rem;
-    border: 1px solid #065f46;
-    background-color: #CCE1DB;
-    border-radius: 0.75rem;
-    font-size: 1rem;
-    width: 35rem;
-  }
-  
-  .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-  }
-  
-  .btn-filled,
-  .btn-outline {
-    padding: 0.75rem 2rem;
-    border-radius: 0.75rem;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .btn-filled {
-    background-color: #065f46;
-    color: white;
-    border: none;
-  }
-  
-  .btn-outline {
-    background-color: white;
-    color: #065f46;
-    border: 2px solid #065f46;
-  }
-  
-  .radio-group {
-    display: flex;
-    gap: 1.5rem; /* Space between buttons */
-    margin-top: 0.4rem;
-  }
-  .radio-option_gender{
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    border: 0.1rem solid #065f46;
-    padding: 0.5rem;
-    border-radius: 0.75rem;
-  }
-  
-  
-  input[type="email"],
-  input[type="tel"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-top: 5px;
-  }
-  
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  
-  @media (max-width: 768px) {
-    .form-grid {
-      grid-template-columns: 1fr;
-    }
-  }
+/* IMAGE UPLOADER */
+.upload-container {
+  width:100%;
+  height: 100%;
+  margin: 1rem auto;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.upload-container p{
+  text-align: left;
+  align-self: first baseline;
+  color: var(--clr-black);
+  font-size: 1.6em;
+  font-weight: 300;
+  margin-left: 8%;
+}
+
+.drop-box {
+  border: 1px solid var(--main-theme);
+  border-radius: 20px;
+  width: 50rem;
+  height: 18rem;
+  background-color: var(--clr-white);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.drop-box:hover {
+  background-color: #f0f0f0;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.upload-button {
+  margin-top: 1.4rem;
+  margin-bottom: 3rem;
+  width: 50rem;
+  height: 5.8rem;
+  border: 1px solid var(--main-theme);
+  padding: 10px 20px;
+  font-size: 1.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: var(--clr-white);
+  color: var(--main-theme);
+  border-radius: 15px;
+  transition: background 0.3s ease;
+}
+
+/* PASSWORD STYLING */
+.Account-details-password{
+  padding: 1rem 1.3rem;
+  width: 120%;
+  height: 4.4rem;
+  color: var(--clr-black);
+  border: 1px solid var(--main-theme);
+  background-color: var(--input-background);
+  border-radius: 1.2rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  gap: 4px;
+}
+.email{
+  padding: 1rem 1.3rem;
+  width: 120%;
+  height: 4.4rem;
+  color: var(--clr-black);
+  border: 1px solid var(--main-theme);
+  background-color: var(--input-background);
+  border-radius: 1.5rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  gap: 4px;
+  position: relative;
+}
+.email img{
+  /* max-width: 20px;
+  max-width: auto; */
+  position: absolute;
+  left: 1rem;
+}
+.Account-details-password img{
+  max-width: 18px;
+  max-height: auto;
+  margin-left: 4px;
+}
+.Account-details-password input{
+  border: none;
+  padding: 0.3rem;
+  background-color: transparent;
+
+}
+.Account-details-password input::placeholder{
+  color: var(--main-theme);
+}
+.Account-details-password input:focus{
+  border: none;
+  outline: none;
+}
+.Account-details-password button{
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+/* .form-group input {
+  padding: 0.75rem 1rem;
+  width: 100%;
+  height: 4rem;
+  color: var(--clr-black);
+  border: 1px solid var(--main-theme);
+  background-color: var(--input-background);
+  border-radius: 0.75rem;
+  font-size: 1rem;
+} */
 
 
-  /* Document Upload Styles */
-.document-upload {
-    grid-column: span 1;
-  }
-  
-  .upload-area {
-    border: 2px dashed #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 8px;
-  }
-  
-  .upload-area:hover {
-    border-color: #4CAF50;
-    background-color: #f8f8f8;
-  }
-  
-  .upload-label span {
-    font-weight: bold;
-    color: #4CAF50;
-  }
-  
-  .upload-label p {
-    margin: 8px 0 0;
-    font-size: 0.8rem;
-    color: #666;
-  }
-  
-  .file-input {
-    display: none;
-  }
-  
-  /* Make upload areas full width on mobile */
-  @media (max-width: 768px) {
-    .document-upload {
-      grid-column: span 2;
-    }
-  }
+.upload-button:hover {
+  background-color: #f0f0f0;
+}

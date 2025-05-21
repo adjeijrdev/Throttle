@@ -48,7 +48,7 @@
 .register-modal-button:hover{
  cursor: pointer;
   border: 1.9px solid var(--main-theme);
-  background-color: var(--light-green-gradient);
+  background-color: rgba(23, 101, 79, 0.15);
   
   transition: background-color 0.2s ease;
  

@@ -30,7 +30,7 @@ export default function RiderRegistration() {
           <img src={Logo} alt="Throttle-logo" />
         </div>
         <div className="registring-part-form-contianer">
-          {/* <RiderStepper name="Rider"/> */}
+          <RiderStepper name="Rider"/>
         </div>
       </div>
     </div>
