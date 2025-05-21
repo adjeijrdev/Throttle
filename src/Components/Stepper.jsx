@@ -354,7 +354,7 @@ const Stepper = ({ name }) => {
           </button>
         )}
       </div>
-     <SuccessfulRegistration isOpen={isOpen} />
+     <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen}/>
     </form>
   );
 };

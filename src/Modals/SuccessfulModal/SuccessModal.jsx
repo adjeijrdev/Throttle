@@ -5,14 +5,22 @@ import SuccessStyle from "./SuccessfulModal.module.css";
 import check from "../../Assets/icons/Successful.png";
 
 
-export default function SuccessModal() {
+export default function SuccessModal({ onClose }) {
   const navigate = useNavigate();
   
+    useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [onClose]);
 
+  const handleCardClick = (e) => e.stopPropagation();
 
   return (
-    <div className={ SuccessStyle["modal-background"]} >
-      <div className={ SuccessStyle["main-card"]}> 
+    <div className={ SuccessStyle["modal-background"]} onClick={ onClose } >
+      <div className={ SuccessStyle["main-card"]} onClick={handleCardClick}> 
         <img src={check} alt="success check" />
         <div className={SuccessStyle.text}>
           <h1>Registration Successful!</h1>

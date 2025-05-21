@@ -272,6 +272,9 @@
   border: none;
   font-size: 1.4rem;
 }
+.input-box input::placeholder {
+  color: var(--main-theme)
+}
 .input-fields .login_email-box {
   align-items: center;
 }
@@ -326,7 +329,7 @@
   cursor: pointer;
 }
 .button-and-sign-up button:hover{
-  background-color: var(--input-background);
+  background-color: var(--background-clr);
   height: 6rem;
   font-size: 2rem;
   color: var(--dark-green);
@@ -363,12 +366,10 @@
   font-size: 1.5rem;
 }
 .sign-up span a:hover {
-  text-decoration: none;
   font-weight: 500;
-  color: var(--clr-green);
+  color: var(--dark-green);
   text-decoration:underline;
   cursor: pointer;
-  text-decoration: none;
 }
 
 
