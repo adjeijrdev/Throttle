@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import style from "./Stepper.module.css";
 
 //import images
 import LeftSVG from "../Assets/icons/Left.png";
 import rightSVG from "../Assets/icons/right-svg.png";
 import check from "../Assets/icons/Check.png";
-// import SuccessModal from "../Modals/SuccessfulModal/SuccessModal";
 import SuccessfulRegistration from "../Modals/SuccessfulRegistration";
+import img from "../Assets/icons/img.png";
+import padLock from "../Assets/input_icons/padlock.png";
+import EmailIcon from "../Assets/input_icons/emailuser.png";
 
 const steps = [
   "Business Info",
@@ -39,8 +42,8 @@ const Stepper = ({ name }) => {
     banknumber: "",
     momonumber: "",
 
-    // Document Uploads
-    additionalDocs: [],
+    // // Document Uploads
+    // additionalDocs: [],
 
     // Account details
     accountemail: "",
@@ -48,12 +51,25 @@ const Stepper = ({ name }) => {
     confirmpassword: "",
   });
 
-  const [ isOpen, setIsOpen ] = useState(false);
+  //password functions
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword1, setShowPassword1] = useState(false);
 
-   const toggleModalOpen = () => {
+  const toggleVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+  const toggleVisibility1 = () => {
+    setShowPassword1((prev) => !prev);
+  };
+
+  //modal state { successful Modal}
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleModalOpen = () => {
     setIsOpen(!isOpen);
   };
 
+  //form functions
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
 
@@ -95,15 +111,46 @@ const Stepper = ({ name }) => {
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit} className={ style['form-container']}>
-      <h2 className={style['form-title']}> Registration process as a {name} </h2>
+  //iMAGE UPLOAD
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
 
-      <div className={style['stepper']}>
+  const handleImage = (file) => {
+    if (file && file.type.startsWith("image/")) {
+      const imageUrl = URL.createObjectURL(file);
+      setImage({ file, url: imageUrl });
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    if (e.dataTransfer.files.length > 0) {
+      handleImage(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileInputChange = (e) => {
+    if (e.target.files.length > 0) {
+      handleImage(e.target.files[0]);
+    }
+  };
+
+  const openFileDialog = () => {
+    fileInputRef.current.click();
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className={style["form-container"]}>
+      <h2 className={style["form-title"]}>
+        {" "}
+        Registration process as a {name}{" "}
+      </h2>
+
+      <div className={style["stepper"]}>
         {steps.map((label, index) => (
-          <div className={style['step-item']} key={index}>
+          <div className={style["step-item"]} key={index}>
             <div
-              className={`${style['step-circle']} ${
+              className={`${style["step-circle"]} ${
                 index === currentStep
                   ? style.active
                   : index < currentStep
@@ -113,12 +160,12 @@ const Stepper = ({ name }) => {
             >
               {index < currentStep ? <img src={check} /> : index + 1}
             </div>
-            <p className={style['step-label']}>{label}</p>
+            <p className={style["step-label"]}>{label}</p>
           </div>
         ))}
       </div>
 
-      <div className={style["form-step"]} >
+      <div className={style["form-step"]}>
         {currentStep === 0 && (
           <div className={style["form-grid"]}>
             <div className={style["form-group"]}>
@@ -277,33 +324,45 @@ const Stepper = ({ name }) => {
 
         {/* Step 4 - Document Uploads */}
         {currentStep === 3 && (
-          <div className={style["form-grid_document"]}>
-            <label>Additional Documents</label>
-            <div className={style["form-group document-upload"]}>
-              <div className="upload-area">
-                <input
-                  type="file"
-                  id="additionalDocs"
-                  name="additionalDocs"
-                  onChange={handleChange}
-                  accept="image/*,.pdf"
-                  multiple
-                  className="file-input"
+          <div className={style["upload-container"]}>
+            <p>Business logo</p>
+            <div
+              className={style["drop-box"]}
+              onDrop={handleDrop}
+              onDragOver={(e) => e.preventDefault()}
+              onDragEnter={(e) => e.preventDefault()}
+            >
+              {image ? (
+                <img
+                  src={image.url}
+                  alt="Preview"
+                  className={style["preview-image"]}
                 />
-                <label htmlFor="additionalDocs" className={style["upload-label"]}>
-                  <span>Click to upload</span>
-                  <p>Multiple files allowed</p>
-                </label>
-              </div>
+              ) : (
+                <img src={img} alt="image-vector" />
+              )}
             </div>
+
+            <button className={style["upload-button"]} onClick={openFileDialog}>
+              Upload
+            </button>
+
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileInputChange}
+            />
           </div>
         )}
 
         {/* Step 5 - Account Details */}
         {currentStep === 4 && (
           <div className={style["form__grid"]}>
-            <div className={style["form-group_vehicle"]}>
-              <label>Account Email</label>
+             <label>Account Email</label>
+            <div className={`${style["Account-details-password"]} ${style.email}`}>
+              <img src={EmailIcon} alt="emailIcon" />
               <input
                 type="text"
                 name="accountemail"
@@ -312,25 +371,41 @@ const Stepper = ({ name }) => {
                 placeholder="Enter your email"
               />
             </div>
-            <div className={style["form-group_vehicle"]}>
-              <label>Password</label>
+             <label>Password</label>
+            <div className={style["Account-details-password"]}>
+              <img src={padLock} alt="padlock" />
               <input
-                type="text"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="password"
               />
+              <button
+                type="button"
+                onClick={toggleVisibility}
+                className={style["toggle - btn"]}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
             </div>
-            <div className={style["form-group_vehicle"]}>
-              <label>Confirm Password</label>
+            <label>Confirm Password</label>
+            <div className={style["Account-details-password"]}>
+              <img src={padLock} alt="padlock" />
               <input
-                type="text"
+                type={showPassword1 ? "text" : "password" }
                 name="confirmpassword"
                 value={formData.confirmpassword}
                 onChange={handleChange}
                 placeholder="Confirm Password"
               />
+              <button
+                type="button"
+                onClick={toggleVisibility1}
+                className={style["toggle - btn"]}
+              >
+                { showPassword1 ? <FaEyeSlash /> : <FaEye />}
+              </button>
             </div>
           </div>
         )}
@@ -340,21 +415,21 @@ const Stepper = ({ name }) => {
 
       <div className={style.buttons}>
         {currentStep > 0 && (
-          <div className={style['btn-outline']} onClick={prevStep} >
+          <div className={style["btn-outline"]} onClick={prevStep}>
             <img src={LeftSVG} className={style.btn} alt="left" /> Previous
           </div>
         )}
         {currentStep < steps.length - 1 ? (
-          <div className={style['btn-filled']} onClick={nextStep}>
+          <div className={style["btn-filled"]} onClick={nextStep}>
             Next <img className={style.btn} src={rightSVG} alt="right" />
           </div>
         ) : (
-          <button className={style['btn-filled']} onClick={ toggleModalOpen} >
+          <button className={style["btn-filled"]} onClick={toggleModalOpen}>
             Submit
           </button>
         )}
       </div>
-     <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen}/>
+      <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} />
     </form>
   );
 };

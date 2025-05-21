@@ -94,6 +94,14 @@
   padding: 0px;
   line-height: 1;
   white-space: normal;
+
+  /* overflow: hidden;
+  border-right: 15em solid var(--background-clr);
+  white-space: nowrap;
+  letter-spacing: 15em;
+  animation:
+      typing 3.5s steps(30, end),
+      blink-caret .75s step-end infinite; */
 }
 .to-text {
   font-family: "Sacramento", cursive;
@@ -420,4 +428,14 @@
   .throttle-text {
     font-weight: 400;
   }
+}
+
+/* ANIMATIONS */
+@keyframes typing{
+  from { width :0}
+  t0 {width: 100%}
+}
+@keyframes blink-caret{
+  from, to { border-color: transparent }
+  50% { border-color: var(--background-clr)}
 }
