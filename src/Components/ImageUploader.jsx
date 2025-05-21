@@ -1,8 +1,7 @@
-// import TryModal from "../Modals/RegisterAppModal";
-import { useState, useRef } from "react";
-import "./Media.css"
+import {useRef} from 'react';
 
-export default function Media() {
+
+export default function ImageUploader() {
     const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
 

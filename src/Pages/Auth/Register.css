@@ -22,7 +22,7 @@
 }
 .white-right {
   width: 75%;
-  height: 100%;
+  height: 100vh;
   background-color: var(--clr-white);
 }
 .register-text-left {
@@ -54,8 +54,8 @@
 }
 .blurred-image-green img {
   width: 96rem;
-  height: 50rem;
-  margin-top: 35%;
+  height: 60rem;
+  margin-top: 15%;
 }
 .registering-part-logo {
   width: 38rem;

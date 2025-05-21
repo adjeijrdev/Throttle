@@ -12,11 +12,12 @@ import padLock from "../Assets/input_icons/padlock.png";
 import EmailIcon from "../Assets/input_icons/emailuser.png";
 
 const steps = [
-  "Business Info",
+  "Personal info",
   "Contact Details",
+  "Vehicle Details",
   "Payment & Billing",
   "Document Uploads",
-  "Account Details",
+  "Account Details"
 ];
 
 const Stepper = ({ name }) => {

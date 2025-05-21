@@ -61,6 +61,7 @@
   margin: 0;
 }
 .man-box img {
+  display: none;
   width: 100%;
   height: 100%;
   object-fit: fill;
@@ -93,6 +94,14 @@
   padding: 0px;
   line-height: 1;
   white-space: normal;
+
+  /* overflow: hidden;
+  border-right: 15em solid var(--background-clr);
+  white-space: nowrap;
+  letter-spacing: 15em;
+  animation:
+      typing 3.5s steps(30, end),
+      blink-caret .75s step-end infinite; */
 }
 .to-text {
   font-family: "Sacramento", cursive;
@@ -133,31 +142,99 @@
   height: 100%;
   padding: 30% 13% 30% 15%;
 }
-.input-fields {
-  width: 100%;
+
+/* RADIO BUTTON STYLING */
+.radio-button-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 8px;
 }
-.input-fields input {
-  display: block;
-  width: 100%;
+
+.radio-button {
+  margin-bottom: 10px;
+  position: relative;
 }
-.button-and-sign-up {
-  text-align: center;
+
+.radio-button input[type="radio"] {
+  display: none;
 }
-.button-and-sign-up button {
-  width: 100%;
+
+.radio-button label {
+  padding-left: 30px;
+  cursor: pointer;
+  position: relative;
+  font-size: 1.5rem;
+  font-weight: 400;
 }
+
+.radio-button label::before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.radio-button input[type="radio"]:checked + label::before {
+  border-color: var(--main-theme);
+  background-color: var(--main-theme);
+  box-shadow: inset 0 0 0 3px #fff;
+}
+
+.radio-button label::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #fff;
+  display: none;
+}
+
+/* .radio-button input[type="radio"]:checked + label::after {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #34c759;
+  box-shadow: none;
+  left: 6px;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+} */
+
 /* line-and-text */
-.line-and-text {
+.line-box{
+  width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin-top: -2rem;
+  padding: 0;
+}
+.line-and-text {
+  display: flex;
+  width: 75%;
+  align-items: center;
   text-align: center;
-  margin-bottom: 7.6rem;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  
 }
 .line-and-text::before,
 .line-and-text::after {
   content: "";
+  
   flex: 1;
   border-bottom: 1px solid var(--primary-blue-black);
 }
@@ -171,21 +248,31 @@
   font-size: 14px;
   color: #333;
 }
+
+/* INPUT FIELDS */
 .input-box {
-  width: 43.8rem;
+  width: 45rem;
   min-width: 43.7rem;
   max-width: 47rem;
+  background-color: var(--input-background);
 
   max-height: 5.1rem;
   min-height: 5rem;
   display: flex;
   gap: 1.3rem;
   padding: 1.1rem 2.4rem;
-  border: solid 2px var(--dark-green);
+  border: solid 1px var(--main-theme);
   margin-bottom: 1.3rem;
   /* background-color: #17654F; */
   border-radius: 1.4rem;
   font-size: 9rem;
+}
+.input-box:hover{
+  box-shadow: 2px 1px 5px var(--clr-green);
+  background-color: transparent;
+  color: black;
+  font-style: italic;
+  border: solid 0.8px var(--main-theme);
 }
 .input-box input {
   background: transparent;
@@ -193,27 +280,84 @@
   border: none;
   font-size: 1.4rem;
 }
+.input-box input::placeholder {
+  color: var(--main-theme)
+}
+.input-fields .login_email-box {
+  align-items: center;
+}
+.input-fields .login_email-box input {
+  border: none;
+  margin-left: -14px;
+}
+.input-password-box-1{
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+}
+.input-password-box-1 input{
+ width: 90%;
+}
+.input-password-box-1 button{
+  background-color: transparent;
+  border: none;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+}
+.input-password-box-1 button svg{
+  color: rgb(82, 82, 82);
+  width: 20px;
+  height: 20px;
+
+}
 .input-box input:focus {
   outline: none;
   border: none;
   background: transparent;
 }
+.button-and-sign-up{
+  margin-top: -4px;
+  display: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 .button-and-sign-up button {
   /* padding: 1.1rem 2.4rem; */
-  border: solid 2px var(--dark-green);
+  width: 45rem;
+  border: solid 2px var(--main-theme);
   margin-bottom: 1.3rem;
   height: 5rem;
   max-height: 5.1rem;
-  background-color: var(--dark-green);
+  background-color: var(--main-theme);
   border-radius: 1.4rem;
   font-size: 1.7rem;
   color: var(--clr-white);
   cursor: pointer;
 }
-/* .button-and-sign-up button:hover{
-  background-color: var(--light-green-gradient);
-  color: black;
-} */
+.button-and-sign-up button:hover{
+  /* background-color: rgba(23,101, 79, 0.8); */
+  background-color: var(--dark-green);
+  height: 6rem;
+  font-size: 2rem;
+  color: var(--clr-white);
+  border: none;
+  /* color: var(--background-clr); */
+  /* border: solid 1px var(--clr-white); */
+  box-shadow: 2px 1px 5px var(--main-theme);
+  
+}
+.button-and-sign-up button:active{
+  background-color: var(--main-theme);
+  height: 6rem;
+  font-size: 2rem;
+  color: var(--dark-green);
+  border: none;
+  /* color: var(--background-clr); */
+  
+  
+}
 .logo-form {
   margin-bottom: 3.6rem;
 }
@@ -230,6 +374,13 @@
   font-weight: 500;
   font-size: 1.5rem;
 }
+.sign-up span a:hover {
+  font-weight: 500;
+  color: var(--dark-green);
+  text-decoration:underline;
+  cursor: pointer;
+}
+
 
 /* //MEDIA QUERY */
 @media screen and (max-width: 976px) {
@@ -278,4 +429,14 @@
   .throttle-text {
     font-weight: 400;
   }
+}
+
+/* ANIMATIONS */
+@keyframes typing{
+  from { width :0}
+  t0 {width: 100%}
+}
+@keyframes blink-caret{
+  from, to { border-color: transparent }
+  50% { border-color: var(--background-clr)}
 }

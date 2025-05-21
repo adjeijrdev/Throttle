@@ -1,11 +1,11 @@
-import "./Register.css";
+import "./RiderRegistration.css";
 
 //import images
 import BluredBackground from "../../Assets/blured_dashboard.png";
 import Logo from "../../Assets/logos/LOGO-img.png";
 
 //importing personal component
-import Stepper from "../../Components/Stepper";
+import RiderStepper from "../../Components/RiderStepper";
 
 export default function RiderRegistration() {
   return (
@@ -30,7 +30,7 @@ export default function RiderRegistration() {
           <img src={Logo} alt="Throttle-logo" />
         </div>
         <div className="registring-part-form-contianer">
-          <Stepper name="Rider"/>
+          <RiderStepper name="Rider"/>
         </div>
       </div>
     </div>
