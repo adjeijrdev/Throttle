@@ -1,4 +1,4 @@
-import "./Register.css";
+import "./RiderRegistration.css";
 
 //import images
 import BluredBackground from "../../Assets/blured_dashboard.png";
