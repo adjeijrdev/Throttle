@@ -6,7 +6,7 @@ export default function RegisterAppModal({ isOpen, onCLose }) {
     <>
       {isOpen &&
         ReactDOM.createPortal(
-          <SignupCard onClose={onCLose}/>,
+          <SignupCard onClose={onCLose} />,
           document.getElementById("trial-modal")
         )}
     </>

@@ -10,17 +10,20 @@
   justify-content: center;
   margin-top: 0 auto;
   z-index: 100;
+  
 }
 .modal-background .register-modal-card {
   width: 46rem;
   max-width: 48rem;
-  height: 26rem;
+  height: auto;
   border-radius: 15px;
   background-color: white;
   padding: 2.6rem;
   text-align: center;
+  box-shadow: 3px 2px 19px var(--darker-gray);
   z-index: 101;
 }
+
 .modal-background .register-modal-card h2 {
   padding-top: 14px;
   font-size: 2.8rem;
@@ -42,6 +45,18 @@
   padding: 1.3rem;
   transition: background-color 0.2s ease;
 }
+.register-modal-button:hover{
+ cursor: pointer;
+  border: 1.9px solid var(--main-theme);
+  background-color: rgba(23, 101, 79, 0.15);
+  
+  transition: background-color 0.2s ease;
+ 
+ /* filter: invert(0.8); */
+}
+.register-modal-button:hover p{
+  color: var(--main-theme);
+}
 .register-modal-button p {
   font-size: 2.1rem;
   font-weight: 500;
@@ -51,6 +66,7 @@
   background-color: var(--main-theme);
   padding: 0.4rem;
   border-radius: 4px;
+  border: 1.5px solid var(--clr-white);
 }
 
 /* ANIMATION */

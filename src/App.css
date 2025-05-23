@@ -11,6 +11,7 @@ html {
   margin: 0px;
   padding: 0px;
   font-family: "Poppins", sans-serif;
+  transition: 300ms all ease-out;
 }
 
 :root {
@@ -22,12 +23,11 @@ html {
   --background-clr: #f4f9ff;
   --primary-turquoise: #006984;
   --primary-blue-black: #06264d;
-
+  --input-background: #CCE1DB;
   --dark-green: #003627;
   --colorash: #cdd4db;
   --logo-color: #0ea47a;
   --darker-gray: #6b6b6b;
-
   --main-theme: #17654f;
   --main-theme-gray: #eaebee;
 }
