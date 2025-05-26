@@ -26,11 +26,11 @@ export default function Dashboard(props) {
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
-    amount: 'GHC350.00',
+    payAmount: 'GHC350.00',
     status: 'Completed',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
-     amount: 'GHC350.00',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
   },
@@ -40,11 +40,11 @@ export default function Dashboard(props) {
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
-    amount: 'GHC350.00',
+    payAmount: 'GHC350.00',
     status: 'Rejected',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
-     amount: 'GHC350.00',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
   },
@@ -54,11 +54,11 @@ export default function Dashboard(props) {
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
-    amount: 'GHC350.00',
+    payAmount: 'GHC350.00',
     status: 'In Progress',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
-     amount: 'GHC350.00',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
   },
@@ -68,11 +68,11 @@ export default function Dashboard(props) {
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
-    amount: 'GHC350.00',
+    payAmount: 'GHC350.00',
     status: 'Completed',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
-     amount: 'GHC350.00',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
   },
@@ -82,11 +82,11 @@ export default function Dashboard(props) {
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
-    amount: 'GHC350.00',
+    payAmount: 'GHC350.00',
     status: 'Failed',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
-     amount: 'GHC350.00',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
   },
@@ -96,11 +96,11 @@ export default function Dashboard(props) {
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
-    amount: 'GHC350.00',
+    payAmount: 'GHC350.00',
     status: 'Assigned',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
-     amount: 'GHC350.00',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
   },
@@ -110,11 +110,11 @@ export default function Dashboard(props) {
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
-    amount: 'GHC350.00',
+    payAmount: 'GHC350.00',
     status: 'Returned',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
-     amount: 'GHC350.00',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
   },
@@ -165,11 +165,11 @@ const exportToCSV = () => {
     Destination: o.destination,
     Recipient: o.recipient,
     "Recipient's Tel": o.phone,
-    'Payment Amt': o.amount,
+    'Payment Amt': o.payAmount,
     Status: o.status,
     Vendor: o.vendor,
     '3PLs': o.tpl,
-    'Delivery Fee': o.amount,
+    'Delivery Fee': o.deliveryAmount,
     'Delivery Date': o.orderdate,
     'Order Image': o.orderimg,
 
@@ -208,11 +208,11 @@ const allColumns = [
   { key: 'destination', label: 'Destination' },
   { key: 'recipient', label: 'Recipient' },
   { key: 'phone', label: 'Recipient Tel' },
-  { key: 'amount', label: 'Payment Amt' },
+  { key: 'payAmount', label: 'Payment Amt' },
   { key: 'status', label: 'Status' },
   { key: 'vendor', label: 'Vendor' },
   { key: 'tpl', label: '3PLs' },
-   { key: 'amount', label: 'Delivery Fee' },
+   { key: 'deliveryAmount', label: 'Delivery Fee' },
     { key: 'orderdate', label: 'Delivery Date' },
      { key: 'orderimg', label: 'Order Image' },
 ];
@@ -409,11 +409,11 @@ const handleCancel = () => {
     {visibleCols.destination &&  <th className={styles.th}>Destination</th>}
     {visibleCols.recipient && <th className={styles.th}>Recipient</th>}
     {visibleCols.phone && <th className={styles.th}>Recipient's Tel</th> }
-    {visibleCols.amount && <th className={styles.th}>Payment Amt</th>}
+    {visibleCols.payAmount && <th className={styles.th}>Payment Amt</th>}
     {visibleCols.status && <th className={styles.th}>Status</th> }
     {visibleCols.vendor &&  <th className={styles.th}>Vendor</th>}
     {visibleCols.tpl &&   <th className={styles.th}>3PLs</th>}
-    {visibleCols.amount && <th className={styles.th}>Delivery Fee</th>}
+    {visibleCols.deliveryAmount && <th className={styles.th}>Delivery Fee</th>}
     {visibleCols.orderdate &&   <th className={styles.th}>Delivery Date</th>}
     {visibleCols.orderimg &&   <th className={styles.th}>Order Image</th>}
           </tr>
@@ -427,7 +427,7 @@ const handleCancel = () => {
       {visibleCols.destination && <td className={styles.td}>{order.destination}</td> }
       {visibleCols.recipient && <td className={styles.td}>{order.recipient}</td>}
       {visibleCols.phone && <td className={styles.td}>{order.phone}</td> }
-      {visibleCols.amount && <td className={styles.td}>{order.amount}</td>}
+      {visibleCols.payAmount && <td className={styles.td}>{order.payAmount}</td>}
       {visibleCols.status &&  <td className={styles.td}>
                 <span className={`${styles.status} ${statusClass[order.status]}`}>
                   {order.status}
@@ -435,7 +435,7 @@ const handleCancel = () => {
               </td>}
       {visibleCols.vendor && <td className={styles.td}>{order.vendor}</td> }
       {visibleCols.tpl && <td className={styles.td}>{order.tpl}</td> }
-      {visibleCols.amount && <td className={styles.td}>{order.amount}</td>}
+      {visibleCols.deliveryAmount && <td className={styles.td}>{order.deliveryAmount}</td>}
       {visibleCols.orderdate && <td className={styles.td}>{order.orderdate}</td> }
       {visibleCols.orderimg && <td className={styles.td}>{order.orderimg}</td> }
     </tr>

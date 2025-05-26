@@ -17,106 +17,106 @@ export default function DailyDelivery(props) {
 
 
   const allOrders = [
+  {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'21-12-2024',
+    orderimg:'',
+  },
+  {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Rejected',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'21-12-2024',
+    orderimg:'',
+  },
    {
-     orderId: 'A0M600',
-     dateTime: '21-12-2024, 01:53',
-     destination: 'Tema newton, Hse No 36b, Greater Accra',
-     recipient: 'Ama Nelson',
-     phone: '+233 54 786 6565',
-     amount: 'GHC350.00',
-     status: 'Completed',
-     vendor: 'Ishtari Ghana',
-     tpl: 'Robert',
-      amount: 'GHC350.00',
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'In Progress',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
-   },
+  },
    {
-     orderId: 'A0M600',
-     dateTime: '21-12-2024, 01:53',
-     destination: 'Tema newton, Hse No 36b, Greater Accra',
-     recipient: 'Ama Nelson',
-     phone: '+233 54 786 6565',
-     amount: 'GHC350.00',
-     status: 'Rejected',
-     vendor: 'Ishtari Ghana',
-     tpl: 'Robert',
-      amount: 'GHC350.00',
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
-   },
-    {
-     orderId: 'A0M600',
-     dateTime: '21-12-2024, 01:53',
-     destination: 'Tema newton, Hse No 36b, Greater Accra',
-     recipient: 'Ama Nelson',
-     phone: '+233 54 786 6565',
-     amount: 'GHC350.00',
-     status: 'In Progress',
-     vendor: 'Ishtari Ghana',
-     tpl: 'Robert',
-      amount: 'GHC350.00',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Failed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
-   },
-    {
-     orderId: 'A0M600',
-     dateTime: '21-12-2024, 01:53',
-     destination: 'Tema newton, Hse No 36b, Greater Accra',
-     recipient: 'Ama Nelson',
-     phone: '+233 54 786 6565',
-     amount: 'GHC350.00',
-     status: 'Completed',
-     vendor: 'Ishtari Ghana',
-     tpl: 'Robert',
-      amount: 'GHC350.00',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Assigned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
-   },
-    {
-     orderId: 'A0M600',
-     dateTime: '21-12-2024, 01:53',
-     destination: 'Tema newton, Hse No 36b, Greater Accra',
-     recipient: 'Ama Nelson',
-     phone: '+233 54 786 6565',
-     amount: 'GHC350.00',
-     status: 'Failed',
-     vendor: 'Ishtari Ghana',
-     tpl: 'Robert',
-      amount: 'GHC350.00',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Returned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
     orderdate:'21-12-2024',
     orderimg:'',
-   },
-    {
-     orderId: 'A0M600',
-     dateTime: '21-12-2024, 01:53',
-     destination: 'Tema newton, Hse No 36b, Greater Accra',
-     recipient: 'Ama Nelson',
-     phone: '+233 54 786 6565',
-     amount: 'GHC350.00',
-     status: 'Assigned',
-     vendor: 'Ishtari Ghana',
-     tpl: 'Robert',
-      amount: 'GHC350.00',
-    orderdate:'21-12-2024',
-    orderimg:'',
-   },
-    {
-     orderId: 'A0M600',
-     dateTime: '21-12-2024, 01:53',
-     destination: 'Tema newton, Hse No 36b, Greater Accra',
-     recipient: 'Ama Nelson',
-     phone: '+233 54 786 6565',
-     amount: 'GHC350.00',
-     status: 'Returned',
-     vendor: 'Ishtari Ghana',
-     tpl: 'Robert',
-      amount: 'GHC350.00',
-    orderdate:'21-12-2024',
-    orderimg:'',
-   },
-   // Add more data...
- ];
+  },
+  // Add more data...
+];
  
  const filterOptions = [
    'All',
@@ -156,18 +156,18 @@ const [filter, setFilter] = useState('All');
       
       const exportToCSV = () => {
         const rows = filteredOrders.map((o) => ({
-          'Order Date, Time': o.dateTime,
-          'Order ID': o.orderId,
-          Destination: o.destination,
-          Recipient: o.recipient,
-          "Recipient's Tel": o.phone,
-          'Payment Amt': o.amount,
-          Status: o.status,
-          Vendor: o.vendor,
-          '3PLs': o.tpl,
-          'Delivery Fee': o.amount,
-          'Delivery Date': o.orderdate,
-          'Order Image': o.orderimg,
+         'Order Date, Time': o.dateTime,
+    'Order ID': o.orderId,
+    Destination: o.destination,
+    Recipient: o.recipient,
+    "Recipient's Tel": o.phone,
+    'Payment Amt': o.payAmount,
+    Status: o.status,
+    Vendor: o.vendor,
+    '3PLs': o.tpl,
+    'Delivery Fee': o.deliveryAmount,
+    'Delivery Date': o.orderdate,
+    'Order Image': o.orderimg,
       
       
         }));
@@ -198,20 +198,20 @@ const [filter, setFilter] = useState('All');
       
       
       const allColumns = [
-        { key: 'map', label: 'Map' },
-        { key: 'dateTime', label: 'Order Date, Time' },
-        { key: 'orderId', label: 'Order ID' },
-        { key: 'destination', label: 'Destination' },
-        { key: 'recipient', label: 'Recipient' },
-        { key: 'phone', label: 'Recipient Tel' },
-        { key: 'amount', label: 'Payment Amt' },
-        { key: 'status', label: 'Status' },
-        { key: 'vendor', label: 'Vendor' },
-        { key: 'tpl', label: '3PLs' },
-         { key: 'amount', label: 'Delivery Fee' },
-          { key: 'orderdate', label: 'Delivery Date' },
-           { key: 'orderimg', label: 'Order Image' },
-      ];
+  { key: 'map', label: 'Map' },
+  { key: 'dateTime', label: 'Order Date, Time' },
+  { key: 'orderId', label: 'Order ID' },
+  { key: 'destination', label: 'Destination' },
+  { key: 'recipient', label: 'Recipient' },
+  { key: 'phone', label: 'Recipient Tel' },
+  { key: 'payAmount', label: 'Payment Amt' },
+  { key: 'status', label: 'Status' },
+  { key: 'vendor', label: 'Vendor' },
+  { key: 'tpl', label: '3PLs' },
+   { key: 'deliveryAmount', label: 'Delivery Fee' },
+    { key: 'orderdate', label: 'Delivery Date' },
+     { key: 'orderimg', label: 'Order Image' },
+];
       
       const [visibleCols, setVisibleCols] = useState(
         allColumns.reduce((acc, col) => ({ ...acc, [col.key]: true }), {})
@@ -321,46 +321,46 @@ const handleCancel = () => {
       {/* Table */}
      <table className={styles.table}>
              <thead className={styles.header}>
-                <tr>
-        {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
-         {visibleCols.dateTime && <th className={styles.th}>Order Date, Time</th> }
-         {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
-         {visibleCols.destination &&  <th className={styles.th}>Destination</th>}
-         {visibleCols.recipient && <th className={styles.th}>Recipient</th>}
-         {visibleCols.phone && <th className={styles.th}>Recipient's Tel</th> }
-         {visibleCols.amount && <th className={styles.th}>Payment Amt</th>}
-         {visibleCols.status && <th className={styles.th}>Status</th> }
-         {visibleCols.vendor &&  <th className={styles.th}>Vendor</th>}
-         {visibleCols.tpl &&   <th className={styles.th}>3PLs</th>}
-         {visibleCols.amount && <th className={styles.th}>Delivery Fee</th>}
-         {visibleCols.orderdate &&   <th className={styles.th}>Delivery Date</th>}
-         {visibleCols.orderimg &&   <th className={styles.th}>Order Image</th>}
-       </tr>
+            <tr>
+           {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
+            {visibleCols.dateTime && <th className={styles.th}>Order Date, Time</th> }
+            {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
+            {visibleCols.destination &&  <th className={styles.th}>Destination</th>}
+            {visibleCols.recipient && <th className={styles.th}>Recipient</th>}
+            {visibleCols.phone && <th className={styles.th}>Recipient's Tel</th> }
+            {visibleCols.payAmount && <th className={styles.th}>Payment Amt</th>}
+            {visibleCols.status && <th className={styles.th}>Status</th> }
+            {visibleCols.vendor &&  <th className={styles.th}>Vendor</th>}
+            {visibleCols.tpl &&   <th className={styles.th}>3PLs</th>}
+            {visibleCols.deliveryAmount && <th className={styles.th}>Delivery Fee</th>}
+            {visibleCols.orderdate &&   <th className={styles.th}>Delivery Date</th>}
+            {visibleCols.orderimg &&   <th className={styles.th}>Order Image</th>}
+                  </tr>
              </thead>
      
-             <tbody>
-       {filteredOrders.map((order, index) => (
-         <tr key={index}>
-           {visibleCols.map && <td className={styles.td}>📍</td>}
-           {visibleCols.dateTime && <td className={styles.td}>{order.dateTime}</td>}
-           {visibleCols.orderId && <td className={styles.td}>{order.orderId}</td>}
-           {visibleCols.destination && <td className={styles.td}>{order.destination}</td> }
-           {visibleCols.recipient && <td className={styles.td}>{order.recipient}</td>}
-           {visibleCols.phone && <td className={styles.td}>{order.phone}</td> }
-           {visibleCols.amount && <td className={styles.td}>{order.amount}</td>}
-           {visibleCols.status &&  <td className={styles.td}>
-                     <span className={`${styles.status} ${statusClass[order.status]}`}>
-                       {order.status}
-                     </span>
-                   </td>}
-           {visibleCols.vendor && <td className={styles.td}>{order.vendor}</td> }
-           {visibleCols.tpl && <td className={styles.td}>{order.tpl}</td> }
-           {visibleCols.amount && <td className={styles.td}>{order.amount}</td>}
-           {visibleCols.orderdate && <td className={styles.td}>{order.orderdate}</td> }
-           {visibleCols.orderimg && <td className={styles.td}>{order.orderimg}</td> }
-         </tr>
-       ))}
-     </tbody>
+          <tbody>
+               {filteredOrders.map((order, index) => (
+               <tr key={index}>
+              {visibleCols.map && <td className={styles.td}>📍</td>}
+              {visibleCols.dateTime && <td className={styles.td}>{order.dateTime}</td>}
+              {visibleCols.orderId && <td className={styles.td}>{order.orderId}</td>}
+              {visibleCols.destination && <td className={styles.td}>{order.destination}</td> }
+              {visibleCols.recipient && <td className={styles.td}>{order.recipient}</td>}
+              {visibleCols.phone && <td className={styles.td}>{order.phone}</td> }
+              {visibleCols.payAmount && <td className={styles.td}>{order.payAmount}</td>}
+              {visibleCols.status &&  <td className={styles.td}>
+                        <span className={`${styles.status} ${statusClass[order.status]}`}>
+                          {order.status}
+                        </span>
+                      </td>}
+              {visibleCols.vendor && <td className={styles.td}>{order.vendor}</td> }
+              {visibleCols.tpl && <td className={styles.td}>{order.tpl}</td> }
+              {visibleCols.deliveryAmount && <td className={styles.td}>{order.deliveryAmount}</td>}
+              {visibleCols.orderdate && <td className={styles.td}>{order.orderdate}</td> }
+              {visibleCols.orderimg && <td className={styles.td}>{order.orderimg}</td> }
+            </tr>
+          ))}
+              </tbody>
            </table>
     </div>
 <Pagination className='pagination'
