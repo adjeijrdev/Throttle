@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "./DailyDelivery.css";
 import Pagination from "./Pagination";
+import styles from "./DailyDelivery.module.css";
 
 
 export default function DailyDelivery(props) {
@@ -12,94 +12,195 @@ export default function DailyDelivery(props) {
     };
 
 
-  const orders = [
-    { id: "ORD-001", date: "2023-10-01", destination: "Accra", vendor: "Vendor A", amount: "GHS 120", status: "Completed", recipient: "John Doe", deliveryDate: "2023-10-03" },
-    { id: "ORD-002", date: "2024-08-21", destination: "Tema", vendor: "Vendor B", amount: "GHS 250", status: "Returned", recipient: "Zoe Doe", deliveryDate: "2024-08-23" },
-    { id: "ORD-003", date: "2025-05-11", destination: "Teshie", vendor: "Vendor K", amount: "GHS 300", status: "In Progress", recipient: "Maya Doe", deliveryDate: "2025-06-11" },
-    { id: "ORD-001", date: "2023-10-01", destination: "Accra", vendor: "Vendor A", amount: "GHS 120", status: "Failed", recipient: "John Doe", deliveryDate: "2023-10-03" },
-    { id: "ORD-002", date: "2024-08-21", destination: "Tema", vendor: "Vendor B", amount: "GHS 250", status: "Rejected", recipient: "Zoe Doe", deliveryDate: "2024-08-23" },
-    { id: "ORD-003", date: "2025-05-11", destination: "Teshie", vendor: "Vendor K", amount: "GHS 300", status: "Assigned", recipient: "Maya Doe", deliveryDate: "2025-06-11" },
-    { id: "ORD-001", date: "2023-10-01", destination: "Accra", vendor: "Vendor A", amount: "GHS 120", status: "Completed", recipient: "John Doe", deliveryDate: "2023-10-03" },
-    { id: "ORD-002", date: "2024-08-21", destination: "Tema", vendor: "Vendor B", amount: "GHS 250", status: "Returned", recipient: "Zoe Doe", deliveryDate: "2024-08-23" },
-    { id: "ORD-003", date: "2025-05-11", destination: "Teshie", vendor: "Vendor K", amount: "GHS 300", status: "In Progress", recipient: "Maya Doe", deliveryDate: "2025-06-11" },
-    { id: "ORD-001", date: "2023-10-01", destination: "Accra", vendor: "Vendor A", amount: "GHS 120", status: "Failed", recipient: "John Doe", deliveryDate: "2023-10-03" },
-    { id: "ORD-002", date: "2024-08-21", destination: "Tema", vendor: "Vendor B", amount: "GHS 250", status: "Rejected", recipient: "Zoe Doe", deliveryDate: "2024-08-23" },
-    { id: "ORD-003", date: "2025-05-11", destination: "Teshie", vendor: "Vendor K", amount: "GHS 300", status: "Assigned", recipient: "Maya Doe", deliveryDate: "2025-06-11" },
-    // More rows...
-  ];
+  const allOrders = [
+   {
+     orderId: 'A0M600',
+     dateTime: '21-12-2024, 01:53',
+     destination: 'Tema newton, Hse No 36b, Greater Accra',
+     recipient: 'Ama Nelson',
+     phone: '+233 54 786 6565',
+     amount: 'GHC350.00',
+     status: 'Completed',
+     vendor: 'Ishtari Ghana',
+     tpl: 'Robert',
+   },
+   {
+     orderId: 'A0M600',
+     dateTime: '21-12-2024, 01:53',
+     destination: 'Tema newton, Hse No 36b, Greater Accra',
+     recipient: 'Ama Nelson',
+     phone: '+233 54 786 6565',
+     amount: 'GHC350.00',
+     status: 'Rejected',
+     vendor: 'Ishtari Ghana',
+     tpl: 'Robert',
+   },
+    {
+     orderId: 'A0M600',
+     dateTime: '21-12-2024, 01:53',
+     destination: 'Tema newton, Hse No 36b, Greater Accra',
+     recipient: 'Ama Nelson',
+     phone: '+233 54 786 6565',
+     amount: 'GHC350.00',
+     status: 'In Progress',
+     vendor: 'Ishtari Ghana',
+     tpl: 'Robert',
+   },
+    {
+     orderId: 'A0M600',
+     dateTime: '21-12-2024, 01:53',
+     destination: 'Tema newton, Hse No 36b, Greater Accra',
+     recipient: 'Ama Nelson',
+     phone: '+233 54 786 6565',
+     amount: 'GHC350.00',
+     status: 'Completed',
+     vendor: 'Ishtari Ghana',
+     tpl: 'Robert',
+   },
+    {
+     orderId: 'A0M600',
+     dateTime: '21-12-2024, 01:53',
+     destination: 'Tema newton, Hse No 36b, Greater Accra',
+     recipient: 'Ama Nelson',
+     phone: '+233 54 786 6565',
+     amount: 'GHC350.00',
+     status: 'Failed',
+     vendor: 'Ishtari Ghana',
+     tpl: 'Robert',
+   },
+    {
+     orderId: 'A0M600',
+     dateTime: '21-12-2024, 01:53',
+     destination: 'Tema newton, Hse No 36b, Greater Accra',
+     recipient: 'Ama Nelson',
+     phone: '+233 54 786 6565',
+     amount: 'GHC350.00',
+     status: 'Assigned',
+     vendor: 'Ishtari Ghana',
+     tpl: 'Robert',
+   },
+    {
+     orderId: 'A0M600',
+     dateTime: '21-12-2024, 01:53',
+     destination: 'Tema newton, Hse No 36b, Greater Accra',
+     recipient: 'Ama Nelson',
+     phone: '+233 54 786 6565',
+     amount: 'GHC350.00',
+     status: 'Returned',
+     vendor: 'Ishtari Ghana',
+     tpl: 'Robert',
+   },
+   // Add more data...
+ ];
+ 
+ const filterOptions = [
+   'All',
+   'Order Placed',
+   'In Progress',
+   'Assigned',
+   'Completed',
+   'Returned',
+   'Failed',
+   'Rejected',
+ ];
+ 
+ const statusClass = {
+   Completed: styles.completed,
+   Rejected: styles.rejected,
+   'In Progress': styles.inProgress,
+   Failed: styles.failed,
+   Assigned: styles.assigned,
+   Returned: styles.returned,
+ };
 
   const [enteredDate,setEnteredDate]= useState('');
 
   const dateChangeHandler = (event) =>{
     setEnteredDate(event.target.value); 
 };
+const [filter, setFilter] = useState('All');
+
+  const filteredOrders =
+    filter === 'All'
+      ? allOrders
+      : allOrders.filter((order) => order.status === filter);
   return  (
   <div className="dashboard-content">
      
 
-  <div className="overview_container">
+  <div  style={{ display: 'flex',gap:'3rem'}}>
   <div className="overview">Daily Orders</div> 
-  <div className="button_container">
+  {/* <div style={{ display: 'flex', float:'right', marginBottom:'2%'}}>
   <button className="export_button">Export</button>
   <button className="filter_button">Filter</button>
-  <div className="date__control">
-                    <input type='date' min= "2019-01-01" max="2050-12-31"
+                    <input className="date" type='date' min= "2019-01-01" max="2050-12-31"
                     value={enteredDate} 
                      onChange={dateChangeHandler}/>
-                </div>
-  </div>
+              
+  </div> */}
   </div>
           <div className="overviewtext">Visual summary of key sales performance metrics and your data</div>
           
 {/* Orders Table */}
-<div className="table-container">
-<table className="orders-table">
-  <thead>
-    
-    <tr className="thead-row-one">
-      <th>All</th>
-      <th>Order Placed</th>
-      <th>In Progress</th>
-      <th>Assigned</th>
-      <th>completed</th>
-      <th>Returned</th>
-      <th>Failed</th>
-      <th>Rejected</th>
-    </tr>
-    
-    <tr className="thead-row-two">
-      <th>Order Date</th>
-      <th>Order ID</th>
-      <th>Destination</th>
-      <th>Vendor</th>
-      <th>Amount</th>
-      <th>Status</th>
-      <th>Recipient</th>
-      <th>Delivery Date</th>
-      {/* More headers... */}
-    </tr>
-  </thead>
-  <tbody>
-    {orders.map((order) => (
-      <tr key={order.id}>
-        <td>{order.date}</td>
-        <td>{order.id}</td>
-        <td>{order.destination}</td>
-        <td>{order.vendor}</td>
-        <td>{order.amount}</td>
-        <td>{order.status}</td>
-        <td>{order.recipient}</td>
-        <td>{order.deliveryDate}</td>
-        {/* More cells... */}
-      </tr>
-    ))}
-  </tbody>
-</table>
+<div className={styles.tableContainer}>
+      {/* Filter Row */}
+      <div className={styles.filters}>
+        {filterOptions.map((option) => (
+          <button
+            key={option}
+            onClick={() => setFilter(option)}
+            className={`${styles.filterButton} ${
+              filter === option ? styles.activeFilter : ''
+            }`}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+
+      {/* Table */}
+      <table className={styles.table}>
+        <thead className={styles.header}>
+          <tr>
+            <th className={styles.thSmall}>Map</th>
+            <th className={styles.th}>Order Date, Time</th>
+            <th className={styles.th}>Order ID</th>
+            <th className={styles.th}>Destination</th>
+            <th className={styles.th}>Recipient</th>
+            <th className={styles.th}>Recipient's Tel</th>
+            <th className={styles.th}>Payment Amt</th>
+            <th className={styles.th}>Status</th>
+            <th className={styles.th}>Vendor</th>
+            <th className={styles.th}>3PLs</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredOrders.map((order, index) => (
+            <tr key={index}>
+              <td className={styles.td}>📍</td>
+              <td className={styles.td}>{order.dateTime}</td>
+              <td className={styles.td}>{order.orderId}</td>
+              <td className={styles.td}>{order.destination}</td>
+              <td className={styles.td}>{order.recipient}</td>
+              <td className={styles.td}>{order.phone}</td>
+              <td className={styles.td}>{order.amount}</td>
+              <td className={styles.td}>
+                <span className={`${styles.status} ${statusClass[order.status]}`}>
+                  {order.status}
+                </span>
+              </td>
+              <td className={styles.td}>{order.vendor}</td>
+              <td className={styles.td}>{order.tpl}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
 <Pagination className='pagination'
       currentPage={currentPage}
       totalPages={totalPages}
       onPageChange={handlePageChange}/>
-</div>
+
 </div>
 );
 }
