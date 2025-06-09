@@ -24,6 +24,8 @@
   width: 75%;
   height: 100vh;
   background-color: var(--clr-white);
+  box-shadow: -10px 0px 100px  var(--logo-color);
+
 }
 .register-text-left {
   width: 100%;
@@ -61,10 +63,12 @@
   width: 38rem;
   margin: 5rem auto;
 }
+
+/* THE WHITE PART  */
 .registring-part-form-contianer {
  padding-top: 5rem;
-  width: 110rem;
-  height: 63rem;
+  width: 100rem;
+  height: 62rem;
   min-width: 109.3rem;
   background-color: var(--clr-white);
   border-radius: 4px;

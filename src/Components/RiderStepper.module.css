@@ -80,6 +80,13 @@
   font-size: 0.875rem;
 }
 
+/* CONTAINER FOR THE FORM INPUTS */
+.form-input-container{
+  width: auto;
+  height: 28rem;
+  /* background-color: black; */
+}
+
 /* FORM STYLING */
 .form-grid {
   display: grid;

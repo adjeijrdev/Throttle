@@ -80,6 +80,13 @@
   font-size: 0.875rem;
 }
 
+/* CONTAINER FOR THE FORM INPUTS */
+.form-input-container{
+  width: auto;
+  height: 28rem;
+  /* background-color: black; */
+}
+
 /* FORM STYLING */
 .form-grid {
   display: grid;
@@ -125,7 +132,7 @@
   border: 1px solid var(--main-theme);
   background-color: var(--input-background);
   border-radius: 1.1rem;
-  font-size: 1rem;
+  font-size: 1.4rem;
 }
 .form-group input::placeholder {
   color: var(--main-theme);
@@ -138,7 +145,7 @@
   border: 1px solid #065f46;
   background-color: #cce1db;
   border-radius: 0.75rem;
-  font-size: 1rem;
+  font-size: 1.4rem;
   width: 35rem;
 }
 
@@ -309,6 +316,7 @@ input[type="tel"] {
   border: none;
   padding: 0.3rem;
   background-color: transparent;
+  font-size: 1.4rem
 
 }
 .Account-details-password input::placeholder{
