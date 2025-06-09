@@ -118,6 +118,104 @@ export default function Dashboard(props) {
     orderdate:'21-12-2024',
     orderimg:'',
   },
+   {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'21-12-2024',
+    orderimg:'',
+  },
+  {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Rejected',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'21-12-2024',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'In Progress',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'21-12-2024',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'21-12-2024',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Failed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'21-12-2024',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Assigned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'21-12-2024',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '21-12-2024, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Returned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'21-12-2024',
+    orderimg:'',
+  }
   // Add more data...
 ];
 
@@ -283,13 +381,14 @@ const handleCancel = () => {
          
 
 
- <div style={{ display: 'flex', gap: '3rem', marginTop:'2%', marginBottom:'2%' }}>
+ <div style={{ display: 'flex', flexGrow:'inherit', gap: '2.5rem', marginTop:'2%', marginBottom:'2%' }}>
       <StatCard
         title="All Orders"
         value={countByStatus()}
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="white"
+         bordercolor="1px solid gray"
       />
        <StatCard
         title="Order Completed"
@@ -297,6 +396,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#C3F9D5"
+        bordercolor="1px solid #19D256"
       />
        <StatCard
         title="Order Failed"
@@ -304,6 +404,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#FF9ABA"
+         bordercolor="1px solid #FF1861"
       />
        <StatCard
         title="Order Rejected"
@@ -311,6 +412,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#FFC9C9"
+         bordercolor="1px solid #FF8787"
       />
        <StatCard
         title="Order in Progress"
@@ -318,6 +420,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#88AEF1"
+         bordercolor="1px solid #1158D3"
       />
        <StatCard
         title="Order Assigned"
@@ -325,6 +428,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#FFEC8B"
+         bordercolor="1px solid #DBBA11"
       />
        <StatCard
         title="Order Returned"
@@ -332,6 +436,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#AFAFAF"
+         bordercolor="1px solid #737373"
       />
     </div>
 
@@ -342,7 +447,8 @@ const handleCancel = () => {
      </div>
    
      <div style={{ display: 'flex', gap: '2rem', padding:'1rem'}}>
-    <button  onClick={clearFilters}  style={{borderRadius:'1rem',border:'none', backgroundColor:'white', padding:'0.8rem', width:'15rem'}}> Clear All Filters</button>
+    <button  onClick={clearFilters}  style={{borderRadius:'1rem',border:'none', backgroundColor:'white',
+       padding:'0.8rem', width:'15rem', alignItems:'center', justifyContent:'center'}}> Clear All Filters</button>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
   <div className={styles.exportContainer}>
     <button onClick={toggleDropdown} className={styles.exportButton}>
@@ -383,7 +489,8 @@ const handleCancel = () => {
           
 {/* Orders Table */}
 
- <div className={styles.tableContainer}>
+ <div className={styles.tableContainerOuter}>
+  <div className={styles.tableContainer}>
       {/* Filter Row */}
       <div className={styles.filters}>
         {filterOptions.map((option) => (
@@ -444,6 +551,7 @@ const handleCancel = () => {
       </table>
     </div>
 
+ </div>
 
 <Pagination className='pagination'
       currentPage={currentPage}

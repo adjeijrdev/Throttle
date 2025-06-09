@@ -302,7 +302,8 @@ const handleCancel = () => {
      </div>
           
 {/* Orders Table */}
-<div className={styles.tableContainer}>
+ <div className={styles.tableContainerOuter}>
+  <div className={styles.tableContainer}>
       {/* Filter Row */}
       <div className={styles.filters}>
         {filterOptions.map((option) => (
@@ -319,50 +320,51 @@ const handleCancel = () => {
       </div>
 
       {/* Table */}
-     <table className={styles.table}>
-             <thead className={styles.header}>
-            <tr>
-           {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
-            {visibleCols.dateTime && <th className={styles.th}>Order Date, Time</th> }
-            {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
-            {visibleCols.destination &&  <th className={styles.th}>Destination</th>}
-            {visibleCols.recipient && <th className={styles.th}>Recipient</th>}
-            {visibleCols.phone && <th className={styles.th}>Recipient's Tel</th> }
-            {visibleCols.payAmount && <th className={styles.th}>Payment Amt</th>}
-            {visibleCols.status && <th className={styles.th}>Status</th> }
-            {visibleCols.vendor &&  <th className={styles.th}>Vendor</th>}
-            {visibleCols.tpl &&   <th className={styles.th}>3PLs</th>}
-            {visibleCols.deliveryAmount && <th className={styles.th}>Delivery Fee</th>}
-            {visibleCols.orderdate &&   <th className={styles.th}>Delivery Date</th>}
-            {visibleCols.orderimg &&   <th className={styles.th}>Order Image</th>}
-                  </tr>
-             </thead>
-     
-          <tbody>
-               {filteredOrders.map((order, index) => (
-               <tr key={index}>
-              {visibleCols.map && <td className={styles.td}>📍</td>}
-              {visibleCols.dateTime && <td className={styles.td}>{order.dateTime}</td>}
-              {visibleCols.orderId && <td className={styles.td}>{order.orderId}</td>}
-              {visibleCols.destination && <td className={styles.td}>{order.destination}</td> }
-              {visibleCols.recipient && <td className={styles.td}>{order.recipient}</td>}
-              {visibleCols.phone && <td className={styles.td}>{order.phone}</td> }
-              {visibleCols.payAmount && <td className={styles.td}>{order.payAmount}</td>}
-              {visibleCols.status &&  <td className={styles.td}>
-                        <span className={`${styles.status} ${statusClass[order.status]}`}>
-                          {order.status}
-                        </span>
-                      </td>}
-              {visibleCols.vendor && <td className={styles.td}>{order.vendor}</td> }
-              {visibleCols.tpl && <td className={styles.td}>{order.tpl}</td> }
-              {visibleCols.deliveryAmount && <td className={styles.td}>{order.deliveryAmount}</td>}
-              {visibleCols.orderdate && <td className={styles.td}>{order.orderdate}</td> }
-              {visibleCols.orderimg && <td className={styles.td}>{order.orderimg}</td> }
-            </tr>
-          ))}
-              </tbody>
-           </table>
+      <table className={styles.table}>
+        <thead className={styles.header}>
+           <tr>
+   {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
+    {visibleCols.dateTime && <th className={styles.th}>Order Date, Time</th> }
+    {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
+    {visibleCols.destination &&  <th className={styles.th}>Destination</th>}
+    {visibleCols.recipient && <th className={styles.th}>Recipient</th>}
+    {visibleCols.phone && <th className={styles.th}>Recipient's Tel</th> }
+    {visibleCols.payAmount && <th className={styles.th}>Payment Amt</th>}
+    {visibleCols.status && <th className={styles.th}>Status</th> }
+    {visibleCols.vendor &&  <th className={styles.th}>Vendor</th>}
+    {visibleCols.tpl &&   <th className={styles.th}>3PLs</th>}
+    {visibleCols.deliveryAmount && <th className={styles.th}>Delivery Fee</th>}
+    {visibleCols.orderdate &&   <th className={styles.th}>Delivery Date</th>}
+    {visibleCols.orderimg &&   <th className={styles.th}>Order Image</th>}
+          </tr>
+      </thead>
+        <tbody>
+       {filteredOrders.map((order, index) => (
+       <tr key={index}>
+      {visibleCols.map && <td className={styles.td}>📍</td>}
+      {visibleCols.dateTime && <td className={styles.td}>{order.dateTime}</td>}
+      {visibleCols.orderId && <td className={styles.td}>{order.orderId}</td>}
+      {visibleCols.destination && <td className={styles.td}>{order.destination}</td> }
+      {visibleCols.recipient && <td className={styles.td}>{order.recipient}</td>}
+      {visibleCols.phone && <td className={styles.td}>{order.phone}</td> }
+      {visibleCols.payAmount && <td className={styles.td}>{order.payAmount}</td>}
+      {visibleCols.status &&  <td className={styles.td}>
+                <span className={`${styles.status} ${statusClass[order.status]}`}>
+                  {order.status}
+                </span>
+              </td>}
+      {visibleCols.vendor && <td className={styles.td}>{order.vendor}</td> }
+      {visibleCols.tpl && <td className={styles.td}>{order.tpl}</td> }
+      {visibleCols.deliveryAmount && <td className={styles.td}>{order.deliveryAmount}</td>}
+      {visibleCols.orderdate && <td className={styles.td}>{order.orderdate}</td> }
+      {visibleCols.orderimg && <td className={styles.td}>{order.orderimg}</td> }
+    </tr>
+  ))}
+      </tbody>
+      </table>
     </div>
+
+ </div>
 <Pagination className='pagination'
       currentPage={currentPage}
       totalPages={totalPages}
