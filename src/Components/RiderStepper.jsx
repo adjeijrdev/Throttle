@@ -156,7 +156,7 @@ const Stepper = ({ name }) => {
                   : ""
               }`}
             >
-              {index < currentStep ? <img src={check} /> : index + 1}
+              {index < currentStep ? < img src={check} /> : index + 1}
             </div>
             <p className={style["step-label"]}>{label}</p>
           </div>
@@ -167,29 +167,29 @@ const Stepper = ({ name }) => {
           {currentStep === 0 && (
             <div className={style["form-grid"]}>
               <div className={style["form-group"]}>
-                <label>Business Name</label>
+                <label>Full name<sup>*</sup></label>
                 <input
                   type="text"
                   name="businessname"
                   value={formData.businessname}
                   onChange={handleChange}
                   placeholder="business name"
+                  required
                 />
               </div>
-              <div className={style["form-group"]}>
-                <label>Business Address</label>
-                <input
-                  type="text"
-                  name="businessaddress"
-                  value={formData.businessaddress}
-                  onChange={handleChange}
-                  placeholder="address"
-                />
+             <div className={style["form-flex"]}>
+               <label>Gender<sup>*</sup></label>
+               <div className={style.radio}>
+                < input type="radio" name="gender" id="male" />
+                <label htmlFor="male">Male </label>
+                <input type="radio" name="gender" id="female" />
+               <label htmlFor="female" > Female </label>
+               </div>
               </div>
               <div className={style["form-group"]}>
-                <label>Business Type (e.g. Electronics, Clothing)</label>
+                <label>Date of Birth<sup>*</sup> </label>
                 <input
-                  type="text"
+                  type="date"
                   name="businesstype"
                   value={formData.businesstype}
                   onChange={handleChange}
@@ -207,7 +207,7 @@ const Stepper = ({ name }) => {
                 />
               </div>
               <div className={style["form-group"]}>
-                <label>Business Registration Number</label>
+                <label>Driver License Number<sup>*</sup></label>
                 <input
                   type="text"
                   name="regnumber"
@@ -217,7 +217,7 @@ const Stepper = ({ name }) => {
                 />
               </div>
               <div className={style["form-group"]}>
-                <label>Years in Operation</label>
+                <label>ID Number</label>
                 <input
                   type="text"
                   name="years"

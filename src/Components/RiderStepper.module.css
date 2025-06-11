@@ -201,6 +201,55 @@ input[type="tel"] {
   border-radius: 4px;
   margin-top: 5px;
 }
+/* RADIO BUTTON */
+.form-flex{
+  margin-top:1.3em;
+}
+.form-flex label{
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+.form-flex .radio{
+  height: 4rem;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+input[type="radio"]{
+  display: none;
+}
+.radio label{
+  border: 1px solid var(--main-theme);
+  display: inline-flex;
+  align-items: center;
+  font-size:1.5em;
+  gap: 0.4em;
+  margin-right: 0.2em;
+  padding: 0.7rem 1.6rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+.radio label:before{
+  content: "";
+  width: 0.9em;
+  height: 0.9em;
+  gap:2em;
+  border-radius: 100%;
+  border: 1.8px solid var(--colorash);
+}
+input[type="radio"]:checked + label:before{
+  width: 0.5em;
+  height: 0.5em;
+  border: 1.5px solid var(--colorash);
+  background-color: var(--main-theme);
+  box-shadow: 0 0 0 1px var(--main-theme);
+}
+
+input[type="radio"]:checked + label{
+  background-color: var(--input-background);
+  
+}
 
 @media (max-width: 768px) {
   .form-grid {
