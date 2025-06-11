@@ -18,11 +18,35 @@ export default function Dashboard(props) {
       setCurrentPage(newPage);
     }
   };
+  const [filter, setFilter] = useState('All');
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [showDateFilter, setShowDateFilter] = useState(false);
+
+  const formatDate = (dateString) => {
+    try {
+      if (!dateString) return null;
+      const [day, month, year] = dateString.split('-');
+      return new Date(`${year}-${month}-${day}`);
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return null;
+    }
+  };
+   const [enteredDate,setEnteredDate]= useState('');
+
+  const dateChangeHandler = (event) =>{
+    setEnteredDate(event.target.value); 
+};
+
+const handleFilter = (date) => {
+  setSelectedDate(date);
+  setShowDateFilter(false);
+};
 
  const allOrders = [
   {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-12-10, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -31,12 +55,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-12-10',
     orderimg:'',
   },
   {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-12-10, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -45,12 +69,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-12-10',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-12-10, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -59,12 +83,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-12-10',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -73,12 +97,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -87,12 +111,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -101,12 +125,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -115,12 +139,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -129,12 +153,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
   {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -143,12 +167,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -157,12 +181,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -171,12 +195,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -185,12 +209,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -199,12 +223,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -213,7 +237,7 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   }
   // Add more data...
@@ -239,20 +263,45 @@ const statusClass = {
   Returned: styles.returned,
 };
 
-  const [enteredDate,setEnteredDate]= useState('');
-
-  const dateChangeHandler = (event) =>{
-    setEnteredDate(event.target.value); 
+// Add validation to your order data
+const validateOrderDates = (orders) => {
+  return orders.every(order => {
+    const [d, m, y] = order.orderdate.split('-');
+    return d && m && y && !isNaN(new Date(y, m-1, d));
+  });
 };
 
-const [filter, setFilter] = useState('All');
+console.log('Order dates valid:', validateOrderDates(allOrders));
 
-  const filteredOrders =
-    filter === 'All'
-      ? allOrders
-      : allOrders.filter((order) => order.status === filter);
+  // const filteredOrders = (filter === 'All' ? allOrders : allOrders.filter((order) => order.status === filter))
+  // .filter(order => {
+  //   if (!selectedDate) return true;
+  //   const orderDate = formatDate(order.orderdate);
+  //   return orderDate && orderDate.toDateString() === selectedDate.toDateString();
+  // });
 
-      const [showDropdown, setShowDropdown] = useState(false);
+  // Improved date filtering logic
+const filteredOrders = allOrders.filter(order => {
+  // Status filter
+  const statusMatch = filter === 'All' || order.status === filter;
+  
+  // Skip date filtering if no date selected
+   if (!selectedDate) return statusMatch;
+  
+  try {
+    // Convert both dates to YYYY-MM-DD format for comparison
+    const orderDateStr = order.orderdate; // Already in YYYY-MM-DD
+    const selectedDateStr = selectedDate.toISOString().split('T')[0];
+    
+    return statusMatch && (orderDateStr === selectedDateStr);
+  } catch (e) {
+    console.error('Date comparison error:', e);
+    return statusMatch;
+  }
+});
+
+
+  const [showDropdown, setShowDropdown] = useState(false);
 
 const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
@@ -327,9 +376,11 @@ const handleColChange = (key) => {
   setVisibleCols(prev => ({ ...prev, [key]: !prev[key] }));
 };
 
+// 5. Update your clearFilters function
 const clearFilters = () => {
   setEnteredDate('');
   setFilter('All');
+  setSelectedDate(null); // Add this to clear date filter
 };
 
 const countByStatus = (status) => {
@@ -337,18 +388,24 @@ const countByStatus = (status) => {
   return allOrders.filter(o => o.status === status).length;
 };
 
-const [showDateFilter, setShowDateFilter] = useState(false);
-
-// Handle filter action
-const handleFilter = (selectedDate) => {
-  console.log('Selected date:', selectedDate);
-  setShowDateFilter(false);
+const handleStatusFilter = (option) => {
+  setFilter(option);
+  setSelectedDate(null);
 };
+
+
 
 // Handle cancel action
 const handleCancel = () => {
   setShowDateFilter(false);
 };
+
+// Add this right before your return statement
+console.log('Filtering Debug:', {
+  selectedDate: selectedDate?.toISOString(),
+  filteredOrders: filteredOrders.map(o => o.orderdate)
+});
+
 
   return  (
   <div className="dashboard-content">
@@ -357,16 +414,14 @@ const handleCancel = () => {
       <div className={styles.overview}>Overview</div>
      <div className={styles.overviewtext}>Visual summary of key sales performance metrics and your data</div>
      </div>
-    {/* <div className={styles.date__control}>
-                    <input type='date' min= "2019-01-01" max="2050-12-31"
-                    value={enteredDate} 
-                     onChange={dateChangeHandler}/>
-    </div> */}
+    
 
     <div>
-    <button  className={styles.date__control} onClick={() => setShowDateFilter(true)}>
-      mm/dd/yyyy
-    </button>
+   <button className={styles.date__control} onClick={() => setShowDateFilter(true)}>
+  {selectedDate 
+    ? selectedDate.toISOString().split('T')[0] // Shows YYYY-MM-DD
+    : 'Select Date'}
+</button>
     
     {showDateFilter && (
       <div className="modal-overlay">
@@ -507,7 +562,8 @@ const handleCancel = () => {
       </div>
 
       {/* Table */}
-      <table className={styles.table}>
+       {filteredOrders.length > 0 ? (
+    <table className={styles.table}>
         <thead className={styles.header}>
            <tr>
    {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
@@ -548,7 +604,15 @@ const handleCancel = () => {
     </tr>
   ))}
       </tbody>
-      </table>
+      </table> 
+  ) : (
+    <div className={styles.noResults}>
+      {selectedDate 
+        ? `No orders found for ${selectedDate.toLocaleDateString()}`
+        : "No orders match your filters"}
+    </div>
+  )}
+      
     </div>
 
  </div>

@@ -1,23 +1,5 @@
-// import './Date.css'; 
-// function
-//  Date (props) {
-//     const month = props.date.toLocaleString('en-US',{month:'long'}); 
-//     const day = props.date.toLocaleString('en-US',{day:'2-digit'}); 
-//     const year = props.date.getFullYear(); 
-    
-//     return(
-//         <div className="filter-date">
-//             <div className="filter-date__month">{month}</div>
-//             <div className="filter-date__year">{year}</div>
-//             <div className="filter-date__day">{day}</div>
-//             </div>
-//     );
-// }
-// export default Date;
-
-
 import React, { useState } from 'react';
-import './DateFilter.css'; // Create this CSS file for styling
+import './DateFilter.css'; 
 
 const DateFilter = ({ onFilter, onCancel }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -89,7 +71,7 @@ const DateFilter = ({ onFilter, onCancel }) => {
   ];
 
   // Day names abbreviations
-  const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
   return (
     <div className="date-filter-container">
@@ -110,7 +92,7 @@ const DateFilter = ({ onFilter, onCancel }) => {
             <div className="month-picker">
               {monthNames.map((month, index) => (
                 <div 
-                  key={month} 
+                   key={`month-${index}`}
                   className="month-option"
                   onClick={() => {
                     const newDate = new Date(currentDate);
@@ -162,11 +144,11 @@ const DateFilter = ({ onFilter, onCancel }) => {
         )}
       </div>
       
-      <div className="day-names">
-        {dayNames.map(day => (
-          <div key={day} className="day-name">{day}</div>
-        ))}
-      </div>
+    <div className="day-names">
+  {dayNames.map((day, index) => (
+    <div key={`day-name-${index}`} className="day-name">{day}</div>
+  ))}
+</div>
       
       <div className="days-grid">
         {generateDays()}
