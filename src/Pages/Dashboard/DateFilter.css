@@ -209,3 +209,37 @@
   justify-content: center;
   z-index: 1000;
 }
+
+/* Range selection styles */
+.selected-start {
+  background-color: var(--main-theme);
+  color: white;
+  border-radius: 50% 0 0 50%;
+}
+
+.selected-end {
+  background-color: var(--main-theme);
+  color: white;
+  border-radius: 0 50% 50% 0;
+}
+
+.in-range {
+  background-color: var(--main-theme);
+}
+
+.selection-phase {
+  padding: 8px;
+  margin: 0 5px;
+  border-radius: 4px;
+}
+
+.selection-phase.active {
+  background-color: #0EA47A;
+  font-weight: bold;
+}
+
+.range-selection-info {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}

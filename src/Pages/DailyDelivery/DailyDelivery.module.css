@@ -156,8 +156,8 @@
   justify-content: center;
    padding: 0.8rem;
   border-radius: 0.8rem;
-  border: 0.1rem solid #ccc;
-  width: 15rem;
+  border: 0.1rem solid white;
+  /* width: 15rem; */
   background-color: white;
 }
 

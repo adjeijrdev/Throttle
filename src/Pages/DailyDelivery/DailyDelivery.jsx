@@ -17,6 +17,11 @@ export default function DailyDelivery(props) {
 
  const [filter, setFilter] = useState('All');
   const [selectedDate, setSelectedDate] = useState(null);
+  const [dateRange, setDateRange] = useState({
+  start: null,
+  end: null
+});
+const [selectionPhase, setSelectionPhase] = useState('start');
   const [showDateFilter, setShowDateFilter] = useState(false);
 
   const formatDate = (dateString) => {
@@ -35,10 +40,15 @@ export default function DailyDelivery(props) {
     setEnteredDate(event.target.value); 
 };
 
-const handleFilter = (date) => {
-  setSelectedDate(date);
+// In your handleFilter function:
+const handleFilter = (range) => {
+  if (range.start > range.end) {
+    alert('End date must be after start date');
+    return;
+  }
+  setDateRange(range);
   setShowDateFilter(false);
-};
+}
 
  const allOrders = [
   {
@@ -226,17 +236,22 @@ const filteredOrders = allOrders.filter(order => {
   // Status filter
   const statusMatch = filter === 'All' || order.status === filter;
   
-  // Skip date filtering if no date selected
-   if (!selectedDate) return statusMatch;
+  // Skip date filtering if no range selected
+  if (!dateRange.start || !dateRange.end) return statusMatch;
   
   try {
-    // Convert both dates to YYYY-MM-DD format for comparison
-    const orderDateStr = order.orderdate; // Already in YYYY-MM-DD
-    const selectedDateStr = selectedDate.toISOString().split('T')[0];
+    const orderDate = new Date(order.orderdate);
+    const start = new Date(dateRange.start);
+    const end = new Date(dateRange.end);
     
-    return statusMatch && (orderDateStr === selectedDateStr);
+    // Normalize times for comparison
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+    orderDate.setHours(0, 0, 0, 0);
+    
+    return statusMatch && (orderDate >= start && orderDate <= end);
   } catch (e) {
-    console.error('Date comparison error:', e);
+    console.error('Date range error:', e);
     return statusMatch;
   }
 });
@@ -321,7 +336,8 @@ const handleColChange = (key) => {
 const clearFilters = () => {
   setEnteredDate('');
   setFilter('All');
-  setSelectedDate(null); // Add this to clear date filter
+  setDateRange({ start: null, end: null }); // Clear both start and end dates
+  setSelectionPhase('start'); // Reset selection phase
 };
 
 const countByStatus = (status) => {
@@ -336,9 +352,10 @@ const handleStatusFilter = (option) => {
 
 
 
-// Handle cancel action
+// In your handleCancel function
 const handleCancel = () => {
   setShowDateFilter(false);
+  setSelectionPhase('start'); // Reset to start date selection
 };
 
 // Add this right before your return statement
@@ -350,8 +367,6 @@ console.log('Filtering Debug:', {
  
   return  (
   <div className="dashboard-content">
-     
-
  <div style={{maxWidth:'100%', display:'flex', justifyContent:'space-between',borderBottom:' 0.25rem solid #ddd', marginBottom:'1.5rem'}} >
      <div style={{display:'grid'}}>
        <div className={styles.overview}>Daily Orders</div>
@@ -394,10 +409,10 @@ console.log('Filtering Debug:', {
 
     <div>
    <button className={styles.date__control} onClick={() => setShowDateFilter(true)}>
-  {selectedDate 
-    ? selectedDate.toISOString().split('T')[0] // Shows YYYY-MM-DD
-    : 'Select Date'}
-</button>
+    {dateRange.start && dateRange.end
+      ? `${dateRange.start.toLocaleDateString()} - ${dateRange.end.toLocaleDateString()}`
+      : 'Select Date Range'}
+  </button>
     
     {showDateFilter && (
       <div className="modal-overlay">
