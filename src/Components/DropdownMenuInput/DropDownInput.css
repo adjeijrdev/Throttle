@@ -1,0 +1,68 @@
+:root {
+  --primary-color: #2e7d32;
+  --primary-hover: #27672b;
+  --border-radius: 12px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --bg-color: #fff;
+}
+
+.throttle-select-wrapper {
+  position: relative;
+  width: 300px;
+  margin: 20px auto;
+  font-family: "Poppins", sans-serif;
+}
+
+.throttle-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.throttle-input:focus {
+  border-color: var(--primary-hover);
+}
+
+.throttle-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: var(--bg-color);
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  box-shadow: var(--shadow);
+  z-index: 99;
+  display: none;
+}
+
+.throttle-dropdown.show {
+  display: block;
+}
+
+.throttle-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.throttle-item:hover {
+  background-color: #f5f5f5;
+}
+
+.throttle-item.selected {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.throttle-item.disabled {
+  color: #aaa;
+  cursor: default;
+}
