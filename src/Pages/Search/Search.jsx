@@ -3,6 +3,12 @@ import "./Search.css";
 import NewDelivery from "./NewDelivery";
 
 export default function Search() {
+   const [currentPage, setCurrentPage] = useState(3);
+    const totalPages = 5;
+
+    const handlePageChange = (newPage) => {
+      setCurrentPage(newPage);
+    };
   const [enteredDate, setEnteredDate] = useState('');
   const [enteredStatus, setEnteredStatus] = useState('');
 
