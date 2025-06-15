@@ -18,11 +18,46 @@ export default function Dashboard(props) {
       setCurrentPage(newPage);
     }
   };
+  const [filter, setFilter] = useState('All');
+  const [selectedDate, setSelectedDate] = useState(null);
+
+const [dateRange, setDateRange] = useState({
+  start: null,
+  end: null
+});
+const [selectionPhase, setSelectionPhase] = useState('start');
+  const [showDateFilter, setShowDateFilter] = useState(false);
+
+  const formatDate = (dateString) => {
+    try {
+      if (!dateString) return null;
+      const [day, month, year] = dateString.split('-');
+      return new Date(`${year}-${month}-${day}`);
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return null;
+    }
+  };
+   const [enteredDate,setEnteredDate]= useState('');
+
+  const dateChangeHandler = (event) =>{
+    setEnteredDate(event.target.value); 
+};
+
+// In your handleFilter function:
+const handleFilter = (range) => {
+  if (range.start > range.end) {
+    alert('End date must be after start date');
+    return;
+  }
+  setDateRange(range);
+  setShowDateFilter(false);
+};
 
  const allOrders = [
   {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-12-10, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -31,12 +66,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-12-10',
     orderimg:'',
   },
   {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-12-10, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -45,12 +80,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-12-10',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-12-10, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -59,12 +94,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-12-10',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -73,12 +108,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -87,12 +122,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -101,12 +136,12 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
    {
     orderId: 'A0M600',
-    dateTime: '21-12-2024, 01:53',
+    dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
@@ -115,9 +150,107 @@ export default function Dashboard(props) {
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
-    orderdate:'21-12-2024',
+    orderdate:'2024-10-30',
     orderimg:'',
   },
+   {
+    orderId: 'A0M600',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+  {
+    orderId: 'A0M600',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Rejected',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'In Progress',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Failed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Assigned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M600',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Returned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  }
   // Add more data...
 ];
 
@@ -141,20 +274,44 @@ const statusClass = {
   Returned: styles.returned,
 };
 
-  const [enteredDate,setEnteredDate]= useState('');
-
-  const dateChangeHandler = (event) =>{
-    setEnteredDate(event.target.value); 
+// Add validation to your order data
+const validateOrderDates = (orders) => {
+  return orders.every(order => {
+    const [d, m, y] = order.orderdate.split('-');
+    return d && m && y && !isNaN(new Date(y, m-1, d));
+  });
 };
 
-const [filter, setFilter] = useState('All');
+console.log('Order dates valid:', validateOrderDates(allOrders));
 
-  const filteredOrders =
-    filter === 'All'
-      ? allOrders
-      : allOrders.filter((order) => order.status === filter);
 
-      const [showDropdown, setShowDropdown] = useState(false);
+  // Improved date filtering logic
+const filteredOrders = allOrders.filter(order => {
+  // Status filter
+  const statusMatch = filter === 'All' || order.status === filter;
+  
+  // Skip date filtering if no range selected
+  if (!dateRange.start || !dateRange.end) return statusMatch;
+  
+  try {
+    const orderDate = new Date(order.orderdate);
+    const start = new Date(dateRange.start);
+    const end = new Date(dateRange.end);
+    
+    // Normalize times for comparison
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+    orderDate.setHours(0, 0, 0, 0);
+    
+    return statusMatch && (orderDate >= start && orderDate <= end);
+  } catch (e) {
+    console.error('Date range error:', e);
+    return statusMatch;
+  }
+});
+
+
+  const [showDropdown, setShowDropdown] = useState(false);
 
 const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
@@ -229,9 +386,12 @@ const handleColChange = (key) => {
   setVisibleCols(prev => ({ ...prev, [key]: !prev[key] }));
 };
 
+// 5. Update your clearFilters function
 const clearFilters = () => {
   setEnteredDate('');
   setFilter('All');
+  setDateRange({ start: null, end: null }); // Clear both start and end dates
+  setSelectionPhase('start'); // Reset selection phase
 };
 
 const countByStatus = (status) => {
@@ -239,18 +399,25 @@ const countByStatus = (status) => {
   return allOrders.filter(o => o.status === status).length;
 };
 
-const [showDateFilter, setShowDateFilter] = useState(false);
-
-// Handle filter action
-const handleFilter = (selectedDate) => {
-  console.log('Selected date:', selectedDate);
-  setShowDateFilter(false);
+const handleStatusFilter = (option) => {
+  setFilter(option);
+  setSelectedDate(null);
 };
 
-// Handle cancel action
+
+
+// In your handleCancel function
 const handleCancel = () => {
   setShowDateFilter(false);
+  setSelectionPhase('start'); // Reset to start date selection
 };
+
+// Add this right before your return statement
+console.log('Filtering Debug:', {
+  selectedDate: selectedDate?.toISOString(),
+  filteredOrders: filteredOrders.map(o => o.orderdate)
+});
+
 
   return  (
   <div className="dashboard-content">
@@ -259,16 +426,13 @@ const handleCancel = () => {
       <div className={styles.overview}>Overview</div>
      <div className={styles.overviewtext}>Visual summary of key sales performance metrics and your data</div>
      </div>
-    {/* <div className={styles.date__control}>
-                    <input type='date' min= "2019-01-01" max="2050-12-31"
-                    value={enteredDate} 
-                     onChange={dateChangeHandler}/>
-    </div> */}
 
     <div>
-    <button  className={styles.date__control} onClick={() => setShowDateFilter(true)}>
-      mm/dd/yyyy
-    </button>
+   <button className={styles.date__control} onClick={() => setShowDateFilter(true)}>
+  {dateRange.start && dateRange.end
+    ? `${dateRange.start.toLocaleDateString()} - ${dateRange.end.toLocaleDateString()}`
+    : 'Select Date Range'}
+</button>
     
     {showDateFilter && (
       <div className="modal-overlay">
@@ -283,13 +447,14 @@ const handleCancel = () => {
          
 
 
- <div style={{ display: 'flex', gap: '3rem', marginTop:'2%', marginBottom:'2%' }}>
+ <div style={{ display: 'flex', flexGrow:'inherit', gap: '2.5rem', marginTop:'2%', marginBottom:'2%' }}>
       <StatCard
         title="All Orders"
         value={countByStatus()}
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="white"
+         bordercolor="1px solid gray"
       />
        <StatCard
         title="Order Completed"
@@ -297,6 +462,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#C3F9D5"
+        bordercolor="1px solid #19D256"
       />
        <StatCard
         title="Order Failed"
@@ -304,6 +470,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#FF9ABA"
+         bordercolor="1px solid #FF1861"
       />
        <StatCard
         title="Order Rejected"
@@ -311,6 +478,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#FFC9C9"
+         bordercolor="1px solid #FF8787"
       />
        <StatCard
         title="Order in Progress"
@@ -318,6 +486,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#88AEF1"
+         bordercolor="1px solid #1158D3"
       />
        <StatCard
         title="Order Assigned"
@@ -325,6 +494,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#FFEC8B"
+         bordercolor="1px solid #DBBA11"
       />
        <StatCard
         title="Order Returned"
@@ -332,6 +502,7 @@ const handleCancel = () => {
         icon={HiOutlineClipboardList}
         change="+5.4% this week"
         bgColor="#AFAFAF"
+         bordercolor="1px solid #737373"
       />
     </div>
 
@@ -342,7 +513,8 @@ const handleCancel = () => {
      </div>
    
      <div style={{ display: 'flex', gap: '2rem', padding:'1rem'}}>
-    <button  onClick={clearFilters}  style={{borderRadius:'1rem',border:'none', backgroundColor:'white', padding:'0.8rem', width:'15rem'}}> Clear All Filters</button>
+    <button  onClick={clearFilters}  style={{borderRadius:'1rem',border:'none', backgroundColor:'white',
+       padding:'0.8rem', width:'15rem', alignItems:'center', justifyContent:'center'}}> Clear All Filters</button>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
   <div className={styles.exportContainer}>
     <button onClick={toggleDropdown} className={styles.exportButton}>
@@ -383,7 +555,8 @@ const handleCancel = () => {
           
 {/* Orders Table */}
 
- <div className={styles.tableContainer}>
+ <div className={styles.tableContainerOuter}>
+  <div className={styles.tableContainer}>
       {/* Filter Row */}
       <div className={styles.filters}>
         {filterOptions.map((option) => (
@@ -400,7 +573,8 @@ const handleCancel = () => {
       </div>
 
       {/* Table */}
-      <table className={styles.table}>
+       {filteredOrders.length > 0 ? (
+    <table className={styles.table}>
         <thead className={styles.header}>
            <tr>
    {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
@@ -441,9 +615,18 @@ const handleCancel = () => {
     </tr>
   ))}
       </tbody>
-      </table>
+      </table> 
+  ) : (
+    <div className={styles.noResults}>
+      {selectedDate 
+        ? `No orders found for ${selectedDate.toLocaleDateString()}`
+        : "No orders match your filters"}
+    </div>
+  )}
+      
     </div>
 
+ </div>
 
 <Pagination className='pagination'
       currentPage={currentPage}
