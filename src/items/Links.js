@@ -1,4 +1,4 @@
-import dashboard from "../Assets/icons/dashboard.png";
+import dashboard from "../Assets/icons/gdash.png";
 import dailyDelivery from "../Assets/icons/daily-delivery.png";
 import search from "../Assets/icons/search.png";
 import bulkSearchIcon from "../Assets/icons/Bulk-search.png";

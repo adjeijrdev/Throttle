@@ -240,15 +240,14 @@ const openFileDialog1 = () => {
                 </div>
               </div>
               <div className={style["form-group"]}>
-                <label>Country & City of Operation</label>
-                {/* <input
-                  type="text"
-                  name="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                  placeholder="country"
-                /> */}
-                < DropDownInput />
+                <label>ID Type<sup>*</sup></label>
+                <div className={style.option_container}>
+                   <select>
+                    <option >Choose ID type</option>
+                    <option value="Driver's License">Driver's License</option>
+                    <option value="Voter's ID">Voter's ID</option>
+                   </select>
+                </div>
               </div>
               <div className={style["form-group"]}>
                 <label>
