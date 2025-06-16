@@ -18,7 +18,7 @@ export default function HomeLayout() {
     <div className="main-container">
       <div className="left-side-bar">
         <div className="logo" onClick={() => navigate("/login")}>
-          <img src={Logo} alt="" />
+          <img src={Logo} alt="Logo" />
         </div>
         <div className="links">
           {SideNavLinks.map((Nav) => (
@@ -37,7 +37,8 @@ export default function HomeLayout() {
           </div>
         </div>
       </div>
-      <div className="main-working-space">
+
+      <div className="right-section">
         <div className="header">
           <div className="user-card">
             <div className="text">
@@ -47,6 +48,7 @@ export default function HomeLayout() {
             <div className="image"></div>
           </div>
         </div>
+
         <div className="working-box">
           <Outlet />
         </div>

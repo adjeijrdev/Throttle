@@ -141,15 +141,14 @@ export default function Login() {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-
-            {/* <input className="input" type="password" /> */}
+             <div className="remember-me"> <p>Forget Password?</p> </div>
           </div>
-          {/* <div className="remember-me"><p>Forget Password</p></div> */}
+         
           <div className="button-and-sign-up">
             <button onClick={() => navigate("/")}> Login </button>
             <div className="sign-up">
               <span>
-                Don't have an Account?{" "}
+                Don't have an Account?
                 <Link onClick={toggleModalOpen}> Register</Link>
                 <RegisterAppModal
                   isOpen={isModalOpen}

@@ -4,8 +4,7 @@ import { FiUsers } from 'react-icons/fi';
 
 const StatCard = ({ title, value, icon: Icon, change, bgColor = '#ffffff',bordercolor ='1px solid gray'}) => {
   return (
-    <div className={styles.card}  
-     style={{backgroundColor: bgColor, border: bordercolor}}>
+    <div className={styles.card}  style={{backgroundColor: bgColor, border: bordercolor}}>
       <div className={styles.iconWrapper}>
         {Icon && <Icon className={styles.icon} />}
       </div>

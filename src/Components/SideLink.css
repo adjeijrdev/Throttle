@@ -1,5 +1,6 @@
 .Link {
   width: 100%;
+  height: 6rem;
   max-height: 6rem;
   color: var(--clr-white);
   display: flex;
@@ -8,6 +9,9 @@
   padding: 1.6rem 2rem;
   /* background-color: aqua; */
   overflow: hidden;
+  margin: 0px;
+  /* border-top: 0.1rem solid var(--clr-white);
+  border-bottom: 0.2rem solid var(--clr-white); */
 }
 .Link a {
   text-decoration: none;
@@ -26,8 +30,9 @@ a {
   line-height: 1.4rem;
 }
 .Link img {
-  width: 18.854px;
-  height: 18.854px;
+  width: 17px;
+  height: 17px;
+  margin-right:5px;
   flex-shrink: 0;
 }
 
