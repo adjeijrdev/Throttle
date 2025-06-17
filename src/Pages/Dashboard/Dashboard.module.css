@@ -14,6 +14,7 @@
 }
 
 .table {
+  border-top-left-radius: 0 !important;
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 8px;
@@ -23,26 +24,7 @@
    background: #fbf8f8;
     box-shadow: 1rem var(--darker-gray);
 }
-/* Force top-left corner to be sharp (no radius) */
-.orderTable thead tr:first-child th:first-child {
-  border-top-left-radius: 0 !important;
-   background-clip: padding-box; /* helps prevent background from leaking under rounded corners */
-}
-/* .orderTable thead tr:first-child th:first-child {
-  border-top-left-radius: 12px;
-} */
 
-/* .orderTable thead tr:first-child th:last-child {
-  border-top-right-radius: 12px;
-}
-
-.orderTable tbody tr:last-child td:first-child {
-  border-bottom-left-radius: 12px;
-}
-
-.orderTable tbody tr:last-child td:last-child {
-  border-bottom-right-radius: 12px;
-} */
 
 .header {
  background-color:var(--main-theme);
@@ -122,6 +104,7 @@
 }
 .filters button:first-child {
   border-top-left-radius: 8px; 
+   border-bottom: 4px solid rgb(56, 54, 54);
 }
 
 .filters button:last-child {
@@ -130,7 +113,7 @@
 
 
 .filterButton:hover {
-  background-color: #c8faeb;
+   background-color: var(--input-background);
 }
 
 .activeFilter {

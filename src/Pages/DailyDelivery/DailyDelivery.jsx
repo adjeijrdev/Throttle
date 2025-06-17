@@ -5,6 +5,7 @@ import { Download,Eye, ChevronDown } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import DateFilter from "../Dashboard/DateFilter";
+import locationIcon from '../../Assets/icons/location.png';
 
 
 export default function DailyDelivery(props) {
@@ -224,13 +225,6 @@ const validateOrderDates = (orders) => {
 
 console.log('Order dates valid:', validateOrderDates(allOrders));
 
-  // const filteredOrders = (filter === 'All' ? allOrders : allOrders.filter((order) => order.status === filter))
-  // .filter(order => {
-  //   if (!selectedDate) return true;
-  //   const orderDate = formatDate(order.orderdate);
-  //   return orderDate && orderDate.toDateString() === selectedDate.toDateString();
-  // });
-
   // Improved date filtering logic
 const filteredOrders = allOrders.filter(order => {
   // Status filter
@@ -263,7 +257,7 @@ const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
 const exportToCSV = () => {
   const rows = filteredOrders.map((o) => ({
-    'Order Date, Time': o.dateTime,
+    'Pickup Date, Time': o.dateTime,
     'Order ID': o.orderId,
     Destination: o.destination,
     Recipient: o.recipient,
@@ -306,7 +300,7 @@ const exportToExcel = () => {
 
 const allColumns = [
   { key: 'map', label: 'Map' },
-  { key: 'dateTime', label: 'Order Date, Time' },
+  { key: 'dateTime', label: 'Pickup Date, Time' },
   { key: 'orderId', label: 'Order ID' },
   { key: 'destination', label: 'Destination' },
   { key: 'recipient', label: 'Recipient' },
@@ -450,7 +444,7 @@ console.log('Filtering Debug:', {
               <thead className={styles.header}>
                  <tr>
          {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
-          {visibleCols.dateTime && <th className={styles.th}>Order Date, Time</th> }
+          {visibleCols.dateTime && <th className={styles.th}>Pickup Date, Time</th> }
           {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
           {visibleCols.destination &&  <th className={styles.th}>Destination</th>}
           {visibleCols.recipient && <th className={styles.th}>Recipient</th>}
@@ -467,7 +461,8 @@ console.log('Filtering Debug:', {
               <tbody>
              {filteredOrders.map((order, index) => (
              <tr key={index}>
-            {visibleCols.map && <td className={styles.td}>📍</td>}
+            {/* {visibleCols.map && <td className={styles.td}>📍</td>} */}
+            {visibleCols.map && <td className={styles.td}> <img src={locationIcon} alt="Location Icon" style={{ width: '16px', height: '16px' }} /></td>}
             {visibleCols.dateTime && <td className={styles.td}>{order.dateTime}</td>}
             {visibleCols.orderId && <td className={styles.td}>{order.orderId}</td>}
             {visibleCols.destination && <td className={styles.td}>{order.destination}</td> }

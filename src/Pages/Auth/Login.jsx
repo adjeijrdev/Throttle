@@ -75,13 +75,13 @@ export default function Login() {
             <div className="radio-button">
               <input
                 type="radio"
-                id="Admin"
+                id="Staff"
                 name="option"
-                value="Admin"
-                checked={selectedOption === "Admin"}
+                value="Staff"
+                checked={selectedOption === "Staff"}
                 onChange={handleOptionChange}
               />
-              <label htmlFor="Admin">Admin</label>
+              <label htmlFor="Staff">Staff</label>
             </div>
             <div className="radio-button">
               <input
@@ -94,7 +94,7 @@ export default function Login() {
               />
               <label htmlFor="Vendor">Vendor</label>
             </div>
-            <div className="radio-button">
+            {/* <div className="radio-button">
               <input
                 type="radio"
                 id="Dispatcher"
@@ -104,17 +104,17 @@ export default function Login() {
                 onChange={handleOptionChange}
               />
               <label htmlFor="Dispatcher">Dispatcher</label>
-            </div>
+            </div> */}
             <div className="radio-button">
               <input
                 type="radio"
-                id="Rider"
+                id="3PL"
                 name="option"
-                value="Rider"
-                checked={selectedOption === "Rider"}
+                value="3PL"
+                checked={selectedOption === "3PL"}
                 onChange={handleOptionChange}
               />
-              <label htmlFor="Rider">Rider</label>
+              <label htmlFor="3PL">3PL</label>
             </div>
           </div>
           <div className="input-fields">
@@ -138,7 +138,7 @@ export default function Login() {
                 className="toggle-btn"
                 aria-label="Toggle Password"
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ?<FaEye /> :  <FaEyeSlash />}
               </button>
             </div>
              <div className="remember-me"> <p>Forget Password?</p> </div>
