@@ -93,6 +93,7 @@ a {
   color: white;
   text-decoration: none;
   height: 4.1rem;
+  border-bottom: 1px solid rgba(255,255,255, 0.1);
 }
 
 .child-link:hover{

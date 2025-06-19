@@ -2,7 +2,6 @@ import { useState, useRef } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import style from "./RiderStepper.module.css";
 
-
 //Importing in-application components
 import DropDownInput from "../Components/DropDownMenuInput/DropDownInput";
 
@@ -117,62 +116,61 @@ const Stepper = ({ name }) => {
     }
   };
 
- // Image Upload - First (0)
-const [image, setImage] = useState(null);
-const fileInputRef = useRef(null);
+  // Image Upload - First (0)
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
 
-const handleImage = (file) => {
-  if (file && file.type.startsWith("image/")) {
-    const imageUrl = URL.createObjectURL(file);
-    setImage({ file, url: imageUrl });
-  }
-};
+  const handleImage = (file) => {
+    if (file && file.type.startsWith("image/")) {
+      const imageUrl = URL.createObjectURL(file);
+      setImage({ file, url: imageUrl });
+    }
+  };
 
-const handleDrop = (e) => {
-  e.preventDefault();
-  if (e.dataTransfer.files.length > 0) {
-    handleImage(e.dataTransfer.files[0]);
-  }
-};
+  const handleDrop = (e) => {
+    e.preventDefault();
+    if (e.dataTransfer.files.length > 0) {
+      handleImage(e.dataTransfer.files[0]);
+    }
+  };
 
-const handleFileInputChange = (e) => {
-  if (e.target.files.length > 0) {
-    handleImage(e.target.files[0]);
-  }
-};
+  const handleFileInputChange = (e) => {
+    if (e.target.files.length > 0) {
+      handleImage(e.target.files[0]);
+    }
+  };
 
-const openFileDialog = () => {
-  fileInputRef.current.click();
-};
+  const openFileDialog = () => {
+    fileInputRef.current.click();
+  };
 
-// Image Upload - Second (1)
-const [image1, setImage1] = useState(null);
-const fileInputRef1 = useRef(null);
+  // Image Upload - Second (1)
+  const [image1, setImage1] = useState(null);
+  const fileInputRef1 = useRef(null);
 
-const handleImage1 = (file) => {
-  if (file && file.type.startsWith("image/")) {
-    const imageUrl1 = URL.createObjectURL(file);
-    setImage1({ file, url: imageUrl1 });
-  }
-};
+  const handleImage1 = (file) => {
+    if (file && file.type.startsWith("image/")) {
+      const imageUrl1 = URL.createObjectURL(file);
+      setImage1({ file, url: imageUrl1 });
+    }
+  };
 
-const handleDrop1 = (e) => {
-  e.preventDefault();
-  if (e.dataTransfer.files.length > 0) {
-    handleImage1(e.dataTransfer.files[0]);
-  }
-};
+  const handleDrop1 = (e) => {
+    e.preventDefault();
+    if (e.dataTransfer.files.length > 0) {
+      handleImage1(e.dataTransfer.files[0]);
+    }
+  };
 
-const handleFileInputChange1 = (e) => {
-  if (e.target.files.length > 0) {
-    handleImage1(e.target.files[0]);
-  }
-};
+  const handleFileInputChange1 = (e) => {
+    if (e.target.files.length > 0) {
+      handleImage1(e.target.files[0]);
+    }
+  };
 
-const openFileDialog1 = () => {
-  fileInputRef1.current.click();
-};
-
+  const openFileDialog1 = () => {
+    fileInputRef1.current.click();
+  };
 
   return (
     <form onSubmit={handleSubmit} className={style["form-container"]}>
@@ -236,17 +234,21 @@ const openFileDialog1 = () => {
                     onChange={handleChange}
                     placeholder="business type"
                   />
-                  <span><img src={Calendar} alt="calendar" /></span>
+                  <span>
+                    <img src={Calendar} alt="calendar" />
+                  </span>
                 </div>
               </div>
               <div className={style["form-group"]}>
-                <label>ID Type<sup>*</sup></label>
+                <label>
+                  ID Type<sup>*</sup>
+                </label>
                 <div className={style.option_container}>
-                   <select>
-                    <option >Choose ID type</option>
+                  <select>
+                    <option>Choose ID type</option>
                     <option value="Driver's License">Driver's License</option>
                     <option value="Voter's ID">Voter's ID</option>
-                   </select>
+                  </select>
                 </div>
               </div>
               <div className={style["form-group"]}>
@@ -262,7 +264,9 @@ const openFileDialog1 = () => {
                 />
               </div>
               <div className={style["form-group"]}>
-                <label>ID Number<sup>*</sup></label>
+                <label>
+                  ID Number<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="years"
@@ -271,14 +275,16 @@ const openFileDialog1 = () => {
                   placeholder="year"
                 />
               </div>
-              
             </div>
           )}
           {/* step 2- Contact Details */}
           {currentStep === 1 && (
             <div className={style["form-grid"]}>
               <div className={style["form-group"]}>
-                <label> Name<sup>*</sup></label>
+                <label>
+                  {" "}
+                  Name<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="vendorname"
@@ -289,7 +295,9 @@ const openFileDialog1 = () => {
                 />
               </div>
               <div className={style["form-group"]}>
-                <label>Email<sup>*</sup></label>
+                <label>
+                  Email<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="email"
@@ -300,7 +308,9 @@ const openFileDialog1 = () => {
                 />
               </div>
               <div className={style["form-group"]}>
-                <label>Phone Number<sup>*</sup></label>
+                <label>
+                  Phone Number<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="phone"
@@ -311,7 +321,9 @@ const openFileDialog1 = () => {
                 />
               </div>
               <div className={style["form-group"]}>
-                <label>Emergency Contact Name<sup>*</sup></label>
+                <label>
+                  Emergency Contact Name<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="website"
@@ -321,7 +333,9 @@ const openFileDialog1 = () => {
                 />
               </div>
               <div className={style["form-group"]}>
-                <label>Email Address<sup>*</sup></label>
+                <label>
+                  Email Address<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="phone"
@@ -331,7 +345,9 @@ const openFileDialog1 = () => {
                 />
               </div>
               <div className={style["form-group"]}>
-                <label>Emergency contact number<sup>*</sup></label>
+                <label>
+                  Emergency contact number<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="website"
@@ -344,9 +360,11 @@ const openFileDialog1 = () => {
           )}
           {currentStep === 2 && (
             <div className={style["form__grid1"]}>
-            {/* <label>Account Email</label> */}
-            <div className={style["form-group"]}>
-                <label>Vehicle Type and Model<sup>*</sup></label>
+              {/* <label>Account Email</label> */}
+              <div className={style["form-group"]}>
+                <label>
+                  Vehicle Type and Model<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="phone"
@@ -356,7 +374,9 @@ const openFileDialog1 = () => {
                 />
               </div>
               <div className={style["form-group"]}>
-                <label>Vehicle Registration Number<sup>*</sup></label>
+                <label>
+                  Vehicle Registration Number<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="website"
@@ -365,14 +385,15 @@ const openFileDialog1 = () => {
                   placeholder="Number"
                 />
               </div>
-              
-          </div>
+            </div>
           )}
           {/* Step 3 - Payment & Billing */}
           {currentStep === 3 && (
             <div className={style["form-grid"]}>
               <div className={style["form-group"]}>
-                <label>Bank Name<sup>*</sup></label>
+                <label>
+                  Bank Name<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="bankname"
@@ -382,7 +403,9 @@ const openFileDialog1 = () => {
                 />
               </div>
               <div className={style["form-group"]}>
-                <label>Mobile Money Name<sup>*</sup></label>
+                <label>
+                  Mobile Money Name<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="momoname"
@@ -392,7 +415,9 @@ const openFileDialog1 = () => {
                 />
               </div>
               <div className={style["form-group"]}>
-                <label>Bank Account Number<sup>*</sup></label>
+                <label>
+                  Bank Account Number<sup>*</sup>
+                </label>
                 <input
                   type="text"
                   name="banknumber"
@@ -416,73 +441,93 @@ const openFileDialog1 = () => {
 
           {/* Step 4 - Document Uploads */}
           {currentStep === 4 && (
-  <div className={style.gridbox}>
-    <div className={style.grid1}>
-      <div className={style["upload-container"]}>
-        <p>Drivers License<sup>*</sup></p>
-        <div
-          className={style["drop-box"]}
-          onDrop={handleDrop}
-          onDragOver={(e) => e.preventDefault()}
-          onDragEnter={(e) => e.preventDefault()}
-        >
-          {image ? (
-            <img src={image.url} alt="Preview" className={style["preview-image"]} />
-          ) : (
-            <img src={img} alt="image-vector" />
+            <div className={style.gridbox}>
+              <div className={style.grid1}>
+                <div className={style["upload-container"]}>
+                  <p>
+                    Drivers License<sup>*</sup>
+                  </p>
+                  <div
+                    className={style["drop-box"]}
+                    onDrop={handleDrop}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDragEnter={(e) => e.preventDefault()}
+                  >
+                    {image ? (
+                      <img
+                        src={image.url}
+                        alt="Preview"
+                        className={style["preview-image"]}
+                      />
+                    ) : (
+                      <img src={img} alt="image-vector" />
+                    )}
+                  </div>
+
+                  <button
+                    className={style["upload-button"]}
+                    onClick={openFileDialog}
+                  >
+                    Upload
+                  </button>
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    onChange={handleFileInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className={style.grid2}>
+                <div className={style["upload-container"]}>
+                  <p>
+                    National ID/Valid ID<sup>*</sup>
+                  </p>
+                  <div
+                    className={style["drop-box"]}
+                    onDrop={handleDrop1}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDragEnter={(e) => e.preventDefault()}
+                  >
+                    {image1 ? (
+                      <img
+                        src={image1.url}
+                        alt="Preview"
+                        className={style["preview-image"]}
+                      />
+                    ) : (
+                      <img src={img} alt="image-vector" />
+                    )}
+                  </div>
+
+                  <button
+                    className={style["upload-button"]}
+                    onClick={openFileDialog1}
+                  >
+                    Upload
+                  </button>
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef1}
+                    style={{ display: "none" }}
+                    onChange={handleFileInputChange1}
+                  />
+                </div>
+              </div>
+            </div>
           )}
-        </div>
-
-        <button className={style["upload-button"]} onClick={openFileDialog}>
-          Upload
-        </button>
-
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          style={{ display: "none" }}
-          onChange={handleFileInputChange}
-        />
-      </div>
-    </div>
-
-    <div className={style.grid2}>
-      <div className={style["upload-container"]}>
-        <p>National ID/Valid ID<sup>*</sup></p>
-        <div
-          className={style["drop-box"]}
-          onDrop={handleDrop1}
-          onDragOver={(e) => e.preventDefault()}
-          onDragEnter={(e) => e.preventDefault()}
-        >
-          {image1 ? (
-            <img src={image1.url} alt="Preview" className={style["preview-image"]} />
-          ) : (
-            <img src={img} alt="image-vector" />
-          )}
-        </div>
-
-        <button className={style["upload-button"]} onClick={openFileDialog1}>
-          Upload
-        </button>
-
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef1}
-          style={{ display: "none" }}
-          onChange={handleFileInputChange1}
-        />
-      </div>
-    </div>
-  </div>
-)}
 
           {/* Step 5 - Account Details */}
           {currentStep === 5 && (
             <div className={style["form__grid"]}>
-              <label>Account Email<sup>*</sup></label>
+              <label>
+                Account Email<sup>*</sup>
+              </label>
               <div
                 className={`${style["Account-details-password"]} ${style.email}`}
               >
@@ -495,7 +540,9 @@ const openFileDialog1 = () => {
                   placeholder="Enter your email"
                 />
               </div>
-              <label>Password<sup>*</sup></label>
+              <label>
+                Password<sup>*</sup>
+              </label>
               <div className={style["Account-details-password"]}>
                 <img src={padLock} alt="padlock" />
                 <input
@@ -513,7 +560,9 @@ const openFileDialog1 = () => {
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
-              <label>Confirm Password<sup>*</sup></label>
+              <label>
+                Confirm Password<sup>*</sup>
+              </label>
               <div className={style["Account-details-password"]}>
                 <img src={padLock} alt="padlock" />
                 <input
