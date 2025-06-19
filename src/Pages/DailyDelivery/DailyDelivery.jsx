@@ -1,12 +1,14 @@
 import { useState } from "react";
 import Pagination from "./Pagination";
 import styles from "./DailyDelivery.module.css";
-import { Download,Eye, ChevronDown } from 'lucide-react';
+import { Upload,Eye, ChevronDown } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import DateFilter from "../Dashboard/DateFilter";
 import locationIcon from '../../Assets/icons/location.png';
-
+import boxIcon from '../../Assets/icons/smallbox.png';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default function DailyDelivery(props) {
   const [currentPage, setCurrentPage] = useState(2);
@@ -41,7 +43,6 @@ const [selectionPhase, setSelectionPhase] = useState('start');
     setEnteredDate(event.target.value); 
 };
 
-// In your handleFilter function:
 const handleFilter = (range) => {
   if (range.start > range.end) {
     alert('End date must be after start date');
@@ -297,8 +298,92 @@ const exportToExcel = () => {
   setShowDropdown(false);
 };
 
+const exportToPDF = () => {
+  try {
+    // Check if there's data to export
+    if (!filteredOrders || filteredOrders.length === 0) {
+      alert('No orders to export');
+      setShowDropdown(false);
+      return;
+    }
+
+    // Initialize PDF document
+    const doc = new jsPDF({
+      orientation: 'landscape'
+    });
+
+    // Add title
+    doc.setFontSize(16);
+    doc.text('Orders Report', 14, 15);
+
+    // Prepare table data
+    const headers = [
+      'Date/Time',
+      'Order ID',
+      'Destination',
+      'Recipient',
+      'Phone',
+      'Amount',
+      'Status',
+      'Vendor',
+      '3PL',
+      'Delivery Fee',
+      'Delivery Date'
+    ];
+
+    const data = filteredOrders.map(order => [
+      order.dateTime || '',
+      order.orderId || '',
+      order.destination || '',
+      order.recipient || '',
+      order.phone || '',
+      order.payAmount || '',
+      order.status || '',
+      order.vendor || '',
+      order.tpl || '',
+      order.deliveryAmount || '',
+      order.orderdate || ''
+    ]);
+
+    // Generate the table
+    autoTable(doc,{
+      head: [headers],
+      body: data,
+      startY: 20,
+      styles: {
+        fontSize: 8,
+        cellPadding: 2,
+        overflow: 'linebreak'
+      },
+      headStyles: {
+        fillColor: [41, 128, 185],
+        textColor: [255, 255, 255],
+        fontStyle: 'bold'
+      }
+    });
+
+    // Save the PDF
+    doc.save('orders-report.pdf');
+    setShowDropdown(false);
+    
+  } catch (error) {
+    console.error('PDF export error:', error);
+    alert('Failed to generate PDF. Please check console for details.');
+    setShowDropdown(false);
+  }
+};
 
 const allColumns = [
+   {
+      key: 'box',
+      label: (
+        <img
+          src={boxIcon}
+          alt="box"
+          style={{ width: '14px', height: '14px', verticalAlign: 'middle' }}
+        />
+      ),
+    },
   { key: 'map', label: 'Map' },
   { key: 'dateTime', label: 'Pickup Date, Time' },
   { key: 'orderId', label: 'Order ID' },
@@ -326,7 +411,7 @@ const handleColChange = (key) => {
   setVisibleCols(prev => ({ ...prev, [key]: !prev[key] }));
 };
 
-// 5. Update your clearFilters function
+//  Update your clearFilters function
 const clearFilters = () => {
   setEnteredDate('');
   setFilter('All');
@@ -352,7 +437,6 @@ const handleCancel = () => {
   setSelectionPhase('start'); // Reset to start date selection
 };
 
-// Add this right before your return statement
 console.log('Filtering Debug:', {
   selectedDate: selectedDate?.toISOString(),
   filteredOrders: filteredOrders.map(o => o.orderdate)
@@ -367,15 +451,18 @@ console.log('Filtering Debug:', {
       <div className={styles.overviewtext}>Visual summary of key sales performance metrics and your data</div>
       </div>
        <div style={{ display: 'flex', gap: '2rem', padding:'1rem'}}>
+          <button  onClick={clearFilters}  style={{borderRadius:'1rem',border:'none', backgroundColor:'white',
+       padding:'0.8rem', width:'15rem', alignItems:'center', justifyContent:'center'}}> Clear All Filters</button>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div className={styles.exportContainer}>
             <button onClick={toggleDropdown} className={styles.exportButton}>
-              <Download size={16} /> Export <ChevronDown size={16} />
+              <Upload size={16} /> Export <ChevronDown size={16} />
             </button>
             {showDropdown && (
               <div className={styles.dropdownMenu}>
                 <div className={styles.dropdownItem} onClick={exportToCSV}>Export CSV</div>
                 <div className={styles.dropdownItem} onClick={exportToExcel}>Export Excel</div>
+                <div className={styles.dropdownItem} onClick={exportToPDF}>Export PDF</div>
               </div>
             )}
           </div>
@@ -443,6 +530,11 @@ console.log('Filtering Debug:', {
           <table className={styles.table}>
               <thead className={styles.header}>
                  <tr>
+                  {visibleCols.box && (
+                    <th className={styles.th}>
+                      <img src={boxIcon} alt="box Icon" style={{ width: '12px', height: '12px',filter: 'brightness(0) invert(1)' }} />
+                    </th>
+                  )}
          {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
           {visibleCols.dateTime && <th className={styles.th}>Pickup Date, Time</th> }
           {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
@@ -462,6 +554,7 @@ console.log('Filtering Debug:', {
              {filteredOrders.map((order, index) => (
              <tr key={index}>
             {/* {visibleCols.map && <td className={styles.td}>📍</td>} */}
+            {visibleCols.box && <td className={styles.td}> <img src={boxIcon} alt="box Icon" style={{ width: '12px', height: '12px' }} /></td>}
             {visibleCols.map && <td className={styles.td}> <img src={locationIcon} alt="Location Icon" style={{ width: '16px', height: '16px' }} /></td>}
             {visibleCols.dateTime && <td className={styles.td}>{order.dateTime}</td>}
             {visibleCols.orderId && <td className={styles.td}>{order.orderId}</td>}

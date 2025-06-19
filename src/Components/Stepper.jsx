@@ -386,7 +386,7 @@ const Stepper = ({ name }) => {
                   onClick={toggleVisibility}
                   className={style["toggle - btn"]}
                 >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  {showPassword ?<FaEye />  : <FaEyeSlash />}
                 </button>
               </div>
               <label>Confirm Password</label>
@@ -404,7 +404,7 @@ const Stepper = ({ name }) => {
                   onClick={toggleVisibility1}
                   className={style["toggle - btn"]}
                 >
-                  { showPassword1 ? <FaEyeSlash /> : <FaEye />}
+                  { showPassword1 ? <FaEye /> : <FaEyeSlash />}
                 </button>
               </div>
             </div>

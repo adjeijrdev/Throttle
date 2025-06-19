@@ -1,15 +1,16 @@
 import { useState } from "react";
 import styles from"./Dashboard.module.css";
 import Pagination from "./Pagination";
-
 import StatCard from './StatCard';
 import { HiOutlineClipboardList } from 'react-icons/hi';
-import { Download,Eye, ChevronDown } from 'lucide-react';
+import { Upload,Eye, ChevronDown } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import DateFilter from './DateFilter';
 import locationIcon from '../../Assets/icons/location.png';
-
+import boxIcon from '../../Assets/icons/smallbox.png';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default function Dashboard(props) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,7 +47,6 @@ const [selectionPhase, setSelectionPhase] = useState('start');
     setEnteredDate(event.target.value); 
 };
 
-// In your handleFilter function:
 const handleFilter = (range) => {
   if (range.start > range.end) {
     alert('End date must be after start date');
@@ -359,8 +359,92 @@ const exportToExcel = () => {
   setShowDropdown(false);
 };
 
+const exportToPDF = () => {
+  try {
+    // Check if there's data to export
+    if (!filteredOrders || filteredOrders.length === 0) {
+      alert('No orders to export');
+      setShowDropdown(false);
+      return;
+    }
+
+    // Initialize PDF document
+    const doc = new jsPDF({
+      orientation: 'landscape'
+    });
+
+    // Add title
+    doc.setFontSize(16);
+    doc.text('Orders Report', 14, 15);
+
+    // Prepare table data
+    const headers = [
+      'Date/Time',
+      'Order ID',
+      'Destination',
+      'Recipient',
+      'Phone',
+      'Amount',
+      'Status',
+      'Vendor',
+      '3PL',
+      'Delivery Fee',
+      'Delivery Date'
+    ];
+
+    const data = filteredOrders.map(order => [
+      order.dateTime || '',
+      order.orderId || '',
+      order.destination || '',
+      order.recipient || '',
+      order.phone || '',
+      order.payAmount || '',
+      order.status || '',
+      order.vendor || '',
+      order.tpl || '',
+      order.deliveryAmount || '',
+      order.orderdate || ''
+    ]);
+
+    // Generate the table
+    autoTable(doc,{
+      head: [headers],
+      body: data,
+      startY: 20,
+      styles: {
+        fontSize: 8,
+        cellPadding: 2,
+        overflow: 'linebreak'
+      },
+      headStyles: {
+        fillColor: [41, 128, 185],
+        textColor: [255, 255, 255],
+        fontStyle: 'bold'
+      }
+    });
+
+    // Save the PDF
+    doc.save('orders-report.pdf');
+    setShowDropdown(false);
+    
+  } catch (error) {
+    console.error('PDF export error:', error);
+    alert('Failed to generate PDF. Please check console for details.');
+    setShowDropdown(false);
+  }
+};
 
 const allColumns = [
+ {
+    key: 'box',
+    label: (
+      <img
+        src={boxIcon}
+        alt="box"
+        style={{ width: '14px', height: '14px', verticalAlign: 'middle' }}
+      />
+    ),
+  },
   { key: 'map', label: 'Map' },
   { key: 'dateTime', label: 'Pickup Date, Time' },
   { key: 'orderId', label: 'Order ID' },
@@ -414,12 +498,28 @@ const handleCancel = () => {
   setSelectionPhase('start'); // Reset to start date selection
 };
 
-// Add this right before your return statement
+
 console.log('Filtering Debug:', {
   selectedDate: selectedDate?.toISOString(),
   filteredOrders: filteredOrders.map(o => o.orderdate)
 });
 
+const [showAddOrderDropdown, setShowAddOrderDropdown] = useState(false);
+
+const toggleAddOrderDropdown = () => setShowAddOrderDropdown(prev => !prev);
+
+// Add these functions (you can implement the actual logic later)
+const handleManualAdd = () => {
+  setShowAddOrderDropdown(false);
+  // Your manual add order logic here
+  console.log("Manual add order selected");
+};
+
+const handleImportFromFile = () => {
+  setShowAddOrderDropdown(false);
+  // Your import from file logic here
+  console.log("Import from file selected");
+};
 
   return  (
   <div className="dashboard-content">
@@ -520,12 +620,13 @@ console.log('Filtering Debug:', {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
   <div className={styles.exportContainer}>
     <button onClick={toggleDropdown} className={styles.exportButton}>
-      <Download size={16} /> Export <ChevronDown size={16} />
+      <Upload size={16} /> Export <ChevronDown size={16} />
     </button>
     {showDropdown && (
       <div className={styles.dropdownMenu}>
         <div className={styles.dropdownItem} onClick={exportToCSV}>Export CSV</div>
         <div className={styles.dropdownItem} onClick={exportToExcel}>Export Excel</div>
+        <div className={styles.dropdownItem} onClick={exportToPDF}>Export PDF</div>
       </div>
     )}
   </div>
@@ -550,7 +651,102 @@ console.log('Filtering Debug:', {
   )}
 </div>
 
-  <button style={{borderRadius:'1rem',border:'none', backgroundColor:'#065f46', color:'white', padding:'0.8rem',  width:'20rem'}}>Add Order +</button>
+    
+<button 
+  style={{
+    borderRadius: '1rem',
+    border: 'none', 
+    backgroundColor: '#065f46', 
+    color: 'white', 
+    padding: '0.8rem',  
+    width: '20rem',
+    position: 'relative'
+  }}
+  onClick={toggleAddOrderDropdown}
+>
+  Add Order +
+  {showAddOrderDropdown && (
+    <div style={{
+      position: 'absolute',
+      top: '100%',
+      right: 0,
+      backgroundColor: 'white',
+      border: '1px solid #ddd',
+      borderRadius: '0.5rem',
+      padding: '0.5rem 0', // Changed padding
+      width: '20rem',
+      zIndex: 1000,
+      boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+      marginTop: '0.5rem'
+    }}>
+      {/* Option 1 - Manually Add Order */}
+      <div 
+        style={{
+          padding: '0.75rem 1rem',
+          cursor: 'pointer',
+          color: '#333', // Added text color
+          ':hover': { 
+            backgroundColor: '#f0f0f0',
+            color: '#065f46'
+          }
+        }}
+        onClick={handleManualAdd}
+      >
+        Manually Add Order
+      </div>
+      
+      {/* Option 2 - Import from Excel/CSV */}
+      <div 
+        style={{
+          padding: '0.75rem 1rem',
+          cursor: 'pointer',
+          color: '#333', // Added text color
+          ':hover': { 
+            backgroundColor: '#f0f0f0',
+            color: '#065f46'
+          }
+        }}
+        onClick={handleImportFromFile}
+      >
+        Import from Excel/CSV
+      </div>
+      
+      {/* Divider */}
+      <div style={{
+        height: '1px',
+        backgroundColor: '#eee',
+        margin: '0.5rem 0'
+      }}></div>
+      
+      {/* Instructions */}
+      <div style={{
+        padding: '0.75rem 1rem',
+        fontSize: '0.8rem',
+        color: '#666',
+        lineHeight: '1.4'
+      }}>
+        <div style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Things to take note before importing:
+        </div>
+        <div style={{ marginLeft: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.25rem' }}>
+            <span style={{ marginRight: '0.5rem' }}>•</span>
+            <span>Destination</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.25rem' }}>
+            <span style={{ marginRight: '0.5rem' }}>•</span>
+            <span>Recipient</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{ marginRight: '0.5rem' }}>•</span>
+            <span>Recipient's Telephone</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+</button>
+
   </div>
     </div>
           
@@ -579,6 +775,12 @@ console.log('Filtering Debug:', {
     <table className={styles.table}>
         <thead className={styles.header}>
            <tr>
+      {visibleCols.box && (
+  <th className={styles.th}>
+    <img src={boxIcon} alt="box Icon" style={{ width: '12px', height: '12px',filter: 'brightness(0) invert(1)' }} />
+  </th>
+)}
+     
    {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
     {visibleCols.dateTime && <th className={styles.th}>Pickup Date, Time</th> }
     {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
@@ -598,6 +800,7 @@ console.log('Filtering Debug:', {
        {filteredOrders.map((order, index) => (
        <tr key={index}>
       {/* {visibleCols.map && <td className={styles.td}>📍</td>} */}
+      {visibleCols.box && <td className={styles.td}> <img src={boxIcon} alt="box Icon" style={{ width: '12px', height: '12px' }} /></td>}
       {visibleCols.map && <td className={styles.td}> <img src={locationIcon} alt="Location Icon" style={{ width: '16px', height: '16px' }} /></td>}
       {visibleCols.dateTime && <td className={styles.td}>{order.dateTime}</td>}
       {visibleCols.orderId && <td className={styles.td}>{order.orderId}</td>}
