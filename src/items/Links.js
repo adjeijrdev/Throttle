@@ -58,12 +58,12 @@ export const SideNavLinks = [
         url: "/3pls/Pending-Account"
       },
       {
-        id: 1,
+        id: 2,
         name: "Approved Account",
         url: "/3pls/Approved-Account"
       },
       {
-        id: 1,
+        id: 3,
         name: "Denied Account",
         url: "/3pls/Denied-Account"
       },
@@ -81,12 +81,12 @@ export const SideNavLinks = [
         url: "/vendor-account/Pending-Account"
       },
       {
-        id: 1,
+        id: 2,
         name: "Approved Account",
         url: "/Vendor-account/Approved-Account"
       },
       {
-        id: 1,
+        id: 3,
         name: "Denied Account",
         url: "/Vendor-Account/Denied-Account"
       },
@@ -104,12 +104,12 @@ export const SideNavLinks = [
         url: "/staff-account/Staff-List"
       },
       {
-        id: 1,
+        id: 2,
         name: "Create Staff Account",
         url: "/staff-account/Create-Staff-Account"
       },
       {
-        id: 1,
+        id: 3,
         name: "Staff Role",
         url: "/staff-account/Staff-Role"
       },

@@ -122,12 +122,28 @@
   font-size: 0.9rem;
 }
 
-.user-card .image {
+/* .user-card .image {
   width: 3.2rem;
   height: 3.2rem;
   padding: 0.8rem;
   border-radius: 50%;
+  overflow: none;
   background-color: var(--clr-green);
+} */
+.image {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* WORKING BOX (SCROLLABLE PART) */
@@ -138,3 +154,34 @@
   background-color: var(--main-theme-gray);
 }
 /* .working-box */
+
+/* ===================
+   Custom Scrollbar
+   =================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track (the background of the scrollbar) */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle (the part you drag) */
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2); /* Soft white for dark themes */
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background-color: rgba(255, 255, 255, 0.2);
+}

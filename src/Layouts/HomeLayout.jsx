@@ -6,6 +6,7 @@ import Logo from "../Assets/logos/LOGO-img.png";
 import Logout from "../Assets/icons/logout.png";
 import SideLink from "../Components/SideLink";
 import { SideNavLinks } from "../items/Links";
+import dp from "../Assets/Models/dp.webp";
 
 //LINKS
 import DashBoardLogo from "../Assets/icons/dashboard.png";
@@ -50,7 +51,9 @@ export default function HomeLayout() {
               <h4>John Doe </h4>
               <p>Manager</p>
             </div>
-            <div className="image"></div>
+            <div className="image">
+              <img src={dp} alt="dp" />
+            </div>
           </div>
         </div>
 
