@@ -6,7 +6,8 @@ import bulkUpadateIcon from "../Assets/icons/Bulk-update.png";
 import COD from "../Assets/icons/COD.png";
 // import plsIcon from "../Assets/icons/3pls.png";
 import plsIcon from "../Assets/icons/Rider.png";
-import VendorAccountIcon from "../Assets/icons/vendor-account.png";
+import VendorAccountIcon from "../Assets/icons/VendorAccount.png";
+import StaffAccount from "../Assets/icons/StaffAccount.png"
 
 export const SideNavLinks = [
   {
@@ -47,14 +48,71 @@ export const SideNavLinks = [
   },
   {
     id: 7,
-    name: "3PLs",
+    name: "3PL Account",
     icon: plsIcon,
     url: "/3pls",
+     childrens:[
+       {
+        id: 1,
+        name: "Pending Account",
+        url: "/3pls/Pending-Account"
+      },
+      {
+        id: 2,
+        name: "Approved Account",
+        url: "/3pls/Approved-Account"
+      },
+      {
+        id: 3,
+        name: "Denied Account",
+        url: "/3pls/Denied-Account"
+      },
+    ]
   },
   {
     id: 8,
     name: "Vendor Account",
     icon: VendorAccountIcon,
     url: "/vendor-account",
+     childrens:[
+      {
+        id: 1,
+        name: "Pending Account",
+        url: "/vendor-account/Pending-Account"
+      },
+      {
+        id: 2,
+        name: "Approved Account",
+        url: "/Vendor-account/Approved-Account"
+      },
+      {
+        id: 3,
+        name: "Denied Account",
+        url: "/Vendor-Account/Denied-Account"
+      },
+    ]
   },
+  {
+    id: 9,
+    name: "Staff Account",
+    icon: StaffAccount,
+    url: "/staff-account",
+     childrens:[
+       {
+        id: 1,
+        name: "Staff List",
+        url: "/staff-account/Staff-List"
+      },
+      {
+        id: 2,
+        name: "Create Staff Account",
+        url: "/staff-account/Create-Staff-Account"
+      },
+      {
+        id: 3,
+        name: "Staff Role",
+        url: "/staff-account/Staff-Role"
+      },
+    ]
+  }
 ];
