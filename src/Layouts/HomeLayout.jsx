@@ -20,21 +20,26 @@ export default function HomeLayout() {
         <div className="logo" onClick={() => navigate("/login")}>
           <img src={Logo} alt="Logo" />
         </div>
-        <div className="links">
+        <div className="link_container">
+          <div className="links">
           {SideNavLinks.map((Nav) => (
             <SideLink
               key={Nav.id}
               icon={Nav.icon}
               name={Nav.name}
               url={Nav.url}
+              childrens={Nav.childrens}
               setActive={setActiveTab}
               isActive={activeTab === Nav.url}
             />
           ))}
-          <div className="logout-botton" onClick={() => navigate("/login")}>
+        </div>
+        < div className="logout-botton" onClick={() => navigate("/login")}>
             <img src={Logout} alt="logout" />
             <Link to="/login"> Logout</Link>
-          </div>
+        </div>
+      
+          
         </div>
       </div>
 
