@@ -68,7 +68,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
   {
-    orderId: 'A0M600',
+    orderId: 'A0M601',
     dateTime: '2024-12-10, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -82,7 +82,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M602',
     dateTime: '2024-12-10, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -96,7 +96,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M603',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -110,7 +110,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M604',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -124,7 +124,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M605',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -138,7 +138,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M606',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -152,7 +152,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M607',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -166,7 +166,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
   {
-    orderId: 'A0M600',
+    orderId: 'A0M608',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -180,7 +180,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M609',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -193,6 +193,62 @@ const handleFilter = (range) => {
     orderdate:'2024-10-30',
     orderimg:'',
   },
+   {
+    orderId: 'A0M610',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M611',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Failed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M612',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Assigned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M613',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Returned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  }
   // Add more data...
 ];
 
@@ -442,6 +498,19 @@ console.log('Filtering Debug:', {
   filteredOrders: filteredOrders.map(o => o.orderdate)
 });
 
+const [selectedRows, setSelectedRows] = useState([]);
+const toggleRowSelection = (orderId, e) => {
+  // Prevent event bubbling when clicking the checkbox
+  if (e && e.target.type === 'checkbox') {
+    e.stopPropagation();
+  }
+  
+  setSelectedRows(prev => 
+    prev.includes(orderId) 
+      ? prev.filter(id => id !== orderId) 
+      : [...prev, orderId]
+  );
+};
  
   return  (
   <div className="dashboard-content">
@@ -551,10 +620,29 @@ console.log('Filtering Debug:', {
                 </tr>
             </thead>
               <tbody>
-             {filteredOrders.map((order, index) => (
-             <tr key={index}>
-            {/* {visibleCols.map && <td className={styles.td}>📍</td>} */}
-            {visibleCols.box && <td className={styles.td}> <img src={boxIcon} alt="box Icon" style={{ width: '12px', height: '12px' }} /></td>}
+            {filteredOrders.map((order, index) => (
+              <tr 
+                key={order.orderId} // Use orderId as key instead of index
+                onClick={(e) => {
+                  // Don't trigger row selection if clicking on a link or button
+                  if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
+                    toggleRowSelection(order.orderId);
+                  }
+                }}
+                className={`${styles.tableRow} ${selectedRows.includes(order.orderId) ? styles.selectedRow : ''}`}
+              >
+            
+            {visibleCols.box && (
+                 <td className={styles.td} onClick={(e) => e.stopPropagation()}>
+                   <input 
+                     type="checkbox" 
+                     checked={selectedRows.includes(order.orderId)}
+                     onChange={(e) => {
+                       toggleRowSelection(order.orderId, e);
+                     }}
+                   />
+                 </td>
+               )}
             {visibleCols.map && <td className={styles.td}> <img src={locationIcon} alt="Location Icon" style={{ width: '16px', height: '16px' }} /></td>}
             {visibleCols.dateTime && <td className={styles.td}>{order.dateTime}</td>}
             {visibleCols.orderId && <td className={styles.td}>{order.orderId}</td>}
