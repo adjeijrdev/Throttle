@@ -274,8 +274,8 @@
 }
 /* Add to Dashboard.module.css */
 input[type="checkbox"] {
-  appearance: none;
   -webkit-appearance: none;
+  appearance: none;
   width: 12px;
   height: 12px;
   border: 1px solid #ccc;
