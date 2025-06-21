@@ -534,6 +534,8 @@ const toggleRowSelection = (orderId, e) => {
   );
 };
 
+const [isHeaderSelected, setIsHeaderSelected] = useState(false);
+
   return  (
   <div className="dashboard-content">
     <div style={{maxWidth:'100%', display:'flex', justifyContent:'space-between', borderBottom:' 0.25rem solid #ddd'}} >
@@ -628,11 +630,10 @@ const toggleRowSelection = (orderId, e) => {
      </div>
    
      <div style={{ display: 'flex', gap: '2rem', padding:'1rem'}}>
-    <button  onClick={clearFilters}  style={{borderRadius:'1rem',border:'none', backgroundColor:'white',
-       padding:'0.8rem', width:'15rem', alignItems:'center', justifyContent:'center'}}> Clear All Filters</button>
+    <button className={styles.columnButton}  onClick={clearFilters} > Clear All Filters</button>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
   <div className={styles.exportContainer}>
-    <button onClick={toggleDropdown} className={styles.exportButton}>
+    <button onClick={toggleDropdown} className={styles.columnButton}>
       <Upload size={16} /> Export <ChevronDown size={16} />
     </button>
     {showDropdown && (
@@ -666,15 +667,7 @@ const toggleRowSelection = (orderId, e) => {
 
     
 <button 
-  style={{
-    borderRadius: '1rem',
-    border: 'none', 
-    backgroundColor: '#065f46', 
-    color: 'white', 
-    padding: '0.8rem',  
-    width: '20rem',
-    position: 'relative'
-  }}
+ className={styles.addorder}
   onClick={toggleAddOrderDropdown}
 >
   Add Order +
@@ -786,15 +779,28 @@ const toggleRowSelection = (orderId, e) => {
       {/* Table */}
        {filteredOrders.length > 0 ? (
     <table className={styles.table}>
-        <thead className={styles.header}>
-           <tr>
-      {visibleCols.box && (
-  <th className={styles.th}>
-    <img src={boxIcon} alt="box Icon" style={{ width: '12px', height: '12px',filter: 'brightness(0) invert(1)' }} />
-  </th>
-)}
+        
      
-   {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
+   
+    <thead className={styles.header}>
+  <tr 
+    onClick={() => setIsHeaderSelected(!isHeaderSelected)}
+    className={`${styles.headerRow} ${isHeaderSelected ? styles.selectedHeader : ''}`}
+  >
+    {visibleCols.box && (
+      <th className={styles.th}>
+        <input 
+          type="checkbox"
+          checked={isHeaderSelected}
+          onChange={(e) => {
+            setIsHeaderSelected(e.target.checked);
+            e.stopPropagation();
+          }}
+          onClick={(e) => e.stopPropagation()}
+        />
+      </th>
+    )}
+    {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
     {visibleCols.dateTime && <th className={styles.th}>Pickup Date, Time</th> }
     {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
     {visibleCols.destination &&  <th className={styles.th}>Destination</th>}
@@ -807,8 +813,9 @@ const toggleRowSelection = (orderId, e) => {
     {visibleCols.deliveryAmount && <th className={styles.th}>Delivery Fee</th>}
     {visibleCols.orderdate &&   <th className={styles.th}>Delivery Date</th>}
     {visibleCols.orderimg &&   <th className={styles.th}>Order Image</th>}
-          </tr>
-      </thead>
+  </tr>
+</thead>
+      
         <tbody>
        {filteredOrders.map((order, index) => (
   <tr 

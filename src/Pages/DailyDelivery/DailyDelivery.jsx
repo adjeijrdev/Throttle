@@ -511,6 +511,7 @@ const toggleRowSelection = (orderId, e) => {
       : [...prev, orderId]
   );
 };
+const [isHeaderSelected, setIsHeaderSelected] = useState(false);
  
   return  (
   <div className="dashboard-content">
@@ -520,11 +521,10 @@ const toggleRowSelection = (orderId, e) => {
       <div className={styles.overviewtext}>Visual summary of key sales performance metrics and your data</div>
       </div>
        <div style={{ display: 'flex', gap: '2rem', padding:'1rem'}}>
-          <button  onClick={clearFilters}  style={{borderRadius:'1rem',border:'none', backgroundColor:'white',
-       padding:'0.8rem', width:'15rem', alignItems:'center', justifyContent:'center'}}> Clear All Filters</button>
+          <button className={styles.columnButton} onClick={clearFilters} > Clear All Filters</button>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div className={styles.exportContainer}>
-            <button onClick={toggleDropdown} className={styles.exportButton}>
+            <button onClick={toggleDropdown} className={styles.columnButton}>
               <Upload size={16} /> Export <ChevronDown size={16} />
             </button>
             {showDropdown && (
@@ -597,27 +597,38 @@ const toggleRowSelection = (orderId, e) => {
       {/* Table */}
              {filteredOrders.length > 0 ? (
           <table className={styles.table}>
-              <thead className={styles.header}>
-                 <tr>
-                  {visibleCols.box && (
-                    <th className={styles.th}>
-                      <img src={boxIcon} alt="box Icon" style={{ width: '12px', height: '12px',filter: 'brightness(0) invert(1)' }} />
-                    </th>
-                  )}
-         {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
-          {visibleCols.dateTime && <th className={styles.th}>Pickup Date, Time</th> }
-          {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
-          {visibleCols.destination &&  <th className={styles.th}>Destination</th>}
-          {visibleCols.recipient && <th className={styles.th}>Recipient</th>}
-          {visibleCols.phone && <th className={styles.th}>Recipient's Tel</th> }
-          {visibleCols.payAmount && <th className={styles.th}>Payment Amt</th>}
-          {visibleCols.status && <th className={styles.th}>Status</th> }
-          {visibleCols.vendor &&  <th className={styles.th}>Vendor</th>}
-          {visibleCols.tpl &&   <th className={styles.th}>3PLs</th>}
-          {visibleCols.deliveryAmount && <th className={styles.th}>Delivery Fee</th>}
-          {visibleCols.orderdate &&   <th className={styles.th}>Delivery Date</th>}
-          {visibleCols.orderimg &&   <th className={styles.th}>Order Image</th>}
-                </tr>
+               <thead className={styles.header}>
+              <tr 
+                onClick={() => setIsHeaderSelected(!isHeaderSelected)}
+                className={`${styles.headerRow} ${isHeaderSelected ? styles.selectedHeader : ''}`}
+              >
+                {visibleCols.box && (
+                  <th className={styles.th}>
+                    <input 
+                      type="checkbox"
+                      checked={isHeaderSelected}
+                      onChange={(e) => {
+                        setIsHeaderSelected(e.target.checked);
+                        e.stopPropagation();
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  </th>
+                )}
+                {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
+                {visibleCols.dateTime && <th className={styles.th}>Pickup Date, Time</th> }
+                {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
+                {visibleCols.destination &&  <th className={styles.th}>Destination</th>}
+                {visibleCols.recipient && <th className={styles.th}>Recipient</th>}
+                {visibleCols.phone && <th className={styles.th}>Recipient's Tel</th> }
+                {visibleCols.payAmount && <th className={styles.th}>Payment Amt</th>}
+                {visibleCols.status && <th className={styles.th}>Status</th> }
+                {visibleCols.vendor &&  <th className={styles.th}>Vendor</th>}
+                {visibleCols.tpl &&   <th className={styles.th}>3PLs</th>}
+                {visibleCols.deliveryAmount && <th className={styles.th}>Delivery Fee</th>}
+                {visibleCols.orderdate &&   <th className={styles.th}>Delivery Date</th>}
+                {visibleCols.orderimg &&   <th className={styles.th}>Order Image</th>}
+              </tr>
             </thead>
               <tbody>
             {filteredOrders.map((order, index) => (
