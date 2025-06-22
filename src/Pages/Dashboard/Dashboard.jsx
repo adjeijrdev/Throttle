@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from"./Dashboard.module.css";
 import Pagination from "./Pagination";
 import StatCard from './StatCard';
-import { HiOutlineClipboardList } from 'react-icons/hi';
+import  staticon  from '../../Assets/icons/staticon.png';
 import { Upload,Eye, ChevronDown } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -252,7 +252,203 @@ const handleFilter = (range) => {
      deliveryAmount: 'GHC350.00',
     orderdate:'2024-10-30',
     orderimg:'',
-  }
+  },
+   {
+    orderId: 'A0M614',
+    dateTime: '2024-12-10, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Order Placed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-12-10',
+    orderimg:'',
+  },
+  {
+    orderId: 'A0M615',
+    dateTime: '2024-12-10, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Order Placed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-12-10',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M616',
+    dateTime: '2024-12-10, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'In Progress',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-12-10',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M617',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Order Placed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M618',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Failed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M619',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Assigned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M620',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Returned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M621',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+  {
+    orderId: 'A0M622',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Rejected',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M623',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'In Progress',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M624',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M625',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Failed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M626',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Assigned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M627',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Returned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
   // Add more data...
 ];
 
@@ -274,6 +470,7 @@ const statusClass = {
   Failed: styles.failed,
   Assigned: styles.assigned,
   Returned: styles.returned,
+  'Order Placed': styles.inProgress,
 };
 
 // Add validation to your order data
@@ -564,11 +761,11 @@ const [isHeaderSelected, setIsHeaderSelected] = useState(false);
          
 
 
- <div style={{ display: 'flex', flexGrow:'inherit', gap: '2.5rem', marginTop:'2%', marginBottom:'2%' }}>
+ <div style={{ display: 'flex',  gap: '2.5rem', marginTop:'2%', marginBottom:'2%' }}>
       <StatCard
         title="All Orders"
         value={countByStatus()}
-        icon={HiOutlineClipboardList}
+        img={staticon}
         change="+5.4% this week"
         bgColor="white"
          bordercolor="1px solid gray"
@@ -576,7 +773,7 @@ const [isHeaderSelected, setIsHeaderSelected] = useState(false);
        <StatCard
         title="Order Completed"
         value={countByStatus('Completed')}
-        icon={HiOutlineClipboardList}
+        img={staticon}
         change="+5.4% this week"
         bgColor="#C3F9D5"
         bordercolor="1px solid #19D256"
@@ -584,7 +781,7 @@ const [isHeaderSelected, setIsHeaderSelected] = useState(false);
        <StatCard
         title="Order Failed"
         value={countByStatus('Failed')}
-        icon={HiOutlineClipboardList}
+        img={staticon}
         change="+5.4% this week"
         bgColor="#FF9ABA"
          bordercolor="1px solid #FF1861"
@@ -592,7 +789,7 @@ const [isHeaderSelected, setIsHeaderSelected] = useState(false);
        <StatCard
         title="Order Rejected"
         value={countByStatus('Rejected')}
-        icon={HiOutlineClipboardList}
+        img={staticon}
         change="+5.4% this week"
         bgColor="#FFC9C9"
          bordercolor="1px solid #FF8787"
@@ -600,7 +797,7 @@ const [isHeaderSelected, setIsHeaderSelected] = useState(false);
        <StatCard
         title="Order in Progress"
         value={countByStatus('In Progress')}
-        icon={HiOutlineClipboardList}
+        img={staticon}
         change="+5.4% this week"
         bgColor="#88AEF1"
          bordercolor="1px solid #1158D3"
@@ -608,7 +805,7 @@ const [isHeaderSelected, setIsHeaderSelected] = useState(false);
        <StatCard
         title="Order Assigned"
         value={countByStatus('Assigned')}
-        icon={HiOutlineClipboardList}
+        img={staticon}
         change="+5.4% this week"
         bgColor="#FFEC8B"
          bordercolor="1px solid #DBBA11"
@@ -616,7 +813,7 @@ const [isHeaderSelected, setIsHeaderSelected] = useState(false);
        <StatCard
         title="Order Returned"
         value={countByStatus('Returned')}
-        icon={HiOutlineClipboardList}
+        img={staticon}
         change="+5.4% this week"
         bgColor="#AFAFAF"
          bordercolor="1px solid #737373"
