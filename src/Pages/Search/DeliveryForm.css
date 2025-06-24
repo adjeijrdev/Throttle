@@ -8,24 +8,25 @@
   }
   
   .new-delivery__control label {
+    font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
     display: block;
   }
   
   .new-delivery__control input {
-    font: inherit;
-    padding: 0.5rem;
-    border-radius: 1rem;
+    /* font: inherit; */
+    padding: 1.5rem;
+    border-radius: 0.8rem;
     border: 0.2rem solid #ccc;
     width: 35rem;
-    height: 6rem;
+    height: 3em;
     max-width: 100%;
   }
   .details_title{
     text-align: left;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 1.7rem;
     margin-bottom: 2rem;
   }
 

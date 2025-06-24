@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./Search.css";
 import NewDelivery from "./NewDelivery";
+import reseticon from '../../Assets/icons/reseticon.png';
+import searchicon from '../../Assets/icons/searchicon.png';
 
 export default function Search() {
    const [currentPage, setCurrentPage] = useState(3);
@@ -60,14 +62,16 @@ export default function Search() {
         <div className="status__controls">
             <div className="status__control">
               <label>Order Status</label>
-              <input type="text" value={enteredStatus} onChange={statusChangeHandler} />
+              <input type="text" 
+              placeholder='Assigned' value={enteredStatus}
+               onChange={statusChangeHandler} />
             </div>
           </div>
         </div>
       </div>
         <div className="btncontainer">
-            <button className="resetbtn">Reset</button>
-            <button className="searchbtn">Search</button>
+            <button className="resetbtn"><img src={reseticon} alt="reset Icon" style={{ width: '16px', height: '16px' }} />Reset</button>
+            <button className="searchbtn"><img src={searchicon} alt="search Icon" style={{ width: '16px', height: '16px' }} />Search</button>
           </div>
     </div>
   );
