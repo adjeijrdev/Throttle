@@ -979,7 +979,7 @@ const [isHeaderSelected, setIsHeaderSelected] = useState(false);
         
      
    
-    <thead className={styles.header}>
+    <thead className={styles.tableheader}>
   <tr 
     onClick={() => setIsHeaderSelected(!isHeaderSelected)}
     className={`${styles.headerRow} ${isHeaderSelected ? styles.selectedHeader : ''}`}

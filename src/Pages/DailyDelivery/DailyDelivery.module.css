@@ -25,7 +25,7 @@
     box-shadow: 1rem var(--darker-gray);
 }
 
-.header {
+.tableheader {
  background-color:var(--main-theme);
     color: var(--clr-white);
 }

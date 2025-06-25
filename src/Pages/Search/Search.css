@@ -25,42 +25,43 @@
 .control_container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 85%;
   height: 90%;
   padding-left: 2rem;
   padding-right: 2rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color:white;
+  background-color:red;
   border-radius: 0.8rem;
 }
 
 .date__controls {
   display: flex;
+  
   flex-direction: column;
   gap: 0.2rem;
 }
-.date__control{
-  width: 18rem;
+.date__controls label{
+  font-size: 1.5rem;
+  font-weight: 600;
 }
+
 
 .pickdate {
   display: flex;
-  gap: 1rem;
-  align-items: center;
-  background-color: #f9f9f9;
-  padding: 1rem;
-  border-radius: 1rem;
+  /* align-items: center;
+  justify-content: center; */
+  background-color: #88AEF1;
 }
 
-.date__control label {
-  font-size: 1rem;
+.calendar label {
+  font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 1rem;
-  display: left;
+  margin-bottom: 0.5rem;
+  display: block;
 }
 
-.date__control input {
+.calendar input {
   padding: 0.5rem 1rem;
   border-radius: 0.8rem;
   border: 0.2rem solid #ccc;
@@ -70,24 +71,32 @@
   margin-top: 1rem;
 }
 
+input[type="date"] {
+  font-size: 1.3em;
+  text-transform: uppercase;
+  color: var(--main-theme);
+}
+.calendar {
+   width: 280px;
+    max-width: 100%;
+}
+
 .to {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 4rem;
+  justify-content: space-around;
+  width: 8rem;
   height: 4rem;
-  margin-top: 1rem;
   border: 0.2rem solid #ccc;
-  border-radius: 0.5rem;
+  border-radius: 0.8rem;
   background-color: #f5f5f5;
   font-weight: bold;
-  margin-right: 2rem;
 }
 
 .status__controls {
   text-align: left;
   background-color: #fff;
-  width: 100%;
+  width: 85%;
  padding-left: 2rem;
   padding-right: 2rem;
   padding-top: 1rem;
@@ -97,17 +106,17 @@
 
 .status__control label {
   font-size: 1.5rem;
-  font-weight: bold;
-  display: left;
+  font-weight: 600;
+   display: block;
 }
 
-.status__control input {
-  padding: 1.5rem;
-  border-radius: 0.8rem;
-  border:0.2rem solid #ccc;
-  width: 100%;
-  height: 3em;
-  margin-top: 2px;
+.status__control select {
+   padding: 1.5rem;
+    border-radius: 0.8rem;
+    border: 0.2rem solid #ccc;
+    width: 100%;
+    height: 3em;
+    max-width: 100%;
 }
 
 .btncontainer {
@@ -144,6 +153,289 @@
   padding: 0.8rem;
 }
 
+.tableContainerOuter {
+    background-color:var(--clr-white); 
+    padding-left:2rem ;
+    padding-right: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 10rem;
+    width: 100%;
+    border-radius: 8px;
+}
+.tableContainer{
+  overflow-x: auto;
+   background-clip: padding-box;
+}
 
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+   border: 1px solid #ddd;
+   background: #fbf8f8;
+    box-shadow: 1rem var(--darker-gray);
+}
+
+
+.tableheader {
+ background-color:var(--main-theme);
+    color: var(--clr-white);
+
+}
+
+.thSmall {
+  width: 40px;
+  padding: 8px;
+  text-align: left;
+}
+
+.th {
+   padding: 1.2rem;
+    text-align: left;
+    gap: 1rem;
+    border-bottom: none;
+    border-top: none;
+}
+
+ .td {
+   padding: 1.2rem;
+    text-align: left;
+    gap: 1rem;
+    border-bottom: 0.1rem solid #ddd;
+    border-top: 0.1rem solid #ddd;
+}
+.status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9em;
+  display: inline-block;
+}
+
+.completed {
+  background-color: #C3F9D5;
+  color: #065f46;
+}
+
+.rejected {
+  background-color: #FFC9C9;
+  color: #991b1b;
+}
+
+.inProgress {
+  background-color: #88AEF1;
+  color: #1e3a8a;
+}
+
+.failed {
+  background-color: #FF9ABA;
+  color: #9d174d;
+}
+
+.assigned {
+  background-color: #FFEC8B;
+  color: #78350f;
+}
+.returned{
+  background-color: #AFAFAF;
+  color:#414040;
+}
+
+.exportContainer {
+  position: relative;
+  display: inline-block;
+}
+
+
+.dropdownMenu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  min-width: 120px;
+}
+
+.dropdownItem {
+  padding: 8px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dropdownItem:hover {
+  background-color: #f3f4f6;
+}
+
+.columnToggleContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.columnButton {
+  background-color:white;
+  color: var(--clr-black);
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+   width: 15rem;
+  padding: 0.8rem;
+}
+.columnButton:hover{
+  background-color: var(--input-background);
+  border-color: white;
+}
+
+.columnDropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  border-radius: 4px;
+  overflow: hidden;
+  min-width: 180px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.checkboxItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.checkboxItem input[type='checkbox'] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #065f46;
+  border-radius: 3px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  background-color: white;
+}
+
+.checkboxItem input[type='checkbox']:checked {
+  background-color: #065f46; /* green-500 */
+  border-color: #065f46;
+}
+
+.checkboxItem input[type='checkbox']:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  width: 3px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.noResults {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.selectedRow {
+  background-color: #f0f7ff;
+}
+
+.tableRow {
+  cursor: pointer;
+}
+
+.tableRow:hover {
+   background-color: var(--input-background);
+   border: #054231;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+   appearance: none;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #065f46 ;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--main-theme); /* Green color */
+  border-color: var(--main-theme);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.tableRow td:first-child {
+  /* Prevent the checkbox cell from triggering row selection */
+  pointer-events: none;
+}
+
+.tableRow td:first-child input {
+  /* Re-enable pointer events for just the checkbox */
+  pointer-events: all;
+}
+/* Add to Dashboard.module.css */
+.headerRow {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+
+/* Make sure header checkbox matches your green style */
+.th input[type="checkbox"] {
+  -webkit-appearance: none;
+   appearance: none;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.th input[type="checkbox"]:checked {
+  background-color: white;
+  border-color: #ccc;
+}
+
+.th input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: var(--main-theme);
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 
