@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./Search.css";
+import styles from "./Search.module.css";
 import NewDelivery from "./NewDelivery";
 import reseticon from '../../Assets/icons/reseticon.png';
 import searchicon from '../../Assets/icons/searchicon.png';
@@ -408,6 +408,7 @@ import Pagination from "../Dashboard/Pagination";
   // Add more data...
 ];
 
+
 export default function Search() {
   const [currentPage, setCurrentPage] = useState(3);
   const totalPages = 5;
@@ -428,7 +429,7 @@ export default function Search() {
   const [showColsDropdown, setShowColsDropdown] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isHeaderSelected, setIsHeaderSelected] = useState(false);
-
+const [filter, setFilter] = useState('All');
   const handleSearchParamsChange = (params) => {
     setSearchParams(params);
   };
@@ -473,8 +474,12 @@ export default function Search() {
       (!deliveryTo || deliveryDate <= deliveryTo)
     );
 
-    const matchesStatus = statusFilter === '' || 
-      order.status.toLowerCase().includes(statusFilter.toLowerCase());
+    // Modified status filter logic
+  const matchesStatus = 
+    (statusFilter === '' && filter === 'All') || // Show all when no filters
+    (statusFilter === '' && filter !== 'All' && order.status === filter) || // Button filter
+    (statusFilter !== '' && order.status.toLowerCase().includes(statusFilter.toLowerCase())); // Dropdown filter
+
 
     return (
       matchesOrderId &&
@@ -489,6 +494,16 @@ export default function Search() {
     );
   });
 
+  const filterOptions = [
+  'All',
+  'Order Placed',
+  'In Progress',
+  'Assigned',
+  'Completed',
+  'Returned',
+  'Failed',
+  'Rejected',
+];
   // Reusing your column structure from dashboard
   const allColumns = [
     {
@@ -521,16 +536,15 @@ export default function Search() {
   );
 
   // Status class mapping from your dashboard
-  const statusClass = {
-    Completed: 'completed',
-    Rejected: 'rejected',
-    'In Progress': 'inProgress',
-    Failed: 'failed',
-    Assigned: 'assigned',
-    Returned: 'returned',
-    'Order Placed': 'inProgress',
-  };
-
+const statusClass = {
+  Completed: styles.completed,
+  Rejected: styles.rejected,
+  'In Progress': styles.inProgress,
+  Failed: styles.failed,
+  Assigned: styles.assigned,
+  Returned: styles.returned,
+  'Order Placed': styles.inProgress,
+};
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
@@ -683,31 +697,31 @@ export default function Search() {
       setShowDropdown(false);
     }
   };
-
+try{
   return (
     <div className="dashboard-content">
-      <div className="overview">Search Order</div>
-      <div className="overviewtext">
+      <div className={styles.overview}>Search Order</div>
+      <div className={styles.overviewtext}>
         Visual summary of key sales performance metrics and your data
       </div>
 
-      <div className="searchcontent">
+      <div className={styles.searchcontent}>
         <NewDelivery onSearch={handleSearchParamsChange}/>
 
-        <div className="control-right">
-          <div className="control_container">
-            <div className="date__controls">
+        <div className={styles.controlRight}>
+          <div className={styles.control_container}>
+            <div className={styles.date__controls}>
                <label>Pickup Date</label>
-              <div className="pickdate">
-                <div className="calendar">
+              <div className={styles.pickdate}>
+                <div className={styles.calendar}>
                   <input
                     type="date"
                     value={pickupDateFrom}
                     onChange={(e) => setPickupDateFrom(e.target.value)}
                   />
                 </div>
-                <span className="to">To</span>
-                <div className="calendar">
+                <div className={styles.to}>To</div>
+                <div className={styles.calendar}>
                   <input
                     type="date"
                     value={pickupDateTo}
@@ -716,8 +730,8 @@ export default function Search() {
                 </div>
               </div>
                     <label>Delivery Date</label>
-              <div className="pickdate">
-                <div className="calendar">
+              <div className={styles.pickdate}>
+                <div className={styles.calendar}>
                   
                   <input
                     type="date"
@@ -725,8 +739,8 @@ export default function Search() {
                     onChange={(e) => setDeliveryDateFrom(e.target.value)}
                   />
                 </div>
-                <span className="to">To</span>
-                <div className="calendar">
+                <div className={styles.to}>To</div>
+                <div className={styles.calendar}>
                   <input
                     type="date"
                     value={deliveryDateTo}
@@ -737,13 +751,15 @@ export default function Search() {
             </div>
           </div>
 
-          <div className="status__controls">
-            <div className="status__control">
+          <div className={styles.status__controls}>
+            <div className={styles.status__control}>
               <label>Order Status</label>
               <select
                 value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-              >
+               onChange={(e) => {
+               setStatusFilter(e.target.value);
+              setFilter(e.target.value === '' ? 'All' : e.target.value);
+               }} >
                 <option value="">Choose Status</option>
                 <option value="Completed">Completed</option>
                 <option value="Failed">Failed</option>
@@ -757,38 +773,38 @@ export default function Search() {
         </div>
       </div>
 
-      <div className="btncontainer">
-        <button className="resetbtn" onClick={handleReset}>
+      <div className={styles.btncontainer}>
+        <button className={styles.resetbtn} onClick={handleReset}>
           <img src={reseticon} alt="reset Icon" style={{ width: '16px', height: '16px' }} /> Reset
         </button>
-        <button className="searchbtn" onClick={() => setCurrentPage(1)}>
+        <button className={styles.searchbtn} onClick={() => setCurrentPage(1)}>
           <img src={searchicon} alt="search Icon" style={{ width: '16px', height: '16px' }} /> Search
         </button>
       </div>
 
       {/* Export and Column Controls */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', margin: '1rem 0' }}>
-        <div className="exportContainer">
-          <button onClick={toggleDropdown} className="columnButton">
+        <div className={styles.exportContainer}>
+          <button onClick={toggleDropdown} className={styles.columnButton}>
             <Upload size={16} /> Export <ChevronDown size={16} />
           </button>
           {showDropdown && (
-            <div className="dropdownMenu">
-              <div className="dropdownItem" onClick={exportToCSV}>Export CSV</div>
-              <div className="dropdownItem" onClick={exportToExcel}>Export Excel</div>
-              <div className="dropdownItem" onClick={exportToPDF}>Export PDF</div>
+            <div className={styles.dropdownMenu}>
+              <div onClick={exportToCSV}>Export CSV</div>
+              <div onClick={exportToExcel}>Export Excel</div>
+              <div onClick={exportToPDF}>Export PDF</div>
             </div>
           )}
         </div>
 
-        <div className="columnToggleContainer">
-          <button onClick={toggleColDropdown} className="columnButton">
+        <div className={styles.columnToggleContainer}>
+          <button onClick={toggleColDropdown} className={styles.columnButton}>
             <Eye size={16} /> Columns <ChevronDown size={16} />
           </button>
           {showColsDropdown && (
-            <div className="columnDropdown">
+            <div className={styles.columnDropdown}>
               {allColumns.map((col) => (
-                <label key={col.key} className="checkboxItem">
+                <label key={col.key} className={styles.checkboxItem}>
                   <input
                     type="checkbox"
                     checked={visibleCols[col.key]}
@@ -802,97 +818,115 @@ export default function Search() {
         </div>
       </div>
 
-      {/* Orders Table */}
-      <div className="tableContainerOuter">
-        <div className="tableContainer">
-          {filteredOrders.length > 0 ? (
-            <table className="table">
-              <thead className="tableheader">
-                <tr 
-                  onClick={() => setIsHeaderSelected(!isHeaderSelected)}
-                  className={`headerRow ${isHeaderSelected ? 'selectedHeader' : ''}`}
-                >
-                  {visibleCols.box && (
-                    <th className="th">
-                      <input 
-                        type="checkbox"
-                        checked={isHeaderSelected}
-                        onChange={(e) => {
-                          setIsHeaderSelected(e.target.checked);
-                          e.stopPropagation();
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </th>
-                  )}
-                  {visibleCols.map && <th className="thSmall">Map</th>}
-                  {visibleCols.dateTime && <th className="th">Pickup Date, Time</th>}
-                  {visibleCols.orderId && <th className="th">Order ID</th>}
-                  {visibleCols.destination && <th className="th">Destination</th>}
-                  {visibleCols.recipient && <th className="th">Recipient</th>}
-                  {visibleCols.phone && <th className="th">Recipient's Tel</th>}
-                  {visibleCols.payAmount && <th className="th">Payment Amt</th>}
-                  {visibleCols.status && <th className="th">Status</th>}
-                  {visibleCols.vendor && <th className="th">Vendor</th>}
-                  {visibleCols.tpl && <th className="th">3PLs</th>}
-                  {visibleCols.deliveryAmount && <th className="th">Delivery Fee</th>}
-                  {visibleCols.orderdate && <th className="th">Delivery Date</th>}
-                  {visibleCols.orderimg && <th className="th">Order Image</th>}
-                </tr>
-              </thead>
-              
-              <tbody>
-                {filteredOrders.map((order) => (
-                  <tr 
-                    key={order.orderId}
-                    onClick={(e) => {
-                      if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
-                        toggleRowSelection(order.orderId);
-                      }
+     
+{/* Orders Table */}
+<div className={styles.tableContainerOuter}>
+  <div className={styles.tableContainer}>
+    {/* Filter Row - matches dashboard styling */}
+    <div className={styles.filters}>
+      {filterOptions.map((option) => (
+        <button
+          key={option}
+         onClick={() => {
+        setFilter(option);
+        setStatusFilter(option === 'All' ? '' : option);}}
+          className={`${styles.filterButton} ${
+            filter === option ? styles.activeFilter : ''
+          }`}
+        >
+          {option}
+        </button>
+      ))}
+    </div>
+
+    {filteredOrders.length > 0 ? (
+      <table className={styles.table}>
+        <thead className={styles.tableheader}>
+          <tr 
+            onClick={() => setIsHeaderSelected(!isHeaderSelected)}
+            className={`${styles.headerRow} ${isHeaderSelected ? styles.selectedHeader : ''}`}
+          >
+            {visibleCols.box && 
+              <th className={styles.th}>
+                <input 
+                  type="checkbox"
+                  checked={isHeaderSelected}
+                  onChange={(e) => {
+                    setIsHeaderSelected(e.target.checked);
+                    e.stopPropagation();
+                  }}
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </th>
+            }
+            {visibleCols.map && <th className={styles.thSmall}>Map</th>}
+            {visibleCols.dateTime && <th className={styles.th}>Pickup Date, Time</th>}
+            {visibleCols.orderId && <th className={styles.th}>Order ID</th>}
+            {visibleCols.destination && <th className={styles.th}>Destination</th>}
+            {visibleCols.recipient && <th className={styles.th}>Recipient</th>}
+            {visibleCols.phone && <th className={styles.th}>Recipient's Tel</th>}
+            {visibleCols.payAmount && <th className={styles.th}>Payment Amt</th>}
+            {visibleCols.status && <th className={styles.th}>Status</th>}
+            {visibleCols.vendor && <th className={styles.th}>Vendor</th>}
+            {visibleCols.tpl && <th className={styles.th}>3PLs</th>}
+            {visibleCols.deliveryAmount && <th className={styles.th}>Delivery Fee</th>}
+            {visibleCols.orderdate && <th className={styles.th}>Delivery Date</th>}
+            {visibleCols.orderimg && <th className={styles.th}>Order Image</th>}
+          </tr>
+        </thead>
+        
+        <tbody>
+          {filteredOrders.map((order) => (
+            <tr 
+              key={order.orderId}
+              onClick={(e) => {
+                if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
+                  toggleRowSelection(order.orderId);
+                }
+              }}
+              className={`${styles.tableRow} ${selectedRows.includes(order.orderId) ? styles.selectedRow : ''}`}
+            >
+              {visibleCols.box && (
+                <td className={styles.td} onClick={(e) => e.stopPropagation()}>
+                  <input 
+                    type="checkbox" 
+                    checked={selectedRows.includes(order.orderId)}
+                    onChange={(e) => {
+                      toggleRowSelection(order.orderId, e);
                     }}
-                    className={`tableRow ${selectedRows.includes(order.orderId) ? 'selectedRow' : ''}`}
-                  >
-                    {visibleCols.box && (
-                      <td className="td" onClick={(e) => e.stopPropagation()}>
-                        <input 
-                          type="checkbox" 
-                          checked={selectedRows.includes(order.orderId)}
-                          onChange={(e) => {
-                            toggleRowSelection(order.orderId, e);
-                          }}
-                        />
-                      </td>
-                    )}
-                    {visibleCols.map && <td className="td"> <img src={locationIcon} alt="Location Icon" style={{ width: '16px', height: '16px' }} /></td>}
-                    {visibleCols.dateTime && <td className="td">{order.dateTime}</td>}
-                    {visibleCols.orderId && <td className="td">{order.orderId}</td>}
-                    {visibleCols.destination && <td className="td">{order.destination}</td>}
-                    {visibleCols.recipient && <td className="td">{order.recipient}</td>}
-                    {visibleCols.phone && <td className="td">{order.phone}</td>}
-                    {visibleCols.payAmount && <td className="td">{order.payAmount}</td>}
-                    {visibleCols.status && (
-                      <td className="td">
-                        <span className={`status ${statusClass[order.status]}`}>
-                          {order.status}
-                        </span>
-                      </td>
-                    )}
-                    {visibleCols.vendor && <td className="td">{order.vendor}</td>}
-                    {visibleCols.tpl && <td className="td">{order.tpl}</td>}
-                    {visibleCols.deliveryAmount && <td className="td">{order.deliveryAmount}</td>}
-                    {visibleCols.orderdate && <td className="td">{order.orderdate}</td>}
-                    {visibleCols.orderimg && <td className="td">{order.orderimg}</td>}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <div className="noResults">
-              No orders match your search criteria
-            </div>
-          )}
-        </div>
+                  />
+                </td>
+              )}
+              {visibleCols.map && <td className={styles.td}> <img src={locationIcon} alt="Location Icon" style={{ width: '16px', height: '16px' }} /></td>}
+              {visibleCols.dateTime && <td className={styles.td}>{order.dateTime}</td>}
+              {visibleCols.orderId && <td className={styles.td}>{order.orderId}</td>}
+              {visibleCols.destination && <td className={styles.td}>{order.destination}</td>}
+              {visibleCols.recipient && <td className={styles.td}>{order.recipient}</td>}
+              {visibleCols.phone && <td className={styles.td}>{order.phone}</td>}
+              {visibleCols.payAmount && <td className={styles.td}>{order.payAmount}</td>}
+              {visibleCols.status && (
+                <td className={styles.td}>
+                  <span className={`${styles.status} ${statusClass[order.status]}`}>
+                    {order.status}
+                  </span>
+                </td>
+              )}
+              {visibleCols.vendor && <td className={styles.td}>{order.vendor}</td>}
+              {visibleCols.tpl && <td className={styles.td}>{order.tpl}</td>}
+              {visibleCols.deliveryAmount && <td className={styles.td}>{order.deliveryAmount}</td>}
+              {visibleCols.orderdate && <td className={styles.td}>{order.orderdate}</td>}
+              {visibleCols.orderimg && <td className={styles.td}>{order.orderimg}</td>}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ) : (
+      <div className={styles.noResults}>
+        No orders match your search criteria
       </div>
+    )}
+  </div>
+</div>
 
       <Pagination
         currentPage={currentPage}
@@ -901,4 +935,8 @@ export default function Search() {
       />
     </div>
   );
+} catch (error) {
+  console.error("Render error:", error);
+  return <div>Error loading content</div>;
+}
 }
