@@ -796,9 +796,9 @@ try{
           </button>
           {showDropdown && (
             <div className={styles.dropdownMenu}>
-              <div onClick={exportToCSV}>Export CSV</div>
-              <div onClick={exportToExcel}>Export Excel</div>
-              <div onClick={exportToPDF}>Export PDF</div>
+             <div className={styles.dropdownItem} onClick={exportToCSV}>Export CSV</div>
+                     <div className={styles.dropdownItem} onClick={exportToExcel}>Export Excel</div>
+                     <div className={styles.dropdownItem} onClick={exportToPDF}>Export PDF</div>
             </div>
           )}
         </div>
