@@ -782,7 +782,13 @@ try{
         </button>
       </div>
 
-      {/* Export and Column Controls */}
+    <div style={{maxWidth:'100%', display:'flex', justifyContent:'space-between', borderBottom:' 0.25rem solid #ddd', marginBottom:'1.5rem',marginTop:'1.5rem'}} >
+    <div style={{display:'grid'}}>
+      <div className={styles.overview}>Search Results</div>
+     <div className={styles.overviewtext}>Visual summary of key sales performance metrics and your data</div>
+     </div>
+    
+    {/* Export and Column Controls */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', margin: '1rem 0' }}>
         <div className={styles.exportContainer}>
           <button onClick={toggleDropdown} className={styles.columnButton}>
@@ -817,6 +823,10 @@ try{
           )}
         </div>
       </div>
+    
+  
+    </div>
+      
 
      
 {/* Orders Table */}
