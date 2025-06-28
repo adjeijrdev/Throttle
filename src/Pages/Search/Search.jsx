@@ -700,10 +700,12 @@ const statusClass = {
 try{
   return (
     <div className="dashboard-content">
+       <div style={{maxWidth:'100%', display:'flex', justifyContent:'space-between', borderBottom:' 0.25rem solid #ddd', marginBottom:'1.5rem'}} >
+    <div style={{display:'grid'}}>
       <div className={styles.overview}>Search Order</div>
-      <div className={styles.overviewtext}>
-        Visual summary of key sales performance metrics and your data
-      </div>
+     <div className={styles.overviewtext}>Visual summary of key sales performance metrics and your data</div>
+     </div>
+     </div>
 
       <div className={styles.searchcontent}>
         <NewDelivery onSearch={handleSearchParamsChange}/>
@@ -777,7 +779,7 @@ try{
         <button className={styles.resetbtn} onClick={handleReset}>
           <img src={reseticon} alt="reset Icon" style={{ width: '16px', height: '16px' }} /> Reset
         </button>
-        <button className={styles.searchbtn} onClick={() => setCurrentPage(1)}>
+        <button className={styles.searchbtn} onClick={() => setCurrentPage(3)}>
           <img src={searchicon} alt="search Icon" style={{ width: '16px', height: '16px' }} /> Search
         </button>
       </div>
