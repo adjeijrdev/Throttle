@@ -14,18 +14,86 @@
  background-color:var(--clr-white); 
      padding: 1.5rem;
     width: 95%;
-    height: 450px;
+    height: 235px;
     border-radius: 8px;
      overflow: hidden;
+     margin-top: 0.8rem;
+     display: flex;
+     gap: 4px;
+}
+.Outercontainertwo{
+ background-color:var(--clr-white); 
+     padding: 1.5rem;
+    width: 100%;
+    height: 300px;
+    border-radius: 8px;
+     overflow: hidden;
+     margin-top: 1.5rem;
 }
 
- .details_title{
-    text-align: left;
-    font-weight: 500;
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
+ .detailstitle{
+    display: block;
+    font-weight: bold;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
   }
- 
+
+  .Outercontainertwo label{
+    display: block;
+    font-weight: 500;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .Outercontainertwo input{
+    width: 610px;
+    height: 40px;
+    border-radius: 1rem;
+    border: 1px solid #ccc;
+  }
+  .Outercontainer textarea {
+  width: 600px;
+  height: 90%;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.8rem;
+  border: 1px solid #ccc;
+  resize: none;
+  font-family: inherit;
+}
+
+ .OutercontainerRight{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+ }
+
+ .OutercontainertwoRight{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+ }
+
+  .OutercontainerRight label{
+     display: inline-block;
+     text-align: left;
+    font-weight: 500;
+    font-size: 1.3rem;
+  }
+
+.OutercontainerRight input{
+    width: 540px;
+    height: 40px;
+    border-radius: 1rem;
+    border: 1px solid #ccc;
+}
+
   .btncontainer {
   display: flex;
   justify-content: flex-end;
@@ -83,22 +151,13 @@
    width: 7.5rem;
      height: 250px;
   padding: 0.8rem;
+  margin-top: 0;
 }
 .verticalButton:hover{
    background-color: #054231;
   border-color: var(--main-theme);
 }
 
-.Outercontainer textarea {
-  width: 100%;
-  height: 90%;
-  background-color: white;
-  padding: 1rem;
-  border-radius: 0.8rem;
-  border: 1px solid #ccc;
-  resize: none;
-  font-family: inherit;
-}
 
 .tableContainer {
   margin-top: 2rem;
