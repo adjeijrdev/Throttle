@@ -465,7 +465,7 @@ const removeImage = () => {
                 <button
                   type="button"
                   onClick={toggleVisibility1}
-                  className={style["toggle-btn"]}
+                  className={style["toggle-btn"]}>
                   {showPassword1 ? <FaEyeSlash /> : <FaEye />}
 
                 </button>
