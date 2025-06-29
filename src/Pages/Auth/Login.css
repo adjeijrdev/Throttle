@@ -184,74 +184,18 @@
   top: 50%;
   transform: translateY(-50%);
 }
-
-.radio-button input[type="radio"]:checked + label::before {
+/* .radio-button input[type="radio"]:checked + label::before {
   border-color: var(--main-theme);
   background-color: var(--main-theme);
   box-shadow: inset 0 0 0 3px #fff;
-}
-
-.radio-button input[type="radio"]:checked  label::after {
-  content: "";
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  position: absolute;
-  left: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #fff;
-  display: none;
-}
-
-
-
-/* RADIO BUTTON STYLING
-.radio-button-group {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  margin: 8px;
-}
-
-.radio-button {
-  margin-bottom: 10px;
-  position: relative;
-}
-
-.radio-button input[type="radio"] {
-  display: none;
-}
-
-.radio-button label {
-  padding-left: 30px;
-  cursor: pointer;
-  position: relative;
-  font-size: 1.5rem;
-  font-weight: 400;
-}
-
-.radio-button label::before {
-  content: "";
-  width: 15px;
-  height: 15px;
-  border: 2px solid #ccc;
-  border-radius: 50%;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.radio-button input[type="radio"]:checked + label::before {
-  border-color: var(--main-theme);
-  background-color: var(--main-theme);
+} */
+input[type="radio"]:checked + label::before {
+  /* border-color: var(--main-theme); */
+  /* background-color: var(--main-theme); */
   box-shadow: inset 0 0 0 3px #fff;
 }
 
-.radio-button label::after {
+/* .radio-button input[type="radio"]:checked  label::after {
   content: "";
   width: 10px;
   height: 10px;
@@ -264,17 +208,6 @@
   display: none;
 } */
 
-/* .radio-button input[type="radio"]:checked + label::after {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #34c759;
-  box-shadow: none;
-  left: 6px;
-  top: 8px;
-  width: 8px;
-  height: 8px;
-} */
 
 /* line-and-text */
 .line-box{
@@ -330,6 +263,7 @@
   border-radius: 1.4rem;
   font-size: 9rem;
 }
+
 .input-box:hover{
   box-shadow: 2px 1px 5px var(--clr-green);
   background-color: transparent;
@@ -347,7 +281,10 @@
   color: var(--main-theme)
 }
 .input-fields .login_email-box {
-  align-items: center;
+  display: flex;
+  /* justify-content: center; */
+  gap: 3rem;
+  /* align-items: center; */
 }
 .input-fields .login_email-box input {
   border: none;
@@ -380,7 +317,7 @@
   background: transparent;
 }
 .button-and-sign-up{
-  margin-top: -4px;
+  margin-top: -5.5rem;
   display: column;
   align-items: center;
   justify-content: center;
@@ -418,9 +355,8 @@
   color: var(--dark-green);
   border: none;
   /* color: var(--background-clr); */
-  
-  
 }
+
 .logo-form {
   margin-bottom: 3.6rem;
 }
