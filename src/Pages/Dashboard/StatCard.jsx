@@ -1,30 +1,29 @@
 import React from 'react';
 import styles from './StatCard.module.css';
-import { FiUsers } from 'react-icons/fi';
+import staticon from '../../Assets/icons/staticon.png' ;
 
-const StatCard = ({ title, value, icon: Icon, change, bgColor = '#ffffff',bordercolor ='1px solid gray'}) => {
+const StatCard = ({ title, value, img, change, bgColor = '#ffffff', bordercolor = '1px solid gray' }) => {
   return (
-    <div className={styles.card}  style={{backgroundColor: bgColor, border: bordercolor}}>
+    <div className={styles.card} style={{ backgroundColor: bgColor, border: bordercolor }}>
       <div className={styles.iconWrapper}>
-        {Icon && <Icon className={styles.icon} />}
+        {img && <img src={img} className={styles.icon} alt="stat icon" />}
       </div>
       <div className={styles.info}>
         <div className={styles.infotext}>
-           <p className={styles.title}>{title}</p>
-           <br />
-        <p className={styles.value}>{value}</p>
+          <p className={styles.title}>{title}</p>
+          <br />
+          <p className={styles.value}>{value}</p>
         </div>
-       <div className={styles.infochange}>
+        <div className={styles.infochange}>
           {change && <p className={styles.change}>{change}</p>}
-       </div>
-      
+        </div>
       </div>
     </div>
   );
 };
 
 StatCard.defaultProps = {
-  icon: FiUsers,
+  img: staticon,
 };
 
 export default StatCard;
