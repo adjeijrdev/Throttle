@@ -61,14 +61,14 @@ a {
   flex-shrink: 0;
 }
 .active-logo {
-  width: 19.854px;
-  height: 19.854px;
+  width: 0.8rem;
+  height: 0.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   background-color: var(--main-theme);
-  padding: 2.5rem;
+  padding: 1.5rem;
   margin-left: -1.2rem;
 }
 .spacer {

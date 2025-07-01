@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, NavLink } from "react-router";
+import { useNavigate, NavLink, useLocation } from "react-router";
 
 import "./SideLink.css";
 
@@ -8,28 +8,32 @@ import "./SideLink.css";
 
 export default function ({ icon, name, url, isActive, setActive, childrens }) {
   const [showChildren, setShowChildren] = useState(false);
+  let location = useLocation();
   const navigate = useNavigate();
 
-  function clickedTab() {
-    navigate(url);
+  function clickedTab(e) {
+    navigate(childrens[0].url);
     setActive(url);
+
+    e.stopPropagation();
+    setShowChildren(!showChildren);
   }
 
+
+
   if (childrens) {
+  const isSectionActive = location.pathname.toLocaleLowerCase().startsWith(url);
+ 
     return (
       <>
-        <div className={isActive ? "Link-active" : "Link"} onClick={clickedTab}>
+        <div className={isSectionActive? "Link-active" : "Link"} onClick={clickedTab}>
           <div className={isActive ? "active-logo" : ""}>
             <img src={icon} alt={name} />
           </div>
-          <NavLink to={url}> {name} </NavLink>
+          <NavLink to={childrens[0].url} end> {name} </NavLink>
           <div className="spacer" />
           <div
             className="chevron-button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowChildren(!showChildren);
-            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +62,7 @@ export default function ({ icon, name, url, isActive, setActive, childrens }) {
                 key={child.id}
                 to={child.url}
                 className="child-link"
-                onClick={() => setActive(`${url}/${child.url}`)}
+                onClick={() => setActive(`${child.url}`)}
               >
                 {child.name}
               </NavLink>
@@ -69,12 +73,19 @@ export default function ({ icon, name, url, isActive, setActive, childrens }) {
     );
   } else {
     return (
-      <div className={isActive ? "Link-active" : "Link"} onClick={clickedTab}>
-        <div className={isActive ? "active-logo" : ""}>
+       <NavLink to={url} className={({ isActive }) => isActive? "Link-active" : "Link"}> 
+       <div className={isActive ? "active-logo" : ""}>
           <img src={icon} alt={name} />
         </div>
-        <NavLink to={url}> {name} </NavLink>
-      </div>
+          {name}
+        </NavLink>
+      
+//  <div className={isActive ? "Link-active" : "Link"} onClick={clickedTab}>
+//         <div className={isActive ? "active-logo" : ""}>
+//           <img src={icon} alt={name} />
+//         </div>
+//         <NavLink to={url}> {name} </NavLink>
+//       </div>
     );
   }
 }

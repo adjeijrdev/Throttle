@@ -14,6 +14,7 @@ import DashBoardLogo from "../Assets/icons/dashboard.png";
 export default function HomeLayout() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("/");
+  // console.log(activeTab)
 
   return (
     <div className="main-container">

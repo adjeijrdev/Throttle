@@ -1,0 +1,400 @@
+/* ----------------------------------------------------List of roles------------------------------------------------- */
+
+.roles-title {
+  font-weight: 700;
+  font-size: 2.4rem;
+  color: var(--main-theme);
+}
+
+.headers {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 0.1rem solid #00000033;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.btn-new-role {
+  /* width: 13.8rem; */
+  /* height: 4.2rem; */
+  padding: 1.4rem 1.8rem;
+ 
+  cursor: pointer;
+  transition-duration: 250ms;
+  transition-property: background-color;
+  transition-timing-function: ease-in-out;
+  border-radius: 0.8rem;
+  background-color: #17654f;
+  color: #ffffff;
+  border-color: #ffffff;
+  border: 1px solid var(--main-theme);
+  font-size: 1.6rem;
+}
+
+.btn-new-role:hover {
+  background-color: #03563f;
+}
+
+.table-head {
+  background-color: #17654f;
+  border: 0.1rem solid #003627;
+
+  height: 4.7rem;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 1.4rem;
+  letter-spacing: 0.1rem;
+  border-radius: 0.8rem 0.8rem 0rem 0rem;
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 3fr 2fr 2fr;
+  justify-content: center;
+  align-items: center;
+  /* border:0.1rem solid #17654F; */
+}
+
+.table-head span{
+  text-align: center;
+}
+
+.tb-head-checkbox {
+  border-color: #ffffff;
+}
+/* .table-head th{
+  border:0px;
+} */
+
+.table-container {
+  background-color: #ffffff;
+  padding: 2rem 2rem;
+  text-align: start;
+  border-radius: 0.8rem;
+
+}
+
+.tb-row {
+  background-color: #ffffff;
+  border-bottom: 0.1rem solid oklch(98.4% 0.003 247.858);
+}
+
+.tb-head-checkbox input[type="checkbox"] {
+  border: 0.1rem solid #fff;
+}
+
+.tb-row {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 3fr 2fr 2fr;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0.5rem;
+  border: 0.1rem solid #979595;
+  border-top: 0rem;
+  padding: 1rem 0rem;
+  color: #003627;
+  font-weight: 500;
+  font-size: 1.4rem;
+  line-height: 2.2rem;
+  cursor: pointer;
+  text-align: center;
+  /* border-right: 0.1rem solid #979595;
+   border-left: 0.1rem solid #979595; */
+}
+
+.tb-row span{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.tb-row:hover {
+  background-color: oklch(98.5% 0.002 247.839);
+
+  /* cursor: pointer; */
+}
+
+.tb-row .btn-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tb-row button {
+  padding: 0.7rem 3rem;
+  border-radius: 0.8rem;
+  border: 0.1rem solid #cdd4db;
+  background-color: transparent;
+  cursor: pointer;
+  color: #003627;
+  transition-duration: 250ms;
+  transition-property: background-color, color, border;
+  transition-timing-function: ease-in-out;
+}
+
+.tb-row .star {
+  color: rgb(156, 2, 2);
+}
+
+.tb-row button:hover {
+  background-color: #d6e3e0;
+}
+
+.pagination-tab{
+  margin: 1.5rem 0.1rem;
+}
+
+/* ---------------------------------------------------Create new Role-------------------------------------------------------------- */
+h2 {
+  color: #000000;
+  font-weight: 700;
+  font-size: 3.2rem;
+  letter-spacing: 0;
+  line-height: 100%;
+}
+
+h3 {
+  color: #000000;
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: 0;
+  line-height: 100%;
+  border-bottom: 0.1rem solid black;
+  padding: 1rem 0rem;
+}
+
+form {
+  background-color: #ffffff;
+  border-radius: 0.8rem;
+  padding: 3.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+form .form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+label {
+  font-weight: 400;
+  font-size: 1.4rem;
+  letter-spacing: 0;
+  color: #000000;
+}
+
+.required-field {
+  color: red;
+}
+
+.text-input {
+  border-radius: 1.4rem;
+  border-width: 0.1rem;
+  border-color: #17654f;
+  height: 5rem;
+  width: 48.6rem;
+  padding: 1.4rem;
+  background-color: #cce1db;
+  stroke-width: 0.1rem;
+  margin-top: 0.5rem;
+  /* color:var(--main-theme) */
+}
+
+.text-input:focus {
+  border: 0.2rem solid var(--main-theme);
+  outline: none;
+}
+
+ul {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  /* margin-top:  1.5rem; */
+}
+
+li {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: start;
+  align-items: start;
+  row-gap: 1rem;
+  /* border:1px solid green;  */
+}
+
+.list-label {
+  line-height: 1.8rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: 0;
+
+  /* border:1px solid red; */
+}
+
+input[type="checkbox"] {
+  width: 1.7rem;
+  height: 1.5rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: end;
+}
+
+button{
+  transition-duration: 250ms;
+  transition-property: all;
+  transition-timing-function: ease-in-out;
+}
+
+.buttons button {
+  width: 13.8rem;
+  height: 4.2rem;
+  padding: 1.2rem 1.8rem;
+  text-align: center;
+  cursor: pointer;
+
+  border-radius: 0.8rem;
+}
+
+.buttons .btn-cancel {
+  background-color: white;
+  border: 0.1rem solid var(--main-theme);
+  color: var(--main-theme);
+}
+
+.buttons .btn-cancel:hover,
+.buttons .btn-cancel:active {
+  background-color: #D6E3E0;
+}
+
+.buttons .btn-create {
+  background-color: var(--main-theme);
+  color: #ffffff;
+  border-color: #ffffff;
+  border: 1px solid #17654F;
+}
+
+.buttons .btn-create:hover,
+.buttons .btn-create:active {
+  background-color: #03563F;
+  border: 0.1rem solid var(--main-theme);
+}
+
+/* ------------------------------------------Delete role-------------------------------------------------------------- */
+
+.delete-model-container{
+  background-color: #fff;
+  border-radius: 2.4rem;
+  z-index:100;
+  position: absolute;
+  top:20%;
+  left:35%;
+  filter: drop-shadow(1px 1px 5px black);
+  padding:1rem;
+  width: 70.4rem;
+  height:40.2rem;
+  text-align: center;
+
+   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap:3.5rem;
+}
+
+.delete-model-container img{
+  width: 9.6rem;
+  height: 8.5rem;
+ 
+}
+
+.modal-title{
+  font-weight: 700;
+  font-size: 3.2rem;
+}
+
+.modal-sub-title{
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.danger-info{
+  color:#D11515;
+   font-weight: 500;
+  font-size: 1.5rem;
+  font-style: italic;
+}
+
+.model-btn{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ gap:4rem;
+ 
+
+}
+
+
+/* ------------------------------------------Tablet devices-------------------------------------------------------------- */
+
+@media (max-width: 76.8rem) {
+  .staffs .roles {
+    font-size: 56.25%;
+  }
+  ul {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0.8rem;
+    row-gap: 1.5rem;
+  }
+
+  .text-input {
+    border-radius: 1rem;
+
+    height: 4rem;
+    width: 38.6rem;
+    padding: 1.4rem;
+  }
+
+  .buttons button {
+    width: 12.8rem;
+    height: 3.2rem;
+
+    padding: 0rem;
+  }
+
+  .tb-row button {
+  padding: 0.5rem 2rem;
+  }
+}
+
+
+
+
+/* ------------------------------------------mobile devices-------------------------------------------------------------- */
+
+
+@media (max-width: 42.7rem) {
+  .staffs {
+    font-size: 36.25%;
+    padding: 0px;
+  }
+
+  form {
+    width: 100%;
+    padding: 1.3rem;
+  }
+
+  .text-input {
+    height: 3.4rem;
+    max-width: 27.6rem;
+    padding: 1.4rem;
+  }
+
+  ul {
+    grid-template-columns: 1fr;
+    row-gap: 1.5rem;
+  }
+}

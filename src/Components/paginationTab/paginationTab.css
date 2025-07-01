@@ -1,0 +1,62 @@
+
+.pagination-tb{
+    display:flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.ellipsis-container, .pg-tab{
+    height: 3.4rem;
+    width: 2.7rem;
+    border: 0.1rem solid #979595;
+    border-radius: 0.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.ellipsis-element{
+     color:#17654F;
+}
+
+.pg-tab-element{
+    color:black;
+}
+.active-tab{
+    background-color: #17654F;
+  
+}
+
+.active-tab-element{
+    color:#fff;
+}
+
+
+.prev-tab, .next-tab{
+    padding:0.8rem 1.3rem;
+    border:0.1rem solid #979595;
+    border-radius: 0.8rem;
+
+    cursor: pointer;
+}
+
+.prev-tab-element{
+    color:#000000;
+    
+}
+
+
+.next-tab{
+    background-color:#17654F;
+    border: 0.1rem solid #003627;
+}
+
+.prev-next-disable{
+    /* background-color: #979595; */
+    /* border-color: #979595; */
+    cursor:not-allowed;
+}
+
+/* .prev-next-disable-element{
+    color:#fff
+} */

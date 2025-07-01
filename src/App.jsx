@@ -28,7 +28,10 @@ import VendorDenied from "./Pages/VendorAccount/DeniedAccount/DeniedAccount";
 import VendorPending from "./Pages/VendorAccount/PendingAccount/PendingAccount";
 import CreateStaffAccount from "./Pages/StaffAccount/CreateStaffAccount/CreateStaffAccount";
 import Stafflist from "./Pages/StaffAccount/StaffList/StaffList";
-import StaffRole from "./Pages/StaffAccount/StaffRole/StaffRole";
+import CreateRole from "./Pages/StaffAccount/StaffRole/CreateRole";
+import Role from "./Pages/StaffAccount/StaffRole/Role";
+import StaffRoles from "./Pages/StaffAccount/StaffRole/StaffRoles";
+import EditRole from "./Pages/StaffAccount/StaffRole/EditRole";
 
 export default function App() {
   return (
@@ -62,7 +65,12 @@ export default function App() {
           <Route path="staff-account" element={<StaffAccount />} />
           <Route path="staff-account/Staff-List" element={<Stafflist />} />
           <Route path="staff-account/Create-Staff-Account" element={<CreateStaffAccount />} />
-          <Route path="staff-account/Staff-Role" element={<StaffRole />} />
+          <Route  path="staff-account" element={<Role />} >
+           <Route path="Staff-Role" element={<StaffRoles />} />
+           <Route path="create-Role" element={<CreateRole/>}/>
+           <Route path="edit-role/:id" element={<EditRole/>}/>
+
+          </Route>
         </Route>
 
         {/* Auth + media (outside layout) */}

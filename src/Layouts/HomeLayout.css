@@ -185,3 +185,28 @@
 ::-webkit-scrollbar-thumb:horizontal {
   background-color: rgba(255, 255, 255, 0.2);
 }
+
+
+
+
+/*---------------------------------------------- Tablet device----------------------------------------------- */
+
+@media (max-width: 76.8rem){
+   .working-box {
+
+  padding: 0.5em;
+
+}
+}
+
+
+
+/*---------------------------------------------- mobile device----------------------------------------------- */
+@media (max-width: 42.7rem ) {
+  .working-box {
+
+  padding: 0.1em;
+
+}
+  
+}

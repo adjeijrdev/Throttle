@@ -12,7 +12,7 @@ import autoTable from 'jspdf-autotable';
 
 export default function DailyDelivery(props) {
   const [currentPage, setCurrentPage] = useState(2);
-    const totalPages = 5;
+    const totalPages = 50;
 
     const handlePageChange = (newPage) => {
       setCurrentPage(newPage);
