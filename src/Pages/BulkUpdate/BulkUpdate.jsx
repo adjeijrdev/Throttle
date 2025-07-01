@@ -169,11 +169,11 @@ export default function BulkUpdate() {
                 </div>
               </div>
               <div className={styles.OutercontainertwoRight}>
-                <div>
+                <div className={styles.assignedto}>
                   <label>Assigned to</label>
                 <input type="text"></input>
                 </div>
-                <div>
+                <div className={styles.remarks}>
                   <label>Remarks to</label>
                 <input type="text"></input>
                 </div>
