@@ -1,5 +1,6 @@
 import { Link,useNavigate } from "react-router";
 import PaginatedTabs from "../../../Components/paginationTab/paginationTabs";
+
 import "./StaffRole.css";
 import { format, parseISO } from "date-fns";
 import { useState } from "react";
@@ -204,7 +205,7 @@ const roles = [
 
 function StaffRoles() {
   const [itemOffset, setItemOffset] = useState(0)
-  const [isDeleteModal, setDeleteModal] = useState(true)
+  const [isDeleteModal, setDeleteModal] = useState(false)
   
    let navigate = useNavigate();
   return (
@@ -228,8 +229,9 @@ function StaffRoles() {
             <span className="tb-head-checkbox"> <input type="checkbox"  /></span>
             <span>Role Title</span>
             <span>Description</span>
-            <span>Action</span>
             <span>Date Created</span>
+            <span>Action</span>
+
           </div>
 
           {roles.map((role) => {
@@ -250,12 +252,14 @@ function StaffRoles() {
                     );
                   })}
                 </span> */}
-                <span className="btn-container">
-                  <button onClick={(e)=>navigate(`/staff-account/edit-role/${role.id}`)}>Edit</button>
-                  <button onClick={()=>setDeleteModal(true)}>Delete</button>
-                </span>
+               
 
                 <span>{format(parseISO(role.updatedAt), "dd/MM/yyyy")}</span>
+
+                 <span className="btn-container">
+                  <button onClick={(e)=> navigate(`/staff-account/edit-role/${role.id}`)}>Edit</button>
+                  <button onClick={()=>setDeleteModal(true)}>Delete</button>
+                </span>
               </div>
             );
           })}

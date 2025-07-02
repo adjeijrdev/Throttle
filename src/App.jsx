@@ -27,11 +27,11 @@ import VendorApprovedAccount from "./Pages/VendorAccount/ApprovedAccount/Approve
 import VendorDenied from "./Pages/VendorAccount/DeniedAccount/DeniedAccount";
 import VendorPending from "./Pages/VendorAccount/PendingAccount/PendingAccount";
 import CreateStaffAccount from "./Pages/StaffAccount/CreateStaffAccount/CreateStaffAccount";
-import Stafflist from "./Pages/StaffAccount/StaffList/StaffList";
 import CreateRole from "./Pages/StaffAccount/StaffRole/CreateRole";
 import Role from "./Pages/StaffAccount/StaffRole/Role";
 import StaffRoles from "./Pages/StaffAccount/StaffRole/StaffRoles";
 import EditRole from "./Pages/StaffAccount/StaffRole/EditRole";
+import StaffList from "./Pages/StaffAccount/StaffList/StaffList";
 
 export default function App() {
   return (
@@ -63,7 +63,7 @@ export default function App() {
 
           {/* Staff */}
           <Route path="staff-account" element={<StaffAccount />} />
-          <Route path="staff-account/Staff-List" element={<Stafflist />} />
+          <Route path="staff-account/Staff-List" element={<StaffList />} />
           <Route path="staff-account/Create-Staff-Account" element={<CreateStaffAccount />} />
           <Route  path="staff-account" element={<Role />} >
            <Route path="Staff-Role" element={<StaffRoles />} />

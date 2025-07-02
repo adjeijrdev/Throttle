@@ -1,4 +1,4 @@
-import "./PendingAccount.module.css";
+import "./PendingAccount.css";
 
 export default function PendingAccount() {
   return (

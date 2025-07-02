@@ -101,7 +101,7 @@ function CreateRole() {
         </div>
 
         <div className="buttons">
-          <button className="btn-cancel">Cancel</button>
+          <button type="button" className="btn-cancel">Cancel</button>
           <button className="btn-create">Create</button>
         </div>
       </form>

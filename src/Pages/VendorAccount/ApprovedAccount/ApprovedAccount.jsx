@@ -1,4 +1,4 @@
-import "./ApprovedAccount.module.css";
+import "./ApprovedAccount.css";
 
 export default function ApprovedAccount() {
   return (

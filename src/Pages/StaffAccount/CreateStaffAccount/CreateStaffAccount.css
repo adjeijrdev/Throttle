@@ -1,0 +1,86 @@
+.ct-staff-form {
+  background-color: transparent;
+   padding: 0rem;
+}
+
+.ct-staff-form-con1 {
+  background-color: #ffffff;
+  border-radius: 0.8rem;
+  padding: 3.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.personal-info-sec {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 1.8rem;
+  /* background-color: red; */
+}
+
+.gender-radio-container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.gender-container {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.label-text-style {
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: black;
+}
+
+.required-field {
+  color: red;
+}
+
+.form-section1 {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.new-row-btn-container-st h3 {
+  border-bottom: none;
+}
+
+.new-row-btn-container-st {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 0.1rem solid black;
+  padding: 1rem 0rem;
+}
+
+.new-row-btn-container-st button {
+  /* width:15rem; */
+  height: 4.5rem;
+  border-radius: 0.8rem;
+  border: 0.1rem solid #00000033;
+  padding: 1.2rem 2.4rem;
+  background-color: #fff;
+  filter: drop-shadow(0px 0px 1px 1px rgba(0, 0, 0, 0.5));
+
+  font-size: 1.4rem;
+  font-weight: 400;
+  cursor: pointer;
+
+  transition-property: filter;
+  transition-timing-function: ease-in-out;
+  transition-duration: 250ms;
+}
+
+.new-row-btn-container-st button:hover {
+  background-color: #d6e3e0;
+}
+/* form{
+    background-color: green;
+} */

@@ -1,6 +1,7 @@
 import "./StaffRole.css";
 import { useParams } from "react-router";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 const permssions = [
   {
     _id: 1,
@@ -59,6 +60,7 @@ const permssions = [
 function EditRole() {
     const [roleName, setRoleName] = useState("Admin");
     const {id} = useParams()
+    const navigate = useNavigate()
 
   return (
     <div className="staffs">
@@ -106,7 +108,7 @@ function EditRole() {
         </div>
 
         <div className="buttons">
-          <button className="btn-cancel">Cancel</button>
+          <button className="btn-cancel" onClick={()=>navigate(-1)}>Cancel</button>
           <button className="btn-create">Save</button>
         </div>
       </form>

@@ -1,0 +1,35 @@
+ .required-field {
+  color: red;
+}
+
+.text-input {
+  border-radius: 1.4rem !important;
+  border: 0.1rem solid #17654F !important;
+  height: 5rem !important;
+  width: 40.2rem !important;
+  padding: 1.4rem !important;
+  background-color: #CCE1DB !important;
+  stroke-width: 0.1rem !important;
+  margin-top: 0.5rem !important;
+  transition-duration: 250ms !important;
+  transition-timing-function: ease-in-out !important;
+
+} 
+
+
+.text-input:hover, .text-input:active{
+    background-color: #B2CFC7 !important;
+    border-color: #17654F !important;
+}
+
+
+.text-input:focus{
+    background-color: #E8F7F3 !important;
+    border-color: #17654F !important;
+}
+
+.label-text-style{
+    font-weight: 400;
+    font-size: 1.6rem;
+    color:black;
+}
