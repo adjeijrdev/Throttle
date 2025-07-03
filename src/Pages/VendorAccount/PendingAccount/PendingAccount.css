@@ -1,0 +1,60 @@
+.status-btn-st {
+  border-radius: 0.8rem;
+  border: 0.1rem solid #737373;
+  background-color: #dfdfdf;
+  padding: 0.4rem 1.4rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color:#06264D99;
+
+  transition-duration: 250ms;
+  transition-property: background-color, color, border-color;
+  transition-timing-function: ease-in-out;
+  cursor: pointer;
+}
+
+.status-btn-st:hover {
+  background-color: #009231;
+  color:#fff;
+  border-color: #00CD44;
+}
+
+.vd-pending-title{
+    font-weight: 700;
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+}
+
+.table-container-st{
+    background-color: #fff;
+    border-radius: 0.8rem;
+    padding:3rem;
+}
+
+
+
+.vd-doc {
+  width: 20.9rem;
+
+  display: flex;
+  height: 163px;
+  /* padding: 16px 30px; */
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+
+  border-radius: 16px;
+  border: 1px solid var(--Green-Color, #17654f);
+  background: var(--white, #fff);
+}
+
+.personal-info-sec-doc{
+    display: flex;
+    gap:3.2rem;
+}
+
+.vd-doc-title{
+    font-weight: 400;
+    font-size: 1.6rem;
+    color:#000;
+}

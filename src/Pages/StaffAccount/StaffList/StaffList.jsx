@@ -5,7 +5,22 @@ import { format, parseISO } from "date-fns";
 import { useState } from "react";
 
 
-const staffs = [
+import {
+  Table,
+  Header,
+  HeaderRow,
+  Body,
+  Row,
+  HeaderCell,
+  Cell,
+} from "@table-library/react-table-library/table";
+import { useTheme } from "@table-library/react-table-library/theme";
+import { getTheme } from "@table-library/react-table-library/baseline";
+
+
+
+const staffs = {
+  nodes:[
  
     {
       id: "684981ad212f29a948ad6980",
@@ -142,13 +157,109 @@ const staffs = [
         lastLogin: "2025-06-25T12:30:00.000Z"
       }
     }
-];
+]}
+
 
 function StaffList() {
   const [itemOffset, setItemOffset] = useState(0);
   const [isDeleteModal, setDeleteModal] = useState(true);
 
   let navigate = useNavigate();
+
+
+  
+  const tableTheme = useTheme([
+    getTheme(),
+    {
+      Table: `
+        border-radius: 8px 8px 0rem 0rem;
+        border: 0.1rem solid #979595;
+    
+      --data-table-library_grid-template-columns:  50px repeat(6, minmax(0, 1fr)) !important;
+     
+      `,
+      BaseCell: `
+        height: 47px;
+
+      `,
+      BaseRow: `
+       
+  `,
+      Cell: `
+          color:#06264D;
+          height:56px;
+          font-size: 1.4rem;
+          font-weight:500;
+          font-family: "Poppins", sans-serif;
+
+         
+
+          & .btn-container{
+            display: flex;
+            gap: 0.5rem;
+
+            & button{
+              padding: 0.7rem 3rem;
+              border-radius: 0.8rem;
+              border: 0.1rem solid #cdd4db;
+              background-color: transparent;
+              cursor: pointer;
+              color: #003627;
+              transition-duration: 250ms;
+              transition-property: background-color, color, border;
+              transition-timing-function: ease-in-out;
+             
+
+            }
+          
+          }
+
+        `,
+      HeaderRow: `
+        background-color: #17654F;
+        border-color: #003627;
+        height: 56px;
+        padding:25px;
+        
+
+      `,
+      HeaderCell: `
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        font-size: 1.6rem;
+        color: #FFFFFF;
+
+         & input{
+          border-color:#fff;
+        }
+
+         & input:checked{
+          border-color:#fff;
+        }
+
+         & .header-action{
+          
+            padding-left:6rem;
+          }
+      `,
+      Body: `
+    
+      `,
+      Row: `
+          cursor: pointer;
+
+          transition-duration: 250ms;
+          transition-property: background-color;
+          transition-timing-function: ease-in-out;
+
+          &:hover{
+          background-color:#D6E3E0;
+          border-color:#979595;
+          }
+      `,
+    },
+  ]);
+
   return (
     <div className="roles">
       <div className="headers">
@@ -161,64 +272,56 @@ function StaffList() {
           Create Staff Account<span className="new-plus"> +</span>
         </button>
       </div>
-      {/* 
-      {
-        isDeleteModal && <DeleteRoleModal setDeleteModel={setDeleteModal}/>
-      } */}
+   
 
-      <div className="table-container">
-        <div>
-          <div className="table-head table-head-staffs-list">
-            <span className=" tb-head-checkbox">
-              {" "}
-              <input type="checkbox" />
-            </span>
-            <span>ID</span>
-            <span>Full Name</span>
-            <span>Gender</span>
-            <span>Contact</span>
-            <span>Email Address</span>
-            <span>Role</span>
-            <span>Date Created</span>
-          </div>
 
-          {staffs.map((staff) => {
-            return (
-              <div key={staff.id} className="tb-row tb-row-staffs-list">
-                <span>
-                  <input type="checkbox" id={staff.id} />
-                </span>
-                <span>
-                  AAA-000
-                </span>
-                <span>
+  <div className="table-container-st">
+        <Table data={staffs} theme={tableTheme}>
+          {(tableList) => (
+            <>
+              <Header>
+                <HeaderRow>
+                  <HeaderCell>
+                    <input type="checkbox" />
+                  </HeaderCell>
                   
-                  {staff?.userProfile?.fullName?.surname }  {staff.userProfile?.fullName?.middleName}  {staff.userProfile?.fullName?.firstName}
-                </span>
-                <span>
-                  {staff?.userProfile?.gender}
-                </span>
-                <span>
-                  {staff?.userProfile?.contact}
-                </span>
-                <span>
-                  {staff?.userProfile?.email}
-                </span>
-                <span>
-                  {staff?.role?.name}
-                </span>
-                <span>
-                  1/12/2024
-                  {/* {format(parseISO(staffs?.createdAt), "dd/MM/yyyy")} */}
-                </span>
-              </div>
-            );
-          })}
-        </div>
+                  <HeaderCell>Full Name</HeaderCell>
+                  <HeaderCell>Gender</HeaderCell>
+                  <HeaderCell>Contact</HeaderCell>
+                  <HeaderCell>Email Address</HeaderCell>
+                  <HeaderCell>Role</HeaderCell>
+                  <HeaderCell>Date Created</HeaderCell>
+                </HeaderRow>
+              </Header>
+
+              <Body>
+                {tableList.map((item) => (
+                  <Row key={item.id} item={item}>
+                    <Cell>
+                      <input type="checkbox" />
+                    </Cell>
+                    <Cell>{item?.userProfile?.fullName?.surname }  {item.userProfile?.fullName?.middleName}  {item.userProfile?.fullName?.firstName}</Cell>
+                    <Cell>{item?.userProfile?.gender}</Cell>
+                    <Cell>{item?.userProfile?.contact}</Cell>
+                    <Cell>{item?.userProfile?.email}</Cell>
+                    <Cell>{item?.role?.name}</Cell>
+                    <Cell>
+                     {format(parseISO(item?.createdAt), "dd/MM/yyyy")}
+                    </Cell>
+                  </Row>
+                ))}
+              </Body>
+            </>
+          )}
+        </Table>
+
         <div className="pagination-tab">
           <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
         </div>
       </div>
+
+     
+        
     </div>
   );
 }

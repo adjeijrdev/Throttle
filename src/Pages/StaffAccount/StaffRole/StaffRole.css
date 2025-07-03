@@ -55,6 +55,8 @@
 
 .table-head span{
   text-align: center;
+  display: inline-block;
+
 }
 
 .tb-head-checkbox {
@@ -96,6 +98,7 @@
   line-height: 2.2rem;
   cursor: pointer;
   text-align: center;
+ 
   /* border-right: 0.1rem solid #979595;
    border-left: 0.1rem solid #979595; */
 }
@@ -105,6 +108,9 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+
+
+  
 }
 
 .tb-row:hover {
@@ -249,7 +255,7 @@ button{
 }
 
 .buttons button {
-  width: 13.8rem;
+  /* width: 13.8rem; */
   height: 4.2rem;
   padding: 1.2rem 1.8rem;
   text-align: center;
