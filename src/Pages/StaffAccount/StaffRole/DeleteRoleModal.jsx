@@ -20,7 +20,7 @@ export default function DeleteRoleModal({setDeleteModel}) {
         <div className='danger-info'>Do you want to proceed?</div>
       </div>
 
-      <div className='buttons model-btn'>
+      <div className=' model-btn'>
         <button className='btn-cancel' onClick={()=>setDeleteModel(false)}>Cancel</button>
         <button className='btn-create'>Delete</button>
       </div>

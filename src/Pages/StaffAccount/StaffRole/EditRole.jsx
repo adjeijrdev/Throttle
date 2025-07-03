@@ -2,6 +2,7 @@ import "./StaffRole.css";
 import { useParams } from "react-router";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import TextInput from "../../../Components/form/TextInput"
 const permssions = [
   {
     _id: 1,
@@ -63,35 +64,26 @@ function EditRole() {
     const navigate = useNavigate()
 
   return (
-    <div className="staffs">
+    <div className="staffs account">
       <h2 >Edit Role</h2>
 
-      <form>
+      <form className="role-form">
         <div className="form-section">
           <h3>Role Title</h3>
           <div>
-            <label for="roleTitle">
-              Edit role title 
-            </label>
-            <br />
-            <input
-              type="text"
-              id="roleTitle"
-              name="roleTitle"
-              className="text-input"
-              value={roleName}
-            />
+             <TextInput title="Edit role title" name="roleTitle" value={roleName} />
           </div>
         </div>
 
         <div className="form-section">
           <h3>Edit Permissions</h3>
-          <ul>
+          <ul >
             {permssions.map((permission) => {
               return (
                 <li key={permission._id}>
                   <div>
                     <input
+                    className="check-on-wt-bg"
                       type="checkbox"
                       id={permission._id}
                       name={permission.name}
@@ -108,7 +100,7 @@ function EditRole() {
         </div>
 
         <div className="buttons">
-          <button className="btn-cancel" onClick={()=>navigate(-1)}>Cancel</button>
+          <button className="btn-cancel" type="button" onClick={()=>navigate(-1)}>Cancel</button>
           <button className="btn-create">Save</button>
         </div>
       </form>

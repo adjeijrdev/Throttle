@@ -18,8 +18,10 @@
 .btn-new-role {
   /* width: 13.8rem; */
   /* height: 4.2rem; */
-  padding: 1.4rem 1.8rem;
- 
+  padding: 1.2rem 1.8rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+
   cursor: pointer;
   transition-duration: 250ms;
   transition-property: background-color;
@@ -36,81 +38,33 @@
   background-color: #03563f;
 }
 
-.table-head {
-  background-color: #17654f;
-  border: 0.1rem solid #003627;
-
-  height: 4.7rem;
-  color: #ffffff;
-  font-weight: 400;
-  font-size: 1.4rem;
-  letter-spacing: 0.1rem;
-  border-radius: 0.8rem 0.8rem 0rem 0rem;
-  display: grid;
-  grid-template-columns: 0.5fr 2fr 3fr 2fr 2fr;
-  justify-content: center;
-  align-items: center;
-  /* border:0.1rem solid #17654F; */
-}
-
-.table-head span{
-  text-align: center;
-  display: inline-block;
-
-}
-
 .tb-head-checkbox {
   border-color: #ffffff;
 }
-/* .table-head th{
-  border:0px;
-} */
 
-.table-container {
+.table-container-st {
   background-color: #ffffff;
   padding: 2rem 2rem;
   text-align: start;
   border-radius: 0.8rem;
 
+  /* max-width: 1511px; */
+
+   
+  /* overflow-x: 'auto'; */
 }
 
-.tb-row {
-  background-color: #ffffff;
-  border-bottom: 0.1rem solid oklch(98.4% 0.003 247.858);
-}
-
-.tb-head-checkbox input[type="checkbox"] {
+.account input[type="checkbox"] {
   border: 0.1rem solid #fff;
 }
 
-.tb-row {
-  display: grid;
-  grid-template-columns: 0.5fr 2fr 3fr 2fr 2fr;
-  justify-content: center;
-  align-items: center;
-  padding-left: 0.5rem;
-  border: 0.1rem solid #979595;
-  border-top: 0rem;
-  padding: 1rem 0rem;
-  color: #003627;
-  font-weight: 500;
-  font-size: 1.4rem;
-  line-height: 2.2rem;
-  cursor: pointer;
-  text-align: center;
- 
-  /* border-right: 0.1rem solid #979595;
-   border-left: 0.1rem solid #979595; */
-}
+.check-on-wt-bg {
+  background-color: transparent;
 
-.tb-row span{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-
-  
+  border: 0.1rem solid #17654f !important;
+  width: 13.98px;
+  height: 15.09px;
+  border-radius: 4px;
 }
 
 .tb-row:hover {
@@ -144,12 +98,12 @@
   background-color: #d6e3e0;
 }
 
-.pagination-tab{
+.pagination-tab {
   margin: 1.5rem 0.1rem;
 }
 
 /* ---------------------------------------------------Create new Role-------------------------------------------------------------- */
-h2 {
+.account h2 {
   color: #000000;
   font-weight: 700;
   font-size: 3.2rem;
@@ -157,17 +111,17 @@ h2 {
   line-height: 100%;
 }
 
-h3 {
+.account h3 {
   color: #000000;
   font-weight: 700;
   font-size: 2rem;
   letter-spacing: 0;
   line-height: 100%;
-  border-bottom: 0.1rem solid black;
+  border-bottom: 0.1rem solid rgba(112, 128, 144, 0.5);
   padding: 1rem 0rem;
 }
 
-form {
+.role-form {
   background-color: #ffffff;
   border-radius: 0.8rem;
   padding: 3.3rem;
@@ -176,13 +130,13 @@ form {
   gap: 2.4rem;
 }
 
-form .form-section {
+.role-form .form-section {
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
 }
 
-label {
+.account label {
   font-weight: 400;
   font-size: 1.4rem;
   letter-spacing: 0;
@@ -211,7 +165,7 @@ label {
   outline: none;
 }
 
-ul {
+.account ul {
   list-style-type: none;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -219,7 +173,7 @@ ul {
   /* margin-top:  1.5rem; */
 }
 
-li {
+.account li {
   display: flex;
   gap: 0.4rem;
   justify-content: start;
@@ -237,7 +191,7 @@ li {
   /* border:1px solid red; */
 }
 
-input[type="checkbox"] {
+.role-form input[type="checkbox"] {
   width: 1.7rem;
   height: 1.5rem;
 }
@@ -248,7 +202,7 @@ input[type="checkbox"] {
   justify-content: end;
 }
 
-button{
+.role-form button {
   transition-duration: 250ms;
   transition-property: all;
   transition-timing-function: ease-in-out;
@@ -272,91 +226,118 @@ button{
 
 .buttons .btn-cancel:hover,
 .buttons .btn-cancel:active {
-  background-color: #D6E3E0;
+  background-color: #d6e3e0;
 }
 
 .buttons .btn-create {
   background-color: var(--main-theme);
   color: #ffffff;
   border-color: #ffffff;
-  border: 1px solid #17654F;
+  border: 1px solid #17654f;
 }
 
 .buttons .btn-create:hover,
 .buttons .btn-create:active {
-  background-color: #03563F;
+  background-color: #03563f;
   border: 0.1rem solid var(--main-theme);
 }
 
 /* ------------------------------------------Delete role-------------------------------------------------------------- */
 
-.delete-model-container{
+.delete-model-container {
   background-color: #fff;
   border-radius: 2.4rem;
-  z-index:100;
+  z-index: 100;
   position: absolute;
-  top:20%;
-  left:35%;
+  top: 20%;
+  left: 35%;
   filter: drop-shadow(1px 1px 5px black);
-  padding:1rem;
+  padding: 1rem;
   width: 70.4rem;
-  height:40.2rem;
+  height: 40.2rem;
   text-align: center;
 
-   display: flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  gap:3.5rem;
+  gap: 3.5rem;
 }
 
-.delete-model-container img{
+.delete-model-container img {
   width: 9.6rem;
   height: 8.5rem;
- 
 }
 
-.modal-title{
+.modal-title {
   font-weight: 700;
   font-size: 3.2rem;
 }
 
-.modal-sub-title{
+.modal-sub-title {
   font-weight: 500;
   font-size: 1.5rem;
 }
 
-.danger-info{
-  color:#D11515;
-   font-weight: 500;
+.danger-info {
+  color: #d11515;
+  font-weight: 500;
   font-size: 1.5rem;
   font-style: italic;
 }
 
-.model-btn{
- display: flex;
- justify-content: center;
- align-items: center;
- gap:4rem;
- 
-
+.model-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
 }
 
+.model-btn button {
+  padding: 0.8rem 1.8rem;
+  width: 20.5rem;
+  border-radius: 0.8rem;
+  height: 4.2rem;
+  outline: none;
+  border: 0.1rem solid #17654f;
+  cursor: pointer;
+  color: #003627;
+  font-size: 1.6rem;
+  font-weight: 400;
+  background-color: transparent;
 
+  transition-property: background-color, color;
+  transition-duration: 250ms;
+  transition-timing-function: ease-in-out;
+}
+
+.model-btn .btn-create {
+  background-color: #17654f;
+  color: white;
+}
+
+.model-btn .btn-create:hover {
+  background-color: #03563f;
+}
+
+.model-btn .btn-cancel:hover {
+  background-color: #d6e3e0;
+  color: #003627;
+}
 /* ------------------------------------------Tablet devices-------------------------------------------------------------- */
 
 @media (max-width: 76.8rem) {
   .staffs .roles {
     font-size: 56.25%;
   }
-  ul {
+  .account ul {
     grid-template-columns: 1fr 1fr;
     column-gap: 0.8rem;
     row-gap: 1.5rem;
   }
 
-  .text-input {
+  .account .text-input {
     border-radius: 1rem;
 
     height: 4rem;
@@ -371,16 +352,16 @@ button{
     padding: 0rem;
   }
 
-  .tb-row button {
-  padding: 0.5rem 2rem;
-  }
+ 
+
+  .btn-new-role {
+  padding: 0.8rem 1.8rem;
+  font-size: 1.4rem;
+ 
+}
 }
 
-
-
-
 /* ------------------------------------------mobile devices-------------------------------------------------------------- */
-
 
 @media (max-width: 42.7rem) {
   .staffs {
@@ -388,19 +369,24 @@ button{
     padding: 0px;
   }
 
-  form {
+  .account form {
     width: 100%;
     padding: 1.3rem;
   }
 
-  .text-input {
+  .account .text-input-st {
     height: 3.4rem;
     max-width: 27.6rem;
     padding: 1.4rem;
   }
 
-  ul {
+  .account ul {
     grid-template-columns: 1fr;
     row-gap: 1.5rem;
   }
+
+  .buttons {
+ 
+  justify-content: center;
+}
 }

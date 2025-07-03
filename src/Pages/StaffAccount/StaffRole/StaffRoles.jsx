@@ -228,12 +228,30 @@ function StaffRoles() {
       Table: `
         border-radius: 8px 8px 0rem 0rem;
         border: 0.1rem solid #979595;
-    
-      --data-table-library_grid-template-columns:  50px repeat(4, minmax(0, 1fr)) !important;
-     
+      
+    // max-width: 1511px;
+      // --data-table-library_grid-template-columns:  50px repeat(4, minmax(100px, 1fr)) !important;
+      // --data-table-library_grid-template-columns:  10% 22.5% 22.5% 22.5% 22.5%  minmax(100px, 1fr) !important ;
+
+        --data-table-library_grid-template-columns: 50px repeat(4, minmax(250px, auto));
+
+
+        &::-webkit-scrollbar-track {
+              background: #f1f1f1; 
+              border-radius: 4px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background:  rgba(112, 128, 144, 0.4); 
+            height:1rem;
+            border-radius: 4px;
+          }
+
+
       `,
       BaseCell: `
         height: 47px;
+
 
       `,
       BaseRow: `
@@ -246,7 +264,18 @@ function StaffRoles() {
           font-weight:500;
           font-family: "Poppins", sans-serif;
 
+          & .num-staff-col{
+          padding-left:7rem;
          
+          }  
+          
+          
+          & input{
+        
+          width:15.98px;
+          height:15.09px;
+          border-radius:4px
+        }
 
           & .btn-container{
             display: flex;
@@ -262,9 +291,8 @@ function StaffRoles() {
               transition-duration: 250ms;
               transition-property: background-color, color, border;
               transition-timing-function: ease-in-out;
-             
-
             }
+
           
           }
 
@@ -285,6 +313,9 @@ function StaffRoles() {
 
          & input{
           border-color:#fff;
+          width:15.98px;
+          height:15.09px;
+          border-radius:4px
         }
 
          & input:checked{
@@ -330,7 +361,7 @@ function StaffRoles() {
       {isDeleteModal && <DeleteRoleModal setDeleteModel={setDeleteModal} />}
 
       <div className="table-container-st">
-        <Table data={roles} theme={tableTheme}>
+        <Table data={roles} theme={tableTheme}   layout={{ custom: true, horizontalScroll: true , fixedHeader: true}}>
           {(tableList) => (
             <>
               <Header>
@@ -340,7 +371,7 @@ function StaffRoles() {
                   </HeaderCell>
                   <HeaderCell>Role Title</HeaderCell>
                   <HeaderCell>Description</HeaderCell>
-                  <HeaderCell>Number Of Staffs</HeaderCell>
+                  <HeaderCell>Number of Staffs</HeaderCell>
                   <HeaderCell><span className="header-action">Action</span></HeaderCell>
                 </HeaderRow>
               </Header>
@@ -353,12 +384,11 @@ function StaffRoles() {
                     </Cell>
                     <Cell>{item.name}</Cell>
                     <Cell>{item.description}</Cell>
-                    <Cell>5</Cell>
+                    <Cell ><div className="num-staff-col">5</div></Cell>
                     <Cell>
                       <span className="btn-container">
                         <button
-                          onClick={(e) =>
-                            navigate(`/staff-account/edit-role/${role.id}`)
+                          onClick={(e) => navigate(`/staff-account/edit-role/${item.id}`)
                           }
                         >
                           Edit
@@ -379,37 +409,7 @@ function StaffRoles() {
           <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
         </div>
       </div>
-      {/* 
-      <div className="table-container">
-        <div>
-  
-
-          {roles.map((role) => {
-            return (
-              <div key={role.id} className="tb-row">
-                <span>
-                  <input type="checkbox" id={role.id} />
-                </span>
-                <span>{role.name}</span>
-                <span>{role.description}</span>
-               
-
-                <span>{format(parseISO(role.updatedAt), "dd/MM/yyyy")}</span>
-
-                 <span className="btn-container">
-                  <button onClick={(e)=> navigate(`/staff-account/edit-role/${role.id}`)}>Edit</button>
-                  <button onClick={()=>setDeleteModal(true)}>Delete</button>
-                </span>
-              </div>
-            );
-          })}
-        </div>
-        <div className="pagination-tab"> 
-        <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
-
-        </div>
-
-      </div> */}
+    
     </div>
   );
 }

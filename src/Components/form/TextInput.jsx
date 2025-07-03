@@ -12,7 +12,7 @@ export default function TextInput({title, name, isRequired}) {
         type="text"
         id={name}
         name={name}
-        className="text-input"
+        className="text-input-st"
         placeholder={title}
       />
     </div>

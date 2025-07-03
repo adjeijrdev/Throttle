@@ -27,7 +27,7 @@ export default function ({ icon, name, url, isActive, setActive, childrens }) {
     return (
       <>
         <div className={isSectionActive? "Link-active" : "Link"} onClick={clickedTab}>
-          <div className={isActive ? "active-logo" : ""}>
+          <div className={isSectionActive ? "active-logo" : ""}>
             <img src={icon} alt={name} />
           </div>
           <NavLink to={childrens[0].url} end> {name} </NavLink>

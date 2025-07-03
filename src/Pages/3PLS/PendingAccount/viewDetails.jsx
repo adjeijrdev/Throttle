@@ -12,7 +12,7 @@ export default function ViewDetails3PL() {
   const status = location?.state?.status;
 
   return (
-    <div>
+    <div className="account">
       <div className="headers">
         <h2 className="ct-staff-title">3PL Approval</h2>
 

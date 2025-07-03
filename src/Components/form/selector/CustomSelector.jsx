@@ -10,7 +10,7 @@ export default function CustomSelector({
   const customStyles = {
     control: (base, state) => ({
       ...base,
-      width: "402px",
+      width: "392px ",
       height: "50px",
       borderRadius: "14px",
       border: "0.1px solid #003627",
@@ -66,6 +66,7 @@ export default function CustomSelector({
       transitionDuration: "250ms",
       transitionProperty: "all",
       cursor:"pointer",
+    
 
       "&:hover": {
         backgroundColor: "#EAF5F2",
@@ -82,6 +83,9 @@ export default function CustomSelector({
 
       display: "flex",
       alignItems: "center",
+      fontSize:"16px",
+      fontWeight:"400",
+      lineHeight:"22px"
     }),
     menu: (base) => ({
       ...base,

@@ -220,11 +220,21 @@ export default function ApprovedAccount() {
        
   `,
       Cell: `
+      
+
           color:#06264D;
           height:56px;
           font-size: 1.4rem;
           font-weight:500;
           font-family: "Poppins", sans-serif;
+
+        & input{
+          width:15.98px;
+          height:15.09px;
+          border-radius:4px
+          outline:1px solid green;
+          border:1px solid green !important;
+        }
 
         `,
       HeaderRow: `
@@ -243,6 +253,11 @@ export default function ApprovedAccount() {
 
          & input{
           border-color:#fff;
+            width:15.98px;
+          height:15.09px;
+          border-radius:4px
+          outline:1px solid green;
+         
         }
 
          & input:checked{
@@ -268,7 +283,7 @@ export default function ApprovedAccount() {
   ]);
 
   return (
-    <div >
+    <div className=" ">
       <div className="vd-pending-title">Approved 3PL Accounts</div>
 
       <div className="table-container-st">

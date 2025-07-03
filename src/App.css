@@ -32,3 +32,8 @@ html {
   --main-theme: #17654f;
   --main-theme-gray: #eaebee;
 }
+
+
+ul{
+  list-style-type:none;
+}

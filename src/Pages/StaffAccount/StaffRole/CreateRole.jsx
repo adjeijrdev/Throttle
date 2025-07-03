@@ -1,5 +1,5 @@
 import "./StaffRole.css";
-
+import { useNavigate } from "react-router";
 const permssions = [
   {
     _id: 1,
@@ -56,11 +56,12 @@ const permssions = [
   },
 ];
 function CreateRole() {
+  const navigate = useNavigate()
   return (
-    <div className="staffs">
+    <div className="staffs account">
       <h2 className="se">Create New Role</h2>
 
-      <form>
+      <form className="role-form">
         <div className="form-section">
           <h3>Role Title</h3>
           <div>
@@ -100,8 +101,8 @@ function CreateRole() {
           </ul>
         </div>
 
-        <div className="buttons">
-          <button type="button" className="btn-cancel">Cancel</button>
+        <div className="account-create-btn">
+          <button type="button" className="btn-cancel" onClick={()=>navigate(-1)}>Cancel</button>
           <button className="btn-create">Create</button>
         </div>
       </form>

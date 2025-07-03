@@ -176,6 +176,7 @@ function StaffList() {
         border: 0.1rem solid #979595;
     
       --data-table-library_grid-template-columns:  50px repeat(6, minmax(0, 1fr)) !important;
+
      
       `,
       BaseCell: `
@@ -192,7 +193,13 @@ function StaffList() {
           font-weight:500;
           font-family: "Poppins", sans-serif;
 
-         
+          & input{
+          width:15.98px;
+          height:15.09px;
+          border-radius:4px
+          outline:1px solid green;
+          border:1px solid green !important;
+        }
 
           & .btn-container{
             display: flex;
@@ -233,8 +240,13 @@ function StaffList() {
           border-color:#fff;
         }
 
-         & input:checked{
+        & input{
           border-color:#fff;
+          width:15.98px;
+          height:15.09px;
+          border-radius:4px
+          outline:1px solid green;
+         
         }
 
          & .header-action{
@@ -276,7 +288,7 @@ function StaffList() {
 
 
   <div className="table-container-st">
-        <Table data={staffs} theme={tableTheme}>
+        <Table data={staffs} theme={tableTheme}   layout={{ custom: true, horizontalScroll: true }}>
           {(tableList) => (
             <>
               <Header>

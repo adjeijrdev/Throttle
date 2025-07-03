@@ -12,7 +12,7 @@ export default function ViewDetails() {
   const status = location?.state?.status;
 
   return (
-    <div>
+    <div className="account">
       <div className="headers">
         <h2 className="ct-staff-title">Vendor Approval</h2>
         <button

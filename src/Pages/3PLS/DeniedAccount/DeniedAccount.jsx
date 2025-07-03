@@ -226,6 +226,13 @@ import "./DeniedAccount.module.css";
             font-weight:500;
             font-family: "Poppins", sans-serif;
   
+         & input{
+          width:15.98px;
+          height:15.09px;
+          border-radius:4px
+          outline:1px solid green;
+          border:1px solid green !important;
+        }
           `,
         HeaderRow: `
           background-color: #17654F;
@@ -241,9 +248,15 @@ import "./DeniedAccount.module.css";
           font-size: 1.6rem;
           color: #FFFFFF;
   
-           & input{
-            border-color:#fff;
-          }
+          
+         & input{
+          border-color:#fff;
+            width:15.98px;
+          height:15.09px;
+          border-radius:4px
+          outline:1px solid green;
+         
+        }
   
            & input:checked{
             border-color:#fff;
@@ -268,7 +281,7 @@ import "./DeniedAccount.module.css";
     ]);
   
     return (
-      <div >
+      <div className="">
         <div className="vd-pending-title">Denied 3PL Accounts</div>
   
         <div className="table-container-st">
