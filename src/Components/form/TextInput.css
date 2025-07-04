@@ -1,0 +1,107 @@
+ .required-field {
+  color: red;
+}
+
+.text-input-st {
+  border-radius: 1.4rem !important;
+  border: 0.1rem solid #17654F !important;
+  height: 5rem !important;
+  width: 39.2rem !important;
+  padding: 1.4rem !important;
+  background-color: #CCE1DB !important;
+  stroke-width: 0.1rem !important;
+  margin-top: 0.5rem !important;
+  transition-duration: 250ms !important;
+  transition-timing-function: ease-in-out !important;
+
+} 
+
+
+.text-input-st:hover, .text-input-st:active{
+    background-color: #B2CFC7 !important;
+    border-color: #17654F !important;
+}
+
+
+.text-input-st:focus{
+    background-color: #E8F7F3 !important;
+    border-color: #17654F !important;
+}
+
+.label-text-style{
+    font-weight: 400;
+    font-size: 1.6rem;
+    color:black;
+}
+
+
+
+@media (max-width:1550px) {
+ .text-input-st {
+
+  height: 4.5rem !important;
+  width:  36.2rem!important;
+} 
+}
+
+@media (max-width: 1425px) {
+  .text-input-st {
+    height: 4.5rem !important;
+    width: 33.2rem !important;
+  }
+
+}
+  
+
+
+@media (max-width: 1335px) {
+  .text-input-st {
+    height: 4.2rem !important;
+    width: 30.2rem !important;
+  }
+
+}
+  
+
+
+@media (max-width: 42.7rem) {
+.text-input-st {
+
+  height: 4rem !important;
+  width: 29.2rem !important;
+} 
+
+}
+
+@media (max-width:1188px) {
+.text-input-st {
+  height: 5rem !important;
+  width: 39.2rem !important;
+}
+
+}
+
+@media (max-width:1032px) {
+ .text-input-st {
+
+  height: 4.5rem !important;
+  width:  36.2rem!important;
+} 
+}
+
+
+@media (max-width: 964px) {
+  .text-input-st {
+    height: 4.5rem !important;
+    width: 33.2rem !important;
+  }
+
+}
+
+@media (max-width:892px) {
+ .text-input-st {
+
+  height: 4.5rem !important;
+  width:  40.2rem!important;
+} 
+}

@@ -1,0 +1,41 @@
+.table-head-staffs-list {
+  background-color: #17654f;
+  border: 0.1rem solid #003627;
+  height: 4.7rem;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 1.4rem;
+  letter-spacing: 0.1rem;
+  border-radius: 0.8rem 0.8rem 0rem 0rem;
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr;
+
+  justify-content: center;
+  align-items: center;
+  /* border:0.1rem solid #17654F; */
+}
+
+.tb-row-staffs-list {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+
+  border: 0.1rem solid #979595;
+  border-top: 0rem;
+  padding: 1rem 0rem;
+  overflow-x: auto;
+  cursor: pointer;
+}
+
+.tb-row-staffs-list span {
+  /* border: 2px solid red; */
+  text-align: center;
+  color: #003627;
+  font-weight: 500;
+  line-height: 2.2rem;
+
+  font-size: 1.1rem;
+}
+
+
