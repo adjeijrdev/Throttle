@@ -1,6 +1,6 @@
 import styles from "./BulkUpdate.module.css";
 import reseticon from "../../Assets/icons/reseticon.png";
-import searchicon from "../../Assets/icons/searchicon.png";
+import clockicon from "../../Assets/icons/clockicon.png";
 import { ChevronLeft } from 'lucide-react';
 import { useState } from 'react';
 
@@ -185,7 +185,7 @@ export default function BulkUpdate() {
             <img src={reseticon} alt="reset Icon" style={{ width: '16px', height: '16px' }} /> Reset
           </button>
           <button className={styles.searchbtn} onClick={handleSearch}>
-            <img src={searchicon} alt="search Icon" style={{ width: '16px', height: '16px' }} /> Search
+            <img src={clockicon} alt="clock Icon" style={{ width: '16px', height: '16px' }} /> Update
           </button>
         </div>
       </div>
