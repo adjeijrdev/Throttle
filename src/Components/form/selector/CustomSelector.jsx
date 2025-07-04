@@ -79,7 +79,7 @@ export default function CustomSelector({
         : "#fff",
       color: state.isSelected ? "#fff" : "#333",
 
-      padding: 10,
+      // padding: 10,
 
       display: "flex",
       alignItems: "center",
