@@ -1,18 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import "./Register.css";
 
 //import images
 import BluredBackground from "../../Assets/blured_dashboard.png";
 import Logo from "../../Assets/logos/LOGO-img.png";
 
-//importing personal component
-import Stepper from "../../Components/Stepper";
-import VendorStepper from "../../Components/Stepper_and_registration/VendorStepper";
-
-export default function Register() {
+export default function RegisterThirdParty() {
   const navigate = useNavigate();
-
-
   return (
     <div className="Register-main-container">
       <div className="green-left">
@@ -35,9 +28,11 @@ export default function Register() {
           <img src={Logo} alt="Throttle-logo" />
         </div>
         <div className="registring-part-form-contianer">
-          <div className="close" onClick={()=> navigate('/login')} > <h1>X</h1></div>
-          <Stepper name="Vendor" />
-          {/* <VendorStepper /> */}
+          <div className="close" onClick={() => navigate("/login")}>
+            {" "}
+            <h1>X</h1>
+          </div>
+          {/* <RiderStepper name="Third-Party Logistics" /> */}
         </div>
       </div>
     </div>

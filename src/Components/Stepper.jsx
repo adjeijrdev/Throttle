@@ -29,6 +29,8 @@ const Stepper = ({ name }) => {
   const [showPassword1, setShowPassword1] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  
+
   const toggleVisibility = () => {
     setShowPassword((prev) => !prev);
   };

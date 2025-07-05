@@ -29,16 +29,7 @@
   position: relative;
 }
 
-/* .step-item::after {
-  content: "";
-  position: absolute;
-  top: 1rem;
-  right: -50%;
-  width: 100%;
-  height: 10px;
-  background-color: var(--clr-green);
-  z-index: -1;
-}  */
+
 .step-item:last-child::after {
   display: none;
 }
@@ -98,6 +89,7 @@
 }
 
 .form-group {
+  margin-top: -2rem;
   display: flex;
   flex-direction: column;
 }
@@ -464,4 +456,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .upload-button:hover {
   background-color: #f0f0f0;
+}
+
+/* Error handler */
+.errorMessage {
+  color: #d32f2f; /* Deep red */
+  font-size: 1rem;
+  margin-top: 4px;
+  /* padding: 6px 12px; */
+  padding-left: 6px;
+  background-color: #fdecea; /* Light red background */
+  border-left: 4px solid #f44336;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: shake 0.5s ease-in-out;
+}
+
+.errorMessage::before {
+  content: "⚠";
+  font-size: 1.3rem;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-3px); }
+  40%, 80% { transform: translateX(3px); }
 }
