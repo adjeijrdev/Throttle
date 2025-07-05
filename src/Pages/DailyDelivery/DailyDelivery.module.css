@@ -25,7 +25,7 @@
     box-shadow: 1rem var(--darker-gray);
 }
 
-.header {
+.tableheader {
  background-color:var(--main-theme);
     color: var(--clr-white);
 }
@@ -96,28 +96,32 @@
 .filterButton {
   background-color: #f3f4f6;
   border: 1px solid #d1d5db;
-  padding: 6px 14px;
+  padding: 6px 18px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 .filters button:first-child {
   border-top-left-radius: 8px; 
-  border-bottom: 4px solid rgb(56, 54, 54);
+   width: 8rem;
 }
 
 .filters button:last-child {
   border-top-right-radius: 8px;
+  
 }
 
 .filterButton:hover {
    background-color: var(--input-background);
+    border-color: #17654f;
+   border-bottom: none;
 }
 
 .activeFilter {
   background-color: #17654f;
   color: white;
   border-color: #17654f;
+   border-bottom: 4px solid rgb(56, 54, 54);
 }
 
 
@@ -129,7 +133,7 @@
 }
 
 .overviewtext{
-    font-size: 0.5em;
+    font-size: 10px;
     margin-left: 0.9rem;
     margin-bottom: 1rem;
 }
@@ -143,22 +147,16 @@
   background-color: white;
 }
 
+.date__control:hover{
+  background-color: var(--input-background);
+  border-color: white;
+}
 
 .exportContainer {
   position: relative;
   display: inline-block;
 }
 
-.exportButton {
-  background-color: white;
-  color: var(--clr-black);
-  border: none;
-  border-radius: 1rem;
-  cursor: pointer;
-  align-items: center;
-  width: 15rem;
-  padding: 0.8rem;
-}
 
 .dropdownMenu {
   position: absolute;
@@ -170,7 +168,7 @@
   z-index: 10;
   border-radius: 1rem;
   overflow: hidden;
-  min-width: 100px;
+  min-width: 120px;
 }
 
 .dropdownItem {
@@ -191,12 +189,18 @@
 .columnButton {
   background-color:white;
   color: var(--clr-black);
-  border: none;
+  border: 1px solid #e5e7eb;
   border-radius: 1rem;
   cursor: pointer;
+  display: flex;
   align-items: center;
+  justify-content: space-around;
    width: 15rem;
   padding: 0.8rem;
+}
+.columnButton:hover{
+  background-color: var(--input-background);
+  border-color: white;
 }
 
 .columnDropdown {
@@ -209,7 +213,7 @@
   z-index: 10;
   border-radius: 4px;
   overflow: hidden;
-  min-width: 160px;
+  min-width: 180px;
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -256,4 +260,87 @@
   color: #666;
   font-size: 1.2rem;
   margin-top: 1rem;
+}
+.selectedRow {
+  background-color: #f0f7ff;
+}
+
+.tableRow {
+  cursor: pointer;
+}
+
+.tableRow:hover {
+  background-color: var(--input-background);
+  border: #054231;
+}
+/* Add to Dashboard.module.css */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #065f46;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--main-theme); /* Green color */
+  border-color: var(--main-theme);
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* Add to Dashboard.module.css */
+.tableRow td:first-child {
+  /* Prevent the checkbox cell from triggering row selection */
+  pointer-events: none;
+}
+
+.tableRow td:first-child input {
+  /* Re-enable pointer events for just the checkbox */
+  pointer-events: all;
+}
+/* Add to Dashboard.module.css */
+.headerRow {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+
+/* Make sure header checkbox matches your green style */
+.th input[type="checkbox"] {
+  -webkit-appearance: none;
+   appearance: none;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.th input[type="checkbox"]:checked {
+  background-color: white;
+  border-color: #ccc;
+}
+
+.th input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: var(--main-theme);
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

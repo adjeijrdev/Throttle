@@ -681,7 +681,7 @@ const Stepper = ({ name }) => {
                   onClick={toggleVisibility}
                   className={style["toggle - btn"]}
                 >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
                 {errors.password && (
                 <p className={style.errorMessage}>{errors.password.message}</p>
@@ -703,7 +703,7 @@ const Stepper = ({ name }) => {
                   onClick={toggleVisibility1}
                   className={style["toggle - btn"]}
                 >
-                  {showPassword1 ? <FaEyeSlash /> : <FaEye />}
+                  {showPassword1 ? <FaEye /> : <FaEyeSlash />}
                 </button>
                 {errors.confirmPassword && (
                 <p className={style.errorMessage}>

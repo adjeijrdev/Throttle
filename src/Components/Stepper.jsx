@@ -449,7 +449,7 @@ const removeImage = () => {
                   onClick={toggleVisibility}
                   className={style["toggle - btn"]}
                 >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  {showPassword ?<FaEye />  : <FaEyeSlash />}
                 </button>
               </div>
               {errors.password?.message && (
@@ -468,8 +468,8 @@ const removeImage = () => {
                   type="button"
                   onClick={toggleVisibility1}
                   className={style["toggle-btn"]}
-                >
                   {showPassword1 ? <FaEyeSlash /> : <FaEye />}
+
                 </button>
               </div>
               {errors.confirmpassword?.message && (

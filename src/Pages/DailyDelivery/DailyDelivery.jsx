@@ -1,12 +1,14 @@
 import { useState } from "react";
 import Pagination from "./Pagination";
 import styles from "./DailyDelivery.module.css";
-import { Download,Eye, ChevronDown } from 'lucide-react';
+import { Upload,Eye, ChevronDown } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import DateFilter from "../Dashboard/DateFilter";
 import locationIcon from '../../Assets/icons/location.png';
-
+import boxIcon from '../../Assets/icons/smallbox.png';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default function DailyDelivery(props) {
   const [currentPage, setCurrentPage] = useState(2);
@@ -41,7 +43,6 @@ const [selectionPhase, setSelectionPhase] = useState('start');
     setEnteredDate(event.target.value); 
 };
 
-// In your handleFilter function:
 const handleFilter = (range) => {
   if (range.start > range.end) {
     alert('End date must be after start date');
@@ -67,7 +68,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
   {
-    orderId: 'A0M600',
+    orderId: 'A0M601',
     dateTime: '2024-12-10, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -81,7 +82,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M602',
     dateTime: '2024-12-10, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -95,7 +96,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M603',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -109,7 +110,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M604',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -123,7 +124,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M605',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -137,7 +138,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M606',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -151,7 +152,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M607',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -165,7 +166,7 @@ const handleFilter = (range) => {
     orderimg:'',
   },
   {
-    orderId: 'A0M600',
+    orderId: 'A0M608',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
@@ -179,13 +180,265 @@ const handleFilter = (range) => {
     orderimg:'',
   },
    {
-    orderId: 'A0M600',
+    orderId: 'A0M609',
     dateTime: '2024-10-30, 01:53',
     destination: 'Tema newton, Hse No 36b, Greater Accra',
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
     payAmount: 'GHC350.00',
     status: 'In Progress',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M610',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M611',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Failed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M612',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Assigned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M613',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Returned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M614',
+    dateTime: '2024-12-10, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Order Placed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-12-10',
+    orderimg:'',
+  },
+  {
+    orderId: 'A0M615',
+    dateTime: '2024-12-10, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Order Placed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-12-10',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M616',
+    dateTime: '2024-12-10, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'In Progress',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-12-10',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M617',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Order Placed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M618',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Failed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M619',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Assigned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M620',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Returned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M621',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+  {
+    orderId: 'A0M622',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Rejected',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M623',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'In Progress',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M624',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Completed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M625',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Failed',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M626',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Assigned',
+    vendor: 'Ishtari Ghana',
+    tpl: 'Robert',
+     deliveryAmount: 'GHC350.00',
+    orderdate:'2024-10-30',
+    orderimg:'',
+  },
+   {
+    orderId: 'A0M627',
+    dateTime: '2024-10-30, 01:53',
+    destination: 'Tema newton, Hse No 36b, Greater Accra',
+    recipient: 'Ama Nelson',
+    phone: '+233 54 786 6565',
+    payAmount: 'GHC350.00',
+    status: 'Returned',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
@@ -213,6 +466,7 @@ const statusClass = {
   Failed: styles.failed,
   Assigned: styles.assigned,
   Returned: styles.returned,
+  'Order Placed': styles.inProgress,
 };
 
 // Add validation to your order data
@@ -297,8 +551,92 @@ const exportToExcel = () => {
   setShowDropdown(false);
 };
 
+const exportToPDF = () => {
+  try {
+    // Check if there's data to export
+    if (!filteredOrders || filteredOrders.length === 0) {
+      alert('No orders to export');
+      setShowDropdown(false);
+      return;
+    }
+
+    // Initialize PDF document
+    const doc = new jsPDF({
+      orientation: 'landscape'
+    });
+
+    // Add title
+    doc.setFontSize(16);
+    doc.text('Orders Report', 14, 15);
+
+    // Prepare table data
+    const headers = [
+      'Date/Time',
+      'Order ID',
+      'Destination',
+      'Recipient',
+      'Phone',
+      'Amount',
+      'Status',
+      'Vendor',
+      '3PL',
+      'Delivery Fee',
+      'Delivery Date'
+    ];
+
+    const data = filteredOrders.map(order => [
+      order.dateTime || '',
+      order.orderId || '',
+      order.destination || '',
+      order.recipient || '',
+      order.phone || '',
+      order.payAmount || '',
+      order.status || '',
+      order.vendor || '',
+      order.tpl || '',
+      order.deliveryAmount || '',
+      order.orderdate || ''
+    ]);
+
+    // Generate the table
+    autoTable(doc,{
+      head: [headers],
+      body: data,
+      startY: 20,
+      styles: {
+        fontSize: 8,
+        cellPadding: 2,
+        overflow: 'linebreak'
+      },
+      headStyles: {
+        fillColor: [41, 128, 185],
+        textColor: [255, 255, 255],
+        fontStyle: 'bold'
+      }
+    });
+
+    // Save the PDF
+    doc.save('orders-report.pdf');
+    setShowDropdown(false);
+    
+  } catch (error) {
+    console.error('PDF export error:', error);
+    alert('Failed to generate PDF. Please check console for details.');
+    setShowDropdown(false);
+  }
+};
 
 const allColumns = [
+   {
+      key: 'box',
+      label: (
+        <img
+          src={boxIcon}
+          alt="box"
+          style={{ width: '14px', height: '14px', verticalAlign: 'middle' }}
+        />
+      ),
+    },
   { key: 'map', label: 'Map' },
   { key: 'dateTime', label: 'Pickup Date, Time' },
   { key: 'orderId', label: 'Order ID' },
@@ -326,7 +664,7 @@ const handleColChange = (key) => {
   setVisibleCols(prev => ({ ...prev, [key]: !prev[key] }));
 };
 
-// 5. Update your clearFilters function
+//  Update your clearFilters function
 const clearFilters = () => {
   setEnteredDate('');
   setFilter('All');
@@ -352,12 +690,25 @@ const handleCancel = () => {
   setSelectionPhase('start'); // Reset to start date selection
 };
 
-// Add this right before your return statement
 console.log('Filtering Debug:', {
   selectedDate: selectedDate?.toISOString(),
   filteredOrders: filteredOrders.map(o => o.orderdate)
 });
 
+const [selectedRows, setSelectedRows] = useState([]);
+const toggleRowSelection = (orderId, e) => {
+  // Prevent event bubbling when clicking the checkbox
+  if (e && e.target.type === 'checkbox') {
+    e.stopPropagation();
+  }
+  
+  setSelectedRows(prev => 
+    prev.includes(orderId) 
+      ? prev.filter(id => id !== orderId) 
+      : [...prev, orderId]
+  );
+};
+const [isHeaderSelected, setIsHeaderSelected] = useState(false);
  
   return  (
   <div className="dashboard-content">
@@ -367,15 +718,17 @@ console.log('Filtering Debug:', {
       <div className={styles.overviewtext}>Visual summary of key sales performance metrics and your data</div>
       </div>
        <div style={{ display: 'flex', gap: '2rem', padding:'1rem'}}>
+          <button className={styles.columnButton} onClick={clearFilters} > Clear All Filters</button>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div className={styles.exportContainer}>
-            <button onClick={toggleDropdown} className={styles.exportButton}>
-              <Download size={16} /> Export <ChevronDown size={16} />
+            <button onClick={toggleDropdown} className={styles.columnButton}>
+              <Upload size={16} /> Export <ChevronDown size={16} />
             </button>
             {showDropdown && (
               <div className={styles.dropdownMenu}>
                 <div className={styles.dropdownItem} onClick={exportToCSV}>Export CSV</div>
                 <div className={styles.dropdownItem} onClick={exportToExcel}>Export Excel</div>
+                <div className={styles.dropdownItem} onClick={exportToPDF}>Export PDF</div>
               </div>
             )}
           </div>
@@ -441,27 +794,63 @@ console.log('Filtering Debug:', {
       {/* Table */}
              {filteredOrders.length > 0 ? (
           <table className={styles.table}>
-              <thead className={styles.header}>
-                 <tr>
-         {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
-          {visibleCols.dateTime && <th className={styles.th}>Pickup Date, Time</th> }
-          {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
-          {visibleCols.destination &&  <th className={styles.th}>Destination</th>}
-          {visibleCols.recipient && <th className={styles.th}>Recipient</th>}
-          {visibleCols.phone && <th className={styles.th}>Recipient's Tel</th> }
-          {visibleCols.payAmount && <th className={styles.th}>Payment Amt</th>}
-          {visibleCols.status && <th className={styles.th}>Status</th> }
-          {visibleCols.vendor &&  <th className={styles.th}>Vendor</th>}
-          {visibleCols.tpl &&   <th className={styles.th}>3PLs</th>}
-          {visibleCols.deliveryAmount && <th className={styles.th}>Delivery Fee</th>}
-          {visibleCols.orderdate &&   <th className={styles.th}>Delivery Date</th>}
-          {visibleCols.orderimg &&   <th className={styles.th}>Order Image</th>}
-                </tr>
+               <thead className={styles.tableheader}>
+              <tr 
+                onClick={() => setIsHeaderSelected(!isHeaderSelected)}
+                className={`${styles.headerRow} ${isHeaderSelected ? styles.selectedHeader : ''}`}
+              >
+                {visibleCols.box && (
+                  <th className={styles.th}>
+                    <input 
+                      type="checkbox"
+                      checked={isHeaderSelected}
+                      onChange={(e) => {
+                        setIsHeaderSelected(e.target.checked);
+                        e.stopPropagation();
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  </th>
+                )}
+                {visibleCols['map'] && <th className={styles.thSmall}>Map</th>}
+                {visibleCols.dateTime && <th className={styles.th}>Pickup Date, Time</th> }
+                {visibleCols.orderId && <th className={styles.th}>Order ID</th> }
+                {visibleCols.destination &&  <th className={styles.th}>Destination</th>}
+                {visibleCols.recipient && <th className={styles.th}>Recipient</th>}
+                {visibleCols.phone && <th className={styles.th}>Recipient's Tel</th> }
+                {visibleCols.payAmount && <th className={styles.th}>Payment Amt</th>}
+                {visibleCols.status && <th className={styles.th}>Status</th> }
+                {visibleCols.vendor &&  <th className={styles.th}>Vendor</th>}
+                {visibleCols.tpl &&   <th className={styles.th}>3PLs</th>}
+                {visibleCols.deliveryAmount && <th className={styles.th}>Delivery Fee</th>}
+                {visibleCols.orderdate &&   <th className={styles.th}>Delivery Date</th>}
+                {visibleCols.orderimg &&   <th className={styles.th}>Order Image</th>}
+              </tr>
             </thead>
               <tbody>
-             {filteredOrders.map((order, index) => (
-             <tr key={index}>
-            {/* {visibleCols.map && <td className={styles.td}>📍</td>} */}
+            {filteredOrders.map((order, index) => (
+              <tr 
+                key={order.orderId} // Use orderId as key instead of index
+                onClick={(e) => {
+                  // Don't trigger row selection if clicking on a link or button
+                  if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
+                    toggleRowSelection(order.orderId);
+                  }
+                }}
+                className={`${styles.tableRow} ${selectedRows.includes(order.orderId) ? styles.selectedRow : ''}`}
+              >
+            
+            {visibleCols.box && (
+                 <td className={styles.td} onClick={(e) => e.stopPropagation()}>
+                   <input 
+                     type="checkbox" 
+                     checked={selectedRows.includes(order.orderId)}
+                     onChange={(e) => {
+                       toggleRowSelection(order.orderId, e);
+                     }}
+                   />
+                 </td>
+               )}
             {visibleCols.map && <td className={styles.td}> <img src={locationIcon} alt="Location Icon" style={{ width: '16px', height: '16px' }} /></td>}
             {visibleCols.dateTime && <td className={styles.td}>{order.dateTime}</td>}
             {visibleCols.orderId && <td className={styles.td}>{order.orderId}</td>}
