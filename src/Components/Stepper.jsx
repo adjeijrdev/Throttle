@@ -29,8 +29,6 @@ const Stepper = ({ name }) => {
   const [showPassword1, setShowPassword1] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  
-
   const toggleVisibility = () => {
     setShowPassword((prev) => !prev);
   };
@@ -53,17 +51,17 @@ const Stepper = ({ name }) => {
     mode: "onTouched",
   });
 
-const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-const onSubmit = async (data) => {
-  setIsSubmitting(true);
-  try {
-    await submitData(data); // Your API call
-    toggleModalOpen();
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    try {
+      await submitData(data); // Your API call
+      toggleModalOpen();
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const nextStep = async () => {
     const fieldsByStep = [
@@ -92,51 +90,50 @@ const onSubmit = async (data) => {
   };
 
   // File Upload Logic
-const [image, setImage] = useState(null);
-const fileInputRef = useRef(null);
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
 
-const handleImage = (file) => {
-  try {
-    if (!file) return;
+  const handleImage = (file) => {
+    try {
+      if (!file) return;
 
-    // Basic validation before processing
-    if (!file.type.startsWith("image/")) {
-      throw new Error("Only image files are allowed");
+      // Basic validation before processing
+      if (!file.type.startsWith("image/")) {
+        throw new Error("Only image files are allowed");
+      }
+
+      const imageUrl = URL.createObjectURL(file);
+      setImage({ file, url: imageUrl });
+      setValue("logo", file, { shouldValidate: true });
+      clearErrors("logo"); // Clear any previous errors
+    } catch (error) {
+      setError("logo", {
+        type: "manual",
+        message: error.message,
+      });
+      setImage(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
+  };
 
-    const imageUrl = URL.createObjectURL(file);
-    setImage({ file, url: imageUrl });
-    setValue("logo", file, { shouldValidate: true });
-    clearErrors("logo"); // Clear any previous errors
-  } catch (error) {
-    setError("logo", {
-      type: "manual",
-      message: error.message,
-    });
+  const handleDrop = (e) => {
+    e.preventDefault();
+    handleImage(e.dataTransfer.files[0]);
+  };
+
+  const handleFileInputChange = (e) => {
+    handleImage(e.target.files[0]);
+  };
+
+  const openFileDialog = () => {
+    fileInputRef.current?.click();
+  };
+
+  const removeImage = () => {
     setImage(null);
+    setValue("logo", null, { shouldValidate: true });
     if (fileInputRef.current) fileInputRef.current.value = "";
-  }
-};
-
-const handleDrop = (e) => {
-  e.preventDefault();
-  handleImage(e.dataTransfer.files[0]);
-};
-
-const handleFileInputChange = (e) => {
-  handleImage(e.target.files[0]);
-};
-
-const openFileDialog = () => {
-  fileInputRef.current?.click();
-};
-
-const removeImage = () => {
-  setImage(null);
-  setValue("logo", null, { shouldValidate: true });
-  if (fileInputRef.current) fileInputRef.current.value = "";
-};
-
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={style["form-container"]}>
@@ -360,62 +357,62 @@ const removeImage = () => {
 
           {/* Step 4 - Document Uploads */}
           {currentStep === 3 && (
-  <div className={style["upload-container"]}>
-    <p>Business logo</p>
-    <div
-      className={`${style["drop-box"]} ${
-        errors.logo ? style["error-border"] : ""
-      }`}
-      onDrop={handleDrop}
-      onDragOver={(e) => e.preventDefault()}
-      onDragEnter={(e) => e.preventDefault()}
-      onClick={openFileDialog}
-    >
-      {image ? (
-        <>
-          <img
-            src={image.url}
-            alt="Preview"
-            className={style["preview-image"]}
-          />
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              removeImage();
-            }}
-            className={style["remove-image-btn"]}
-          >
-            ×
-          </button>
-        </>
-      ) : errors.logo?.message ? (
-        <div className={style["upload-error"]}>
-          <FiAlertCircle />
-          <p>{errors.logo.message}</p>
-        </div>
-      ) : (
-        <img src={img} alt="placeholder" />
-      )}
-    </div>
+            <div className={style["upload-container"]}>
+              <p>Business logo</p>
+              <div
+                className={`${style["drop-box"]} ${
+                  errors.logo ? style["error-border"] : ""
+                }`}
+                onDrop={handleDrop}
+                onDragOver={(e) => e.preventDefault()}
+                onDragEnter={(e) => e.preventDefault()}
+                onClick={openFileDialog}
+              >
+                {image ? (
+                  <>
+                    <img
+                      src={image.url}
+                      alt="Preview"
+                      className={style["preview-image"]}
+                    />
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeImage();
+                      }}
+                      className={style["remove-image-btn"]}
+                    >
+                      ×
+                    </button>
+                  </>
+                ) : errors.logo?.message ? (
+                  <div className={style["upload-error"]}>
+                    <FiAlertCircle />
+                    <p>{errors.logo.message}</p>
+                  </div>
+                ) : (
+                  <img src={img} alt="placeholder" />
+                )}
+              </div>
 
-    <button
-      type="button"
-      className={style["upload-button"]}
-      onClick={openFileDialog}
-    >
-      {image ? "Change" : "Upload"}
-    </button>
-    
-    <input
-      type="file"
-      accept="image/*"
-      ref={fileInputRef}
-      style={{ display: "none" }}
-      onChange={handleFileInputChange}
-    />
-  </div>
-)}
+              <button
+                type="button"
+                className={style["upload-button"]}
+                onClick={openFileDialog}
+              >
+                {image ? "Change" : "Upload"}
+              </button>
+
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileInputChange}
+              />
+            </div>
+          )}
 
           {/* Step 5 - Account Details */}
           {currentStep === 4 && (
@@ -449,7 +446,7 @@ const removeImage = () => {
                   onClick={toggleVisibility}
                   className={style["toggle - btn"]}
                 >
-                  {showPassword ?<FaEye />  : <FaEyeSlash />}
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
               </div>
               {errors.password?.message && (
@@ -468,8 +465,8 @@ const removeImage = () => {
                   type="button"
                   onClick={toggleVisibility1}
                   className={style["toggle-btn"]}
+                >
                   {showPassword1 ? <FaEyeSlash /> : <FaEye />}
-
                 </button>
               </div>
               {errors.confirmpassword?.message && (
@@ -493,11 +490,10 @@ const removeImage = () => {
             Next <img className={style.btn} src={rightSVG} alt="right" />
           </div>
         ) : (
-           <button 
-              type="button"
-              className={style["btn-filled"]}
-              onClick={async () => {
-              // Validate current step first
+          <button
+            type="button"
+            className={style["btn-filled"]}
+            onClick={async () => {
               const isValid = await trigger(fieldsByStep[currentStep]);
               if (isValid) {
                 handleSubmit(onSubmit)(); // Trigger form submission
@@ -505,8 +501,8 @@ const removeImage = () => {
               }
             }}
           >
-      Submit
-    </button>
+            Submit
+          </button>
         )}
       </div>
       <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} />
