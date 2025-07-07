@@ -1,0 +1,105 @@
+.sider_table_st{
+  width:66.8rem;
+  height: 80.2rem;
+  border-radius: 12px 0px 0px 12px;
+  position:absolute;
+  right: 0px;
+  z-index: 50;
+  background-color: white;
+  display: flex;
+  
+  gap:2rem;
+  border:1px solid #EAEBEE;
+  padding-right: 5px;
+
+  transition: all 500ms ease-in-out;
+
+}
+
+.verticalButton{
+   background-color:var(--main-theme);
+  color: var(--clr-white);
+  border: 1px solid #e5e7eb;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: none;
+  border-top-right-radius: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+   width: 7.5rem;
+     height: 280px;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+
+.chevLeft_con{
+  /* background-color: green; */
+  width: 100%;
+}
+
+.chevLeft_searchBar{
+  width: 100%;
+  /* background-color: pink; */
+    padding-top: 1.1rem;
+}
+
+
+/* .left_in_date_con{
+  border:1px solid red;
+} */
+.chevLeft_select_con{
+  margin: 16px 0px;
+  display: flex;
+  gap:15px;
+}
+
+.chevLft_d_con {
+  position: relative;
+  
+}
+
+.chevLft_d_con .chevLF_Dpk_cal_show{
+  position: absolute;
+  left: -200px;
+  margin-top: 5px;
+  z-index:100;
+}
+
+
+.chevLeft_datePiker_con:hover{
+  opacity: 0.7;
+}
+
+
+.chevLeft_datePiker_con{
+  
+  position: relative;
+ 
+  height: 40px;
+  
+  border: 1px solid #003627;
+  width: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  gap:12px;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 250ms ease-in-out;
+  
+}
+
+.chevLF_Dpk_cal{
+  position: absolute;
+  display: none;
+}
+.chevLF_Dpk_cal_show{
+  position: absolute;
+  display: block;
+}
+

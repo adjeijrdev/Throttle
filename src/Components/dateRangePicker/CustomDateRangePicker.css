@@ -1,0 +1,159 @@
+
+
+	.rdrCalendarWrapper{
+    /* background-color: red; */
+  }
+
+  .rdrDateDisplayWrapper{
+    background-color: white;
+    
+  }
+
+  .rdrCalendarWrapper{
+    /* background-color: pink; */
+    padding: 10px;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    border-right: 1px solid gray;
+
+
+    border-radius: 0px 8px 8px 8px ;
+
+  }
+
+  .rdrDefinedRangesWrapper{
+    background-color: white;
+    border-left: 1px solid gray;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    border-radius: 8px 0px 0px 8px ;
+
+    padding:2px;
+
+   
+  }
+
+  /* .rdrStaticRange{
+    background-color: #be7405 !important;
+  } */
+
+  .rdrStaticRangeLabel:hover{
+    background-color: #E8F7F3 !important;
+    color:#17654F !important;
+
+  }
+
+  .rdrStaticRangeSelected{
+    color:#17654F !important;
+  }
+
+  /* .rdrDateDisplay{
+    background-color: aquamarine;
+  } */
+
+  .rdrDateDisplayItem{
+      background-color: #f4f4f7;
+    padding: 5px;
+
+  }
+
+ .rdrDateDisplayItemActive{
+    border:1px solid #17654F;
+    color:white;
+  }
+
+  .rdrDateDisplayItem input{
+   background-color: #f4f4f7;
+   /* border-color: red; */
+  }
+
+/* Change selected range background */
+.rdrDayNumber span {
+  color: black;
+}
+
+.rdrDayNumber span:hover {
+  background: #17654F !important;
+  color: white !important;
+}
+
+.rdrStartEdge,
+.rdrEndEdge,
+.rdrInRange,
+.rdrSelected,
+.rdrDayStartPreview,
+.rdrDayEndPreview,
+.rdrDayHovered {
+  background-color: #17654F !important;
+  color: white !important;
+}
+
+/* Change range preview on hover */
+.rdrDayStartPreview,
+.rdrDayEndPreview,
+.rdrDayHovered {
+  border: 1px solid #17654F !important;
+}
+
+/* Change header and weekday text color */
+.rdrMonthAndYearPickers,
+.rdrWeekDays {
+  color: #17654F !important;
+}
+
+/* Navigation buttons */
+.rdrNextPrevButton {
+  border: none;
+  /* background-color: transparent; */
+  color: #17654F !important;
+}
+
+.rdrPprevButton i,
+.rdrNextButton i {
+  color: #17654F !important;
+}
+
+.rdrDayHovered{
+  background-color: #17654F !important;
+  border-radius: 10%;
+  transform: scale(0.7);
+ 
+  color:white !important;
+}
+
+.rdrDayHovered .rdrDayNumber span {
+  color: white !important;
+}
+
+.rdrDayToday .rdrDayNumber span::after {
+  
+  background-color: #17654F !important;
+  /* border-radius: 50% !important; */
+}
+
+/* .rdrInRange {
+  background-color: #D6E3E0 !important;
+  color: #17654F !important;
+
+  box-shadow: none !important;
+  outline: none !important;
+} */
+
+
+.rdrInPreview::after {
+  content: '';
+  position: absolute;
+  background: rgba(23, 101, 79, 0.2); /* optional subtle fill */
+  border: 1px solid #17654F !important;
+  border-radius: 0 !important;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.rdrInPreview::after {
+  border: 1px solid transparent !important;
+  background: rgba(23, 101, 79, 0.15); /* Your green preview */
+}

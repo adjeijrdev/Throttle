@@ -4,14 +4,24 @@ import searchicon from "../../Assets/icons/searchicon.png";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import CustomDatePicker from "../../Components/datePicker/CustomDatePicker";
+import Select from "react-select";
+import CustomSelector2 from "../../Components/form/selector/CustomSelecter2";
+
+import { useClickOutside } from "../../CustomHooks/useClickOutSide";
+import { MdOutlineArrowDropDown } from "react-icons/md";
+import {useRef,useEffect} from "react"
+import RightItemSelectTB from "../../Components/RightItemSelectTB/RightItemSelectTB";
 
 export default function Cod() {
   const [orderIds, setOrderIds] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showTable, setShowTable] = useState(false);
+  const [deliveryStatus, setDeliveryStatus] = useState(null);
 
   const [statusFilter, setStatusFilter] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+ 
+ 
 
   const filterOptions = [
     "All",
@@ -143,162 +153,172 @@ export default function Cod() {
     "Order Placed": styles.inProgress,
   };
 
+  const deliveryStatusOptions = [
+    { value: "all", label: "All" },
+    { value: "delivered", label: "Delivered" },
+    { value: "pending", label: "Pending Remittance" },
+    { value: "remitted", label: "Remitted" },
+  ];
+
+
+
+ 
+
   return (
     <div className="dashboard-content">
-      <div
-        style={{
-          maxWidth: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          borderBottom: " 0.25rem solid #ddd",
-          marginBottom: "1.5rem",
-        }}
-      >
-        <div style={{ display: "grid" }}>
-          <div className={styles.overview}>Cash on Delivery</div>
-          <div className={styles.overviewtext}>
-            Search bulk orders by entering order ID
+      <div>
+        <div
+          style={{
+            maxWidth: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            borderBottom: " 0.25rem solid #ddd",
+            marginBottom: "1.5rem",
+          }}
+        >
+          <div style={{ display: "grid" }}>
+            <div className={styles.overview}>Cash on Delivery</div>
+            <div className={styles.overviewtext}>
+              Search bulk orders by entering order ID
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.filed1}>
+          <div className={styles.filed1_in1}>
+            <div className={styles.detailstitle}>Enter/Search Order ID</div>
+            <textarea
+              value={orderIds}
+              onChange={(e) => setOrderIds(e.target.value)}
+              rows={10}
+            ></textarea>
+          </div>
+          <div className={styles.filed1_in1}>
+            <div className={styles.detailstitle}> Date Range</div>
+            <div className={styles.OutercontainerRight}>
+              <div className={styles.filed1_in2_con1}>
+                <label>From</label>
+                <CustomDatePicker />
+              </div>
+              <div className={styles.filed1_in2_con1}>
+                <label>To</label>
+                <CustomDatePicker />
+              </div>
+              <div className={styles.statusControl}>
+                <label>Delivery Status</label>
+                <CustomSelector2
+                  options={deliveryStatusOptions}
+                  selectedValue={deliveryStatus}
+                  setSelectedValue={setDeliveryStatus}
+                  placeholder={"Select Delivery Status"}
+                />
+                
+              </div>
+            </div>
+          </div>
+
+          <button className={styles.verticalButton} onClick={toggleTable} >
+            <ChevronLeft
+              size={18}
+              style={{
+                transform: showTable ? "rotate(180deg)" : "rotate(0deg)",
+              }}
+            />
+          </button>
+
+       
+          <div className={ showTable ? styles.showTabe_st : styles.dontShowTb_st}>
+          <RightItemSelectTB showTable={ showTable} toggleTable={toggleTable}/>
+
+          </div>
+          
+        </div>
+
+              
+
+        <div>
+          <div className={styles.Outercontainertwo}>
+            <div className={styles.remarks}>
+              <label>Vendor</label>
+              <CustomSelector2
+                  options={deliveryStatusOptions}
+                  selectedValue={deliveryStatus}
+                  setSelectedValue={setDeliveryStatus}
+                  placeholder={"Select Delivery Status"}
+                  width="400px"
+                
+                />
+                
+            </div>
+            <div className={styles.remarks}>
+              <label>3PL</label>
+             <CustomSelector2
+                  options={deliveryStatusOptions}
+                  selectedValue={deliveryStatus}
+                  setSelectedValue={setDeliveryStatus}
+                  placeholder={"Select Delivery Status"}
+                   width="400px"
+                 
+                />
+            </div>
+            <div className={styles.remarks}>
+              <label>Rider</label>
+              <CustomSelector2
+                  options={deliveryStatusOptions}
+                  selectedValue={deliveryStatus}
+                  setSelectedValue={setDeliveryStatus}
+                  placeholder={"Select Delivery Status"}
+                   width="400px"
+                 
+                />
+            </div>
+          </div>
+
+          <div className={styles.btncontainer}>
+            <button className={styles.resetbtn} onClick={handleReset}>
+              <img
+                src={reseticon}
+                alt="reset Icon"
+                style={{ width: "16px", height: "16px" }}
+              />{" "}
+              Reset
+            </button>
+            <button className={styles.searchbtn} onClick={handleSearch}>
+              <img
+                src={searchicon}
+                alt="search Icon"
+                style={{ width: "16px", height: "16px" }}
+              />{" "}
+              Search
+            </button>
           </div>
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: "2.5rem" }}>
-        <div className={styles.Outercontainer}>
-          {!showTable ? (
-            <div style={{ display: "flex", gap: "4rem" }}>
-              <div style={{ display: "grid" }}>
-                <div className={styles.detailstitle}>Enter/Search Order ID</div>
-                <textarea
-                  value={orderIds}
-                  onChange={(e) => setOrderIds(e.target.value)}
-                  rows={10}
-                ></textarea>
-              </div>
-              <div className={styles.OutercontainerRight}>
-                <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
-                  Date Range
-                </span>
-                <div>
-                  <label>From</label>
-                  <CustomDatePicker />
-                </div>
-                <div>
-                  <label>To</label>
-                  <CustomDatePicker />
-                </div>
-                <div className={styles.statusControl}>
-                  <label>Delivery Status</label>
-                  <select
-                    value={statusFilter}
-                    onChange={(e) => {
-                      setStatusFilter(e.target.value);
-                      setFilter(e.target.value === "" ? "All" : e.target.value);
-                    }}
-                  >
-                    <option value="">Choose Delivery Status</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Failed">Failed</option>
-                    <option value="Rejected">Rejected</option>
-                    <option value="Assigned">Assigned</option>
-                    <option value="Returned">Returned</option>
-                    <option value="In Progress">In Progress</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className={styles.tableContainer}>
-              <table className={styles.orderTable}>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Order ID</th>
-                    <th>Vendor</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {searchResults.length > 0 ? (
-                    searchResults.map((order) => (
-                      <tr key={order.id}>
-                        <td>{order.date}</td>
-                        <td>{order.id}</td>
-                        <td>{order.vendor}</td>
-                        <td>
-                          <span
-                            className={`${styles.statusPill} ${
-                              statusClass[order.status] || ""
-                            }`}
-                          >
-                            {order.status}
-                          </span>
-                        </td>
-                        <td>
-                          {" "}
-                          <button
-                            className={styles.actionButton}
-                            onClick={() => handleAddAction(order.id)}
-                          >
-                            {order.action}
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="5" style={{ textAlign: "center" }}>
-                        {orderIds
-                          ? "No orders found"
-                          : "Enter order IDs and click Search"}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-        <button className={styles.verticalButton} onClick={toggleTable}>
-          <ChevronLeft
-            size={18}
-            style={{ transform: showTable ? "rotate(180deg)" : "rotate(0deg)" }}
-          />
-        </button>
-      </div>
+      <div className={styles.result_con}>
 
-      <div className={styles.Outercontainertwo}>
-        <div className={styles.remarks}>
-          <label>Delivery Vendor</label>
-          <input type="text" placeholder="Choose Vendor"></input>
+        <div className={styles.result_con_field1}>
+          <div className={styles.result_field_label}>Total Amount Collected (GH₵)</div>
+          <div className={styles.result_field_value}>200</div>
         </div>
-        <div className={styles.remarks}>
-          <label>3PL</label>
-          <input type="text" placeholder="Choose 3PL"></input>
+
+        <div className={styles.result_con_field1}>
+          <div className={styles.result_field_label}>Total Amount Collected (GH₵)</div>
+          <div className={styles.result_field_value}>200</div>
         </div>
-        <div className={styles.remarks}>
-          <label>Rider</label>
-          <input type="text" placeholder="Choose Rider"></input>
+
+        <div className={styles.result_con_field1}>
+          <div className={styles.result_field_label}>Total Amount Collected (GH₵)</div>
+          <div className={styles.result_field_value}>200</div>
         </div>
-      </div>
-      <div className={styles.btncontainer}>
-        <button className={styles.resetbtn} onClick={handleReset}>
-          <img
-            src={reseticon}
-            alt="reset Icon"
-            style={{ width: "16px", height: "16px" }}
-          />{" "}
-          Reset
-        </button>
-        <button className={styles.searchbtn} onClick={handleSearch}>
-          <img
-            src={searchicon}
-            alt="search Icon"
-            style={{ width: "16px", height: "16px" }}
-          />{" "}
-          Search
-        </button>
+
+        <div className={styles.result_con_field1}>
+          <div className={styles.result_field_label}>Total Amount Collected (GH₵)</div>
+          <div className={styles.result_field_value}>200</div>
+        </div>
+
       </div>
     </div>
   );
 }
+
