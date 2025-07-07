@@ -1,9 +1,12 @@
 .custom_search_con {
   max-width: 100%;
   width: 100%;
+  border-radius: 8px;
 
   position: relative;
   background-color: white;
+
+
   /* padding:0.1rem; */
 }
 
@@ -14,7 +17,7 @@
 
   border-radius: 8px;
   padding-left: 1rem;
-  background-color: #f4f4f7;
+  /* background-color: #f4f4f7; */
 
   transition: all 250ms ease-in-out;
 
@@ -33,7 +36,7 @@
 
 .custom_search_con button {
   border: none;
-  background-color: #f4f4f7;
+  /* background-color: #f4f4f7; */
   color: #979595;
   top: 8px;
   margin-right: 1.4rem;

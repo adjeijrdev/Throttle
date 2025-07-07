@@ -3,9 +3,10 @@
     padding-left:2rem ;
     padding-right: 2rem;
     padding-top: 2rem;
-    padding-bottom: 10rem;
+    padding-bottom: 2rem;
     width: 100%;
     border-radius: 8px;
+    position: relative;
 }
 .tableContainer{
   overflow-x: auto;
@@ -34,6 +35,9 @@
   width: 40px;
   padding: 8px;
   text-align: left;
+      font-size: 12px;
+     font-weight: 500;
+ 
 }
 
 .th {
@@ -42,7 +46,12 @@
     gap: 1rem;
     border-bottom: none;
     border-top: none;
+     letter-spacing: 1px;
+     font-size: 12px;
+     font-weight: 500;
 }
+
+
 
  .td {
    padding: 1.2rem;
@@ -50,12 +59,15 @@
     gap: 1rem;
     border-bottom: 0.1rem solid #ddd;
     border-top: 0.1rem solid #ddd;
+    
 }
 
 .status {
   padding: 4px 8px;
   border-radius: 4px;
   font-weight: 600;
+  width: 100%;
+
   font-size: 0.9em;
   display: inline-block;
 }
@@ -197,10 +209,12 @@
   justify-content: space-around;
    width: 15rem;
   padding: 0.8rem;
+  transition: all 250ms ease-in-out;
 }
 .columnButton:hover{
   background-color: var(--input-background);
   border-color: white;
+
 }
 
 .columnDropdown {
@@ -267,7 +281,10 @@
 
 .tableRow {
   cursor: pointer;
+  background-color: white;
 }
+
+
 
 .tableRow:hover {
   background-color: var(--input-background);
@@ -309,6 +326,8 @@ input[type="checkbox"]:checked::after {
 .tableRow td:first-child input {
   /* Re-enable pointer events for just the checkbox */
   pointer-events: all;
+    width: 16.76px;
+  height: 16px;
 }
 /* Add to Dashboard.module.css */
 .headerRow {
@@ -321,8 +340,8 @@ input[type="checkbox"]:checked::after {
 .th input[type="checkbox"] {
   -webkit-appearance: none;
    appearance: none;
-  width: 12px;
-  height: 12px;
+  width: 16.76px;
+  height: 16px;
   border: 1px solid #ccc;
   border-radius: 3px;
   outline: none;
@@ -343,4 +362,79 @@ input[type="checkbox"]:checked::after {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+/* ------------------- */
+
+
+
+.header_continer_st{
+  display: flex;
+  flex-direction: column;
+  gap:2rem;
+  border-bottom: 1px solid #00000033;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+
+}
+
+.header_con_content1{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.overview_container{
+
+  width: 30%;
+}
+
+.search_filter_con{
+  display: flex;
+  justify-content: space-between;
+  gap:8px;
+  
+  width: 60%;
+}
+
+.header_con_content2{
+  display: flex;
+  justify-content: space-between;
+}
+
+.sortBtn{
+  background-color: white;
+  border:1px solid #00000033;
+  width: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:0.5rem;
+  border-radius: 8px;
+  transition: background-color 250ms ease-in-out;
+  cursor: pointer;
+}
+
+.sortBtn:hover{
+  background-color: var(--input-background);
+  border-color: white;
+}
+
+.pop_up_table_filter{
+  width: 70rem;
+  position: absolute;
+  top:-15px;
+  z-index: 50;
+  left:25rem;
+  box-shadow: 0px 0px 5px gray;
+  opacity: 1;
+  transition: all 300ms ease-in-out;
+}
+
+.hide_table_filter{
+  visibility: hidden;
+  transition: all 300ms ease-in-out;
+
+  opacity: 0;
 }
