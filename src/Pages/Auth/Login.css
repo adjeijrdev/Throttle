@@ -27,7 +27,7 @@
   width: 34%;
   height: 100%;
   background-color: var(--clr-white);
-  box-shadow: 10p;
+  
 }
 
 /* GREEN SIDE STYLING WITH TEXT AND IMAGES */
@@ -143,70 +143,90 @@
 .white-container {
   width: 100%;
   height: 100%;
-  padding: 30% 13% 30% 15%;
+  padding: 0% 10% 0% 10%;
   box-shadow: -15px 0px 120px rgb(150, 255, 195);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:4rem;
+
+}
+
+.login-input-con-st{
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  gap:1.5rem;
+  
 }
 /* RADIO BUTTON STYLING */
 .radio-button-group {
+
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  margin: 8px;
+  gap: 12px;
+  /* margin: 8px; */
+  width: 100%;
 }
 
-.radio-button {
-  margin-bottom: 10px;
-  position: relative;
+.login-radio-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap:0.8rem;
+
 }
 
-.radio-button input[type="radio"] {
-  display: none;
+.input[type="radio" i]{
+  background-color: green !important;
 }
 
-.radio-button label {
-  padding-left: 30px;
-  cursor: pointer;
-  position: relative;
-  font-size: 1.5rem;
-  font-weight: 400;
-}
-
-.radio-button label::before {
-  content: "";
+.login-radio-button input[type="radio"] {
+  display: inline;
   width: 15px;
   height: 15px;
-  border: 2px solid #ccc;
-  border-radius: 50%;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-/* .radio-button input[type="radio"]:checked + label::before {
-  border-color: var(--main-theme);
-  background-color: var(--main-theme);
-  box-shadow: inset 0 0 0 3px #fff;
-} */
-input[type="radio"]:checked + label::before {
-  /* border-color: var(--main-theme); */
-  /* background-color: var(--main-theme); */
-  box-shadow: inset 0 0 0 3px #fff;
+    cursor: pointer;
+
 }
 
-/* .radio-button input[type="radio"]:checked  label::after {
-  content: "";
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  position: absolute;
-  left: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #fff;
-  display: none;
-} */
+.login-radio-button input[type="radio"]::after {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    top: 0;
+    left: 0;
+    /* background-color: #6b6b6b; */
+    /* border: 1px solid #CDD4DB; */
+    content: "";
+    display: inline-block;
+    
+
+}
+
+.login-radio-button input[type="radio"]:checked::after {
+    background-color: #17654F !important;
+    outline: 1px solid #17654F ;
+    border: 1px solid white;
+   
+}
+
+
+.login-radio-button input[type="radio"]:checked + label {
+    background-color: white !important;
+}
+.login-radio-button label {
+  /* padding-left: 30px; */
+  cursor: pointer;
+  position: relative;
+  font-size: 1.6rem;
+  font-weight: 500;
+
+}
 
 
 /* line-and-text */
@@ -215,16 +235,19 @@ input[type="radio"]:checked + label::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -2rem;
+  /* margin-top: -2rem; */
   padding: 0;
+
 }
 .line-and-text {
   display: flex;
-  width: 75%;
+  width: 80%;
   align-items: center;
   text-align: center;
-  margin-top: 5rem;
-  margin-bottom: 5rem;
+  font-weight: 500;
+  font-size: 1.6rem;
+  /* margin-top: 5rem; */
+  /* margin-bottom: 5rem; */
   
 }
 .line-and-text::before,
@@ -232,7 +255,8 @@ input[type="radio"]:checked + label::before {
   content: "";
   
   flex: 1;
-  border-bottom: 1px solid var(--primary-blue-black);
+  border-bottom: 2px solid #F0EDFF;
+
 }
 .line-and-text:not(:empty)::before {
   margin-right: 10px;
@@ -246,123 +270,155 @@ input[type="radio"]:checked + label::before {
 }
 
 /* INPUT FIELDS */
-.input-box {
-  width: 45rem;
-  min-width: 43.7rem;
-  max-width: 47rem;
-  background-color: var(--input-background);
+.login-input-box {
 
-  max-height: 5.1rem;
-  min-height: 5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #CCE1DB;
+
+  height: 4.8rem;
+  
   display: flex;
   gap: 1.3rem;
-  padding: 1.1rem 2.4rem;
-  border: solid 1px var(--main-theme);
+  padding:0px 1rem;
+  /* padding: 1.1rem 2.4rem; */
+  border: solid 1px #17654F;
   margin-bottom: 1.3rem;
   /* background-color: #17654F; */
   border-radius: 1.4rem;
   font-size: 9rem;
+  transition: background 250ms ease-in-out;
+  
+}
+.login-input-box input {
+  background: transparent;
+  width: 98%;
+  height: 100%;
+  /* background-color: red; */
+  
+  border: none;
+  font-size: 1.4rem;
 }
 
-.input-box:hover{
-  box-shadow: 2px 1px 5px var(--clr-green);
-  background-color: transparent;
+
+.login-input-box:hover{
+  /* box-shadow: 2px 1px 5px var(--clr-green); */
+  background-color: #B2CFC7;
   color: black;
   font-style: italic;
   border: solid 0.8px var(--main-theme);
 }
-.input-box input {
-  background: transparent;
-  /* padding: 0.2rem; */
-  border: none;
-  font-size: 1.4rem;
-}
-.input-box input::placeholder {
+
+
+
+
+/* .login-input-box input::placeholder {
   color: var(--main-theme)
-}
-.input-fields .login_email-box {
+} */
+
+.input-fields{
+  /* background-color: red; */
   display: flex;
-  /* justify-content: center; */
-  gap: 3rem;
-  /* align-items: center; */
+  flex-direction: column;
+  gap:0.7rem;
 }
-.input-fields .login_email-box input {
-  border: none;
-  margin-left: -14px;
-}
-.input-password-box-1{
-  align-items: center;
-  justify-items: center;
+/* .input-fields .login_email-box {
+  display: flex;
   justify-content: center;
-}
-.input-password-box-1 input{
- width: 90%;
-}
-.input-password-box-1 button{
-  background-color: transparent;
-  border: none;
+  gap: 3rem;
   align-items: center;
-  justify-items: center;
-  text-align: center;
-}
-.input-password-box-1 button svg{
-  color: rgb(82, 82, 82);
-  width: 20px;
-  height: 20px;
+} */
+
+
+.login-password{
+   background-color: #CCE1DB !important;
+  height: 4.8rem;
+  
+  border-radius: 1.4rem;
+
 
 }
-.input-box input:focus {
+
+.login-password:hover{
+  border-color: #17654F !important;
+  border:1px solid yellow;
+
+}
+.login-password .ant-input {
+  border: none;
+  outline: none;
+  margin: 0px;
+  background-color: #CCE1DB !important;
+  /* border: 1px solid #17654F !important; */
+}
+
+
+
+
+.login-input-box input:focus {
   outline: none;
   border: none;
   background: transparent;
 }
 .button-and-sign-up{
-  margin-top: -5.5rem;
-  display: column;
+  /* margin-top: -5.5rem; */
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
+  width: 100%;
+
 }
 .button-and-sign-up button {
   /* padding: 1.1rem 2.4rem; */
-  width: 45rem;
-  border: solid 2px var(--main-theme);
-  margin-bottom: 1.3rem;
+  width: 100%;
+  border: solid 1px var(--main-theme);
+  margin-bottom: 1rem;
   height: 5rem;
   max-height: 5.1rem;
   background-color: var(--main-theme);
-  border-radius: 1.4rem;
+  border-radius: 1.6rem;
   font-size: 1.7rem;
   color: var(--clr-white);
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 250ms ease-in-out;
 }
-.button-and-sign-up button:hover{
-  /* background-color: rgba(23,101, 79, 0.8); */
+.button-and-sign-up button:hover,
+.button-and-sign-up button:active{
   background-color: var(--dark-green);
-  height: 6rem;
-  font-size: 2rem;
   color: var(--clr-white);
   border: none;
-  /* color: var(--background-clr); */
-  /* border: solid 1px var(--clr-white); */
-  box-shadow: 2px 1px 5px var(--main-theme);
   
 }
 .button-and-sign-up button:active{
-  background-color: var(--main-theme);
-  height: 6rem;
-  font-size: 2rem;
-  color: var(--dark-green);
-  border: none;
+  /* transform: scale(99.7%); */
+  font-size: 1.5rem;
   /* color: var(--background-clr); */
 }
 
 .logo-form {
-  margin-bottom: 3.6rem;
+  /* margin-bottom: 3.6rem; */
+  /* width: 280px !important; */
+  background-color: black;
+  width: 100%;
+  height: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border:1px solid yellowgreen
+ 
 }
-.input-fields {
-  margin-bottom: 6.6rem;
+
+.logo-form img{
+  width: 15rem ;
 }
+
 .sign-up span {
   margin-top: 3px;
   font-size: 1.4rem;
@@ -382,13 +438,18 @@ input[type="radio"]:checked + label::before {
 .remember-me{
   width: 100%;
   display: flex;
-  justify-content: flex-end;
-  padding-right: 2.1rem;
+  justify-content: end;
+  align-items: center;
+  /* padding-right: 2.1rem; */
+
+  margin-top: 0.5rem;
 }
 .remember-me p{
   color: gray;
   font-size: larger;
   cursor:pointer;
+
+
 }
 
 
@@ -441,6 +502,38 @@ input[type="radio"]:checked + label::before {
   }
 }
 
+
+
+/* password style */
+/* Target the main wrapper */
+.login-password.ant-input-affix-wrapper {
+  background-color: #CCE1DB !important;
+  border-color: #17654F !important;
+}
+
+/* Hover state for the wrapper */
+.login-password.ant-input-affix-wrapper:hover {
+  background-color: #B2CFC7 !important;
+  border-color: #17654F !important;
+}
+
+/* Focus state for the wrapper */
+.login-password.ant-input-affix-wrapper:focus-within {
+  background-color: #B2CFC7 !important;
+  border-color: #17654F !important;
+  /* box-shadow: 0 0 0 2px rgba(23, 101, 79, 0.2) !important; */
+}
+
+/* Make sure the input itself doesn't override our background */
+.login-password .ant-input {
+  background-color: transparent !important;
+}
+
+/* Style the eye icon */
+.login-password .ant-input-password-icon {
+  color: #6B6B6B !important;
+}
+
 /* ANIMATIONS */
 @keyframes typing{
   from { width :0}
@@ -450,3 +543,4 @@ input[type="radio"]:checked + label::before {
   from, to { border-color: transparent }
   50% { border-color: var(--background-clr)}
 }
+
