@@ -1,6 +1,5 @@
-
 import axios from "axios"
-
+import api from "./axiosConfig"
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 
@@ -8,25 +7,41 @@ export const  loginAPI = async (formData)=>{
     
     return await axios.post(`${BASE_URL}/auth/signin`,formData, {
       headers:{
-          "Content-Type":"application/json"
-          
-      },
-       
-    withCredentials: true
-
-      
+          "Content-Type":"application/json"       
+      },      
+    withCredentials: true     
   }
 )
-.then((data)=>{
-     
-    
+.then((data)=>{  
       return data
   }).catch(error=>{
-      throw error?.response?.data
+      throw error?.response?.data || {message:"Sorry an error occured on the server"}
   })
 
 }
 
 
 
+export const createRoleAPI = async(formData)=>{
+  return await api.post("/auth/role",formData,{
+    headers:{
+          "Content-Type":"application/json"       
+      }   
+  }).then((data)=>{
+    return data
 
+  }).catch(error =>{
+      throw error?.response?.data
+  })
+}
+
+export const deleteRoleAPI = async(roleId)=>{
+  try {
+  
+    const response = await api.delete(`/auth/role/${roleId}`);
+    return response.data;
+  } catch (error) {
+
+    throw error?.response?.data; 
+  }
+}

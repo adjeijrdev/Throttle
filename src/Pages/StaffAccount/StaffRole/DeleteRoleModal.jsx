@@ -1,6 +1,9 @@
 import React from 'react'
 import warning from "../../../Assets/input_icons/warning.png"
-export default function DeleteRoleModal({setDeleteModel}) {
+
+
+
+export default function DeleteRoleModal({setDeleteModel,handleDeleteRole}) {
   return (
     <div className='delete-model-container'>
 
@@ -22,7 +25,7 @@ export default function DeleteRoleModal({setDeleteModel}) {
 
       <div className=' model-btn'>
         <button className='btn-cancel' onClick={()=>setDeleteModel(false)}>Cancel</button>
-        <button className='btn-create'>Delete</button>
+        <button className='btn-create' onClick={()=>handleDeleteRole()}>Delete</button>
       </div>
     </div>
   )

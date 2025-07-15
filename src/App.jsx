@@ -14,7 +14,7 @@ import ThirdParties from "./Pages/3PLS/ThirdParties";
 import BulkSearch from "./Pages/BulkSearch/BulkSearch";
 import Cod from "./Pages/COD/Cod";
 import BulkUpdate from "./Pages/BulkUpdate/BulkUpdate";
-import Register from "./Pages/Auth/Register"
+import Register from "./Pages/Auth/Register";
 import Media from "./Pages/Media";
 import RiderRegistration from "./Pages/Auth/RiderRegistration";
 import StaffAccount from "./Pages/StaffAccount/StaffAccount";
@@ -37,60 +37,89 @@ import PendingAccountLayout from "./Pages/VendorAccount/PendingAccount/PendingAc
 import PendingAccountLayout3PL from "./Pages/3PLS/PendingAccount/PendingAccountLayout";
 import ViewDetails3PL from "./Pages/3PLS/PendingAccount/viewDetails";
 
+import { Offline, Online } from "react-detect-offline";
+
 export default function App() {
+  
   return (
-    <Router>
-      <Routes>
-        {/* Layout wrapper */}
-        <Route element={<HomeLayout />}>
-          {/* Main pages */}
-          <Route index element={<Dashboard />} />
-          <Route path="daily-delivery" element={<DailyDelivery />} />
-          <Route path="search" element={<Search />} />
+    <div className="parent-container">
+      <Offline>
+        <div className="network-offline">You are offline check your network connectivity</div>
+      </Offline>
+        
 
-          {/* Vendor account + nested */}
-          <Route path="vendor-account" element={<VendorAccount />} />
-          <Route path="vendor-account/Pending-Account" element={<PendingAccountLayout />} >
-              <Route index element={<VendorPending/>} />
+      <Router>
+        <Routes>
+          {/* Layout wrapper */}
+          <Route element={<HomeLayout />}>
+            {/* Main pages */}
+            <Route index element={<Dashboard />} />
+            <Route path="daily-delivery" element={<DailyDelivery />} />
+            <Route path="search" element={<Search />} />
 
-              <Route path="details/:id" element={<ViewDetails/>} />
+            {/* Vendor account + nested */}
+            <Route path="vendor-account" element={<VendorAccount />} />
+            <Route
+              path="vendor-account/Pending-Account"
+              element={<PendingAccountLayout />}
+            >
+              <Route index element={<VendorPending />} />
+
+              <Route path="details/:id" element={<ViewDetails />} />
+            </Route>
+            <Route
+              path="vendor-account/Approved-Account"
+              element={<VendorApprovedAccount />}
+            />
+            <Route
+              path="vendor-account/Denied-Account"
+              element={<VendorDenied />}
+            />
+
+            {/* 3PLs */}
+            <Route path="3pls" element={<ThirdParties />} />
+            <Route
+              path="3pls/Pending-Account"
+              element={<ThirdPartiesPending />}
+            />
+            <Route
+              path="3pls/Approved-Account"
+              element={<PendingAccountLayout3PL />}
+            >
+              <Route index element={<ThirdPartiesApproved />} />
+              <Route path="details/:id" element={<ViewDetails3PL />} />
+            </Route>
+            <Route
+              path="3pls/Denied-Account"
+              element={<ThirdPartiesDenied />}
+            />
+
+            {/* Other pages */}
+            <Route path="bulk-search" element={<BulkSearch />} />
+            <Route path="bulk-update" element={<BulkUpdate />} />
+            <Route path="cod" element={<Cod />} />
+
+            {/* Staff */}
+            <Route path="staff-account" element={<StaffAccount />} />
+            <Route path="staff-account/Staff-List" element={<StaffList />} />
+            <Route
+              path="staff-account/Create-Staff-Account"
+              element={<CreateStaffAccount />}
+            />
+            <Route path="staff-account" element={<Role />}>
+              <Route path="Staff-Role" element={<StaffRoles />} />
+              <Route path="create-Role" element={<CreateRole />} />
+              <Route path="edit-role/:id" element={<EditRole />} />
+            </Route>
           </Route>
-          <Route path="vendor-account/Approved-Account" element={<VendorApprovedAccount />} />
-          <Route path="vendor-account/Denied-Account" element={<VendorDenied />} />
 
-          {/* 3PLs */}
-          <Route path="3pls" element={<ThirdParties />} />
-          <Route path="3pls/Pending-Account" element={<ThirdPartiesPending />} />
-          <Route path="3pls/Approved-Account" element={<PendingAccountLayout3PL />} >
-              <Route index element={<ThirdPartiesApproved/>} />
-              <Route path="details/:id" element={<ViewDetails3PL/>} />
-
-          </Route>
-          <Route path="3pls/Denied-Account" element={<ThirdPartiesDenied />} />
-
-          {/* Other pages */}
-          <Route path="bulk-search" element={<BulkSearch />} />
-          <Route path="bulk-update" element={<BulkUpdate />} />
-          <Route path="cod" element={<Cod />} />
-
-          {/* Staff */}
-          <Route path="staff-account" element={<StaffAccount />} />
-          <Route path="staff-account/Staff-List" element={<StaffList />} />
-          <Route path="staff-account/Create-Staff-Account" element={<CreateStaffAccount />} />
-          <Route  path="staff-account" element={<Role />} >
-           <Route path="Staff-Role" element={<StaffRoles />} />
-           <Route path="create-Role" element={<CreateRole/>}/>
-           <Route path="edit-role/:id" element={<EditRole/>}/>
-
-          </Route>
-        </Route>
-
-        {/* Auth + media (outside layout) */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/register-rider" element={<RiderRegistration />} />
-        <Route path="/media" element={<Media />} />
-      </Routes>
-    </Router>
+          {/* Auth + media (outside layout) */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/register-rider" element={<RiderRegistration />} />
+          <Route path="/media" element={<Media />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }

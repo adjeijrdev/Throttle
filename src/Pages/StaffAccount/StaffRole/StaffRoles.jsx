@@ -5,6 +5,8 @@ import "./StaffRole.css";
 import { format, parseISO } from "date-fns";
 import { useState } from "react";
 import DeleteRoleModal from "./DeleteRoleModal";
+import { Spin } from "antd";
+import toast from "react-hot-toast";
 
 import {
   Table,
@@ -17,209 +19,35 @@ import {
 } from "@table-library/react-table-library/table";
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
-
-const roles = {
-  nodes: [
-    {
-      createdAt: "2025-06-10T17:31:00.524Z",
-      id: "68486bd48bb929365e6b70e2",
-      name: "Admin",
-      updatedAt: "2025-06-10T22:00:47.106Z",
-      description: "description1",
-      permissions: [
-        {
-          createdAt: "2025-06-10T17:18:18.122Z",
-          description: "Book or create new orders",
-          id: "684868da7a4c9386ab6b1594",
-          name: "Book orders",
-          updatedAt: "2025-06-10T17:18:18.122Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "6848a7dc9f5268929300cf77",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-      ],
-    },
-    {
-      createdAt: "2025-06-10T17:31:00.524Z",
-      id: "2",
-      name: "Admin",
-      updatedAt: "2025-06-10T22:00:47.106Z",
-      description: "description1",
-      permissions: [
-        {
-          createdAt: "2025-06-10T17:18:18.122Z",
-          description: "Book or create new orders",
-          id: "684868da7a4c9386ab6b1594",
-          name: "Book orders",
-          updatedAt: "2025-06-10T17:18:18.122Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "6848a7dc9f5268929300cf77",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-      ],
-    },
-    {
-      createdAt: "2025-06-10T17:31:00.524Z",
-      id: "3",
-      name: "Admin",
-      updatedAt: "2025-06-10T22:00:47.106Z",
-      description: "description1",
-
-      permissions: [
-        {
-          createdAt: "2025-06-10T17:18:18.122Z",
-          description: "Book or create new orders",
-          id: "684868da7a4c9386ab6b1594",
-          name: "Book orders",
-          updatedAt: "2025-06-10T17:18:18.122Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "6848a7dc9f5268929300cf77",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-      ],
-    },
-    {
-      createdAt: "2025-06-10T17:31:00.524Z",
-      id: "4",
-      name: "Admin",
-      updatedAt: "2025-06-10T22:00:47.106Z",
-      description: "description1",
-
-      permissions: [
-        {
-          createdAt: "2025-06-10T17:18:18.122Z",
-          description: "Book or create new orders",
-          id: "684868da7a4c9386ab6b1594",
-          name: "Book orders",
-          updatedAt: "2025-06-10T17:18:18.122Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "6848a7dc9f5268929300cf77",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "3",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "4",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "5",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-      ],
-    },
-    {
-      createdAt: "2025-06-10T17:31:00.524Z",
-      id: "5",
-      name: "Admin",
-      updatedAt: "2025-06-10T22:00:47.106Z",
-      description: "description1",
-
-      permissions: [
-        {
-          createdAt: "2025-06-10T17:18:18.122Z",
-          description: "Book or create new orders",
-          id: "684868da7a4c9386ab6b1594",
-          name: "Book orders",
-          updatedAt: "2025-06-10T17:18:18.122Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "6848a7dc9f5268929300cf77",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-      ],
-    },
-    {
-      createdAt: "2025-06-10T17:31:00.524Z",
-      id: "6",
-      name: "Admin",
-      updatedAt: "2025-06-10T22:00:47.106Z",
-      description: "description1",
-
-      permissions: [
-        {
-          createdAt: "2025-06-10T17:18:18.122Z",
-          description: "Book or create new orders",
-          id: "684868da7a4c9386ab6b1594",
-          name: "Book orders",
-          updatedAt: "2025-06-10T17:18:18.122Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "6848a7dc9f5268929300cf77",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-      ],
-    },
-    {
-      createdAt: "2025-06-10T17:31:00.524Z",
-      id: "7",
-      name: "Admin",
-      updatedAt: "2025-06-10T22:00:47.106Z",
-      description: "description1",
-      permissions: [
-        {
-          createdAt: "2025-06-10T17:18:18.122Z",
-          description: "Book or create new orders",
-          id: "684868da7a4c9386ab6b1594",
-          name: "Book orders",
-          updatedAt: "2025-06-10T17:18:18.122Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "6848a7dc9f5268929300cf77",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "2",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-      ],
-    },
-  ],
-};
+import { useQuery } from "@apollo/client";
+import { GET_ROLES } from "../../../graphql/generalQueries";
+import { deleteRoleAPI } from "../../../api/authentication";
+import { removeSingleRoleFromCache } from "../../../graphql/graphqlConfiguration";
+import DisplayRoleStaffsAssignModel from "./DisplayRoleStaffsAssignModel";
 
 function StaffRoles() {
+  const [roleOffSet, setRoleOffSet] = useState(0);
+  let itemsPerPage = 2;
+
+  const {
+    loading: roleLoading,
+    data: roleData,
+    error: roleError,
+    fetchMore: fetchMoreRoles,
+  } = useQuery(GET_ROLES, {
+    variables: {
+      offset: roleOffSet,
+      limit: itemsPerPage,
+    },
+    notifyOnNetworkStatusChange: true,
+  });
   const [itemOffset, setItemOffset] = useState(0);
   const [isDeleteModal, setDeleteModal] = useState(false);
+  const [roleIdToDelete,setRoleIdToDelete] = useState("");
+  const [showStaffModal, setShowStaffModal] = useState(false)
+  const totalNumberOfRoles = roleData?.roles?.totalCount;
 
+  // console.log(roleData);
   let navigate = useNavigate();
 
   const tableTheme = useTheme([
@@ -265,8 +93,8 @@ function StaffRoles() {
           font-family: "Poppins", sans-serif;
 
           & .num-staff-col{
-          padding-left:7rem;
-         
+          margin-left:3rem;
+       
           }  
           
           
@@ -345,8 +173,38 @@ function StaffRoles() {
     },
   ]);
 
+  const handleDeleteRole = async () => {
+   
+    try {
+      const result = await deleteRoleAPI(roleIdToDelete);
+
+      toast.success(result.message, {
+        style: {
+          border: "1px solid #17654F",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "black",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+
+      removeSingleRoleFromCache(roleIdToDelete)
+    } catch (error) {
+      toast.error(error.message, {
+        style: {
+          border: "1px solid oklch(88.5% 0.062 18.334)",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "oklch(39.6% 0.141 25.723)",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+    }
+    setDeleteModal(false)
+  };
+
   return (
-    <div class="roles">
+    <div className="roles">
       <div className="headers">
         <div className="roles-title">Staff Roles</div>
 
@@ -358,10 +216,16 @@ function StaffRoles() {
         </button>
       </div>
 
-      {isDeleteModal && <DeleteRoleModal setDeleteModel={setDeleteModal} />}
+      {isDeleteModal && <DeleteRoleModal setDeleteModel={setDeleteModal} handleDeleteRole={handleDeleteRole}/>}
+
+      {showStaffModal && <DisplayRoleStaffsAssignModel setShowStaffModal={setShowStaffModal} />}
 
       <div className="table-container-st">
-        <Table data={roles} theme={tableTheme}   layout={{ custom: true, horizontalScroll: true , fixedHeader: true}}>
+        <Table
+          data={{ nodes: [...(roleData?.roles.data || [])] }}
+          theme={tableTheme}
+          layout={{ custom: true, horizontalScroll: true, fixedHeader: true }}
+        >
           {(tableList) => (
             <>
               <Header>
@@ -372,44 +236,72 @@ function StaffRoles() {
                   <HeaderCell>Role Title</HeaderCell>
                   <HeaderCell>Description</HeaderCell>
                   <HeaderCell>Number of Staffs</HeaderCell>
-                  <HeaderCell><span className="header-action">Action</span></HeaderCell>
+                  <HeaderCell>
+                    <span className="header-action">Action</span>
+                  </HeaderCell>
                 </HeaderRow>
               </Header>
 
               <Body>
-                {tableList.map((item) => (
-                  <Row key={item.id} item={item}>
+                {roleLoading ? (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
                     <Cell>
-                      <input type="checkbox" />
-                    </Cell>
-                    <Cell>{item.name}</Cell>
-                    <Cell>{item.description}</Cell>
-                    <Cell ><div className="num-staff-col">5</div></Cell>
-                    <Cell>
-                      <span className="btn-container">
-                        <button
-                          onClick={(e) => navigate(`/staff-account/edit-role/${item.id}`)
-                          }
-                        >
-                          Edit
-                        </button>
-                        <button onClick={() => setDeleteModal(true)}>
-                          Delete
-                        </button>
-                      </span>
+                      <Spin size="large" className="loading-spinner" />
                     </Cell>
                   </Row>
-                ))}
+                ) : (
+                  tableList.map((item) => (
+                    <Row key={item?._id} item={item}>
+                      <Cell>
+                        <input type="checkbox" />
+                      </Cell>
+                      <Cell>{item?.name}</Cell>
+                      <Cell>{item?.description}</Cell>
+                      <Cell>
+                        {/* working on show staff modal */}
+                        <button
+                            onClick={()=>setShowStaffModal(true)}
+                            className="num-staff-col"
+                          >
+                          {item?.assignTo?.length}
+                          </button>
+                        
+                      </Cell>
+                      <Cell>
+                        <span className="btn-container">
+                          <button
+                            onClick={(e) =>
+                              navigate(`/staff-account/edit-role/${item.id}`)
+                            }
+                          >
+                            Edit
+                          </button>
+                          <button onClick={() => {setDeleteModal(true),setRoleIdToDelete(item?._id)}}>
+                            Delete
+                          </button>
+                        </span>
+                      </Cell>
+                    </Row>
+                  ))
+                )}
               </Body>
             </>
           )}
         </Table>
 
         <div className="pagination-tab">
-          <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
+          <PaginatedTabs
+            totalRecords={totalNumberOfRoles}
+            setItemOffset={setItemOffset}
+            offSet={itemOffset}
+            itemsPerPage={itemsPerPage}
+            fetchMore={fetchMoreRoles}
+          />
         </div>
       </div>
-    
     </div>
   );
 }

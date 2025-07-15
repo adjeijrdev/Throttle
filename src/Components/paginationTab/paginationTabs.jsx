@@ -2,12 +2,18 @@ import ReactPaginate from 'react-paginate';
 import { useState } from 'react';
 import "./paginationTab.css"
 
-function PaginatedTabs({ pageCount, setItemOffset }) {
+function PaginatedTabs({ totalRecords, setItemOffset, offSet,itemsPerPage,fetchMore}) {
  
+ const pageCount = Math.ceil(totalRecords / itemsPerPage);
+
 
 
   const handlePageClick = (event) => {
-    setItemOffset(event.selected);
+    setItemOffset(event.selected * itemsPerPage);
+
+    fetchMore({
+      variables: { offset: event.selected * itemsPerPage,limit: itemsPerPage }
+    })
   };
 
   return (
@@ -34,7 +40,7 @@ function PaginatedTabs({ pageCount, setItemOffset }) {
         disabledClassName="prev-next-disable"
         disabledLinkClassName="prev-next-disable-element"
         className='pagination-tb'
-
+        forcePage={offSet / itemsPerPage}
     
       />
     </>

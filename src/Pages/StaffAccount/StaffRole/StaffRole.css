@@ -15,6 +15,10 @@
   align-items: center;
 }
 
+.loading-spinner .ant-spin-dot-item {
+  background-color: #218b6d;
+}
+
 .btn-new-role {
   /* width: 13.8rem; */
   /* height: 4.2rem; */
@@ -50,7 +54,6 @@
 
   /* max-width: 1511px; */
 
-   
   /* overflow-x: 'auto'; */
 }
 
@@ -78,13 +81,15 @@
   gap: 0.5rem;
 }
 
-.tb-row button {
+.tb-row button,
+.num-staff-col {
   padding: 0.7rem 3rem;
   border-radius: 0.8rem;
   border: 0.1rem solid #cdd4db;
   background-color: transparent;
   cursor: pointer;
   color: #003627;
+  text-align: center;
   transition-duration: 250ms;
   transition-property: background-color, color, border;
   transition-timing-function: ease-in-out;
@@ -94,12 +99,19 @@
   color: rgb(156, 2, 2);
 }
 
-.tb-row button:hover {
+.tb-row button:hover,
+.num-staff-col:hover {
   background-color: #d6e3e0;
 }
 
 .pagination-tab {
   margin: 1.5rem 0.1rem;
+}
+
+.num-staff-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* ---------------------------------------------------Create new Role-------------------------------------------------------------- */
@@ -194,6 +206,7 @@
 .role-form input[type="checkbox"] {
   width: 1.7rem;
   height: 1.5rem;
+  border: 1px solid gray;
 }
 
 .buttons {
@@ -325,6 +338,53 @@
   background-color: #d6e3e0;
   color: #003627;
 }
+
+/* -------------------------------------display staffs modal------------------------ */
+.displayStaffModalContainer {
+  background-color: #fff;
+  border-radius: 1.4rem;
+  z-index: 100;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  filter: drop-shadow(1px 1px 5px black);
+  /* padding: 1rem 0rem; */
+  width: 30.4rem;
+  height: 50.2rem;
+  overflow-x: auto;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: start;
+
+}
+.displayStaffModalContainer ul{
+
+  width: 100%;
+
+}
+.displayStaffModalContainer li{
+  /* background-color: red; */
+  padding:1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  font-size: 1.4rem;
+  text-transform: capitalize;
+  /* margin:0.5rem 0rem; */
+  width: 100%;
+  border-bottom: 1px solid rgb(185, 185, 185);
+}
+.displayStaffModalContainer .close-btn{
+  background-color: transparent;
+  outline: none;
+  border: none;
+  align-self:flex-end;
+  margin:1rem;
+  cursor: pointer;
+}
 /* ------------------------------------------Tablet devices-------------------------------------------------------------- */
 
 @media (max-width: 76.8rem) {
@@ -352,13 +412,10 @@
     padding: 0rem;
   }
 
- 
-
   .btn-new-role {
-  padding: 0.8rem 1.8rem;
-  font-size: 1.4rem;
- 
-}
+    padding: 0.8rem 1.8rem;
+    font-size: 1.4rem;
+  }
 }
 
 /* ------------------------------------------mobile devices-------------------------------------------------------------- */
@@ -386,7 +443,6 @@
   }
 
   .buttons {
- 
-  justify-content: center;
-}
+    justify-content: center;
+  }
 }
