@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import "./CustomBoxRadioBtn.css";
 
 
-export default function CustomBoxRadioBtn({ value, name, id, label }) {
+export default function CustomBoxRadioBtn({ value, name, id, label,register }) {
   const [isInputFocused, setIsInputFocused] = useState(false);
 
   return (
@@ -25,10 +25,11 @@ export default function CustomBoxRadioBtn({ value, name, id, label }) {
         value={value}
         onFocus={() => setIsInputFocused(true)}
         onBlur={() => setIsInputFocused(false)}
-        
         name={name}
         id={id}
         className="radio-circle"
+        {...register()}
+
       />
 
       {label}

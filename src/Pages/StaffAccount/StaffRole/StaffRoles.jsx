@@ -27,7 +27,7 @@ import DisplayRoleStaffsAssignModel from "./DisplayRoleStaffsAssignModel";
 
 function StaffRoles() {
   const [roleOffSet, setRoleOffSet] = useState(0);
-  let itemsPerPage = 2;
+  let itemsPerPage = 20;
 
   const {
     loading: roleLoading,
@@ -44,9 +44,10 @@ function StaffRoles() {
   const [itemOffset, setItemOffset] = useState(0);
   const [isDeleteModal, setDeleteModal] = useState(false);
   const [roleIdToDelete,setRoleIdToDelete] = useState("");
-  const [showStaffModal, setShowStaffModal] = useState(false)
+  const [showStaffModal, setShowStaffModal] = useState({state:false,assignTo:[]})
   const totalNumberOfRoles = roleData?.roles?.totalCount;
 
+  
   // console.log(roleData);
   let navigate = useNavigate();
 
@@ -218,7 +219,7 @@ function StaffRoles() {
 
       {isDeleteModal && <DeleteRoleModal setDeleteModel={setDeleteModal} handleDeleteRole={handleDeleteRole}/>}
 
-      {showStaffModal && <DisplayRoleStaffsAssignModel setShowStaffModal={setShowStaffModal} />}
+      {showStaffModal?.state && <DisplayRoleStaffsAssignModel setShowStaffModal={setShowStaffModal} showStaffModal={showStaffModal} />}
 
       <div className="table-container-st">
         <Table
@@ -263,7 +264,7 @@ function StaffRoles() {
                       <Cell>
                         {/* working on show staff modal */}
                         <button
-                            onClick={()=>setShowStaffModal(true)}
+                            onClick={()=>setShowStaffModal({state:true,assignTo:item?.assignTo})}
                             className="num-staff-col"
                           >
                           {item?.assignTo?.length}

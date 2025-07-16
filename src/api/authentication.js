@@ -45,3 +45,19 @@ export const deleteRoleAPI = async(roleId)=>{
     throw error?.response?.data; 
   }
 }
+
+
+export const createStaffAPI = async(formData)=>{
+  try{
+
+    const response = await api.post("/auth/staff",formData,{
+    headers:{
+      "Content-Type":"application/json"
+    }
+  })
+  return response
+  }catch(error){
+    throw error?.response?.data;
+  }
+ 
+}

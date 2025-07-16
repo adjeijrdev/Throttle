@@ -1,7 +1,7 @@
 import React from "react";
 import "./TextInput.css"
 
-export default function TextInput({title, name, isRequired}) {
+export default function TextInput({title, name, isRequired,register}) {
   return (
     <div>
       <label htmlFor={name} className="label-text-style">
@@ -14,6 +14,7 @@ export default function TextInput({title, name, isRequired}) {
         name={name}
         className="text-input-st"
         placeholder={title}
+        {...register()}
       />
     </div>
   );

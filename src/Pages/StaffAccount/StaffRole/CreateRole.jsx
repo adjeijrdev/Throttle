@@ -66,9 +66,6 @@ function CreateRole() {
           width: "500px",
         },
       });
-
-     
-      // console.log(result);
     } catch (error) {
       
       toast.error(error.message, {

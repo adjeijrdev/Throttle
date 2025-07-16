@@ -1,8 +1,9 @@
 import React from "react";
 import { MdOutlineClose } from "react-icons/md";
 
-export default function DisplayRoleStaffsAssignModel({setShowStaffModal}) {
+export default function DisplayRoleStaffsAssignModel({setShowStaffModal,showStaffModal}) {
   const fullName = [
+
     {
       _id: "0",
       userProfile: {
@@ -45,9 +46,11 @@ export default function DisplayRoleStaffsAssignModel({setShowStaffModal}) {
     },
   ];
 
+  console.log(showStaffModal)
+
   return (
     <div className="displayStaffModalContainer">
-      <button className="close-btn" onClick={()=>setShowStaffModal(false)}>
+      <button className="close-btn" onClick={() => setShowStaffModal((prev) => ({ ...prev, state: false }))}>
         <MdOutlineClose size={22}/>
       </button>
       <ul>

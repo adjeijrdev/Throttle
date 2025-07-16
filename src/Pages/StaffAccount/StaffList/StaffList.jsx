@@ -3,7 +3,9 @@ import PaginatedTabs from "../../../Components/paginationTab/paginationTabs";
 import "./StaffList.css";
 import { format, parseISO } from "date-fns";
 import { useState } from "react";
-
+import { useQuery } from "@apollo/client";
+import { GET_ALL_STAFFS } from "../../../graphql/generalQueries";
+import { Spin } from "antd";
 
 import {
   Table,
@@ -163,9 +165,20 @@ const staffs = {
 function StaffList() {
   const [itemOffset, setItemOffset] = useState(0);
   const [isDeleteModal, setDeleteModal] = useState(true);
+  let itemsPerPage = 20;
+
 
   let navigate = useNavigate();
 
+  const {loading:staffLoading, data:staffData, error:staffError, fetchMore:fetchMoreStaff} = useQuery(GET_ALL_STAFFS,{
+    variables:{
+      offset: itemOffset,
+      limit:itemsPerPage
+    },
+    notifyOnNetworkStatusChange: true
+  })
+
+  const totalNumberOfStaffs = staffData?.staffs?.totalCount;
 
   
   const tableTheme = useTheme([
@@ -288,7 +301,7 @@ function StaffList() {
 
 
   <div className="table-container-st">
-        <Table data={staffs} theme={tableTheme}   layout={{ custom: true, horizontalScroll: true }}>
+        <Table data={{ nodes: [...(staffData?.staffs.data || [])] }}  theme={tableTheme}   layout={{ custom: true, horizontalScroll: true }}>
           {(tableList) => (
             <>
               <Header>
@@ -307,8 +320,22 @@ function StaffList() {
               </Header>
 
               <Body>
-                {tableList.map((item) => (
-                  <Row key={item.id} item={item}>
+
+                {
+                
+                staffLoading ? (
+                                      <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell>
+                      <Spin size="large" className="loading-spinner" />
+                    </Cell>
+                  </Row>
+                  ):
+                
+                tableList.map((item) => (
+                  <Row key={item._id} item={item}>
                     <Cell>
                       <input type="checkbox" />
                     </Cell>
@@ -328,7 +355,13 @@ function StaffList() {
         </Table>
 
         <div className="pagination-tab">
-          <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
+          <PaginatedTabs
+            totalRecords={totalNumberOfStaffs}
+            setItemOffset={setItemOffset}
+            offSet={itemOffset}
+            itemsPerPage={itemsPerPage}
+            fetchMore={fetchMoreStaff}
+          />
         </div>
       </div>
 

@@ -70,7 +70,7 @@ const roles = {
     },
     {
       createdAt: "2025-06-10T17:31:00.524Z",
-      id: "3",
+      id: "33",
       name: "Admin",
       updatedAt: "2025-06-10T22:00:47.106Z",
       description: "description1",
@@ -139,7 +139,7 @@ const roles = {
     },
     {
       createdAt: "2025-06-10T17:31:00.524Z",
-      id: "5",
+      id: "65",
       name: "Admin",
       updatedAt: "2025-06-10T22:00:47.106Z",
       description: "description1",
@@ -163,7 +163,7 @@ const roles = {
     },
     {
       createdAt: "2025-06-10T17:31:00.524Z",
-      id: "6",
+      id: "26",
       name: "Admin",
       updatedAt: "2025-06-10T22:00:47.106Z",
       description: "description1",
@@ -217,7 +217,37 @@ const roles = {
     },
      {
       createdAt: "2025-06-10T17:31:00.524Z",
-      id: "7",
+      id: "27",
+      name: "Admin",
+      updatedAt: "2025-06-10T22:00:47.106Z",
+      description: "description1",
+      permissions: [
+        {
+          createdAt: "2025-06-10T17:18:18.122Z",
+          description: "Book or create new orders",
+          id: "684868da7a4c9386ab6b1594",
+          name: "Book orders",
+          updatedAt: "2025-06-10T17:18:18.122Z",
+        },
+        {
+          createdAt: "2025-06-10T21:47:08.419Z",
+          description: "To be able to delete orders",
+          id: "6848a7dc9f5268929300cf77",
+          name: "Delete orders",
+          updatedAt: "2025-06-10T21:47:08.419Z",
+        },
+        {
+          createdAt: "2025-06-10T21:47:08.419Z",
+          description: "To be able to delete orders",
+          id: "2",
+          name: "Delete orders",
+          updatedAt: "2025-06-10T21:47:08.419Z",
+        },
+      ],
+    },
+     {
+      createdAt: "2025-06-10T17:31:00.524Z",
+      id: "17",
       name: "Admin",
       updatedAt: "2025-06-10T22:00:47.106Z",
       description: "description1",
@@ -269,37 +299,7 @@ const roles = {
         {
           createdAt: "2025-06-10T21:47:08.419Z",
           description: "To be able to delete orders",
-          id: "2",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-      ],
-    },
-     {
-      createdAt: "2025-06-10T17:31:00.524Z",
-      id: "7",
-      name: "Admin",
-      updatedAt: "2025-06-10T22:00:47.106Z",
-      description: "description1",
-      permissions: [
-        {
-          createdAt: "2025-06-10T17:18:18.122Z",
-          description: "Book or create new orders",
-          id: "684868da7a4c9386ab6b1594",
-          name: "Book orders",
-          updatedAt: "2025-06-10T17:18:18.122Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "6848a7dc9f5268929300cf77",
-          name: "Delete orders",
-          updatedAt: "2025-06-10T21:47:08.419Z",
-        },
-        {
-          createdAt: "2025-06-10T21:47:08.419Z",
-          description: "To be able to delete orders",
-          id: "2",
+          id: "22",
           name: "Delete orders",
           updatedAt: "2025-06-10T21:47:08.419Z",
         },
@@ -545,7 +545,7 @@ export default function RightItemSelectTB({ toggleTable, showTable }) {
         </Table>
 
         <div className="pagination-tab">
-          <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
+          {/* <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} /> */}
         </div>
       </div>
       </div>

@@ -338,7 +338,7 @@ function PendingAccount() {
         </Table>
 
         <div className="pagination-tab">
-          <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
+          {/* <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} /> */}
         </div>
       </div>
 

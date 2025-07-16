@@ -15,184 +15,33 @@ import {
   HeaderCell,
   Cell,
 } from "@table-library/react-table-library/table";
+import { useQuery } from "@apollo/client";
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
+import { GET_ALL_VENDORS } from "../../../graphql/generalQueries";
+import { Spin } from "antd";
 
-const businesses = {
-  nodes: [
-    {
-      id: "biz0000",
-      businessInfo: {
-        companyName: "QuickLogix",
-        businessRegistrationNumber: "REG123456",
-        yearsInOpertion: 5,
-        businessAddress: "123 Speed Ave, Accra",
-        businessType: "Courier",
-      },
-      contactDetails: {
-        email: "kwame@quicklogix.com",
-      },
-      status: "INACTIVE",
-    },
-    {
-      id: "biz001",
-      businessInfo: {
-        companyName: "QuickLogix",
-        businessRegistrationNumber: "REG123456",
-        yearsInOpertion: 5,
-        businessAddress: "123 Speed Ave, Accra",
-        businessType: "Courier",
-      },
-      contactDetails: {
-        email: "kwame@quicklogix.com",
-      },
-      status: "INACTIVE",
-    },
-    {
-      id: "biz002",
-      businessInfo: {
-        companyName: "EcoFresh Delivery",
-        businessRegistrationNumber: "REG654321",
-        yearsInOpertion: 3,
-        businessAddress: "45 Palm Street, Kumasi",
-        businessType: "Grocery Delivery",
-      },
-      contactDetails: {
-        email: "info@ecofresh.com",
-      },
-      status: "ACTIVE",
-    },
-    {
-      id: "biz003",
-      businessInfo: {
-        companyName: "SkyNet Freight",
-        businessRegistrationNumber: "REG777888",
-        yearsInOpertion: 8,
-        businessAddress: "78 Cargo Lane, Tema",
-        businessType: "Freight Forwarding",
-      },
-      contactDetails: {
-        email: "support@skynetfreight.com",
-      },
-      status: "ACTIVE",
-    },
-    {
-      id: "biz004",
-      businessInfo: {
-        companyName: "RideNow",
-        businessRegistrationNumber: "REG121212",
-        yearsInOpertion: 2,
-        businessAddress: "14 Junction Rd, Takoradi",
-        businessType: "Ride Hailing",
-      },
-      contactDetails: {
-        email: "hello@ridenow.com",
-      },
-      status: "INACTIVE",
-    },
-    {
-      id: "biz005",
-      businessInfo: {
-        companyName: "MedFast Supplies",
-        businessRegistrationNumber: "REG333222",
-        yearsInOpertion: 6,
-        businessAddress: "88 Health Ave, Cape Coast",
-        businessType: "Medical Supplies",
-      },
-      contactDetails: {
-        email: "orders@medfast.com",
-      },
-      status: "ACTIVE",
-    },
-    {
-      id: "biz006",
-      businessInfo: {
-        companyName: "JollofExpress",
-        businessRegistrationNumber: "REG909090",
-        yearsInOpertion: 4,
-        businessAddress: "3 Tasty Blvd, Accra",
-        businessType: "Food Delivery",
-      },
-      contactDetails: {
-        email: "eat@jollofexpress.com",
-      },
-      status: "INACTIVE",
-    },
-    {
-      id: "biz007",
-      businessInfo: {
-        companyName: "Swift Cargo",
-        businessRegistrationNumber: "REG444555",
-        yearsInOpertion: 7,
-        businessAddress: "90 Wharf Rd, Tema",
-        businessType: "Logistics",
-      },
-      contactDetails: {
-        email: "book@swiftcargo.com",
-      },
-      status: "ACTIVE",
-    },
-    {
-      id: "biz008",
-      businessInfo: {
-        companyName: "FarmLink Ghana",
-        businessRegistrationNumber: "REG888333",
-        yearsInOpertion: 9,
-        businessAddress: "21 Agri Park, Sunyani",
-        businessType: "Agriculture",
-      },
-      contactDetails: {
-        email: "contact@farmlinkgh.com",
-      },
-      status: "INACTIVE",
-    },
-    {
-      id: "biz009",
-      businessInfo: {
-        companyName: "CleanFlow Services",
-        businessRegistrationNumber: "REG111999",
-        yearsInOpertion: 5,
-        businessAddress: "12 Hygiene Rd, Accra",
-        businessType: "Sanitation",
-      },
-      contactDetails: {
-        email: "admin@cleanflow.com",
-      },
-      status: "ACTIVE",
-    },
-    {
-      id: "biz010",
-      businessInfo: {
-        companyName: "AutoGo Repairs",
-        businessRegistrationNumber: "REG000456",
-        yearsInOpertion: 10,
-        businessAddress: "56 Mechanic Street, Tamale",
-        businessType: "Auto Repairs",
-      },
-      contactDetails: {
-        email: "fixit@autogo.com",
-      },
-      status: "ACTIVE",
-    },
-    {
-      id: "biz011",
-      businessInfo: {
-        companyName: "Green Basket",
-        businessRegistrationNumber: "REG112233",
-        yearsInOpertion: 3,
-        businessAddress: "101 Fresh Lane, Ho",
-        businessType: "Organic Produce",
-      },
-      contactDetails: {
-        email: "fresh@greenbasket.com",
-      },
-      status: "INACTIVE",
-    },
-  ],
-};
+
 
 function PendingAccount() {
   const [itemOffset, setItemOffset] = useState(0);
+  let itemsPerPage = 20;
+
+  const {
+    loading: vendorLoading,
+    data: vendorData,
+    error: vendorError,
+    fetchMore: fetchMoreVendors,
+  } = useQuery(GET_ALL_VENDORS, {
+    variables: {
+      offset: itemOffset,
+      limit: itemsPerPage,
+      status: "PENDING",
+    },
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const totalNumberOfVendors = vendorData?.vendors?.totalCount;
   const [isDeleteModal, setDeleteModal] = useState(false);
 
   let navigate = useNavigate();
@@ -278,11 +127,14 @@ function PendingAccount() {
   ]);
 
   return (
-    <div >
+    <div>
       <div className="vd-pending-title">Pending Vendor Accounts</div>
 
       <div className="table-container-st">
-        <Table data={businesses} theme={tableTheme}>
+        <Table
+          data={{ nodes: [...(vendorData?.vendors.data || [])] }}
+          theme={tableTheme}
+        >
           {(tableList) => (
             <>
               <Header>
@@ -301,45 +153,67 @@ function PendingAccount() {
               </Header>
 
               <Body>
-                {tableList.map((item) => (
-                  <Row key={item.id} item={item}>
+                {vendorLoading ? (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    
+
                     <Cell>
-                      <input type="checkbox" />
-                    </Cell>
-                    <Cell>{item.businessInfo.companyName}</Cell>
-                    <Cell>{item.businessInfo.businessRegistrationNumber}</Cell>
-                    <Cell>{item.contactDetails.email}</Cell>
-                    <Cell>{item.businessInfo.businessAddress}</Cell>
-                    <Cell>{item.businessInfo.businessType}</Cell>
-                    <Cell>
-                      {item.businessInfo.yearsInOpertion}{" "}
-                      {item.businessInfo.yearsInOpertion && "years"}
-                    </Cell>
-                    <Cell>
-                      {" "}
-                      <button
-                        className="status-btn-st"
-                        onClick={() =>
-                          navigate(
-                            "/vendor-account/Pending-Account/details/1",
-                            {
-                              state: { status: "APPROVED" },
-                            }
-                          )
-                        }
-                      >
-                        Pending
-                      </button>{" "}
+                      <Spin size="large" className="loading-spinner" />
                     </Cell>
                   </Row>
-                ))}
+                ) : (
+                  tableList.map((item) => (
+                    <Row key={item._id} item={item}>
+                      <Cell>
+                        <input type="checkbox" />
+                      </Cell>
+                      <Cell>{item.businessInfo.companyName}</Cell>
+                      <Cell>
+                        {item.businessInfo.businessRegistrationNumber}
+                      </Cell>
+                      <Cell>{item.contactDetails.email}</Cell>
+                      <Cell>{item.businessInfo.businessAddress}</Cell>
+                      <Cell>{item.businessInfo.businessType}</Cell>
+                      <Cell>
+                        {item.businessInfo.yearsInOpertion}{" "}
+                        {item.businessInfo.yearsInOpertion && "years"}
+                      </Cell>
+                      <Cell>
+                        {" "}
+                        <button
+                          className="status-btn-st"
+                          onClick={() =>
+                            navigate(
+                              "/vendor-account/Pending-Account/details/1",
+                              {
+                                state: { status: "APPROVED" },
+                              }
+                            )
+                          }
+                        >
+                          Pending
+                        </button>{" "}
+                      </Cell>
+                    </Row>
+                  ))
+                )}
               </Body>
             </>
           )}
         </Table>
 
         <div className="pagination-tab">
-          <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
+          <PaginatedTabs
+            totalRecords={totalNumberOfVendors}
+            setItemOffset={setItemOffset}
+            offSet={itemOffset}
+            itemsPerPage={itemsPerPage}
+            fetchMore={fetchMoreVendors}
+          />
         </div>
       </div>
 

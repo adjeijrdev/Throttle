@@ -152,6 +152,12 @@
   background-color: #03563F;
 }
 
+
+.input-con{
+  display: flex;
+  flex-direction: column;
+  gap:1.5rem;
+}
 /* form{
     background-color: green;
 } */
@@ -161,7 +167,7 @@
 
 @media (max-width:1550px) {
  .ct-staff-title{
-    background:red;
+    /* background:red; */
     font-size: 50px;
    
   }
