@@ -100,7 +100,10 @@
 .form-group {
   margin-top: -1.2rem;
   display: flex;
+  /* border:1px solid red; */
+  height: 100%;
   flex-direction: column;
+  gap:1rem;
 }
 
 
@@ -154,6 +157,7 @@
   display: flex;
   justify-content: center;
   gap: 1.5rem;
+  margin-top: 5rem;
   /* position: relative; */
 }
 /* REET */
@@ -410,3 +414,96 @@ input[type="tel"] {
   border: 2px dashed #ff4444;
   background-color: #fff0f0;
 }
+
+.modal-background{
+ position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(128, 128, 128, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  z-index: 100;
+  overflow: none;
+}
+.modal-background .main-card {
+  width: 72rem;
+  /* max-width: 48rem; */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background-color: white;
+  padding: 6.6rem 0px;
+  text-align: center;
+  margin-top: 0px;
+  color: var(--main-theme);
+  box-shadow: 0.2px 0px 50px rgba(128, 128, 128, 0.3);
+  z-index: 101;
+}
+/* .text{
+  width: 100%;
+} */
+.modal-background .main-card h1, h2, p{
+  color: var(--main-theme);
+  /* margin: 1rem; */
+  margin-bottom: 1rem;
+}
+.subtitle{
+  font-weight: 520;
+}
+.subtitle span{
+  font-weight: bold;
+}
+.modal-background .main-card h1{
+  font-size: 2.4rem;
+  margin-bottom: 4px;
+}
+.modal-background .main-card p{
+  width: 100%;
+  font-size: 1.4rem;
+  font-style: italic;
+  font-weight: bold;
+}
+.modal-background .main-card h2{
+  font-weight: 400;
+}
+.modal-background .main-card img{
+    width: 75px;
+    height: 75px;
+    /* margin: 12px; */
+    margin-bottom: 10px;
+}
+.modal-background .main-card .button{
+    width: 40%;
+    height: 3.8rem;
+
+}
+.modal-background .main-card .button button{
+    width: 100%; 
+    height: 100%;
+    background-color: var(--main-theme);
+    border: none;
+    color: var(--clr-white);
+    border-radius: 9px;
+    font-size: 200;
+    margin: 13px 0px;
+    font-weight: 300;
+    font-size: small;
+}
+
+
+.cancel_registration_btn{
+  font-weight: 400;
+  font-size: 16px;
+  color: #525252;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+

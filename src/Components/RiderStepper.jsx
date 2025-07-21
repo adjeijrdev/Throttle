@@ -14,6 +14,9 @@ import img from "../Assets/icons/img.png";
 import padLock from "../Assets/input_icons/padlock.png";
 import EmailIcon from "../Assets/input_icons/emailuser.png";
 import Calendar from "../Assets/icons/Calendar.png";
+import { useForm } from "react-hook-form";
+import { riderSchema } from "../items/RiderSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const steps = [
   "Personal info",
@@ -56,6 +59,18 @@ const Stepper = ({ name }) => {
     confirmpassword: "",
   });
 
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(riderSchema),
+    mode: "all",
+    reValidateMode: "onChange",
+  });
+
   //password functions
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword1, setShowPassword1] = useState(false);
@@ -96,12 +111,6 @@ const Stepper = ({ name }) => {
         [name]: value,
       }));
     }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Here you would typically send data to your API
   };
 
   const nextStep = () => {
@@ -172,438 +181,454 @@ const Stepper = ({ name }) => {
     fileInputRef1.current.click();
   };
 
-  return (
-    <form onSubmit={handleSubmit} className={style["form-container"]}>
-      <h2 className={style["form-title"]}>Registration process as a {name}</h2>
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+  };
 
-      <div className={style["stepper"]}>
-        {steps.map((label, index) => (
-          <div className={style["step-item"]} key={index}>
-            <div
-              className={`${style["step-circle"]} ${
-                index === currentStep
-                  ? style.active
-                  : index < currentStep
-                  ? style.completed
-                  : ""
-              }`}
-            >
-              {index < currentStep ? <img src={check} /> : index + 1}
+  return (
+    <>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={style["form-container"]}
+        encType="multipart/form-data"
+      >
+        <h2 className={style["form-title"]}>
+          Registration process as a {name}
+        </h2>
+
+        <div className={style["stepper"]}>
+          {steps.map((label, index) => (
+            <div className={style["step-item"]} key={index}>
+              <div
+                className={`${style["step-circle"]} ${
+                  index === currentStep
+                    ? style.active
+                    : index < currentStep
+                    ? style.completed
+                    : ""
+                }`}
+              >
+                {index < currentStep ? <img src={check} /> : index + 1}
+              </div>
+              <p className={style["step-label"]}>{label}</p>
             </div>
-            <p className={style["step-label"]}>{label}</p>
-          </div>
-        ))}
-      </div>
-      <div className={style["form-input-container"]}>
-        <div className={style["form-step"]}>
-          {currentStep === 0 && (
-            <div className={style["form-grid"]}>
-              <div className={style["form-group"]}>
-                <label>
-                  Full name<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="businessname"
-                  value={formData.businessname}
-                  onChange={handleChange}
-                  placeholder="business name"
-                  required
-                />
-              </div>
-              <div className={style["form-flex"]}>
-                <label>
-                  Gender<sup>*</sup>
-                </label>
-                <div className={style.radio}>
-                  <input type="radio" name="gender" id="male" />
-                  <label htmlFor="male"> Male </label>
-                  <input type="radio" name="gender" id="female" />
-                  <label htmlFor="female"> Female </label>
-                </div>
-              </div>
-              <div className={style["form-group"]}>
-                <div className={style.calendar}>
-                  <label>
-                    Date of Birth<sup>*</sup>{" "}
+          ))}
+        </div>
+        <div className={style["form-input-container"]}>
+          <div className={style["form-step"]}>
+            {currentStep === 0 && (
+              <div className={style["form-grid"]}>
+                <div className={style["form-group"]}>
+                  <label htmlFor="fullName">
+                    Full name<sup style={{ color: "red" }}>*</sup>
                   </label>
                   <input
-                    type="date"
-                    name="businesstype"
-                    value={formData.businesstype}
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    placeholder="enter your fullname here"
+                    {...register("userProfile.fullName")}
+                  />
+                  {errors?.userProfile?.fullName?.message && (
+                    <p className={style.error}>
+                      {errors?.userProfile?.fullName?.message}{" "}
+                    </p>
+                  )}
+                </div>
+                <div className={style["form-flex"]}>
+                  <label>
+                    Gender<sup style={{ color: "red" }}>*</sup>
+                  </label>
+                  <div className={style.radio}>
+                    <input type="radio" name="gender" id="male" />
+                    <label htmlFor="male"> Male </label>
+                    <input type="radio" name="gender" id="female" />
+                    <label htmlFor="female"> Female </label>
+                  </div>
+                </div>
+                <div className={style["form-group"]}>
+                  <div className={style.calendar}>
+                    <label>
+                      Date of Birth<sup>*</sup>{" "}
+                    </label>
+                    <input
+                      type="date"
+                      name="businesstype"
+                      value={formData.businesstype}
+                      onChange={handleChange}
+                      placeholder="business type"
+                    />
+                    <span>
+                      <img src={Calendar} alt="calendar" />
+                    </span>
+                  </div>
+                </div>
+                <div className={style["form-group"]}>
+                  <label>
+                    ID Type<sup>*</sup>
+                  </label>
+                  <div className={style.option_container}>
+                    <select>
+                      <option>Choose ID type</option>
+                      <option value="Driver's License">Driver's License</option>
+                      <option value="Voter's ID">Voter's ID</option>
+                    </select>
+                  </div>
+                </div>
+                <div className={style["form-group"]}>
+                  <label>
+                    Driver License Number<sup>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="regnumber"
+                    value={formData.regnumber}
                     onChange={handleChange}
-                    placeholder="business type"
+                    placeholder="number"
                   />
-                  <span>
-                    <img src={Calendar} alt="calendar" />
-                  </span>
                 </div>
-              </div>
-              <div className={style["form-group"]}>
-                <label>
-                  ID Type<sup>*</sup>
-                </label>
-                <div className={style.option_container}>
-                  <select>
-                    <option>Choose ID type</option>
-                    <option value="Driver's License">Driver's License</option>
-                    <option value="Voter's ID">Voter's ID</option>
-                  </select>
-                </div>
-              </div>
-              <div className={style["form-group"]}>
-                <label>
-                  Driver License Number<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="regnumber"
-                  value={formData.regnumber}
-                  onChange={handleChange}
-                  placeholder="number"
-                />
-              </div>
-              <div className={style["form-group"]}>
-                <label>
-                  ID Number<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="years"
-                  value={formData.years}
-                  onChange={handleChange}
-                  placeholder="year"
-                />
-              </div>
-            </div>
-          )}
-          {/* step 2- Contact Details */}
-          {currentStep === 1 && (
-            <div className={style["form-grid"]}>
-              <div className={style["form-group"]}>
-                <label>
-                  {" "}
-                  Name<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="vendorname"
-                  value={formData.vendorname}
-                  onChange={handleChange}
-                  placeholder="name"
-                  required
-                />
-              </div>
-              <div className={style["form-group"]}>
-                <label>
-                  Email<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="email"
-                  required
-                />
-              </div>
-              <div className={style["form-group"]}>
-                <label>
-                  Phone Number<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="number"
-                  required
-                />
-              </div>
-              <div className={style["form-group"]}>
-                <label>
-                  Emergency Contact Name<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="website"
-                  value={formData.website}
-                  onChange={handleChange}
-                  placeholder="Name"
-                />
-              </div>
-              <div className={style["form-group"]}>
-                <label>
-                  Email Address<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Email"
-                />
-              </div>
-              <div className={style["form-group"]}>
-                <label>
-                  Emergency contact number<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="website"
-                  value={formData.website}
-                  onChange={handleChange}
-                  placeholder="Contact"
-                />
-              </div>
-            </div>
-          )}
-          {currentStep === 2 && (
-            <div className={style["form__grid1"]}>
-              {/* <label>Account Email</label> */}
-              <div className={style["form-group"]}>
-                <label>
-                  Vehicle Type and Model<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Model"
-                />
-              </div>
-              <div className={style["form-group"]}>
-                <label>
-                  Vehicle Registration Number<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="website"
-                  value={formData.website}
-                  onChange={handleChange}
-                  placeholder="Number"
-                />
-              </div>
-            </div>
-          )}
-          {/* Step 3 - Payment & Billing */}
-          {currentStep === 3 && (
-            <div className={style["form-grid"]}>
-              <div className={style["form-group"]}>
-                <label>
-                  Bank Name<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="bankname"
-                  value={formData.bankname}
-                  onChange={handleChange}
-                  placeholder="bank name"
-                />
-              </div>
-              <div className={style["form-group"]}>
-                <label>
-                  Mobile Money Name<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="momoname"
-                  value={formData.momoname}
-                  onChange={handleChange}
-                  placeholder="momo name"
-                />
-              </div>
-              <div className={style["form-group"]}>
-                <label>
-                  Bank Account Number<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  name="banknumber"
-                  value={formData.banknumber}
-                  onChange={handleChange}
-                  placeholder=" account number"
-                />
-              </div>
-              <div className={style["form-group"]}>
-                <label>Mobile Money Number</label>
-                <input
-                  type="text"
-                  name="momonumber"
-                  value={formData.momonumber}
-                  onChange={handleChange}
-                  placeholder="momo number"
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Step 4 - Document Uploads */}
-          {currentStep === 4 && (
-            <div className={style.gridbox}>
-              <div className={style.grid1}>
-                <div className={style["upload-container"]}>
-                  <p>
-                    Drivers License<sup>*</sup>
-                  </p>
-                  <div
-                    className={style["drop-box"]}
-                    onDrop={handleDrop}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDragEnter={(e) => e.preventDefault()}
-                  >
-                    {image ? (
-                      <img
-                        src={image.url}
-                        alt="Preview"
-                        className={style["preview-image"]}
-                      />
-                    ) : (
-                      <img src={img} alt="image-vector" />
-                    )}
-                  </div>
-
-                  <button
-                    className={style["upload-button"]}
-                    onClick={openFileDialog}
-                  >
-                    Upload
-                  </button>
-
+                <div className={style["form-group"]}>
+                  <label>
+                    ID Number<sup>*</sup>
+                  </label>
                   <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                    onChange={handleFileInputChange}
+                    type="text"
+                    name="years"
+                    value={formData.years}
+                    onChange={handleChange}
+                    placeholder="year"
                   />
                 </div>
               </div>
-
-              <div className={style.grid2}>
-                <div className={style["upload-container"]}>
-                  <p>
-                    National ID/Valid ID<sup>*</sup>
-                  </p>
-                  <div
-                    className={style["drop-box"]}
-                    onDrop={handleDrop1}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDragEnter={(e) => e.preventDefault()}
-                  >
-                    {image1 ? (
-                      <img
-                        src={image1.url}
-                        alt="Preview"
-                        className={style["preview-image"]}
-                      />
-                    ) : (
-                      <img src={img} alt="image-vector" />
-                    )}
-                  </div>
-
-                  <button
-                    className={style["upload-button"]}
-                    onClick={openFileDialog1}
-                  >
-                    Upload
-                  </button>
-
+            )}
+            {/* step 2- Contact Details */}
+            {currentStep === 1 && (
+              <div className={style["form-grid"]}>
+                <div className={style["form-group"]}>
+                  <label>
+                    {" "}
+                    Name<sup>*</sup>
+                  </label>
                   <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef1}
-                    style={{ display: "none" }}
-                    onChange={handleFileInputChange1}
+                    type="text"
+                    name="vendorname"
+                    value={formData.vendorname}
+                    onChange={handleChange}
+                    placeholder="name"
+                    required
+                  />
+                </div>
+                <div className={style["form-group"]}>
+                  <label>
+                    Email<sup>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="email"
+                    required
+                  />
+                </div>
+                <div className={style["form-group"]}>
+                  <label>
+                    Phone Number<sup>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="number"
+                    required
+                  />
+                </div>
+                <div className={style["form-group"]}>
+                  <label>
+                    Emergency Contact Name<sup>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    placeholder="Name"
+                  />
+                </div>
+                <div className={style["form-group"]}>
+                  <label>
+                    Email Address<sup>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Email"
+                  />
+                </div>
+                <div className={style["form-group"]}>
+                  <label>
+                    Emergency contact number<sup>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    placeholder="Contact"
                   />
                 </div>
               </div>
-            </div>
-          )}
+            )}
+            {currentStep === 2 && (
+              <div className={style["form__grid1"]}>
+                {/* <label>Account Email</label> */}
+                <div className={style["form-group"]}>
+                  <label>
+                    Vehicle Type and Model<sup>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Model"
+                  />
+                </div>
+                <div className={style["form-group"]}>
+                  <label>
+                    Vehicle Registration Number<sup>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    placeholder="Number"
+                  />
+                </div>
+              </div>
+            )}
+            {/* Step 3 - Payment & Billing */}
+            {currentStep === 3 && (
+              <div className={style["form-grid"]}>
+                <div className={style["form-group"]}>
+                  <label>
+                    Bank Name<sup>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="bankname"
+                    value={formData.bankname}
+                    onChange={handleChange}
+                    placeholder="bank name"
+                  />
+                </div>
+                <div className={style["form-group"]}>
+                  <label>
+                    Mobile Money Name<sup>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="momoname"
+                    value={formData.momoname}
+                    onChange={handleChange}
+                    placeholder="momo name"
+                  />
+                </div>
+                <div className={style["form-group"]}>
+                  <label>
+                    Bank Account Number<sup>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="banknumber"
+                    value={formData.banknumber}
+                    onChange={handleChange}
+                    placeholder=" account number"
+                  />
+                </div>
+                <div className={style["form-group"]}>
+                  <label>Mobile Money Number</label>
+                  <input
+                    type="text"
+                    name="momonumber"
+                    value={formData.momonumber}
+                    onChange={handleChange}
+                    placeholder="momo number"
+                  />
+                </div>
+              </div>
+            )}
 
-          {/* Step 5 - Account Details */}
-          {currentStep === 5 && (
-            <div className={style["form__grid"]}>
-              <label>
-                Account Email<sup>*</sup>
-              </label>
-              <div
-                className={`${style["Account-details-password"]} ${style.email}`}
-              >
-                <img src={EmailIcon} alt="emailIcon" />
-                <input
-                  type="text"
-                  name="accountemail"
-                  value={formData.accountemail}
-                  onChange={handleChange}
-                  placeholder="Enter your email"
-                />
-              </div>
-              <label>
-                Password<sup>*</sup>
-              </label>
-              <div className={style["Account-details-password"]}>
-                <img src={padLock} alt="padlock" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="password"
-                />
-                <button
-                  type="button"
-                  onClick={toggleVisibility}
-                  className={style["toggle - btn"]}
-                >
-                  {showPassword ? <FaEye /> : <FaEyeSlash />}
-                </button>
-              </div>
-              <label>
-                Confirm Password<sup>*</sup>
-              </label>
-              <div className={style["Account-details-password"]}>
-                <img src={padLock} alt="padlock" />
-                <input
-                  type={showPassword1 ? "text" : "password"}
-                  name="confirmpassword"
-                  value={formData.confirmpassword}
-                  onChange={handleChange}
-                  placeholder="Confirm Password"
-                />
-                <button
-                  type="button"
-                  onClick={toggleVisibility1}
-                  className={style["toggle - btn"]}
-                >
-                  {showPassword1 ? <FaEye /> : <FaEyeSlash />}
-                </button>
-              </div>
-            </div>
-          )}
+            {/* Step 4 - Document Uploads */}
+            {currentStep === 4 && (
+              <div className={style.gridbox}>
+                <div className={style.grid1}>
+                  <div className={style["upload-container"]}>
+                    <p>
+                      Drivers License<sup>*</sup>
+                    </p>
+                    <div
+                      className={style["drop-box"]}
+                      onDrop={handleDrop}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDragEnter={(e) => e.preventDefault()}
+                    >
+                      {image ? (
+                        <img
+                          src={image.url}
+                          alt="Preview"
+                          className={style["preview-image"]}
+                        />
+                      ) : (
+                        <img src={img} alt="image-vector" />
+                      )}
+                    </div>
 
-          {/* You can duplicate the logic above for step 1, 2, 3, 4 content */}
+                    <button
+                      className={style["upload-button"]}
+                      onClick={openFileDialog}
+                    >
+                      Upload
+                    </button>
+
+                    <input
+                      type="file"
+                      accept="image/*"
+                      ref={fileInputRef}
+                      style={{ display: "none" }}
+                      onChange={handleFileInputChange}
+                    />
+                  </div>
+                </div>
+
+                <div className={style.grid2}>
+                  <div className={style["upload-container"]}>
+                    <p>
+                      National ID/Valid ID<sup>*</sup>
+                    </p>
+                    <div
+                      className={style["drop-box"]}
+                      onDrop={handleDrop1}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDragEnter={(e) => e.preventDefault()}
+                    >
+                      {image1 ? (
+                        <img
+                          src={image1.url}
+                          alt="Preview"
+                          className={style["preview-image"]}
+                        />
+                      ) : (
+                        <img src={img} alt="image-vector" />
+                      )}
+                    </div>
+
+                    <button
+                      className={style["upload-button"]}
+                      onClick={openFileDialog1}
+                    >
+                      Upload
+                    </button>
+
+                    <input
+                      type="file"
+                      accept="image/*"
+                      ref={fileInputRef1}
+                      style={{ display: "none" }}
+                      onChange={handleFileInputChange1}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Step 5 - Account Details */}
+            {currentStep === 5 && (
+              <div className={style["form__grid"]}>
+                <label>
+                  Account Email<sup>*</sup>
+                </label>
+                <div
+                  className={`${style["Account-details-password"]} ${style.email}`}
+                >
+                  <img src={EmailIcon} alt="emailIcon" />
+                  <input
+                    type="text"
+                    name="accountemail"
+                    value={formData.accountemail}
+                    onChange={handleChange}
+                    placeholder="Enter your email"
+                  />
+                </div>
+                <label>
+                  Password<sup>*</sup>
+                </label>
+                <div className={style["Account-details-password"]}>
+                  <img src={padLock} alt="padlock" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="password"
+                  />
+                  <button
+                    type="button"
+                    onClick={toggleVisibility}
+                    className={style["toggle - btn"]}
+                  >
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
+                  </button>
+                </div>
+                <label>
+                  Confirm Password<sup>*</sup>
+                </label>
+                <div className={style["Account-details-password"]}>
+                  <img src={padLock} alt="padlock" />
+                  <input
+                    type={showPassword1 ? "text" : "password"}
+                    name="confirmpassword"
+                    value={formData.confirmpassword}
+                    onChange={handleChange}
+                    placeholder="Confirm Password"
+                  />
+                  <button
+                    type="button"
+                    onClick={toggleVisibility1}
+                    className={style["toggle - btn"]}
+                  >
+                    {showPassword1 ? <FaEye /> : <FaEyeSlash />}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* You can duplicate the logic above for step 1, 2, 3, 4 content */}
+          </div>
         </div>
-      </div>
-      <div className={style.buttons}>
-        {currentStep > 0 && (
-          <div className={style["btn-outline"]} onClick={prevStep}>
-            <img src={LeftSVG} className={style.btn} alt="left" /> Previous
-          </div>
-        )}
-        {currentStep < steps.length - 1 ? (
-          <div className={style["btn-filled"]} onClick={nextStep}>
-            Next <img className={style.btn} src={rightSVG} alt="right" />
-          </div>
-        ) : (
-          <button className={style["btn-filled"]} onClick={toggleModalOpen}>
-            Register
-          </button>
-        )}
-      </div>
-      <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} />
-    </form>
+        <div className={style.buttons}>
+          {currentStep > 0 && (
+            <div className={style["btn-outline"]} onClick={prevStep}>
+              <img src={LeftSVG} className={style.btn} alt="left" /> Previous
+            </div>
+          )}
+          {currentStep < steps.length - 1 ? (
+            <div className={style["btn-filled"]} onClick={nextStep}>
+              Next <img className={style.btn} src={rightSVG} alt="right" />
+            </div>
+          ) : (
+            <button className={style["btn-filled"]} onClick={toggleModalOpen}>
+              Register
+            </button>
+          )}
+        </div>
+        <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} />
+      </form>
+    </>
   );
 };
 

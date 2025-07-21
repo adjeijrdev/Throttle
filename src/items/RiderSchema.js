@@ -1,42 +1,38 @@
 import { z } from "zod/v3";
-import toast from "react-hot-toast";
-export const VendorSchema = z
-  .object({
-    // Step 1: Business Info
-    businessname: z.string().min(1, "Business name is required"),
-    businessaddress: z.string().min(1, "Address is required"),
-    businesstype: z.string().min(1, "Business type is required"),
-    country: z.string().min(1, "Country is required"),
-    regnumber: z.string().min(1, "Registration number is required"),
-    years: z
-      .string()
-      .transform((val, ctx) => {
-        try {
-          const parsed = Number.parseInt(String(val));
-          return parsed;
-        } catch (e) {
-          ctx.issues.push({
-            code: "custom",
-            message: "Please provide a positive integer",
-            input: val,
-          });
-          return z.NEVER;
-        }
-      })
-      .optional(),
 
-    // Step 2: Contact Details
-    vendorname: z.string().min(1, "Name is required"),
-    email: z.string().email("Invalid email address"),
-    phone: z.string().min(10, "Phone number must be at least 10 digits"),
-    website: z.string().optional(),
-
-    // Step 3: Payment & Billing
-    // bankname: z.string().min(1, "Bank name is required"),
-    // momoname: z.string().min(1, "Mobile money name is required"),
-    // banknumber: z.string().min(1, "Account number is required"),
-    // momonumber: z.string().min(1, "Mobile money number is required"),
-
+export const riderSchema = z.object({
+  userProfile: z.object({
+    fullName: z.string().min(1, "Please provide your fullname!!!"),
+    gender: z.enum(["FEMALE", "MALE"], {
+      message: "Please specify your gender",
+    }),
+    dateOfBirth: z.string({ required_error: "date of birth required" }),
+    password: z.string({required_error:"Password is required"}).trim().min(8,{message:"Minimum password length should be 8 characters"}).max(255),
+    confirmPassword: z.string(),
+    nationalIdentification: z.object({
+      type: z.string().trim(),
+      number: z.string().trim(),
+    }),
+  }).refine((val)=> val.password === val.confirmPassword,{
+    message:"Confirm password and password don't match",
+    path:["confirmPassword"]
+}),
+professionalDetails:z.object({
+    yearsOfDrivingExperience:z.number({message:"Years of driving required"}),
+    driverLicenseNumber: z.string({message:"Driver license number required"}).optional()
+}),
+ contactDetails:z.object({
+    phoneNumber: z.string({required_error:"phone number required"}).min(10,{message:"phone number length is incorrect"}).max(20),
+    additionalPhoneNumber: z.string({required_error:"phone number required"}).min(10,{message:"phone number length is incorrect"}).max(20).optional(),
+    email:z.string().trim().email({message:"Invalid email address"}).min(5).max(255),
+    residentailAddress: z.string().optional(),
+    emergencyContactName: z.string().optional(),
+    emergencyContactNumber: z.string().optional()
+}),
+vehicleInfo: z.object({
+    vehicleType:z.string(),
+    registrationNumber: z.string()
+}),
 financialDetails: z.object({
   bankAccountDetails: z
     .object({
@@ -122,25 +118,5 @@ financialDetails: z.object({
       });
     }
   }
-}),
-
-    // Step 4: Document Uploads
-    logo: z
-      .instanceof(File)
-      .refine((file) => file.size <= 5 * 1024 * 1024, "Max file size is 5MB")
-      .refine(
-        (file) =>
-          ["image/jpeg", "image/png", "image/svg+xml"].includes(file.type),
-        "Only JPEG, PNG, or SVG files are allowed"
-      )
-      .optional(),
-
-    // Step 5: Account Details
-    // accountemail: z.string().email("Invalid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmpassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmpassword, {
-    message: "Passwords don't match",
-    path: ["confirmpassword"],
-  });
+})
+});

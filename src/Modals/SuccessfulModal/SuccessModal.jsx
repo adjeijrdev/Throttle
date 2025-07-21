@@ -29,7 +29,7 @@ export default function SuccessModal({ onClose }) {
           <h2>We appreciate your interest in partnering with us!</h2>
         </div>
         <div className={SuccessStyle.button}>
-          <button onClick={()=> navigate("/") } >Ok </button>
+          <button  type="submit"  >Ok </button>
         </div>
       </div>
     </div>
