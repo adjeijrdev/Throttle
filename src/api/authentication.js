@@ -42,7 +42,27 @@ export const registerVendorAPI = async (formData)=>{
 
 }
 
+export const registerRiderAPI = async (formData)=>{   
+    return await axios.post(`${BASE_URL}/auth/register/rider`,formData, {
+           
+      headers: {
+        'Content-Type': 'multipart/form-data', 
+        'Accept': 'application/json'
+      },
+   withCredentials: true   
+  }
+)
+.then((data)=>{  
+      return data
+  }).catch(error=>{
+    if(error?.response?.data?.errors){
+      throw error?.response?.data?.errors[0]
+    }else{
+      throw error?.response?.data || {message:"Sorry an error occured on the server"}
+    }
+  })
 
+}
 
 export const createRoleAPI = async(formData)=>{
   return await api.post("/auth/role",formData,{

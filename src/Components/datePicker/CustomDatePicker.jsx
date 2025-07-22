@@ -8,8 +8,8 @@ import "./CustomDatePicker.css"
 
 import { PrimeReactProvider } from 'primereact/api';
 
-export default function CustomDatePicker() {
-  const [date, setDate] = useState(null);
+export default function CustomDatePicker({date,setDate}) {
+  
   return (
 
           <Calendar id="buttondisplay" className="cal-con-st"  value={date} onChange={(e) => setDate(e.value)} showIcon  />

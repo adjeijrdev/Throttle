@@ -28,14 +28,9 @@ export const VendorSchema = z
     // Step 2: Contact Details
     vendorname: z.string().min(1, "Name is required"),
     email: z.string().email("Invalid email address"),
-    phone: z.string().min(10, "Phone number must be at least 10 digits"),
+    phone: z.string().min(10, "Phone number is incorrect"),
     website: z.string().optional(),
 
-    // Step 3: Payment & Billing
-    // bankname: z.string().min(1, "Bank name is required"),
-    // momoname: z.string().min(1, "Mobile money name is required"),
-    // banknumber: z.string().min(1, "Account number is required"),
-    // momonumber: z.string().min(1, "Mobile money number is required"),
 
 financialDetails: z.object({
   bankAccountDetails: z
@@ -48,11 +43,7 @@ financialDetails: z.object({
   mobileMoneyAccount: z
     .object({
       recipientName: z.string().optional(),
-      phoneNumber: z.string()
-        // .string({ message: "Phone number is required" })
-        // .min(10, { message: "Phone number length is incorrect" })
-        // .max(20)
-        .optional(),
+      phoneNumber: z.string().trim().regex(/^\d{10,20}$/, {message: "Provide correct phone number and must contain only numbers"}).optional().or(z.literal("")),
     })
     .optional(),
 }).superRefine((val, ctx) => {
@@ -137,7 +128,7 @@ financialDetails: z.object({
 
     // Step 5: Account Details
     // accountemail: z.string().email("Invalid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
+    password: z.string().trim().min(8, "Password must be at least 8 characters"),
     confirmpassword: z.string(),
   })
   .refine((data) => data.password === data.confirmpassword, {

@@ -15,7 +15,7 @@ import img from "../Assets/icons/img.png";
 import padLock from "../Assets/input_icons/padlock.png";
 import EmailIcon from "../Assets/input_icons/emailuser.png";
 import toast from "react-hot-toast";
-import { useNavigate,Link } from "react-router";
+import { useNavigate, Link } from "react-router";
 
 const steps = [
   "Business Info",
@@ -194,7 +194,7 @@ const Stepper = ({ name }) => {
   };
 
   const handleFileInputChange = (e) => {
-    handleImage(e.target.files[0]);
+    handleImage(e?.target?.files[0]);
   };
 
   const openFileDialog = () => {
@@ -639,13 +639,20 @@ const Stepper = ({ name }) => {
               type="button"
               className={style["btn-filled"]}
               onClick={async () => {
-                // Validate current step first
                 const isValid = await trigger();
-                console.log(errors);
-                console.log(isValid);
                 if (isValid) {
                   // handleSubmit(onSubmit)(); // Trigger form submission
                   toggleModalOpen();
+                } else {
+                  toast.error("Please provide details for all required fields", {
+                    style: {
+                      border: "1px solid oklch(88.5% 0.062 18.334)",
+                      // backgroundColor:"oklch(88.5% 0.062 18.334)",
+                      color: "oklch(39.6% 0.141 25.723)",
+                      fontSize: "16px",
+                      width: "500px",
+                    },
+                  });
                 }
               }}
             >
@@ -688,12 +695,15 @@ const Stepper = ({ name }) => {
         {/* <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} /> */}
       </form>
 
-      <div
-       className={style.cancel_registration_btn}
-      >
+      <div className={style.cancel_registration_btn}>
         Don't want to continue?{" "}
-         <Link to="/login" style={{ fontWeight: "bold", color: "#000000", marginLeft:"5px"}}> Cancel Registration</Link>
-      
+        <Link
+          to="/login"
+          style={{ fontWeight: "bold", color: "#000000", marginLeft: "5px" }}
+        >
+          {" "}
+          Cancel Registration
+        </Link>
       </div>
     </>
   );

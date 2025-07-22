@@ -1,9 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import style from "./RiderStepper.module.css";
-
+import toast from "react-hot-toast";
 //Importing in-application components
 import DropDownInput from "../Components/DropDownMenuInput/DropDownInput";
+import { useNavigate, Link } from "react-router";
 
 //import images
 import LeftSVG from "../Assets/icons/Left.png";
@@ -17,7 +18,9 @@ import Calendar from "../Assets/icons/Calendar.png";
 import { useForm } from "react-hook-form";
 import { riderSchema } from "../items/RiderSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import CustomSelector2 from "./form/selector/CustomSelecter2";
+import CustomDatePicker from "./datePicker/CustomDatePicker";
+import { registerRiderAPI } from "../api/authentication";
 const steps = [
   "Personal info",
   "Contact Details",
@@ -29,47 +32,44 @@ const steps = [
 
 const Stepper = ({ name }) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({
-    // Business info
-    businessname: "",
-    businessaddress: "",
-    businesstype: "",
-    country: "",
-    regnumber: "",
-    years: "",
 
-    // Contact details
-    vendorname: "",
-    email: "",
-    phone: "",
-    website: "",
-
-    // Payment&Billing
-    bankname: "",
-    momoname: "",
-    banknumber: "",
-    momonumber: "",
-
-    // // Document Uploads
-    // additionalDocs: [],
-
-    // Account details
-    accountemail: "",
-    password: "",
-    confirmpassword: "",
-  });
+  const [dateOfBirth, setDateOfBirth] = useState();
+  const [idType, setIdType] = useState(null);
 
   const {
     register,
     handleSubmit,
     trigger,
     setValue,
-    formState: { errors, isSubmitting },
+    watch,
+    formState: { errors, isSubmitting, touchedFields, setError },
   } = useForm({
     resolver: zodResolver(riderSchema),
     mode: "all",
     reValidateMode: "onChange",
   });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (idType) {
+      setValue("nationalIdentification.type", idType?.value, {
+        shouldValidate: true,
+        shouldTouch: true,
+        shouldDirty: true,
+      });
+    }
+  }, [idType]);
+
+  useEffect(() => {
+    if (dateOfBirth) {
+      setValue("dateOfBirth", dateOfBirth, {
+        shouldValidate: true,
+        shouldTouch: true,
+        shouldDirty: true,
+      });
+    }
+  }, [dateOfBirth]);
 
   //password functions
   const [showPassword, setShowPassword] = useState(false);
@@ -130,21 +130,37 @@ const Stepper = ({ name }) => {
   const fileInputRef = useRef(null);
 
   const handleImage = (file) => {
-    if (file && file.type.startsWith("image/")) {
+    try {
+      if (!file) return;
+
+      // Basic validation before processing
+      if (!file.type.startsWith("image/")) {
+        throw new Error("Only image files are allowed");
+      }
+
       const imageUrl = URL.createObjectURL(file);
       setImage({ file, url: imageUrl });
+      setValue("driverLicense", file, { shouldValidate: true });
+      clearErrors("driverLicense"); // Clear any previous errors
+    } catch (error) {
+      setError("driverLicense", {
+        type: "manual",
+        message: error.message,
+      });
+      setImage(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
-    if (e.dataTransfer.files.length > 0) {
+    if (e.dataTransfer?.files?.length > 0) {
       handleImage(e.dataTransfer.files[0]);
     }
   };
 
   const handleFileInputChange = (e) => {
-    if (e.target.files.length > 0) {
+    if (e.target?.files?.length > 0) {
       handleImage(e.target.files[0]);
     }
   };
@@ -158,21 +174,38 @@ const Stepper = ({ name }) => {
   const fileInputRef1 = useRef(null);
 
   const handleImage1 = (file) => {
-    if (file && file.type.startsWith("image/")) {
-      const imageUrl1 = URL.createObjectURL(file);
-      setImage1({ file, url: imageUrl1 });
+    try {
+      if (!file) return;
+
+      // Basic validation before processing
+      if (!file.type.startsWith("image/")) {
+        throw new Error("Only image files are allowed");
+      }
+
+      const imageUrl = URL.createObjectURL(file);
+
+      setImage1({ file, url: imageUrl });
+      setValue("nationalIdentificationImge", file, { shouldValidate: true });
+      clearErrors("nationalIdentificationImge"); // Clear any previous errors
+    } catch (error) {
+      setError("nationalIdentificationImge", {
+        type: "manual",
+        message: error.message,
+      });
+      setImage1(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
   const handleDrop1 = (e) => {
     e.preventDefault();
-    if (e.dataTransfer.files.length > 0) {
+    if (e?.dataTransfer?.files?.length > 0) {
       handleImage1(e.dataTransfer.files[0]);
     }
   };
 
   const handleFileInputChange1 = (e) => {
-    if (e.target.files.length > 0) {
+    if (e?.target?.files?.length > 0) {
       handleImage1(e.target.files[0]);
     }
   };
@@ -182,7 +215,124 @@ const Stepper = ({ name }) => {
   };
 
   const onSubmit = async (data) => {
+    toggleModalOpen();
+
     const formData = new FormData();
+
+    const userProfile = {
+      fullName: data.fullName,
+      gender: data.gender,
+      dateOfBirth: data.dateOfBirth,
+      password: data.password,
+      confirmPassword: data.confirmpassword,
+      nationalIdentification: {
+        type: data?.nationalIdentification?.type,
+        number: data?.nationalIdentification.number,
+      },
+    };
+
+    formData.append("userProfile", JSON.stringify(userProfile));
+
+    const professionalDetails = {
+      yearsOfDrivingExperience:
+        data?.professionalDetails?.yearsOfDrivingExperience,
+      driverLicenseNumber: data?.professionalDetails?.driverLicenseNumber,
+    };
+    formData.append("professionalDetails", JSON.stringify(professionalDetails));
+
+    const contactDetails = {
+      phoneNumber: data?.contactDetails?.phoneNumber,
+      additionalPhoneNumber: data?.contactDetails?.additionalPhoneNumber || "",
+      email: data?.contactDetails?.email,
+      residentailAddress: data?.contactDetails?.residentailAddress || "",
+      emergencyContactName: data?.contactDetails?.emergencyContactName || "",
+      emergencyContactNumber:
+        data?.contactDetails?.emergencyContactNumber || "",
+    };
+
+    formData.append("contactDetails", JSON.stringify(contactDetails));
+
+    const vehicleInfo = {
+      vehicleType: data?.vehicleInfo?.vehicleType,
+      registrationNumber: data?.vehicleInfo?.registrationNumber,
+    };
+
+    formData.append("vehicleInfo", JSON.stringify(vehicleInfo));
+
+    const hasBankDetails =
+      data?.financialDetails?.bankAccountDetails &&
+      (data?.financialDetails?.bankAccountDetails?.bankName ||
+        data?.financialDetails?.bankAccountDetails?.accountNumber ||
+        data?.financialDetails?.bankAccountDetails?.recipientName);
+    const hasMomoDetails =
+      data?.financialDetails?.mobileMoneyAccount &&
+      (data?.financialDetails?.mobileMoneyAccount?.phoneNumber ||
+        data?.financialDetails?.mobileMoneyAccount?.recipientName);
+    if (hasBankDetails || hasMomoDetails) {
+      const financialDetails = {};
+
+      const bank = data?.financialDetails?.bankAccountDetails;
+      if (
+        bank &&
+        (bank?.bankName || bank?.accountNumber || bank?.recipientName)
+      ) {
+        const bankAccount = {
+          bankName: bank?.bankName,
+          accountNumber: bank?.accountNumber,
+          recipientName: bank?.recipientName,
+        };
+
+        financialDetails.bankAccountDetails = bankAccount;
+      }
+
+      const momo = data?.financialDetails?.mobileMoneyAccount;
+      if (momo && (momo?.recipientName || momo?.phoneNumber)) {
+        const mobileMoneyAccount = {
+          phoneNumber: momo.recipientName,
+          recipientName: momo.phoneNumber,
+        };
+        financialDetails.mobileMoneyAccount = mobileMoneyAccount;
+      }
+
+      formData.append("financialDetails", JSON.stringify(financialDetails));
+
+      if (data?.driverLicense) {
+        formData.append("driverLicense", data?.driverLicense);
+      }
+
+      if (data?.nationalIdentificationImge) {
+        formData?.append(
+          "nationalIdentification",
+          data?.nationalIdentificationImge
+        );
+      }
+
+      try {
+        const result = await registerRiderAPI(formData);
+
+        toast.success(result?.data?.message, {
+          style: {
+            border: "1px solid #17654F",
+            // backgroundColor:"oklch(88.5% 0.062 18.334)",
+            color: "black",
+            fontSize: "16px",
+            width: "500px",
+          },
+        });
+
+        navigate("/login");
+      } catch (error) {
+        toast.error(error?.message, {
+          style: {
+            border: "1px solid oklch(88.5% 0.062 18.334)",
+            // backgroundColor:"oklch(88.5% 0.062 18.334)",
+            color: "oklch(39.6% 0.141 25.723)",
+            fontSize: "16px",
+            width: "500px",
+          },
+        });
+      }
+    }
   };
 
   return (
@@ -227,12 +377,10 @@ const Stepper = ({ name }) => {
                     id="fullName"
                     name="fullName"
                     placeholder="enter your fullname here"
-                    {...register("userProfile.fullName")}
+                    {...register("fullName")}
                   />
-                  {errors?.userProfile?.fullName?.message && (
-                    <p className={style.error}>
-                      {errors?.userProfile?.fullName?.message}{" "}
-                    </p>
+                  {errors?.fullName?.message && (
+                    <p className={style.error}>{errors?.fullName?.message} </p>
                   )}
                 </div>
                 <div className={style["form-flex"]}>
@@ -240,64 +388,130 @@ const Stepper = ({ name }) => {
                     Gender<sup style={{ color: "red" }}>*</sup>
                   </label>
                   <div className={style.radio}>
-                    <input type="radio" name="gender" id="male" />
+                    <input
+                      type="radio"
+                      name="gender"
+                      id="male"
+                      value="MALE"
+                      {...register("gender")}
+                    />
                     <label htmlFor="male"> Male </label>
-                    <input type="radio" name="gender" id="female" />
+                    <input
+                      type="radio"
+                      name="gender"
+                      id="female"
+                      value="FEMALE"
+                      {...register("gender")}
+                    />
                     <label htmlFor="female"> Female </label>
                   </div>
+                  {errors?.gender?.message && (
+                    <p className={style.error}>{errors?.gender?.message} </p>
+                  )}
                 </div>
                 <div className={style["form-group"]}>
-                  <div className={style.calendar}>
-                    <label>
-                      Date of Birth<sup>*</sup>{" "}
-                    </label>
-                    <input
-                      type="date"
-                      name="businesstype"
-                      value={formData.businesstype}
-                      onChange={handleChange}
-                      placeholder="business type"
+                  <label>
+                    Date of Birth<sup style={{ color: "red" }}>*</sup>{" "}
+                  </label>
+                  <CustomDatePicker
+                    date={dateOfBirth}
+                    setDate={setDateOfBirth}
+                  />
+
+                  {errors?.dateOfBirth && (
+                    <p className={style.error}>
+                      {errors?.dateOfBirth?.message}{" "}
+                    </p>
+                  )}
+                </div>
+                <div className={style["form-group"]}>
+                  <label>
+                    ID Type<sup style={{ color: "red" }}>*</sup>
+                  </label>
+
+                  <div>
+                    <CustomSelector2
+                      width="290px"
+                      height="29px"
+                      sideBarHeight="20px"
+                      options={[
+                        {
+                          value: "Driver's License",
+                          label: "Driver's License",
+                        },
+                        { value: "Voter's ID", label: "Voter's ID" },
+                        { value: "Ghana Card", label: "Ghana Card" },
+                      ]}
+                      selectedValue={idType}
+                      setSelectedValue={setIdType}
                     />
-                    <span>
-                      <img src={Calendar} alt="calendar" />
-                    </span>
                   </div>
+                  {errors?.nationalIdentification?.type && (
+                    <p className={style.error}>
+                      {errors?.nationalIdentification?.type?.message}{" "}
+                    </p>
+                  )}
                 </div>
+
                 <div className={style["form-group"]}>
-                  <label>
-                    ID Type<sup>*</sup>
-                  </label>
-                  <div className={style.option_container}>
-                    <select>
-                      <option>Choose ID type</option>
-                      <option value="Driver's License">Driver's License</option>
-                      <option value="Voter's ID">Voter's ID</option>
-                    </select>
-                  </div>
-                </div>
-                <div className={style["form-group"]}>
-                  <label>
-                    Driver License Number<sup>*</sup>
+                  <label htmlFor="licenseNum">
+                    Driver License Number<sup style={{ color: "red" }}>*</sup>
                   </label>
                   <input
                     type="text"
-                    name="regnumber"
-                    value={formData.regnumber}
-                    onChange={handleChange}
-                    placeholder="number"
+                    id="licenseNum"
+                    name="licenseNum"
+                    placeholder="License number"
+                    {...register("professionalDetails.driverLicenseNumber")}
                   />
+                  {errors?.professionalDetails?.driverLicenseNumber && (
+                    <p className={style.error}>
+                      {
+                        errors?.professionalDetails?.driverLicenseNumber
+                          ?.message
+                      }{" "}
+                    </p>
+                  )}
                 </div>
+
                 <div className={style["form-group"]}>
-                  <label>
-                    ID Number<sup>*</sup>
+                  <label htmlFor="idNumber">
+                    ID Number<sup style={{ color: "red" }}>*</sup>
                   </label>
                   <input
                     type="text"
-                    name="years"
-                    value={formData.years}
-                    onChange={handleChange}
-                    placeholder="year"
+                    id="idNumber"
+                    placeholder="enter your identification number "
+                    {...register("nationalIdentification.number")}
                   />
+                  {errors?.nationalIdentification?.number && (
+                    <p className={style.error}>
+                      {errors?.nationalIdentification?.number?.message}{" "}
+                    </p>
+                  )}
+                </div>
+
+                <div className={style["form-group"]}>
+                  <label htmlFor="yearsOfExperience">
+                    Years of Driving Experience
+                    <sup style={{ color: "red" }}>*</sup>
+                  </label>
+                  <input
+                    type="number"
+                    id="yearsOfExperience"
+                    placeholder="Enter years of  driving experience here"
+                    {...register(
+                      "professionalDetails.yearsOfDrivingExperience"
+                    )}
+                  />
+                  {errors?.professionalDetails?.yearsOfDrivingExperience && (
+                    <p className={style.error}>
+                      {
+                        errors?.professionalDetails?.yearsOfDrivingExperience
+                          ?.message
+                      }{" "}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -305,80 +519,108 @@ const Stepper = ({ name }) => {
             {currentStep === 1 && (
               <div className={style["form-grid"]}>
                 <div className={style["form-group"]}>
-                  <label>
+                  <label htmlFor="phoneNumber">
                     {" "}
-                    Name<sup>*</sup>
+                    Mobile Number<sup style={{ color: "red" }}>*</sup>
                   </label>
                   <input
                     type="text"
-                    name="vendorname"
-                    value={formData.vendorname}
-                    onChange={handleChange}
-                    placeholder="name"
-                    required
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    placeholder="enter your phone number here"
+                    {...register("contactDetails.phoneNumber")}
                   />
+
+                  {errors?.contactDetails?.phoneNumber?.message && (
+                    <p className={style.error}>
+                      {errors?.contactDetails?.phoneNumber?.message}{" "}
+                    </p>
+                  )}
                 </div>
                 <div className={style["form-group"]}>
-                  <label>
-                    Email<sup>*</sup>
+                  <label htmlFor="residentialAddress">
+                    Residential Address<sup style={{ color: "red" }}>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    name="residentialAddress"
+                    placeholder="address"
+                    id="residentialAddress"
+                    {...register("contactDetails.residentailAddress")}
+                  />
+                  {errors?.contactDetails?.residentailAddress?.message && (
+                    <p className={style.error}>
+                      {errors?.contactDetails?.residentailAddress?.message}{" "}
+                    </p>
+                  )}
+                </div>
+                <div className={style["form-group"]}>
+                  <label htmlFor="additionalPhoneNumber">
+                    Additional Mobile Number (Optional)
+                  </label>
+                  <input
+                    id="additionalPhoneNumber"
+                    type="text"
+                    name="additionalPhoneNumber"
+                    placeholder="phone number"
+                    {...register("contactDetails.additionalPhoneNumber")}
+                  />
+                  {errors?.contactDetails?.additionalPhoneNumber?.message && (
+                    <p className={style.error}>
+                      {errors?.contactDetails?.additionalPhoneNumber?.message}{" "}
+                    </p>
+                  )}
+                </div>
+                <div className={style["form-group"]}>
+                  <label htmlFor="emergencyContactName">
+                    Emergency Contact Name
+                  </label>
+                  <input
+                    type="text"
+                    id="emergencyContactName"
+                    name="emergencyContactName"
+                    placeholder="enter fullname"
+                    {...register("contactDetails.emergencyContactName")}
+                  />
+                  {errors?.contactDetails?.emergencyContactName?.message && (
+                    <p className={style.error}>
+                      {errors?.contactDetails?.emergencyContactName?.message}{" "}
+                    </p>
+                  )}
+                </div>
+                <div className={style["form-group"]}>
+                  <label htmlFor="email">
+                    Email Address<sup style={{ color: "red" }}>*</sup>
                   </label>
                   <input
                     type="text"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="email"
-                    required
-                  />
-                </div>
-                <div className={style["form-group"]}>
-                  <label>
-                    Phone Number<sup>*</sup>
-                  </label>
-                  <input
-                    type="text"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="number"
-                    required
-                  />
-                </div>
-                <div className={style["form-group"]}>
-                  <label>
-                    Emergency Contact Name<sup>*</sup>
-                  </label>
-                  <input
-                    type="text"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleChange}
-                    placeholder="Name"
-                  />
-                </div>
-                <div className={style["form-group"]}>
-                  <label>
-                    Email Address<sup>*</sup>
-                  </label>
-                  <input
-                    type="text"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
+                    id="email"
                     placeholder="Email"
+                    {...register("contactDetails.email")}
                   />
+                  {errors?.contactDetails?.email?.message && (
+                    <p className={style.error}>
+                      {errors?.contactDetails?.email?.message}{" "}
+                    </p>
+                  )}
                 </div>
                 <div className={style["form-group"]}>
-                  <label>
+                  <label htmlFor="emergencyContactNumber">
                     Emergency contact number<sup>*</sup>
                   </label>
                   <input
                     type="text"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleChange}
+                    name="emergencyContactNumber"
+                    id="emergencyContactNumber"
                     placeholder="Contact"
+                    {...register("contactDetails.emergencyContactNumber")}
                   />
+                  {errors?.contactDetails?.emergencyContactNumber?.message && (
+                    <p className={style.error}>
+                      {errors?.contactDetails?.emergencyContactNumber?.message}{" "}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -386,79 +628,151 @@ const Stepper = ({ name }) => {
               <div className={style["form__grid1"]}>
                 {/* <label>Account Email</label> */}
                 <div className={style["form-group"]}>
-                  <label>
-                    Vehicle Type and Model<sup>*</sup>
+                  <label htmlFor="vehicleModle">
+                    Vehicle Type and Model<sup style={{ color: "red" }}>*</sup>
                   </label>
                   <input
                     type="text"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
+                    name="vehicleModle"
+                    id="vehicleModle"
                     placeholder="Model"
+                    {...register("vehicleInfo.vehicleType")}
                   />
+                  {errors?.vehicleInfo?.vehicleType?.message && (
+                    <p className={style.error}>
+                      {errors?.vehicleInfo?.vehicleType?.message}{" "}
+                    </p>
+                  )}
                 </div>
                 <div className={style["form-group"]}>
-                  <label>
+                  <label htmlFor="registrationNumber">
                     Vehicle Registration Number<sup>*</sup>
                   </label>
                   <input
                     type="text"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleChange}
+                    name="registrationNumber"
                     placeholder="Number"
+                    id="registrationNumber"
+                    {...register("vehicleInfo.registrationNumber")}
                   />
+                  {errors?.vehicleInfo?.registrationNumber?.message && (
+                    <p className={style.error}>
+                      {errors?.vehicleInfo?.registrationNumber?.message}{" "}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
             {/* Step 3 - Payment & Billing */}
             {currentStep === 3 && (
-              <div className={style["form-grid"]}>
-                <div className={style["form-group"]}>
-                  <label>
-                    Bank Name<sup>*</sup>
-                  </label>
-                  <input
-                    type="text"
-                    name="bankname"
-                    value={formData.bankname}
-                    onChange={handleChange}
-                    placeholder="bank name"
-                  />
-                </div>
-                <div className={style["form-group"]}>
-                  <label>
-                    Mobile Money Name<sup>*</sup>
-                  </label>
-                  <input
-                    type="text"
-                    name="momoname"
-                    value={formData.momoname}
-                    onChange={handleChange}
-                    placeholder="momo name"
-                  />
-                </div>
-                <div className={style["form-group"]}>
-                  <label>
-                    Bank Account Number<sup>*</sup>
-                  </label>
-                  <input
-                    type="text"
-                    name="banknumber"
-                    value={formData.banknumber}
-                    onChange={handleChange}
-                    placeholder=" account number"
-                  />
-                </div>
-                <div className={style["form-group"]}>
-                  <label>Mobile Money Number</label>
-                  <input
-                    type="text"
-                    name="momonumber"
-                    value={formData.momonumber}
-                    onChange={handleChange}
-                    placeholder="momo number"
-                  />
+              <div>
+                {errors?.financialDetails?.message && (
+                  <div className={style.error}>
+                    {errors?.financialDetails?.message}{" "}
+                  </div>
+                )}
+
+                <div className={style["form-grid"]}>
+                  <div className={style["form-group"]}>
+                    <label>Bank Name</label>
+                    <input
+                      type="text"
+                      name="bankname"
+                      {...register(
+                        "financialDetails.bankAccountDetails.bankName"
+                      )}
+                      placeholder="bank name"
+                    />
+                    {errors?.financialDetails?.bankAccountDetails?.bankName
+                      ?.message && (
+                      <p className={style.error}>
+                        {
+                          errors.financialDetails.bankAccountDetails.bankName
+                            .message
+                        }{" "}
+                      </p>
+                    )}
+                  </div>
+                  <div className={style["form-group"]}>
+                    <label>Mobile Money Recipient Name</label>
+                    <input
+                      type="text"
+                      name="momoname"
+                      {...register(
+                        "financialDetails.mobileMoneyAccount.recipientName"
+                      )}
+                      placeholder="recipient name"
+                    />
+                    {errors?.financialDetails?.mobileMoneyAccount?.recipientName
+                      ?.message && (
+                      <p className={style.error}>
+                        {
+                          errors.financialDetails.mobileMoneyAccount
+                            .recipientName.message
+                        }{" "}
+                      </p>
+                    )}
+                  </div>
+                  <div className={style["form-group"]}>
+                    <label>Bank Account Number</label>
+                    <input
+                      type="text"
+                      name="banknumber"
+                      {...register(
+                        "financialDetails.bankAccountDetails.accountNumber"
+                      )}
+                      placeholder=" account number"
+                    />
+                    {errors?.financialDetails?.bankAccountDetails?.accountNumber
+                      ?.message && (
+                      <p className={style.error}>
+                        {
+                          errors.financialDetails.bankAccountDetails
+                            .accountNumber.message
+                        }{" "}
+                      </p>
+                    )}
+                  </div>
+                  <div className={style["form-group"]}>
+                    <label>Mobile Money Number</label>
+                    <input
+                      type="text"
+                      name="momonumber"
+                      {...register(
+                        "financialDetails.mobileMoneyAccount.phoneNumber"
+                      )}
+                      placeholder="momo number"
+                    />
+                    {errors?.financialDetails?.mobileMoneyAccount
+                      ?.phoneNumber && (
+                      <p className={style.error}>
+                        {
+                          errors.financialDetails.mobileMoneyAccount.phoneNumber
+                            .message
+                        }
+                      </p>
+                    )}
+                  </div>
+                  <div className={style["form-group"]}>
+                    <label>Bank Account Recipient Name</label>
+                    <input
+                      type="text"
+                      name="banknumber"
+                      {...register(
+                        "financialDetails.bankAccountDetails.recipientName"
+                      )}
+                      placeholder=" account number"
+                    />
+                    {errors?.financialDetails?.bankAccountDetails?.recipientName
+                      ?.message && (
+                      <p className={style.error}>
+                        {
+                          errors.financialDetails.bankAccountDetails
+                            .recipientName.message
+                        }{" "}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
@@ -503,6 +817,12 @@ const Stepper = ({ name }) => {
                       onChange={handleFileInputChange}
                     />
                   </div>
+
+                  {errors?.driverLicense?.message && (
+                    <p className={style.error}>
+                      {errors?.driverLicense?.message}{" "}
+                    </p>
+                  )}
                 </div>
 
                 <div className={style.grid2}>
@@ -549,42 +869,32 @@ const Stepper = ({ name }) => {
             {/* Step 5 - Account Details */}
             {currentStep === 5 && (
               <div className={style["form__grid"]}>
-                <label>
-                  Account Email<sup>*</sup>
-                </label>
-                <div
-                  className={`${style["Account-details-password"]} ${style.email}`}
-                >
-                  <img src={EmailIcon} alt="emailIcon" />
-                  <input
-                    type="text"
-                    name="accountemail"
-                    value={formData.accountemail}
-                    onChange={handleChange}
-                    placeholder="Enter your email"
-                  />
+                <div className={style["form-group"]}>
+                  <label htmlFor="password">
+                    Password<sup style={{ color: "red" }}>*</sup>
+                  </label>
+                  <div className={style["Account-details-password"]}>
+                    <img src={padLock} alt="padlock" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      placeholder="password"
+                      {...register("password")}
+                    />
+                    <button
+                      type="button"
+                      onClick={toggleVisibility}
+                      className={style["toggle - btn"]}
+                    >
+                      {showPassword ? <FaEye /> : <FaEyeSlash />}
+                    </button>
+                  </div>
+                  {errors?.password?.message && (
+                    <p className={style.error}>{errors?.password?.message} </p>
+                  )}
                 </div>
-                <label>
-                  Password<sup>*</sup>
-                </label>
-                <div className={style["Account-details-password"]}>
-                  <img src={padLock} alt="padlock" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="password"
-                  />
-                  <button
-                    type="button"
-                    onClick={toggleVisibility}
-                    className={style["toggle - btn"]}
-                  >
-                    {showPassword ? <FaEye /> : <FaEyeSlash />}
-                  </button>
-                </div>
-                <label>
+
+                <label htmlFor="confirmpassword">
                   Confirm Password<sup>*</sup>
                 </label>
                 <div className={style["Account-details-password"]}>
@@ -592,8 +902,8 @@ const Stepper = ({ name }) => {
                   <input
                     type={showPassword1 ? "text" : "password"}
                     name="confirmpassword"
-                    value={formData.confirmpassword}
-                    onChange={handleChange}
+                    id="confirmpassword"
+                    {...register("confirmpassword")}
                     placeholder="Confirm Password"
                   />
                   <button
@@ -604,6 +914,11 @@ const Stepper = ({ name }) => {
                     {showPassword1 ? <FaEye /> : <FaEyeSlash />}
                   </button>
                 </div>
+                {errors?.confirmpassword?.message && (
+                  <p className={style.error}>
+                    {errors?.confirmpassword?.message}{" "}
+                  </p>
+                )}
               </div>
             )}
 
@@ -621,12 +936,67 @@ const Stepper = ({ name }) => {
               Next <img className={style.btn} src={rightSVG} alt="right" />
             </div>
           ) : (
-            <button className={style["btn-filled"]} onClick={toggleModalOpen}>
+            <button
+              type="button"
+              className={style["btn-filled"]}
+              onClick={async () => {
+                const isValid = await trigger();
+                // console.log(errors);
+                if (isValid) {
+                  toggleModalOpen();
+                } else {
+                  toast.error(
+                    "Please provide details for all required fields",
+                    {
+                      style: {
+                        border: "1px solid oklch(88.5% 0.062 18.334)",
+                        // backgroundColor:"oklch(88.5% 0.062 18.334)",
+                        color: "oklch(39.6% 0.141 25.723)",
+                        fontSize: "16px",
+                        width: "500px",
+                      },
+                    }
+                  );
+                }
+              }}
+            >
               Register
             </button>
           )}
         </div>
-        <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} />
+
+        {/* ---------------------------------------modal----------------------------------- */}
+        {isOpen && (
+          <div
+            className={style["modal-background"]}
+            // onClick={onClose}
+          >
+            <div
+              className={style["main-card"]}
+              // onClick={handleCardClick}
+            >
+              <img src={check} alt="success check" />
+              <div className={style.text}>
+                <h1>Registration Successful!</h1>
+                <h2 className={style.subtitle}>
+                  Thank you for registering your business on{" "}
+                  <span>THROTTLE.</span>
+                </h2>
+                <p>
+                  Your account is currently under review and will be approved
+                  and activated shortly. <br />A confirmation email will be sent
+                  to your registered email address once approval is
+                  <br /> complete.
+                </p>
+                <h2>We appreciate your interest in partnering with us!</h2>
+              </div>
+              <div className={style.button}>
+                <button type="submit">Ok </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} /> */}
       </form>
     </>
   );

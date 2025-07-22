@@ -81,6 +81,7 @@
   /* Input field styles */
   width: 100%;
   padding: 0.5rem 1rem;
+  height: 38px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 8px 0 0 8px; /* Only round left corners */

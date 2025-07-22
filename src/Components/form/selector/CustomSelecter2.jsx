@@ -1,13 +1,14 @@
 import React from "react";
 import Select from "react-select";
-import AsyncSelect from 'react-select/async';
+import AsyncSelect from "react-select/async";
 export default function CustomSelector2({
   options,
   selectedValue,
   setSelectedValue,
   placeholder,
-  height="50px",
-  width="500px"
+  height = "50px",
+  width = "500px",
+  sideBarHeight="30px"
 }) {
   const customStyles = {
     control: (base, state) => ({
@@ -17,8 +18,9 @@ export default function CustomSelector2({
       borderRadius: "8px",
       border: "0.1px solid #003627",
 
+
       //   borderColor: state.isFocused ? "#17654F" : "#fff",
-    //   borderColor: "#17654F",
+      //   borderColor: "#17654F",
       boxShadow: "none",
       fontSize: "16px",
       fontWeight: "400",
@@ -28,31 +30,32 @@ export default function CustomSelector2({
       outline: state.isFocused && "0px solid red",
       backgroundColor: "white",
       color: "black",
-      cursor:"pointer",
-
- 
+      cursor: "pointer",
 
       stroke: "none",
       "&:hover": {
         backgroundColor: "#B2CFC7",
         borderColor: "#17654F",
       },
-    
+    }),
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      height: sideBarHeight,
+      borderLeft: "1px solid #17654F",
     }),
     indicatorsContainer: (base) => ({
       ...base,
-      borderLeft: " red ",
+      height:"100%",
       paddingLeft: "5px",
      
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
       color: "#fff",
-      padding: "8px", 
+      padding: "8px",
       "&:hover": {
-        color: "#666", 
+        color: "#666",
       },
-      borderLeft: "1px solid #17654F",
       // If you want to completely replace the icon:
       svg: {
         fill: "#17654F",
@@ -61,6 +64,20 @@ export default function CustomSelector2({
         height: "20px",
       },
     }),
+    singleValue: (provided) => ({
+    ...provided,
+    display: 'flex',
+    alignItems: 'center', 
+    height: '100%',       
+  }),
+  input: (provided) => ({
+    ...provided,
+    padding: '0px',
+    margin: 0,           
+    display: 'flex',
+    alignItems: 'center', 
+    
+  }),
     option: (base, state) => ({
       ...base,
       // borderRadius: "8px",
@@ -71,15 +88,12 @@ export default function CustomSelector2({
       transitionTimingFunction: "ease-in-out",
       transitionDuration: "300ms",
       transitionProperty: "all",
-      cursor:"pointer",
-      
-    
+      cursor: "pointer",
 
       "&:hover": {
         backgroundColor: "#17654F",
         borderColor: "#333",
-        color:"white",
-        
+        color: "white",
       },
       backgroundColor: state.isSelected
         ? "#17654F"
@@ -92,9 +106,9 @@ export default function CustomSelector2({
 
       display: "flex",
       alignItems: "center",
-      fontSize:"16px",
-      fontWeight:"400",
-      lineHeight:"22px"
+      fontSize: "16px",
+      fontWeight: "400",
+      lineHeight: "22px",
     }),
     menu: (base) => ({
       ...base,
@@ -103,7 +117,7 @@ export default function CustomSelector2({
       borderRadius: "8px",
       // padding: "14px",
       top: "50px",
-      paddingTop:"10px",
+      paddingTop: "10px",
       filter: "drop-shadow(1px 1px 3px #17654F)",
       transitionTimingFunction: "ease-in-out",
       transitionDuration: "250ms",
@@ -121,7 +135,6 @@ export default function CustomSelector2({
       placeholder={placeholder}
       className="selector-1"
       classNamePrefix="selector-text-elements-1"
-      
     />
   );
 }

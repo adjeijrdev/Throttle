@@ -229,7 +229,6 @@ export default function Cod() {
        
           <div className={ showTable ? styles.showTabe_st : styles.dontShowTb_st}>
           <RightItemSelectTB showTable={ showTable} toggleTable={toggleTable}/>
-
           </div>
           
         </div>
