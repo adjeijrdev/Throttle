@@ -1,104 +1,161 @@
-import axios from "axios"
-import api from "./axiosConfig"
-const BASE_URL = import.meta.env.VITE_BASE_URL
+import axios from "axios";
+import api from "./axiosConfig";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-
-export const  loginAPI = async (formData)=>{
-    
-    return await axios.post(`${BASE_URL}/auth/signin`,formData, {
-      headers:{
-          "Content-Type":"application/json"       
-      },      
-    withCredentials: true     
-  }
-)
-.then((data)=>{  
-      return data
-  }).catch(error=>{
-      throw error?.response?.data || {message:"Sorry an error occured on the server"}
-  })
-
-}
-
-export const registerVendorAPI = async (formData)=>{   
-    return await axios.post(`${BASE_URL}/auth/register/vendor`,formData, {
-           
+export const loginAPI = async (formData) => {
+  return await axios
+    .post(`${BASE_URL}/auth/signin`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', 
-        'Accept': 'application/json'
+        "Content-Type": "application/json",
       },
-   withCredentials: true   
-  }
-)
-.then((data)=>{  
-      return data
-  }).catch(error=>{
-    if(error?.response?.data?.errors){
-      throw error?.response?.data?.errors[0]
-    }else{
-      throw error?.response?.data || {message:"Sorry an error occured on the server"}
-    }
-  })
+      withCredentials: true,
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      if (error?.response?.data?.errors) {
+        throw error?.response?.data?.errors[0];
+      } else {
+        throw (
+          error?.response?.data || {
+            message: "Sorry an error occured on the server",
+          }
+        );
+      }
+    });
+};
 
-}
-
-export const registerRiderAPI = async (formData)=>{   
-    return await axios.post(`${BASE_URL}/auth/register/rider`,formData, {
-           
+export const registerVendorAPI = async (formData) => {
+  return await axios
+    .post(`${BASE_URL}/auth/register/vendor`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', 
-        'Accept': 'application/json'
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
       },
-   withCredentials: true   
-  }
-)
-.then((data)=>{  
-      return data
-  }).catch(error=>{
-    if(error?.response?.data?.errors){
-      throw error?.response?.data?.errors[0]
-    }else{
-      throw error?.response?.data || {message:"Sorry an error occured on the server"}
-    }
-  })
+      withCredentials: true,
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      if (error?.response?.data?.errors) {
+        throw error?.response?.data?.errors[0];
+      } else {
+        throw (
+          error?.response?.data || {
+            message: "Sorry an error occured on the server",
+          }
+        );
+      }
+    });
+};
 
-}
+export const registerRiderAPI = async (formData) => {
+  return await axios
+    .post(`${BASE_URL}/auth/register/rider`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+      },
+      withCredentials: true,
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      if (error?.response?.data?.errors) {
+        throw error?.response?.data?.errors[0];
+      } else {
+        throw (
+          error?.response?.data || {
+            message: "Sorry an error occured on the server",
+          }
+        );
+      }
+    });
+};
 
-export const createRoleAPI = async(formData)=>{
-  return await api.post("/auth/role",formData,{
-    headers:{
-          "Content-Type":"application/json"       
-      }   
-  }).then((data)=>{
-    return data
+export const createRoleAPI = async (formData) => {
+  return await api
+    .post("/auth/role", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      if (error?.response?.data?.errors) {
+        throw error?.response?.data?.errors[0];
+      } else {
+        throw (
+          error?.response?.data || {
+            message: "Sorry an error occured on the server",
+          }
+        );
+      }
+    });
+};
 
-  }).catch(error =>{
-      throw error?.response?.data
-  })
-}
+export const editRoleAPI = async (formData) => {
+  return await api.patch("/auth/role", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error)
+      if (error?.response?.data?.errors) {
+        throw error?.response?.data?.errors[0];
+      } else {
+        throw (
+          error?.response?.data || {
+            message: "Sorry an error occured on the server",
+          }
+        );
+      }
+    });
+};
 
-export const deleteRoleAPI = async(roleId)=>{
+export const deleteRoleAPI = async (roleId) => {
   try {
-  
     const response = await api.delete(`/auth/role/${roleId}`);
     return response.data;
   } catch (error) {
-
-    throw error?.response?.data; 
-  }
-}
-
-
-export const createStaffAPI = async(formData)=>{
-  try{
-
-    const response = await api.post("/auth/staff",formData,{
-    headers:{
-      "Content-Type":"application/json"
+    if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
     }
-  })
-  return response
-  }catch(error){
-    throw error?.response?.data;
   }
-}
+};
+
+export const createStaffAPI = async (formData) => {
+  try {
+    const response = await api.post("/auth/staff", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
+    }
+  }
+};

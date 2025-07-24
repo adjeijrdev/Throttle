@@ -11,8 +11,8 @@ export const GET_PERMISSIONS = gql`
 `;
 
 export const GET_ROLES = gql`
-  query GET_ROLES($offset: Int!, $limit: Int!) {
-    roles(offset: $offset, limit: $limit) {
+  query GET_ROLES($offset: Int!, $limit: Int!, $search: String!) {
+    roles(offset: $offset, limit: $limit, search: $search) {
       currentPage
       hasNextPage
       totalCount
@@ -40,8 +40,8 @@ export const GET_ROLES = gql`
 `;
 
 export const GET_ALL_STAFFS = gql`
-  query GET_ALL_STAFF($offset: Int!, $limit: Int!) {
-    staffs(offset: $offset, limit: $limit) {
+  query GET_ALL_STAFF($offset: Int!, $limit: Int!,$search:String!) {
+    staffs(offset: $offset, limit: $limit, search: $search) {
       currentPage
       hasNextPage
       totalCount
@@ -70,8 +70,7 @@ export const GET_ALL_STAFFS = gql`
 `;
 
 export const GET_ALL_VENDORS = gql`
-  query GET_ALL_VENDORS($offset: Int!,$limit: Int!,$status: Status!
-  ) {
+  query GET_ALL_VENDORS($offset: Int!, $limit: Int!, $status: Status!) {
     vendors(offset: $offset, limit: $limit, status: $status) {
       currentPage
       hasNextPage
@@ -108,6 +107,30 @@ export const GET_ALL_VENDORS = gql`
           phoneNumber
           name
         }
+      }
+    }
+  }
+`;
+
+export const GET_ROLE = gql`
+  query GET_ROLE($roleId: ID!) {
+    role(roleId: $roleId) {
+      _id
+      assignTo {
+        _id
+        userProfile {
+          fullName {
+            firstName
+          }
+        }
+      }
+      description
+      name
+      updatedAt
+      permissions {
+        _id
+        name
+        description
       }
     }
   }

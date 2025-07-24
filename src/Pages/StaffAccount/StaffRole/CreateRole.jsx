@@ -1,20 +1,21 @@
 import "./StaffRole.css";
 import { useNavigate } from "react-router";
 import { useQuery } from "@apollo/client";
+import { useLocation } from "react-router-dom";
 
-import { GET_PERMISSIONS } from "../../../graphql/generalQueries";
+import { GET_PERMISSIONS, GET_ROLES } from "../../../graphql/generalQueries";
 import { useEffect, useState } from "react";
 import { Form, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createRoleAPI } from "../../../api/authentication";
 import toast from "react-hot-toast";
-import {  Spin } from "antd";
+import { Spin } from "antd";
 import { BeatLoader } from "react-spinners";
-
 
 const schema = z.object({
   name: z.string().trim().min(1, "⚠ Role name is required"),
+  description: z.string().trim().optional(),
   permissions: z
     .array(z.string().trim())
     .min(1, "Please assign atleast one permssion"),
@@ -22,6 +23,10 @@ const schema = z.object({
 
 function CreateRole() {
   const [selectedPermssions, setSelectedPermission] = useState([]);
+  const { loading: roleLoading, refetch: refetchRoles } = useQuery(GET_ROLES, {
+    notifyOnNetworkStatusChange: true,
+  });
+
   const {
     loading: permissionLoading,
     error: permissionError,
@@ -34,12 +39,9 @@ function CreateRole() {
     setValue,
     reset,
     formState: { errors: validationError, isSubmitting },
-  } = useForm({ resolver: zodResolver(schema) ,
-    
-  });
+  } = useForm({ resolver: zodResolver(schema) });
 
   const handleSetPermission = (id) => {
-
     setSelectedPermission((prevPermissions) => {
       let newPermissions;
 
@@ -51,7 +53,6 @@ function CreateRole() {
       setValue("permissions", newPermissions, { shouldValidate: true });
       return newPermissions;
     });
-    
   };
   const onCreateRole = async (data) => {
     try {
@@ -66,8 +67,9 @@ function CreateRole() {
           width: "500px",
         },
       });
+
+      refetchRoles();
     } catch (error) {
-      
       toast.error(error.message, {
         style: {
           border: "1px solid oklch(88.5% 0.062 18.334)",
@@ -81,9 +83,8 @@ function CreateRole() {
     }
   };
 
-  useEffect(()=>{
-    console.log(selectedPermssions)
-  },[selectedPermssions])
+
+
   const navigate = useNavigate();
   return (
     <div className="staffs account">
@@ -103,8 +104,6 @@ function CreateRole() {
               // id="roleTitle"
 
               className="text-input"
-              // value={name}
-              // onChange={(e)=>{setName(e.target.value),setValue("name", name,{required:true})}}
             />
           </div>
           {validationError?.name && (
@@ -119,6 +118,19 @@ function CreateRole() {
               {validationError?.name?.message}
             </h2>
           )}
+
+          <div className="form-section">
+            <h3>Description</h3>
+            <div>
+              <label htmlFor="description">Enter role description</label>
+              <br />
+              <textarea
+                className="text-input"
+                {...register("description")}
+                rows={3}
+              ></textarea>
+            </div>
+          </div>
         </div>
 
         <div className="form-section">
@@ -138,10 +150,7 @@ function CreateRole() {
           )}
 
           {!permssions ? (
-            <Spin
-              size="large"
-             className="loading-spinner" 
-            />
+            <Spin size="large" className="loading-spinner" />
           ) : (
             <ul>
               {permssions?.permissions?.map((permission) => {

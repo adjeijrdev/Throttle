@@ -3,7 +3,7 @@ import PaginatedTabs from "../../../Components/paginationTab/paginationTabs";
 
 import "./StaffRole.css";
 import { format, parseISO } from "date-fns";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DeleteRoleModal from "./DeleteRoleModal";
 import { Spin } from "antd";
 import toast from "react-hot-toast";
@@ -22,33 +22,42 @@ import { getTheme } from "@table-library/react-table-library/baseline";
 import { useQuery } from "@apollo/client";
 import { GET_ROLES } from "../../../graphql/generalQueries";
 import { deleteRoleAPI } from "../../../api/authentication";
-import { removeSingleRoleFromCache } from "../../../graphql/graphqlConfiguration";
+import {
+  removeSingleRoleFromCache,
+  useSearch,
+} from "../../../graphql/graphqlConfiguration";
 import DisplayRoleStaffsAssignModel from "./DisplayRoleStaffsAssignModel";
+import CustomSearchInput from "../../../Components/searchInputBox/CustomSearchInput";
 
 function StaffRoles() {
   const [roleOffSet, setRoleOffSet] = useState(0);
-  let itemsPerPage = 20;
+  const [searchRole, setSearchRole] = useState("");
+  let itemsPerPage = 15;
 
   const {
-    loading: roleLoading,
+    debouncedSearch,
     data: roleData,
+    loading: roleLoading,
     error: roleError,
     fetchMore: fetchMoreRoles,
-  } = useQuery(GET_ROLES, {
-    variables: {
-      offset: roleOffSet,
-      limit: itemsPerPage,
-    },
-    notifyOnNetworkStatusChange: true,
-  });
+  } = useSearch(GET_ROLES, roleOffSet, itemsPerPage);
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchRole(value);
+    debouncedSearch(value);
+  };
+
   const [itemOffset, setItemOffset] = useState(0);
   const [isDeleteModal, setDeleteModal] = useState(false);
-  const [roleIdToDelete,setRoleIdToDelete] = useState("");
-  const [showStaffModal, setShowStaffModal] = useState({state:false,assignTo:[]})
+  const [roleIdToDelete, setRoleIdToDelete] = useState("");
+  const [showStaffModal, setShowStaffModal] = useState({
+    state: false,
+    assignTo: [],
+  });
   const totalNumberOfRoles = roleData?.roles?.totalCount;
 
-  
-  // console.log(roleData);
+
   let navigate = useNavigate();
 
   const tableTheme = useTheme([
@@ -175,7 +184,6 @@ function StaffRoles() {
   ]);
 
   const handleDeleteRole = async () => {
-   
     try {
       const result = await deleteRoleAPI(roleIdToDelete);
 
@@ -189,7 +197,7 @@ function StaffRoles() {
         },
       });
 
-      removeSingleRoleFromCache(roleIdToDelete)
+      removeSingleRoleFromCache(roleIdToDelete);
     } catch (error) {
       toast.error(error.message, {
         style: {
@@ -201,25 +209,48 @@ function StaffRoles() {
         },
       });
     }
-    setDeleteModal(false)
+    setDeleteModal(false);
   };
 
   return (
     <div className="roles">
       <div className="headers">
-        <div className="roles-title">Staff Roles</div>
+        <div className="top">
+          <div className="roles-title">Staff Roles</div>
 
-        <button
-          className="btn-new-role"
-          onClick={(e) => navigate("/staff-account/create-Role")}
-        >
-          Create New Role <span className="new-plus">+</span>
-        </button>
+          <button
+            className="btn-new-role"
+            onClick={() => {
+              navigate("/staff-account/create-Role");
+            }}
+          >
+            Create New Role <span className="new-plus">+</span>
+          </button>
+        </div>
+
+        <div className="searchBox">
+          <CustomSearchInput
+            bgColor={"white"}
+            placeholder="Search by role title"
+            value={searchRole}
+            onChange={handleSearch}
+          />
+        </div>
       </div>
 
-      {isDeleteModal && <DeleteRoleModal setDeleteModel={setDeleteModal} handleDeleteRole={handleDeleteRole}/>}
+      {isDeleteModal && (
+        <DeleteRoleModal
+          setDeleteModel={setDeleteModal}
+          handleDeleteRole={handleDeleteRole}
+        />
+      )}
 
-      {showStaffModal?.state && <DisplayRoleStaffsAssignModel setShowStaffModal={setShowStaffModal} showStaffModal={showStaffModal} />}
+      {showStaffModal?.state && (
+        <DisplayRoleStaffsAssignModel
+          setShowStaffModal={setShowStaffModal}
+          showStaffModal={showStaffModal}
+        />
+      )}
 
       <div className="table-container-st">
         <Table
@@ -264,23 +295,33 @@ function StaffRoles() {
                       <Cell>
                         {/* working on show staff modal */}
                         <button
-                            onClick={()=>setShowStaffModal({state:true,assignTo:item?.assignTo})}
-                            className="num-staff-col"
-                          >
+                          onClick={() => {
+                           
+                            setShowStaffModal({
+                              state: true,
+                              assignTo: item?.assignTo,
+                            });
+                          }}
+                          className="num-staff-col"
+                        >
                           {item?.assignTo?.length}
-                          </button>
-                        
+                        </button>
                       </Cell>
                       <Cell>
                         <span className="btn-container">
                           <button
                             onClick={(e) =>
-                              navigate(`/staff-account/edit-role/${item.id}`)
+                              navigate(`/staff-account/edit-role/${item._id}`)
                             }
                           >
                             Edit
                           </button>
-                          <button onClick={() => {setDeleteModal(true),setRoleIdToDelete(item?._id)}}>
+                          <button
+                            onClick={() => {
+                              setDeleteModal(true),
+                                setRoleIdToDelete(item?._id);
+                            }}
+                          >
                             Delete
                           </button>
                         </span>

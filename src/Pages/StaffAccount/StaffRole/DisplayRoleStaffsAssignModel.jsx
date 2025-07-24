@@ -46,7 +46,6 @@ export default function DisplayRoleStaffsAssignModel({setShowStaffModal,showStaf
     },
   ];
 
-  console.log(showStaffModal)
 
   return (
     <div className="displayStaffModalContainer">
@@ -54,15 +53,22 @@ export default function DisplayRoleStaffsAssignModel({setShowStaffModal,showStaf
         <MdOutlineClose size={22}/>
       </button>
       <ul>
-        {fullName.map((staff) => {
+        {showStaffModal?.assignTo
+          ?
+          showStaffModal?.assignTo?.map((staff) => {
           return (
             <li key={staff._id}>
               {staff?.userProfile?.fullName?.surname}{" "}
               {staff.userProfile?.fullName?.middleName}{" "}
               {staff?.userProfile?.fullName?.firstName}
             </li>
-          );
-        })}
+          )
+        })
+        :
+        (
+          <div> role not assigned to any staff</div>
+        )
+      }
       </ul>
     </div>
   );

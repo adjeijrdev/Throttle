@@ -6,13 +6,26 @@
   color: var(--main-theme);
 }
 
-.headers {
+.headers{
   display: flex;
   justify-content: space-between;
-  border-bottom: 0.1rem solid #00000033;
-  padding-bottom: 2rem;
+  flex-direction: column;
+  gap:2rem;
+  /* border-bottom: 0.1rem solid #00000033; */
+  /* padding-bottom: 2rem; */
   margin-bottom: 2rem;
+}
+
+.headers .top {
+  display: flex;
+  justify-content: space-between;
+
   align-items: center;
+}
+
+.headers .searchBox{
+  display: flex;
+  width:65rem;
 }
 
 .loading-spinner .ant-spin-dot-item {

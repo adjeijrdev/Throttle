@@ -14,7 +14,7 @@ import { Spin } from "antd";
 import { BeatLoader } from "react-spinners";
 import CustomSelector2 from "../../../Components/form/selector/CustomSelecter2";
 import { createStaffAPI } from "../../../api/authentication";
-import { GET_ROLES } from "../../../graphql/generalQueries";
+import { GET_ROLES,GET_ALL_STAFFS } from "../../../graphql/generalQueries";
 import { useQuery } from "@apollo/client";
 
 const schema = z.object({
@@ -49,6 +49,8 @@ function CreateStaffAccount() {
   const [roles, setRoles] = useState();
   const navigate = useNavigate();
 
+    const {refetch: refetchStaff} = useQuery(GET_ALL_STAFFS)
+
   const {
     register,
     handleSubmit,
@@ -66,12 +68,14 @@ function CreateStaffAccount() {
     variables: {
       offset: 0,
       limit: 100,
+      search:""
     },
     notifyOnNetworkStatusChange: true,
   });
 
+
   useEffect(() => {
-    refetchRole();
+    
     if (!roleLoading) {
       const _roles = roleData?.roles?.data?.map((role) => {
         return {
@@ -101,6 +105,8 @@ function CreateStaffAccount() {
           width: "500px",
         },
       });
+
+      refetchStaff()
     } catch (error) {
       toast.error(error?.message, {
         style: {
@@ -301,11 +307,6 @@ function CreateStaffAccount() {
                   <div>
                     Staff role<span className="required-field">*</span>{" "}
                   </div>
-                  {/* <CustomSelector
-                    options={roleSelectOptions}
-                    selectedValue={selectedRole}
-                    setSelectedValue={setSelectedRole}
-                  /> */}
                   <CustomSelector2
                     options={roles}
                     selectedValue={selectedRole}
