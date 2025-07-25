@@ -38,15 +38,16 @@ import PendingAccountLayout3PL from "./Pages/3PLS/PendingAccount/PendingAccountL
 import ViewDetails3PL from "./Pages/3PLS/PendingAccount/viewDetails";
 
 import { Offline, Online } from "react-detect-offline";
+import EditStaff from "./Pages/StaffAccount/editStaff/EditStaff";
 
 export default function App() {
-  
   return (
     <div className="parent-container">
       <Offline>
-        <div className="network-offline">You are offline check your network connectivity</div>
+        <div className="network-offline">
+          You are offline check your network connectivity
+        </div>
       </Offline>
-        
 
       <Router>
         <Routes>
@@ -60,13 +61,14 @@ export default function App() {
             {/* Vendor account + nested */}
             <Route path="vendor-account" element={<VendorAccount />} />
             <Route
-              path="vendor-account/Pending-Account"
-              element={<PendingAccountLayout />}
+              path="vendor-account"
+              element={<PendingAccountLayout/>}
             >
-              <Route index element={<VendorPending />} />
+              <Route path="Pending-Account" element={<VendorPending />} />
 
-              <Route path="details/:id" element={<ViewDetails />} />
+              <Route path="Pending-Account/details/:id" element={<ViewDetails />} />
             </Route>
+
             <Route
               path="vendor-account/Approved-Account"
               element={<VendorApprovedAccount />}
@@ -84,8 +86,8 @@ export default function App() {
             />
             <Route
               path="3pls/Approved-Account"
-              element={<PendingAccountLayout3PL />}
-            >
+              element={<PendingAccountLayout3PL />}>
+                
               <Route index element={<ThirdPartiesApproved />} />
               <Route path="details/:id" element={<ViewDetails3PL />} />
             </Route>
@@ -100,12 +102,13 @@ export default function App() {
             <Route path="cod" element={<Cod />} />
 
             {/* Staff */}
-            <Route path="staff-account" element={<StaffAccount />} />
-            <Route path="staff-account/Staff-List" element={<StaffList />} />
-            <Route
-              path="staff-account/Create-Staff-Account"
-              element={<CreateStaffAccount />}
-            />
+            <Route path="staff-account" element={<StaffAccount />}>
+              <Route path="Staff-List" element={<StaffList/>} />
+              <Route path="Create-Staff-Account" element={<CreateStaffAccount />}/>
+              <Route path="edit-staff-account/:id" element={<EditStaff/>}/>
+
+            </Route>
+
             <Route path="staff-account" element={<Role />}>
               <Route path="Staff-Role" element={<StaffRoles />} />
               <Route path="create-Role" element={<CreateRole />} />

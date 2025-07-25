@@ -1,126 +1,242 @@
-import React from "react";
-import PasswordTextInput from "../../../Components/form/password/PasswordTextInput";
-import CustomBoxRadioBtn from "../../../Components/form/radiobtn/CustomBoxRadioBtn";
-import CustomSelector from "../../../Components/form/selector/CustomSelector";
-import TextInput from "../../../Components/form/TextInput";
 import { useNavigate, useLocation } from "react-router";
+import TextItem from "../../../Components/TextItem";
+import { useQuery } from "@apollo/client";
+import { GET_VENDOR } from "../../../graphql/generalQueries";
+import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { BeatLoader } from "react-spinners";
+import { approveVendorAPI } from "../../../api/authentication";
+import toast from "react-hot-toast";
+import { removeSingleVendrFromCache } from "../../../graphql/graphqlConfiguration";
 
 export default function ViewDetails() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { id } = useParams();
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const status = location?.state?.status;
+
+  const {
+    loading: vendorLoading,
+    error: vendorError,
+    data: vendorData,
+    refetch: refetchVendor,
+  } = useQuery(GET_VENDOR, {
+    variables: {
+      vendorId: id,
+    },
+  });
+
+  const onApproveStaff = async (data) => {
+
+    try {
+      setIsSubmitting(true)
+      const result = await approveVendorAPI(data);
+
+      toast.success(result?.data?.message, {
+        style: {
+          border: "1px solid #17654F",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "black",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+
+      removeSingleVendrFromCache(id)
+      refetchVendor();
+    } catch (error) {
+      toast.error(error?.message, {
+        style: {
+          border: "1px solid oklch(88.5% 0.062 18.334)",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "oklch(39.6% 0.141 25.723)",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+    }
+      setIsSubmitting(false)
+
+  };
 
   return (
     <div className="account">
       <div className="headers">
         <h2 className="ct-staff-title">Vendor Approval</h2>
-        <button
-          className="btn-new-role"
-          onClick={(e) => console.log("dd")}
-        >
+        <button className="btn-new-role" onClick={(e) => console.log("dd")}>
           Delete Account
         </button>
       </div>
 
       <div>
         <div>
-          <form className="ct-staff-form">
-            <div className="ct-staff-form-con1">
-              <div className="form-section1">
-                <h3>Business Information</h3>
+          <div className="ct-staff-form-con1">
+            <div className="form-section1">
+              <h3>Business Information </h3>
 
-                <div className="personal-info-sec">
-                  <TextInput
-                    title="Business Name"
-                    name="businessName"
-                    isRequired={false}
-                  />
-                  <TextInput title="Business Address" name="businessAddress" />
+              <div className="personal-info-sec">
+                <TextItem
+                  title="Business Name"
+                  value={vendorData?.vendor?.businessInfo?.companyName}
+                />
+                <TextItem
+                  title="Business Address"
+                  value={vendorData?.vendor?.businessInfo?.businessAddress}
+                />
 
-                  <TextInput
-                    title="Country & City of Operation"
-                    name="country"
-                  />
-                  <TextInput
-                    title="Business Registration Number"
-                    name="registrationNumber"
-                  />
-                  <TextInput title="Business Type" name="businessType" />
-                  <TextInput
-                    title="Years in Operation"
-                    name="yearsInOperation"
-                  />
-                </div>
+                <TextItem
+                  title="Country & City of Operation"
+                  value={vendorData?.vendor?.businessInfo?.country_city}
+                />
+                <TextItem
+                  title="Business Registration Number"
+                  value={
+                    vendorData?.vendor?.businessInfo?.businessRegistrationNumber
+                  }
+                />
+                <TextItem
+                  title="Business Type"
+                  value={vendorData?.vendor?.businessInfo?.businessType}
+                />
+                <TextItem
+                  title="Years in Operation"
+                  value={vendorData?.vendor?.businessInfo?.yearsInOpertion}
+                />
               </div>
-
-              <div className="form-section1">
-                <h3>Contact Details</h3>
-
-                <div className="personal-info-sec">
-                  <TextInput
-                    title="Contact Person Name"
-                    name="contactPersonName"
-                  />
-                  <TextInput title="Contact Phone Number" name="phoneNumber" />
-                  <TextInput
-                    title="Alternate Phone Number"
-                    name="additionalPhoneNumber"
-                  />
-                  <TextInput title="Business Website" name="website" />
-                  <TextInput title="Contact Email" name="email" />
-                  <TextInput title="Social Media Links" name="socialMedia" />
-                </div>
-              </div>
-
-              <div className="form-section1">
-                <h3>Payment & Billing</h3>
-
-                <div className="personal-info-sec">
-                  <TextInput title="Bank Name" name="bankName" />
-                  <TextInput
-                    title="Bank Account Number"
-                    name="bankAccountNumber"
-                  />
-                  <TextInput
-                    title="Bank Account Recipient Name"
-                    name="bankRecipientName"
-                  />
-                  <TextInput title="Mobile Money Number" name="momoNumber" />
-
-                  <TextInput
-                    title="Mobile Money Recipient Name"
-                    name="momoRecipientName"
-                  />
-                </div>
-              </div>
-
-              <div className="form-section1">
-                <h3>Document Upload</h3>
-
-                <div className="personal-info-sec-doc">
-                  <div>
-                    <div className="vd-doc-title">Business License</div>
-                    <div className="vd-doc"></div>
-                  </div>
-
-                  <div>
-                    <div className="vd-doc-title">
-                      Valid ID of Contact Person
-                    </div>
-                    <div className="vd-doc"></div>
-                  </div>
-                </div>
-              </div>
-
-              {!(status == "APPROVED" || status =="DENIED") && (
-                <div className="buttons">
-                  <button className="btn-cancel">Deny Approval</button>
-                  <button className="btn-create">Approve Application</button>
-                </div>
-              )}
             </div>
-          </form>
+
+            <div className="form-section1">
+              <h3>Contact Details</h3>
+
+              <div className="personal-info-sec">
+                <TextItem
+                  title="Contact Person Name"
+                  value={vendorData?.vendor?.contactDetails?.name}
+                />
+                <TextItem
+                  title="Contact Phone Number"
+                  value={vendorData?.vendor?.contactDetails?.phoneNumber}
+                />
+                {/* <TextItem
+                  title="Alternate Phone Number"
+                  value={vendorData?.vendor?.contactDetails?.phoneNumber}
+                /> */}
+                <TextItem
+                  title="Business Website"
+                  value={
+                    vendorData?.vendor?.businessInfo?.webApplicationDomainName
+                  }
+                />
+                <TextItem
+                  title="Contact Email"
+                  value={vendorData?.vendor?.contactDetails?.email}
+                />
+                <TextItem title="Social Media Links" value={""} />
+              </div>
+            </div>
+
+            <div className="form-section1">
+              <h3>Payment & Billing</h3>
+
+              <div className="personal-info-sec">
+                <TextItem
+                  title="Bank Name"
+                  value={
+                    vendorData?.vendor?.financialDetails?.bankAccountDetails
+                      ?.bankName
+                  }
+                />
+                <TextItem
+                  title="Bank Account Number"
+                  value={
+                    vendorData?.vendor?.financialDetails?.bankAccountDetails
+                      ?.accountNumber
+                  }
+                />
+                <TextItem
+                  title="Bank Account Recipient Name"
+                  value={
+                    vendorData?.vendor?.financialDetails?.bankAccountDetails
+                      ?.recipientName
+                  }
+                />
+                <TextItem
+                  title="Mobile Money Number"
+                  value={
+                    vendorData?.vendor?.financialDetails?.mobileMoneyAccount
+                      ?.phoneNumber
+                  }
+                />
+
+                <TextItem
+                  title="Mobile Money Recipient Name"
+                  value={
+                    vendorData?.vendor?.financialDetails?.recipientName
+                      ?.recipientName
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="form-section1">
+              <h3>Document Upload</h3>
+
+              <div className="personal-info-sec-doc">
+                <div>
+                  <div className="vd-doc-title">Company Logo</div>
+
+                  <div className="vd-doc ">
+                    <img src={vendorData?.vendor?.businessInfo?.logo} />
+                  </div>
+                </div>
+
+                {/* <div>
+                  <div className="vd-doc-title">Valid ID of Contact Person</div>
+                  <div className="vd-doc"></div>
+                </div> */}
+              </div>
+            </div>
+
+            {!(status == "APPROVED" || status == "DENIED") && (
+              <div className="buttons">
+                <button
+                  className="btn-cancel"
+                  onClick={() =>
+                    onApproveStaff({
+                      id,
+                      status: "DENIED",
+                    })
+                  }
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <BeatLoader color="white" />
+                  ) : (
+                    "Deny Approval"
+                  )}
+                </button>
+                <button
+                  className="btn-create"
+                  onClick={() =>
+                    onApproveStaff({
+                      id,
+                      status: "APPROVE",
+                    })
+                  }
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <BeatLoader color="white" />
+                  ) : (
+                    "Approve Application"
+                  )}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

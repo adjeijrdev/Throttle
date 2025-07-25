@@ -13,6 +13,7 @@ export default function ViewDetails3PL() {
 
   return (
     <div className="account">
+    
       <div className="headers">
         <h2 className="ct-staff-title">3PL Approval</h2>
 
@@ -41,7 +42,7 @@ export default function ViewDetails3PL() {
                     name="registrationNumber"
                   />
 
-                  <TextInput title="Region" name="region" />
+                  <TextInput title="Region" name="region"  />
 
                   <TextInput
                     title="Steet Address"

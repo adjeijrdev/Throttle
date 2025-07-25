@@ -40,7 +40,7 @@ export const GET_ROLES = gql`
 `;
 
 export const GET_ALL_STAFFS = gql`
-  query GET_ALL_STAFF($offset: Int!, $limit: Int!,$search:String!) {
+  query GET_ALL_STAFF($offset: Int!, $limit: Int!, $search: String!) {
     staffs(offset: $offset, limit: $limit, search: $search) {
       currentPage
       hasNextPage
@@ -131,6 +131,85 @@ export const GET_ROLE = gql`
         _id
         name
         description
+      }
+    }
+  }
+`;
+
+export const GET_STAFF = gql`
+  query GET_STAFF($staffId: ID!) {
+    staff(id: $staffId) {
+      _id
+      userProfile {
+        contact
+        email
+        fullName {
+          firstName
+          surname
+          middleName
+        }
+        gender
+        picture
+      }
+
+      role {
+        _id
+        name
+        description
+      }
+
+      preference {
+        enable2FA
+        enableEmailNotification
+      }
+
+      auditingAndConfirmation {
+        lastLogin
+      }
+
+      createdAt
+    }
+  }
+`;
+
+export const GET_VENDOR = gql`
+  query GET_VENDOR($vendorId: ID!) {
+    vendor(id: $vendorId) {
+      _id
+      role
+      status
+      businessInfo {
+        areaOfOperation
+        businessAddress
+        businessDescription
+        businessRegistrationNumber
+        businessType
+        companyName
+        logo
+        webApplicationDomainName
+        yearsInOpertion
+      }
+
+      contactDetails {
+        email
+        phoneNumber
+        name
+      }
+      financialDetails {
+        bankAccountDetails {
+          accountNumber
+          bankName
+          recipientName
+        }
+        mobileMoneyAccount {
+          phoneNumber
+          recipientName
+        }
+      }
+
+      preference {
+        enable2FA
+        enableEmailNotification
       }
     }
   }

@@ -9,8 +9,6 @@ export default function DeleteRoleModal({setDeleteModel,handleDeleteRole}) {
 
       <div>
       <img src={warning} alt="waring" />
-
-
       </div>
 
       <div>

@@ -182,7 +182,7 @@ function DeniedAccount() {
                           className="status-btn-st"
                           onClick={() =>
                             navigate(
-                              "/vendor-account/Pending-Account/details/1",
+                              `/vendor-account/Pending-Account/details/${item?._id}`,
                               {
                                 state: { status: "DENIED" },
                               }

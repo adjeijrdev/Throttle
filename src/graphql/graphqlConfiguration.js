@@ -104,6 +104,19 @@ export const removeSingleRoleFromCache = (roleId) => {
   graphqlConfiguration.cache.gc();
 };
 
+export const removeSingleStaffFromCache = (staffId) => {
+  graphqlConfiguration.cache.evict({ id: `Staff:${staffId}` });
+  graphqlConfiguration.cache.gc();
+};
+
+export const removeSingleVendrFromCache = (vendorId) => {
+  graphqlConfiguration.cache.evict({ id: `Vendor${vendorId}` });
+  graphqlConfiguration.cache.gc();
+};
+
+
+
+
 export function useSearch(query, roleOffset = 0, itemsPerPage = 20) {
   const [search, { data, loading, error, fetchMore }] = useLazyQuery(query, {
     variables: {

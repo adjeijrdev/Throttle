@@ -28,6 +28,19 @@
   cursor: pointer;
 }
 
+.staff-actions{
+  width: 100%;
+  display:flex;
+  justify-content: center;
+  gap:1.5rem;
+}
+
+.staff-actions button{
+  background-color: transparent;
+  border: 0px;
+  cursor: pointer;
+}
+
 .tb-row-staffs-list span {
   /* border: 2px solid red; */
   text-align: center;

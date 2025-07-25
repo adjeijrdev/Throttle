@@ -135,6 +135,7 @@ export default function CustomSelector2({
       placeholder={placeholder}
       className="selector-1"
       classNamePrefix="selector-text-elements-1"
+      
     />
   );
 }

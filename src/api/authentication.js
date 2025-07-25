@@ -51,6 +51,30 @@ export const registerVendorAPI = async (formData) => {
     });
 };
 
+export const approveVendorAPI = async (formData) => {
+  return await api.patch("/auth/approval/vendor", formData, {
+      headers: {
+        Accept: "application/json",
+      },
+      withCredentials: true,
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      if (error?.response?.data?.errors) {
+        throw error?.response?.data?.errors[0];
+      } else {
+        throw (
+          error?.response?.data || {
+            message: "Sorry an error occured on the server",
+          }
+        );
+      }
+    });
+};
+
+
 export const registerRiderAPI = async (formData) => {
   return await axios
     .post(`${BASE_URL}/auth/register/rider`, formData, {
@@ -159,3 +183,42 @@ export const createStaffAPI = async (formData) => {
     }
   }
 };
+
+export const editStaffAPI = async (formData) => {
+  try {
+    const response = await api.patch("/auth/staff", formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
+    }
+  }
+};
+
+export const deleteStaffAPI = async (id) => {
+  try {
+    const response = await api.delete(`/auth/staff/${id}`);
+    return response?.data;
+  } catch (error) {
+    if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
+    }
+  }
+};
+

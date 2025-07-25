@@ -34,10 +34,11 @@
 
 
 .vd-doc {
-  width: 20.9rem;
-
+  /* width: 20.9rem; */
+  width: 25.9rem;
   display: flex;
-  height: 163px;
+  /* height: 163px; */
+  height: 19rem;
   /* padding: 16px 30px; */
   justify-content: center;
   align-items: center;
@@ -48,6 +49,12 @@
   background: var(--white, #fff);
 }
 
+.vd-doc img{
+  width: 25rem;
+  height: 18rem;
+
+
+}
 .personal-info-sec-doc{
     display: flex;
     gap:3.2rem;
@@ -57,4 +64,5 @@
     font-weight: 400;
     font-size: 1.6rem;
     color:#000;
+    margin-bottom: 1rem;
 }

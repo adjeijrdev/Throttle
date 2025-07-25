@@ -1,5 +1,10 @@
+import { Outlet } from "react-router";
+
+
 export default function StaffAccount() {
   return (
-    <div>StaffAccount</div>
+    <div>  
+            <Outlet/>
+    </div>
   )
 }

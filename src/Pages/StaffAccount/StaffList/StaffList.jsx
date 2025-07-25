@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_STAFFS } from "../../../graphql/generalQueries";
 import { Spin } from "antd";
-import { useSearch } from "../../../graphql/graphqlConfiguration";
+import { removeSingleStaffFromCache, useSearch } from "../../../graphql/graphqlConfiguration";
 import {
   Table,
   Header,
@@ -16,25 +16,36 @@ import {
   HeaderCell,
   Cell,
 } from "@table-library/react-table-library/table";
+import toast from "react-hot-toast";
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
 import CustomSearchInput from "../../../Components/searchInputBox/CustomSearchInput";
+import { FaEye, FaEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
+import { deleteStaffAPI } from "../../../api/authentication";
+import DeleteModal from "../../../Components/DeleteModal";
+
+
 
 function StaffList() {
   const [itemOffset, setItemOffset] = useState(0);
-  const [isDeleteModal, setDeleteModal] = useState(true);
-  let itemsPerPage = 20;
+  const [isDeleteModal, setDeleteModal] = useState(false);
+    const [staffIdToDelete, setStaffIdToDelete] = useState("");
+    const [deleteStaffName, setDeleteStaffName] =  useState("")
+    const [isDeleting, setIsDeleting] = useState(false)
+  
+  let itemsPerPage = 15;
   const [searchRole, setSearchRole] = useState("");
 
   let navigate = useNavigate();
 
-    const {
-      debouncedSearch,
-      data: staffData,
-      loading: staffLoading,
-      error: staffError,
-      fetchMore: fetchMoreStaff,
-    } = useSearch(GET_ALL_STAFFS,itemOffset, itemsPerPage);
+  const {
+    debouncedSearch,
+    data: staffData,
+    loading: staffLoading,
+    error: staffError,
+    fetchMore: fetchMoreStaff,
+  } = useSearch(GET_ALL_STAFFS, itemOffset, itemsPerPage);
 
   const totalNumberOfStaffs = staffData?.staffs?.totalCount;
 
@@ -45,7 +56,7 @@ function StaffList() {
         border-radius: 8px 8px 0rem 0rem;
         border: 0.1rem solid #979595;
     
-      --data-table-library_grid-template-columns:  50px repeat(6, minmax(0, 1fr)) !important;
+      --data-table-library_grid-template-columns:  50px repeat(6, minmax(0, 1fr)) 80px !important;
 
      
       `,
@@ -142,9 +153,7 @@ function StaffList() {
     },
   ]);
 
-  useEffect(()=>{
-    console.log(staffData)
-  },[staffData])
+
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -152,11 +161,42 @@ function StaffList() {
     debouncedSearch(value);
   };
 
+    const handleDeleteStaff= async () => {
+      try {
+        setIsDeleting(true)
+        const result = await deleteStaffAPI(staffIdToDelete);
+  
+        toast.success(result?.message, {
+          style: {
+            border: "1px solid #17654F",
+            // backgroundColor:"oklch(88.5% 0.062 18.334)",
+            color: "black",
+            fontSize: "16px",
+            width: "500px",
+          },
+        });
+  
+        removeSingleStaffFromCache(staffIdToDelete)
+      } catch (error) {
+        toast.error(error.message, {
+          style: {
+            border: "1px solid oklch(88.5% 0.062 18.334)",
+            // backgroundColor:"oklch(88.5% 0.062 18.334)",
+            color: "oklch(39.6% 0.141 25.723)",
+            fontSize: "16px",
+            width: "500px",
+          },
+        });
+      }
+      setDeleteModal(false);
+        setIsDeleting(false)
+
+    };
   return (
     <div className="roles">
       <div className="headers">
         <div className="top">
-          <div className="roles-title">Staff Accounts</div>
+          <div className="roles-title">Staff Accounts </div>
 
           <button
             className="btn-new-role"
@@ -166,15 +206,26 @@ function StaffList() {
           </button>
         </div>
 
+
         <div className="searchBox">
           <CustomSearchInput
             bgColor={"white"}
-            placeholder="Search by role title"
+            placeholder="Search by full name, gender, contact, email or role"
             value={searchRole}
             onChange={handleSearch}
           />
         </div>
       </div>
+
+       {isDeleteModal && (
+              <DeleteModal
+                setDeleteModel={setDeleteModal}
+                handleDelete={handleDeleteStaff}
+                itemName={deleteStaffName}
+                item="Staff"
+                isDeleting={isDeleting}
+              />
+            )}
 
       <div className="table-container-st">
         <Table
@@ -196,6 +247,7 @@ function StaffList() {
                   <HeaderCell>Email Address</HeaderCell>
                   <HeaderCell>Role</HeaderCell>
                   <HeaderCell>Date Created</HeaderCell>
+                  <HeaderCell>Action</HeaderCell>
                 </HeaderRow>
               </Header>
 
@@ -205,9 +257,15 @@ function StaffList() {
                     <Cell></Cell>
                     <Cell></Cell>
                     <Cell></Cell>
+                    <Cell></Cell>
+
                     <Cell>
                       <Spin size="large" className="loading-spinner" />
                     </Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+
                   </Row>
                 ) : (
                   tableList.map((item) => (
@@ -217,8 +275,8 @@ function StaffList() {
                       </Cell>
                       <Cell>
                         {item?.userProfile?.fullName?.surname}{" "}
-                        {item.userProfile?.fullName?.middleName}{" "}
-                        {item.userProfile?.fullName?.firstName}
+                        {item.userProfile?.fullName?.firstName}{" "}
+                        {item.userProfile?.fullName?.middleName}
                       </Cell>
                       <Cell>{item?.userProfile?.gender}</Cell>
                       <Cell>{item?.userProfile?.contact}</Cell>
@@ -226,6 +284,28 @@ function StaffList() {
                       <Cell>{item?.role?.name}</Cell>
                       <Cell>
                         {format(parseISO(item?.createdAt), "dd/MM/yyyy")}
+                      </Cell>
+                      <Cell>
+                        <div className="staff-actions">
+                          <button  
+                          onClick={(e) =>
+                              navigate(`/staff-account/edit-staff-account/${item._id}`)
+                            }
+                            >
+                            <FaEdit size={18} color="#36454F" />
+
+                          </button>
+                          <button
+                          onClick={()=>{
+                              setDeleteModal(true),
+                            setStaffIdToDelete(item?._id)
+                            setDeleteStaffName(`${item?.userProfile?.fullName?.surname} ${item?.userProfile?.fullName?.surname}`)
+                          }}  
+                          >
+                              <MdDeleteOutline  size={18} color="oklch(70.4% 0.191 22.216)" />
+                          </button>
+                          
+                        </div>
                       </Cell>
                     </Row>
                   ))
