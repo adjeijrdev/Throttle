@@ -52,8 +52,8 @@ a {
   padding: 1.6rem 2rem;
   background-color: black;
   overflow: hidden;
-  border-top: 0.2rem solid var(--clr-white);
-  border-bottom: 0.2rem solid var(--clr-white);
+  border-top: 0.1rem solid var(--clr-white);
+  border-bottom: 0.1rem solid var(--clr-white);
 }
 .Link-active img {
   width: 19.854px;
@@ -61,14 +61,14 @@ a {
   flex-shrink: 0;
 }
 .active-logo {
-  width: 19.854px;
-  height: 19.854px;
+  width: 0.8rem;
+  height: 0.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   background-color: var(--main-theme);
-  padding: 2.5rem;
+  padding: 1.5rem;
   margin-left: -1.2rem;
 }
 .spacer {
@@ -81,13 +81,15 @@ a {
   display: flex;
   flex-direction: column;
   background-color: rgba(0,0,0, 0.2);
+  
 }
 
 .child-link {
   display: flex;
   width:100%;
+  
   align-items: center;
-  padding: 0.5rem 0;
+  padding: 2.3rem 0;
   padding-left: 3rem;
   font-size: 1.4rem;
   color: white;
@@ -97,14 +99,14 @@ a {
 }
 
 .child-link:hover{
-  background-color: rgba(0,0,0, 0.2);
+  background-color: #17654F;
   border-top: 0.1px solid var(--clr-white);
   border-bottom: 0.1px solid var(--clr-white);
 }
 
 .child-link.active {
   font-weight: 400;
-  background-color: rgba(0,0,0, 0.8);
+  background-color: #003627;
   border-top: 0.1px solid var(--clr-white);
   border-bottom: 0.1px solid var(--clr-white);
 }
