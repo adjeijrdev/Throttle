@@ -8,7 +8,7 @@ import "./Login.css";
 
 //importing images
 import BluredBackground from "../../Assets/blured_dashboard.png";
-import Man from "../../Assets/man.png";
+import Man from "../../Assets/DisplayModel.png";
 import Logo from "../../Assets/logos/LOGO-img.png";
 import EmailIcon from "../../Assets/input_icons/emailuser.png";
 import padLock from "../../Assets/input_icons/padlock.png";
@@ -19,7 +19,8 @@ const schema = z.object({
   password: z.string().min(8, "⚠ Password should be a minimum of 8 characters"),
   role: z.enum(["Staff", "Vendor", "3PL"], {
     required_error: "Please select your role",
-  }),
+  })
+  .default("Staff"),
 });
 
 export default function Login() {
@@ -32,7 +33,12 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      role: "Staff", // Default role
+    }
+  });
 
   const onSubmit = (data) => {
     if(data){setTimeout(()=>{
@@ -63,9 +69,9 @@ export default function Login() {
 
   const text = `
   A powerful delivery management system designed to act as a trusted
-  middleman between businesses and customers. Whether you're a vendor,
-  rider, or administrator, our platform ensures smooth order
-  processing, real-time tracking, and secure payment handling.
+    middleman between businesses and customers. Whether you're a vendor,
+      rider, or administrator, our platform ensures smooth order
+        processing, real-time tracking, and secure payment handling.
 `;
 
   return (

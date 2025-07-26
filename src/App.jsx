@@ -18,6 +18,7 @@ import Register from "./Pages/Auth/Register"
 import Media from "./Pages/Media";
 import RiderRegistration from "./Pages/Auth/RiderRegistration";
 import StaffAccount from "./Pages/StaffAccount/StaffAccount";
+import RegisterThirdParty from "./Pages/Auth/RegisterThirdParty";
 
 //Importing subMenus
 import ThirdPartiesApproved from "./Pages/3PLS/ApprovedAccount/ApprovedAccount";
@@ -89,6 +90,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register-rider" element={<RiderRegistration />} />
+        <Route path="/register-third-party" element={<RegisterThirdParty />} />
         <Route path="/media" element={<Media />} />
       </Routes>
     </Router>

@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import style from "./RiderStepper.module.css";
+import style from "./ThirdPartyStepper.module.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { RiderSchema } from "../items/RiderSchema";
+import { ThirdPartySchema } from "../items/ThirdPartySchema";
 
 //Importing in-application components
 import DropDownInput from "../Components/DropDownMenuInput/DropDownInput";
@@ -42,7 +42,7 @@ const Stepper = ({ name }) => {
     watch,
     control,
   } = useForm({
-    resolver: zodResolver(RiderSchema),
+    resolver: zodResolver(ThirdPartySchema),
     mode: "onChange",
   });
 
@@ -91,51 +91,11 @@ const Stepper = ({ name }) => {
   };
 
   // Step navigation with validation
-  const nextStep = async () => {
-    let isValid = false;
-
-    // Validate current step fields before proceeding
-    switch (currentStep) {
-      case 0: // Personal Info
-        isValid = await trigger([
-          "fullName",
-          "gender",
-          "dob",
-          "idType",
-          "licenseNumber",
-          "idNumber",
-        ]);
-        break;
-      case 1: // Contact Details
-        isValid = await trigger([
-          "email",
-          "phone",
-          "emergencyContactName",
-          "emergencyPhone",
-        ]);
-        break;
-      case 2: // Vehicle Details
-        isValid = await trigger(["vehicleType", "vehicleRegNumber"]);
-        break;
-      case 3: // Payment
-        isValid = await trigger([
-          "bankName",
-          "momoName",
-          "bankNumber",
-          "momoNumber",
-        ]);
-        break;
-      case 4: // Documents
-        isValid = await trigger(["licenseImage", "idImage"]);
-        break;
-      default:
-        isValid = true;
-    }
-
-    if (isValid && currentStep < steps.length - 1) {
-      setCurrentStep((prev) => prev + 1);
-    }
-  };
+const nextStep = async () => {
+  if (currentStep < steps.length - 1) {
+    setCurrentStep(prev => prev + 1);
+  }
+};
 
   const prevStep = () => {
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
@@ -144,104 +104,6 @@ const Stepper = ({ name }) => {
   // Watch files for preview
   const licenseImage = watch("licenseImage");
   const idImage = watch("idImage");
-
-  //form functions
-  // const handleChange = (e) => {
-  //   const { name, value, type, files } = e.target;
-
-  //   if (type === "file") {
-  //     if (name === "additionalDocs") {
-  //       setFormData((prev) => ({
-  //         ...prev,
-  //         [name]: Array.from(files),
-  //       }));
-  //     } else {
-  //       setFormData((prev) => ({
-  //         ...prev,
-  //         [name]: files[0],
-  //       }));
-  //     }
-  //   } else {
-  //     setFormData((prev) => ({
-  //       ...prev,
-  //       [name]: value,
-  //     }));
-  //   }
-  // };
-
-  // const onSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log("Form submitted:", formData);
-  //   // Here you would typically send data to your API
-  // };
-
-  // const nextStep = () => {
-  //   if (currentStep < steps.length - 1) {
-  //     setCurrentStep((prev) => prev + 1);
-  //   }
-  // };
-
-  // const prevStep = () => {
-  //   if (currentStep > 0) {
-  //     setCurrentStep((prev) => prev - 1);
-  //   }
-  // };
-
-  // // Image Upload - First (0)
-  // const [image, setImage] = useState(null);
-  // const fileInputRef = useRef(null);
-
-  // const handleImage = (file) => {
-  //   if (file && file.type.startsWith("image/")) {
-  //     const imageUrl = URL.createObjectURL(file);
-  //     setImage({ file, url: imageUrl });
-  //   }
-  // };
-
-  // const handleDrop = (e) => {
-  //   e.preventDefault();
-  //   if (e.dataTransfer.files.length > 0) {
-  //     handleImage(e.dataTransfer.files[0]);
-  //   }
-  // };
-
-  // const handleFileInputChange = (e) => {
-  //   if (e.target.files.length > 0) {
-  //     handleImage(e.target.files[0]);
-  //   }
-  // };
-
-  // const openFileDialog = () => {
-  //   fileInputRef.current.click();
-  // };
-
-  // // Image Upload - Second (1)
-  // const [image1, setImage1] = useState(null);
-  // const fileInputRef1 = useRef(null);
-
-  // const handleImage1 = (file) => {
-  //   if (file && file.type.startsWith("image/")) {
-  //     const imageUrl1 = URL.createObjectURL(file);
-  //     setImage1({ file, url: imageUrl1 });
-  //   }
-  // };
-
-  // const handleDrop1 = (e) => {
-  //   e.preventDefault();
-  //   if (e.dataTransfer.files.length > 0) {
-  //     handleImage1(e.dataTransfer.files[0]);
-  //   }
-  // };
-
-  // const handleFileInputChange1 = (e) => {
-  //   if (e.target.files.length > 0) {
-  //     handleImage1(e.target.files[0]);
-  //   }
-  // };
-
-  // const openFileDialog1 = () => {
-  //   fileInputRef1.current.click();
-  // };
 
   return (
     <form onSubmit={handleSubmit} className={style["form-container"]}>
@@ -259,7 +121,7 @@ const Stepper = ({ name }) => {
                   : ""
               }`}
             >
-              {index < currentStep ? <img src={check} /> : index + 1}
+              { index < currentStep ? <img src={check} /> : index + 1}
             </div>
             <p className={style["step-label"]}>{label}</p>
           </div>
@@ -267,115 +129,120 @@ const Stepper = ({ name }) => {
       </div>
       <div className={style["form-input-container"]}>
         <div className={style["form-step"]}>
+          { /* Step 1 - Personal Info */}
           {currentStep === 0 && (
-            <div className={style["form-grid"]}>
-              <div className={style["form-group"]}>
+            < div className={style["form-grid"]}>
+              <div className={style["form-group"]} >
                 <label>
-                  Full name<sup>*</sup>
+                  Company Name<sup>*</sup>
                 </label>
                 <input
                   type="text"
-                  {...register("fullName")}
+                  {...register("companyName")}
                   placeholder="business name"
                   required
                 />
-                {errors.fullName && (
+                {errors.companyName && (
                   <p className={style.errorMessage}>
-                    {errors.fullName.message}
+                    {errors.companyName.message}
                   </p>
                 )}
               </div>
 
-              <div className={style["form-flex"]}>
+              <div className={style["form-group"]}>
                 <label>
-                  Gender<sup>*</sup>
+                  Street Address<sup>*</sup>
                 </label>
-                <div className={style.radio}>
-                  <input
-                    type="radio"
-                    value="male"
-                    id="male"
-                    {...register("gender")}
-                  />
-                  <label htmlFor="male"> Male </label>
-                  <input
-                    type="radio"
-                    value="female"
-                    id="female"
-                    {...register("gender")}
-                  />
-                  <label htmlFor="female"> Female </label>
-                </div>
-                {errors.gender && (
-                <p className={style.errorMessage}>{errors.gender.message}</p>
-              )}
+                <input
+                  type="text"
+                  {...register("streetAddress") }
+                  placeholder="business name"
+                  required
+                />
+                {errors.streetAddress && (
+                  <p className={style.errorMessage}>{errors.streetAddress.message}</p>
+                )}
               </div>
-              
+
               <div className={style["form-group"]}>
                 <div className={style.calendar}>
                   <label>
-                    Date of Birth<sup>*</sup>{" "}
+                    Business Registration Number<sup>*</sup>{" "}
                   </label>
                   <input
-                    type="date"
-                    {...register("dob", { valueAsDate: true })}
-                    placeholder="Date of Birth"
+                    type="text"
+                    {...register("registrationNumber")}
+                    placeholder="Registration Number"
+                    required
                   />
-                  <span>
-                    <img src={Calendar} alt="calendar" />
-                  </span>
                 </div>
-                 {errors.dob && (
-                <p className={style.errorMessage}>{errors.dob.message}</p>
-              )}
+                {errors.registrationNumber && (
+                  <p className={style.errorMessage}>{errors.registrationNumber.message}</p>
+                )}
               </div>
-             
+
               <div className={style["form-group"]}>
                 <label>
-                  ID Type<sup>*</sup>
-                </label>
-                <div className={style.option_container}>
-                  <select {...register("idType")}>
-                    <option value="">Choose ID type</option>
-                    <option value="Driver's License">Driver's License</option>
-                    <option value="Voter's ID">Voter's ID</option>
-                  </select>
-                </div>
-                 {errors.idType && (
-                <p className={style.errorMessage}>{errors.idType.message}</p>
-              )}
-              </div>
-             
-              <div className={style["form-group"]}>
-                <label>
-                  Driver License Number<sup>*</sup>
+                  GPS Address<sup>*</sup>
                 </label>
                 <input
                   type="text"
-                  {...register("licenseNumber")}
+                  {...register("gpsAddress")}
                   placeholder="License Number"
                 />
-                {errors.licenseNumber && (
-                <p className={style.errorMessage}>
-                  {errors.licenseNumber.message}
-                </p>
-              )}
+                {errors.gpsAddress && (
+                  < p className={style.errorMessage}>
+                    {errors.gpsAddress.message}
+                  </p>
+                )}
               </div>
-              
+
               <div className={style["form-group"]}>
                 <label>
-                  ID Number<sup>*</sup>
+                  Region<sup>*</sup>
+                </label>
+                <div className={style.option_container}>
+                  <select {...register("region")}>
+                    <option value="">Choose Region</option>
+                    <option value="Ahafo">Ahafo</option>
+                    <option value="Ashanti">Ashanti</option>
+                    <option value="Bono">Bono</option>
+                    <option value="Bono East">Bono East</option>
+                    <option value="Central">Central</option>
+                    <option value="Eastern">Eastern</option>
+                    <option value="Greater Accra">Greater Accra</option>
+                    <option value="North East">North East</option>
+                    <option value="Northern">Northern</option>
+                    <option value="Oti">Oti</option>
+                    <option value="Savannah">Savannah</option>
+                    <option value="Upper East">Upper East</option>
+                    <option value="Upper West">Upper West</option>
+                    <option value="Volta">Volta</option>
+                    <option value="Western">western</option>
+                    <option value="Western North">Western North</option>
+                  </select>
+                </div>
+
+                {errors.region && (
+                  <p className={style.errorMessage}>{errors.region.message}</p>
+                )}
+              </div>
+
+              <div className={style["form-group"]}>
+                <label>
+                  Years in Operation<sup>*</sup>
                 </label>
                 <input
                   type="text"
-                  {...register("idNumber")}
+                  {...register("yearsInOperation")}
                   placeholder="ID Number"
                 />
-                {errors.idNumber && (
-                <p className={style.errorMessage}>{errors.idNumber.message}</p>
-              )}
+                {errors.yearsInOperation && (
+                  <p className={style.errorMessage}>
+                    {errors.yearsInOperation.message}
+                  </p>
+                )}
               </div>
-              
             </div>
           )}
           {/* step 2- Contact Details */}
@@ -383,66 +250,66 @@ const Stepper = ({ name }) => {
             <div className={style["form-grid"]}>
               <div className={style["form-group"]}>
                 <label>
-                  {" "}
-                  Name<sup>*</sup>
+  
+                  Primary Contact Person<sup>*</sup>
                 </label>
                 <input
                   type="text"
-                  {...register("name")}
+                  {...register("primaryContact")}
                   placeholder="Name"
                   required
                 />
-                 {errors.name && (
-                <p className={style.errorMessage}>{errors.name.message}</p>
-              )}
+                {errors.primaryContact && (
+                  <p className={style.errorMessage}>{errors.primaryContact.message}</p>
+                )}
               </div>
-             
-              <div className={style["form-group"]}>
-                <label>
-                  Email<sup>*</sup>
-                </label>
-                <input
-                  type="text"
-                  {...register("email")}
-                  placeholder="Email"
-                  required
-                />
-                {errors.email && (
-                <p className={style.errorMessage}>{errors.email.message}</p>
-              )}
-              </div>
-              
+
               <div className={style["form-group"]}>
                 <label>
                   Phone Number<sup>*</sup>
                 </label>
                 <input
                   type="text"
+                  {...register("email")}
+                  placeholder="contact"
+                  required
+                />
+                {errors.email && (
+                  <p className={style.errorMessage}>{errors.email.message}</p>
+                )}
+              </div>
+
+              <div className={style["form-group"]}>
+                <label>
+                  Position/Role(Operations Manager)<sup>*</sup>
+                </label>
+                <input
+                  type="text"
                   {...register("phone")}
-                  placeholder="Phone number"
+                  placeholder="Position"
                   required
                 />
                 {errors.phone && (
-                <p className={style.errorMessage}>{errors.phone.message}</p>
-              )}
+                  <p className={style.errorMessage}>{errors.phone.message}</p>
+                )}
               </div>
-              
+
               <div className={style["form-group"]}>
                 <label>
-                  Emergency Contact Name<sup>*</sup>
+                  Ghana Card Number<sup>*</sup>
                 </label>
                 <input
                   type="text"
                   {...register("emergencyContactName")}
-                  placeholder="Emergency Contact Name"
+                  placeholder="number"
                 />
                 {errors.emergencyContactName && (
-                <p className={style.errorMessage}>
-                  {errors.emergencyContactName.message}
-                </p>
-              )}
+                  <p className={style.errorMessage}>
+                    {errors.emergencyContactName.message}
+                  </p>
+                )}
               </div>
-              
+
               <div className={style["form-group"]}>
                 <label>
                   Email Address<sup>*</sup>
@@ -450,81 +317,77 @@ const Stepper = ({ name }) => {
                 <input
                   type="text"
                   {...register("emergencyEmail")}
-                  placeholder="Emergency Email"
+                  placeholder="Email"
                 />
-                 {errors.emergencyEmail && (
-                <p className={style.errorMessage}>
-                  {errors.emergencyEmail.message}
-                </p>
-              )}
+                {errors.emergencyEmail && (
+                  <p className={style.errorMessage}>
+                    {errors.emergencyEmail.message}
+                  </p>
+                )}
               </div>
-             
+
               <div className={style["form-group"]}>
                 <label>
-                  Emergency contact number<sup>*</sup>
+                  Office Line<sup>*</sup>
                 </label>
                 <input
                   type="text"
                   {...register("emergencyPhone")}
-                  placeholder="Emergency Contact"
+                  placeholder="Contact"
                 />
-                 {errors.emergencyPhone && (
-                <p className={style.errorMessage}>
-                  {errors.emergencyPhone.message}
-                </p>
-              )}
+                {errors.emergencyPhone && (
+                  <p className={style.errorMessage}>
+                    {errors.emergencyPhone.message}
+                  </p>
+                )}
               </div>
-             
             </div>
           )}
+           {/* Step 3 - Document Uploads */}
           {currentStep === 2 && (
             <div className={style["form__grid1"]}>
               {/* <label>Account Email</label> */}
               <div className={style["form-group"]}>
                 <label>
-                  Vehicle Type and Model<sup>*</sup>
+                  Bank Name
+                  {/* <sup>*</sup> */}
                 </label>
                 <input
                   type="text"
                   {...register("vehicleType")}
-                  placeholder="Enter Vehicle Model"
+                  placeholder="Bank name"
                 />
-                 {errors.vehicleType && (
-                <p className={style.errorMessage}>
-                  {errors.vehicleType.message}
-                </p>
-              )}
+                {errors.vehicleType && (
+                  <p className={style.errorMessage}>
+                    {errors.vehicleType.message}
+                  </p>
+                )}
               </div>
-             
+
               <div className={style["form-group"]}>
                 <label>
-                  Vehicle Registration Number<sup>*</sup>
+                  Mobile Money Name
+                  {/* <sup>*</sup> */}
                 </label>
                 <input
                   type="text"
                   {...register("vehicleRegNumber")}
-                  placeholder="Number"
+                  placeholder="account name"
                 />
                 {errors.vehicleRegNumber && (
-                <p className={style.errorMessage}>
-                  {errors.vehicleRegNumber.message}
-                </p>
-              )}
+                  <p className={style.errorMessage}>
+                    {errors.vehicleRegNumber.message}
+                  </p>
+                )}
               </div>
-              
-            </div>
-          )}
-          {/* Step 3 - Payment & Billing */}
-          {currentStep === 3 && (
-            <div className={style["form-grid"]}>
               <div className={style["form-group"]}>
                 <label>
-                  Bank Name<sup>*</sup>
+                  Bank Account Name<sup>*</sup>
                 </label>
                 <input
                   type="text"
                   {...register("bankName")}
-                  placeholder="bank name"
+                  placeholder="account name"
                 />
               </div>
               {errors.bankName && (
@@ -532,14 +395,20 @@ const Stepper = ({ name }) => {
               )}
               <div className={style["form-group"]}>
                 <label>
-                  Mobile Money Name<sup>*</sup>
+                  Mobile Money Number<sup>*</sup>
                 </label>
-                <input type="text" {...register("momoName")} placeholder="Enter momo name"/>
+                <input
+                  type="text"
+                  {...register("momoName")}
+                  placeholder="momo number"
+                />
                 {errors.momoName && (
-                <p className={style.errorMessage}>{errors.momoName.message}</p>
-              )}
+                  <p className={style.errorMessage}>
+                    {errors.momoName.message}
+                  </p>
+                )}
               </div>
-              
+
               <div className={style["form-group"]}>
                 <label>
                   Bank Account Number<sup>*</sup>
@@ -550,36 +419,20 @@ const Stepper = ({ name }) => {
                   placeholder=" account number"
                 />
                 {errors.bankNumber && (
-                <p className={style.errorMessage}>
-                  {errors.bankNumber.message}
-                </p>
-              )}
+                  <p className={style.errorMessage}>
+                    {errors.bankNumber.message}
+                  </p>
+                )}
               </div>
-              
-              <div className={style["form-group"]}>
-                <label>Mobile Money Number</label>
-                <input
-                  type="text"
-                  {...register("momoNumber")}
-                  placeholder="momo number"
-                />
-                {errors.momoNumber && (
-                <p className={style.errorMessage}>
-                  {errors.momoNumber.message}
-                </p>
-              )}
-              </div>
-              
             </div>
           )}
-
           {/* Step 4 - Document Uploads */}
-          {currentStep === 4 && (
+          {currentStep === 3 && (
             <div className={style.gridbox}>
               <div className={style.grid1}>
                 <div className={style["upload-container"]}>
                   <p>
-                    Drivers License<sup>*</sup>
+                    Business Registration Certificate<sup>*</sup>
                   </p>
                   <div
                     className={style["drop-box"]}
@@ -624,7 +477,7 @@ const Stepper = ({ name }) => {
               <div className={style.grid2}>
                 <div className={style["upload-container"]}>
                   <p>
-                    National ID/Valid ID<sup>*</sup>
+                    Business Logo<sup>*</sup>
                   </p>
                   <div
                     className={style["drop-box"]}
@@ -684,10 +537,12 @@ const Stepper = ({ name }) => {
                   {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </button>
                 {errors.password && (
-                <p className={style.errorMessage}>{errors.password.message}</p>
-              )}
+                  <p className={style.errorMessage}>
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
-              
+
               <label>
                 Confirm Password<sup>*</sup>
               </label>
@@ -706,12 +561,11 @@ const Stepper = ({ name }) => {
                   {showPassword1 ? <FaEye /> : <FaEyeSlash />}
                 </button>
                 {errors.confirmPassword && (
-                <p className={style.errorMessage}>
-                  {errors.confirmPassword.message}
-                </p>
-              )}
+                  <p className={style.errorMessage}>
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
               </div>
-              
             </div>
           )}
 
