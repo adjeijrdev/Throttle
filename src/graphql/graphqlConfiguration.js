@@ -62,7 +62,6 @@ export const graphqlConfiguration = new ApolloClient({
                   }
                   return merged;
                 },
-                
               },
             },
           },
@@ -70,10 +69,8 @@ export const graphqlConfiguration = new ApolloClient({
           // Staff type normalization
           Staff: {
             keyFields: ["_id"],
-            
           },
 
-          
           Role: {
             keyFields: ["_id"], // Normalize by _id
             fields: {
@@ -91,12 +88,32 @@ export const graphqlConfiguration = new ApolloClient({
               },
             },
           },
+
+          // vendors: {
+          //   keyArgs: false,
+          // },
+          // VendorPositiveResult: {
+          //   fields: {
+          //     data: {
+          //       keyArgs: false,
+          //       read(existing = [], { args }) {
+          //         const { offset = 0, limit = Infinity} = args || {};
+          //         return existing.slice(offset, offset + limit);
+          //       },
+          //       merge(existing = [], incoming, { args: { offset = 0 } }) {
+          //         const merged = existing.slice(0);
+          //         for (let i = 0; i < incoming.length; ++i) {
+          //           merged[offset + i] = incoming[i];
+          //         }
+          //         return merged;
+          //       },
+          //     },
+          //   },
+          // },
         },
       },
     },
   }),
-
-  
 });
 
 export const removeSingleRoleFromCache = (roleId) => {
@@ -110,12 +127,9 @@ export const removeSingleStaffFromCache = (staffId) => {
 };
 
 export const removeSingleVendrFromCache = (vendorId) => {
-  graphqlConfiguration.cache.evict({ id: `Vendor${vendorId}` });
+  graphqlConfiguration.cache.evict({ id: `Vendor:${vendorId}` });
   graphqlConfiguration.cache.gc();
 };
-
-
-
 
 export function useSearch(query, roleOffset = 0, itemsPerPage = 20) {
   const [search, { data, loading, error, fetchMore }] = useLazyQuery(query, {
@@ -128,7 +142,6 @@ export function useSearch(query, roleOffset = 0, itemsPerPage = 20) {
     fetchPolicy: "cache-and-network",
   });
 
- 
   useEffect(() => {
     search({
       variables: {
@@ -137,7 +150,6 @@ export function useSearch(query, roleOffset = 0, itemsPerPage = 20) {
         search: "",
       },
     });
-    
   }, [search, roleOffset, itemsPerPage]);
 
   const debouncedSearch = debounce((searchTerm) => {

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router";
 import PaginatedTabs from "../../../Components/paginationTab/paginationTabs";
 // import "./StaffRole.css";
 import { format, parseISO } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Table,
@@ -32,6 +32,7 @@ function PendingAccount() {
     data: vendorData,
     error: vendorError,
     fetchMore: fetchMoreVendors,
+    refetch: refetchVendors
   } = useQuery(GET_ALL_VENDORS, {
     variables: {
       offset: itemOffset,
@@ -44,6 +45,10 @@ function PendingAccount() {
   const totalNumberOfVendors = vendorData?.vendors?.totalCount;
   const [isDeleteModal, setDeleteModal] = useState(false);
 
+    useEffect(()=>{
+      refetchVendors()
+  },[])
+  
   let navigate = useNavigate();
 
   // const tableTheme = useTheme(getTheme());
@@ -190,7 +195,7 @@ function PendingAccount() {
                             navigate(
                               `/vendor-account/Pending-Account/details/${item?._id}`,
                               {
-                                state: { status: "APPROVED" },
+                                state: { status: "PENDING" },
                               }
                             )
                           }

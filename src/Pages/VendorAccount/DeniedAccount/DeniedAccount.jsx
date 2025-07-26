@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router";
 import PaginatedTabs from "../../../Components/paginationTab/paginationTabs";
 // import "./StaffRole.css";
 import { format, parseISO } from "date-fns";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 import {
   Table,
@@ -31,6 +31,7 @@ function DeniedAccount() {
     data: vendorData,
     error: vendorError,
     fetchMore: fetchMoreVendors,
+    refetch: refetchVenors
   } = useQuery(GET_ALL_VENDORS, {
     variables: {
       offset: itemOffset,
@@ -41,6 +42,10 @@ function DeniedAccount() {
   });
 
   let navigate = useNavigate();
+
+  useEffect(()=>{
+      refetchVenors()
+  },[])
 
   const totalNumberOfVendors = vendorData?.vendors?.totalCount;
 
@@ -182,10 +187,7 @@ function DeniedAccount() {
                           className="status-btn-st"
                           onClick={() =>
                             navigate(
-                              `/vendor-account/Pending-Account/details/${item?._id}`,
-                              {
-                                state: { status: "DENIED" },
-                              }
+                              `/vendor-account/Denied-Account/details/${item?._id}`,
                             )
                           }
                         >

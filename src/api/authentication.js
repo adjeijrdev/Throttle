@@ -75,6 +75,23 @@ export const approveVendorAPI = async (formData) => {
 };
 
 
+export const deleteVendorAPI = async (vendorId) => {
+  try {
+    const response = await api.delete(`/auth/vendor/${vendorId}`);
+    return response.data;
+  } catch (error) {
+    if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
+    }
+  }
+};
+
 export const registerRiderAPI = async (formData) => {
   return await axios
     .post(`${BASE_URL}/auth/register/rider`, formData, {

@@ -178,7 +178,7 @@ function StaffList() {
   
         removeSingleStaffFromCache(staffIdToDelete)
       } catch (error) {
-        toast.error(error.message, {
+        toast.error(error?.message, {
           style: {
             border: "1px solid oklch(88.5% 0.062 18.334)",
             // backgroundColor:"oklch(88.5% 0.062 18.334)",

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router";
 import PaginatedTabs from "../../../Components/paginationTab/paginationTabs";
 // import "./StaffRole.css";
 import { format, parseISO } from "date-fns";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 import {
   Table,
@@ -34,6 +34,7 @@ function ApprovedAccount() {
     data: vendorData,
     error: vendorError,
     fetchMore: fetchMoreVendors,
+    refetch: refetchVendors
   } = useQuery(GET_ALL_VENDORS, {
     variables: {
       offset: itemOffset,
@@ -42,6 +43,10 @@ function ApprovedAccount() {
     },
     notifyOnNetworkStatusChange: true,
   });
+
+  useEffect(()=>{
+      refetchVendors()
+  },[])
 
   const totalNumberOfVendors = vendorData?.vendors?.totalCount;
 
@@ -187,7 +192,7 @@ function ApprovedAccount() {
                           className="status-btn-st"
                           onClick={() =>
                             navigate(
-                              `/vendor-account/Pending-Account/details/${item?._id}`
+                              `/vendor-account/Approved-Account/details/${item?._id}`
                             )
                           }
                         >

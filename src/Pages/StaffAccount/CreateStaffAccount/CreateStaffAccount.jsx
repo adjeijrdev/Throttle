@@ -122,7 +122,7 @@ function CreateStaffAccount() {
 
   return (
     <div className="account">
-      <h2 className="ct-staff-title">Enter staff details</h2>
+      {/* <h2 className="ct-staff-title">Enter staff details</h2> */}
 
       <div>
         <div className="ct-form-container">

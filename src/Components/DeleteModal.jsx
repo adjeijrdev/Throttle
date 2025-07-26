@@ -16,7 +16,7 @@ export default function DeleteModal({setDeleteModel,handleDelete, item, itemName
           Warning: Delete <span style={{textTransform:"capitalize"}}>{item}</span>
         </div>
 
-        <div className='modal-sub-title'>You are about to permanently delete this <span style={{textTransform:"capitalize"}}>{itemName}</span>.</div>
+        <div className='modal-sub-title'>You are about to permanently delete <span style={{textTransform:"capitalize"}}>{itemName}</span>.</div>
 
         <div className='danger-info'>Do you want to proceed?</div>
       </div>

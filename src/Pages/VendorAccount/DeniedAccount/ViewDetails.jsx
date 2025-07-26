@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import { removeSingleVendrFromCache } from "../../../graphql/graphqlConfiguration";
 import DeleteModal from "../../../Components/DeleteModal";
 
-export default function ViewDetails() {
+export default function VendorDeniedViewDetails() {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
@@ -18,12 +18,9 @@ export default function ViewDetails() {
 
   const [isDeleteModal, setDeleteModal] = useState(false);
   const [deleteVendorName, setDeleteVendorName] = useState("");
-  const [statusSwitch, setStatusSwitch] = useState("");
 
-  const [isDenying, setIsDenying] = useState(false);
-  const [isApproving, setIsApproving] = useState(false);
-
-  const status = location?.state?.status;
+  const [isSubmitting, setIsSubmitting] = useState(false);
+ 
 
   const {
     loading: vendorLoading,
@@ -36,55 +33,9 @@ export default function ViewDetails() {
     },
   });
 
-  const { fetchMore: fetchMoreVendors } = useQuery(GET_ALL_VENDORS, {
-    variables: {
-      offset: 0,
-      limit: 100,
-      status: status,
-    },
-  });
-
   const onApproveStaff = async (data) => {
-    try {  
-        setIsApproving(true);
-     
-      const result = await approveVendorAPI(data);
-
-      toast.success(result?.data?.message, {
-        style: {
-          border: "1px solid #17654F",
-          // backgroundColor:"oklch(88.5% 0.062 18.334)",
-          color: "black",
-          fontSize: "16px",
-          width: "500px",
-        },
-      });
-
-      navigate(`/vendor-account/Approved-Account/details/${id}`, {
-          replace: true,
-        });
-
-      removeSingleVendrFromCache(id);
-      // fetchMoreVendors()
-      refetchVendor();
-    } catch (error) {
-      toast.error(error?.message, {
-        style: {
-          border: "1px solid oklch(88.5% 0.062 18.334)",
-          // backgroundColor:"oklch(88.5% 0.062 18.334)",
-          color: "oklch(39.6% 0.141 25.723)",
-          fontSize: "16px",
-          width: "500px",
-        },
-      });
-    }
-    setIsApproving(false);
-  };
-
-    const onDenyStaff = async (data) => {
     try {
-        setIsDenying(true);
-
+      setIsSubmitting(true);
       const result = await approveVendorAPI(data);
 
       toast.success(result?.data?.message, {
@@ -97,14 +48,10 @@ export default function ViewDetails() {
         },
       });
 
-        navigate(`/vendor-account/Denied-Account/details/${id}`, {
-          replace: true,
-        });
-      
-
       removeSingleVendrFromCache(id);
       // fetchMoreVendors()
       refetchVendor();
+      navigate(`/vendor-account/Approved-Account/details/${id}`,{replace:true});
     } catch (error) {
       toast.error(error?.message, {
         style: {
@@ -116,10 +63,8 @@ export default function ViewDetails() {
         },
       });
     }
-    setIsDenying(false);
- 
+    setIsSubmitting(false);
   };
-
 
   const handleDeleteVendor = async () => {
     try {
@@ -137,8 +82,9 @@ export default function ViewDetails() {
         },
       });
 
-      navigate(-1);
       // removeSingleRoleFromCache(vendorIdToDelete);
+
+      navigate(-1);
     } catch (error) {
       toast.error(error?.message, {
         style: {
@@ -156,12 +102,10 @@ export default function ViewDetails() {
 
   return (
     <div className="account">
-      <div className="vd-pending-headers">
+      {/* <div className="headers">
         <h2 className="ct-staff-title">Vendor Approval</h2>
-        <button className="btn-new-role" onClick={(e) =>setDeleteModal(true)}>
-          Delete Account
-        </button>
-      </div>
+        
+      </div> */}
 
       {isDeleteModal && (
         <DeleteModal
@@ -306,15 +250,14 @@ export default function ViewDetails() {
               <button
                 className="btn-cancel"
                 onClick={() => {
-                  onDenyStaff({
-                    id,
-                    status: "DENIED",
-                  });
-                  
+                  setDeleteVendorName(
+                    vendorData?.vendor?.businessInfo?.companyName
+                  );
+                  setDeleteModal(true);
                 }}
-                disabled={isDenying}
+                disabled={isDeleteModal}
               >
-                {isDenying ? <BeatLoader color="white" /> : "Deny Approval"}
+               Delete
               </button>
               <button
                 className="btn-create"
@@ -323,11 +266,10 @@ export default function ViewDetails() {
                     id,
                     status: "APPROVE",
                   });
-                  setStatusSwitch("APPROVED");
                 }}
-                disabled={isApproving}
+                disabled={isSubmitting}
               >
-                {isApproving ? (
+                {isSubmitting ? (
                   <BeatLoader color="white" />
                 ) : (
                   "Approve Application"
