@@ -20,9 +20,9 @@ export const RiderSchema = z.object({
   // Contact Details
   email: z.string().email("Invalid email address"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  emergencyContactName: z.string().min(2, "Name too short"),
-  emergencyEmail: z.string().email("Invalid emergency email").optional(),
-  emergencyPhone: z.string().min(10, "Phone number must be at least 10 digits"),
+  emergencyContactName: z.string().optional(),
+  emergencyEmail: z.string().optional(),
+  emergencyPhone: z.string().optional(),
 
   // Vehicle Details
   vehicleType: z.string().min(2, "Enter vehicle type"),
@@ -39,7 +39,7 @@ export const RiderSchema = z.object({
   idImage: z.instanceof(File).refine(file => file.size <= 5_000_000, "File too large (max 5MB)"),
 
   // Account Details
-  accountEmail: z.string().email("Invalid email address"),
+  // accountEmail: z.string().email("Invalid email address"),
   password: z.string()
     .min(8, "Password must be at least 8 characters")
     .regex(/[A-Z]/, "Must contain at least one uppercase letter")
@@ -49,4 +49,36 @@ export const RiderSchema = z.object({
 }).refine(data => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"]
-});
+})
+.refine(
+    (data) => {
+      const hasBank = data.bankname && data.banknumber;
+      const hasMomo = data.momoname && data.momonumber;
+
+      // Accept if either is complete
+      if (hasBank || hasMomo) {
+        // Reject if partial bank info
+        if (
+          (data.bankname && !data.banknumber) ||
+          (data.banknumber && !data.bankname)
+        ) {
+          return false;
+        }
+        // Reject if partial momo info
+        if (
+          (data.momoname && !data.momonumber) ||
+          (data.momonumber && !data.momoname)
+        ) {
+          return false;
+        }
+        return true;
+      }
+      return false; // Neither method is complete
+    },
+    {
+      message:
+        "Please provide either complete bank details OR complete mobile money details",
+      path: ["bankname"],
+    }
+  );
+

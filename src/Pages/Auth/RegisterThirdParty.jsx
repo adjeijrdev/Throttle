@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
+//importing Componenets
+import ThirdPartyStepper from "../../Components/ThirdPartyStepper";
+
 //import images
 import BluredBackground from "../../Assets/blured_dashboard.png";
 import Logo from "../../Assets/logos/LOGO-img.png";
@@ -32,7 +35,7 @@ export default function RegisterThirdParty() {
             {" "}
             <h1>X</h1>
           </div>
-          {/* <RiderStepper name="Third-Party Logistics" /> */}
+          <ThirdPartyStepper name="Third-Party Logistics" />
         </div>
       </div>
     </div>
