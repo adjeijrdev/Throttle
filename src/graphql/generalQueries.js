@@ -214,3 +214,119 @@ export const GET_VENDOR = gql`
     }
   }
 `;
+
+export const GET_ALL_RIDERS = gql`
+  query GET_ALL_Riders($offset: Int!, $limit: Int!, $status: Status!) {
+    riders(offset: $offset, limit: $limit, status: $status) {
+      currentPage
+      hasNextPage
+      totalCount
+      data {
+        _id
+        userProfile {
+          dateOfBirth
+          fullName
+          gender
+          nationalIdentification {
+            image
+            number
+            type
+          }
+          picture
+        }
+
+        vehicleInfo {
+          registrationNumber
+          vehicleType
+        }
+
+        professionalDetails {
+          driverLicenseNumber
+          drivingLicenseImg
+          yearsOfDrivingExperience
+        }
+
+        preference {
+          enable2FA
+          enableEmailNotification
+        }
+
+        financialDetails {
+          bankAccountDetails {
+            accountNumber
+            bankName
+            recipientName
+          }
+          mobileMoneyAccount {
+            phoneNumber
+            recipientName
+          }
+        }
+        contactDetails {
+          additionalPhoneNumber
+          email
+          emergencyContactName
+          emergencyContactNumber
+          phoneNumber
+          residentailAddress
+        }
+        createdAt
+      }
+    }
+  }
+`;
+
+export const GET_RIDER = gql`
+  query GET_RIDER($id: ID!) {
+    rider(id: $id) {
+      _id
+      userProfile {
+        dateOfBirth
+        fullName
+        gender
+        nationalIdentification {
+          image
+          number
+          type
+        }
+        picture
+      }
+
+      vehicleInfo {
+        registrationNumber
+        vehicleType
+      }
+
+      professionalDetails {
+        driverLicenseNumber
+        drivingLicenseImg
+        yearsOfDrivingExperience
+      }
+
+      preference {
+        enable2FA
+        enableEmailNotification
+      }
+
+      financialDetails {
+        bankAccountDetails {
+          accountNumber
+          bankName
+          recipientName
+        }
+        mobileMoneyAccount {
+          phoneNumber
+          recipientName
+        }
+      }
+      contactDetails {
+        additionalPhoneNumber
+        email
+        emergencyContactName
+        emergencyContactNumber
+        phoneNumber
+        residentailAddress
+      }
+    }
+  }
+`;

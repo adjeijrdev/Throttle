@@ -8,15 +8,50 @@ import SideLink from "../Components/SideLink";
 import { SideNavLinks } from "../items/Links";
 import dp from "../Assets/Models/dp.webp";
 import { LuPanelLeftClose, LuPanelRightClose } from "react-icons/lu";
-
+import { BeatLoader } from "react-spinners";
+import toast from "react-hot-toast";
 //LINKS
 import DashBoardLogo from "../Assets/icons/dashboard.png";
+import { logoutAPI } from "../api/authentication";
+import { clearCache } from "../graphql/graphqlConfiguration";
 
 export default function HomeLayout() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("/");
   const [closeSideBar, setCloseSideBar] = useState(false);
+  const [isLoginOut, setIsLoginOut] = useState(false);
   // console.log(activeTab)
+
+   const onLogout = async () => {
+    try {
+     setIsLoginOut(true)
+      const result = await logoutAPI();
+
+      toast.success(result?.data?.message, {
+        style: {
+          border: "1px solid #17654F",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "black",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+
+        await clearCache()
+      navigate(`/login`);
+    } catch (error) {
+      toast.error(error?.message, {
+        style: {
+          border: "1px solid oklch(88.5% 0.062 18.334)",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "oklch(39.6% 0.141 25.723)",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+    }
+        setIsLoginOut(false)
+  };
 
   return (
     <div className= {`${!closeSideBar ? "main-container" : " main-container-close-mode"}`} >
@@ -43,9 +78,9 @@ export default function HomeLayout() {
           ))}
         </div>  
         </div>
-        < div className="logout-botton" onClick={() => navigate("/login")}>
+        < div className="logout-botton" onClick={()=>onLogout()}>
             <img src={Logout} alt="logout" />
-            <Link to="/login"> Logout</Link>
+            {isLoginOut ? <BeatLoader color="white" /> : "Logout"}
         </div>
       </div>
 
