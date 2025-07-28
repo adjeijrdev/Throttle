@@ -19,8 +19,12 @@ import Media from "./Pages/Media";
 import RiderRegistration from "./Pages/Auth/RiderRegistration";
 import StaffAccount from "./Pages/StaffAccount/StaffAccount";
 import RegisterThirdParty from "./Pages/Auth/RegisterThirdParty";
+import Rider from "./Pages/Riders/Riders";
 
 //Importing subMenus
+import RiderApprovedAccount from "./Pages/Riders/ApprovedAccount/ApprovedAccount";
+import RiderDeniedAccount from "./Pages/Riders/DeniedAccount/DeniedAccount";
+import RiderPendingAccount from "./Pages/Riders/PendingAccount/PendingAccount";
 import ThirdPartiesApproved from "./Pages/3PLS/ApprovedAccount/ApprovedAccount";
 import ThirdPartiesDenied from "./Pages/3PLS/DeniedAccount/DeniedAccount";
 import ThirdPartiesPending from "./Pages/3PLS/PendingAccount/PendingAccount";
@@ -68,6 +72,12 @@ export default function App() {
 
           </Route>
           <Route path="3pls/Denied-Account" element={<ThirdPartiesDenied />} />
+
+          {/* Riders routes */}
+          <Route path="riders" element={<Rider />} />
+          <Route path="riders/Approved-Account" element={<RiderApprovedAccount />} />
+          <Route path="riders/Denied-Account" element={<RiderDeniedAccount />} />
+          <Route path="riders/Pending-Account" element={<RiderPendingAccount />} />
 
           {/* Other pages */}
           <Route path="bulk-search" element={<BulkSearch />} />

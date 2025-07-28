@@ -36,12 +36,10 @@ export default function HomeLayout() {
             />
           ))}
         </div>
-        < div className="logout-botton" onClick={() => navigate("/login")}>
+          <div className="logout-botton" onClick={() => navigate("/login")}>
             <img src={Logout} alt="logout" />
             <Link to="/login"> Logout</Link>
-        </div>
-      
-          
+          </div>
         </div>
       </div>
 
