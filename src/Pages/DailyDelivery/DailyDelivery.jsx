@@ -757,7 +757,16 @@ export default function DailyDelivery(props) {
           <button className={styles.sortBtn} onClick={()=>setShowVendorFilter(!showVendorFilter)}>
             <MdRestore />
             Sort by Vendor
-            {showVendorFilter ? <FaCaretUp /> : <FaCaretDown />}
+            {showVendorFilter  && (
+  <div className={styles.filter_modal_overlay} onClick={() => setShowVendorFilter(false)}>
+    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
+      <TableFilter
+        tableTeadValues={["Vendor Name", "Order Count", "Status"]}
+        onClose={() => setShowVendorFilter(false)}
+      />
+    </div>
+  </div>
+) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
           <button className={styles.sortBtn}>
             <MdRestore />
@@ -998,9 +1007,9 @@ export default function DailyDelivery(props) {
             </div>
           )}
 
-          <div className="pagination-tab">
+          {/* <div className="pagination-tab">
             <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
-          </div>
+          </div> */}
         </div>
 
         
