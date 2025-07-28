@@ -18,7 +18,7 @@ export const SideNavLinks = [
   },
   {
     id: 2,
-    name: "Daily Delivery",
+    name: "Orders",
     icon: dailyDelivery,
     url: "/daily-delivery",
   },
