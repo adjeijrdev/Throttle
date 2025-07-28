@@ -43,50 +43,75 @@ import VendorDeniedLayout from "./Pages/VendorAccount/DeniedAccount/VendorDenied
 import VendorDeniedViewDetails from "./Pages/VendorAccount/DeniedAccount/ViewDetails";
 import VendorApprovedLayout from "./Pages/VendorAccount/ApprovedAccount/VendorApprovedLayout";
 import VendorApprovedViewDetails from "./Pages/VendorAccount/ApprovedAccount/ViewDetials";
+import RiderLayout from "./Pages/Rider/RiderLayout";
+import Pending from "./Pages/Rider/account/pending/Pending";
+import RiderPending from "./Pages/Rider/account/pending/Pending";
+import RiderApproved from "./Pages/Rider/account/approved/Approved";
+import RiderPendingLayout from "./Pages/Rider/account/pending/pendingLayout";
+import RiderApprovedLayout from "./Pages/Rider/account/approved/ApprovedLayout";
+import RiderDeniedLayout from "./Pages/Rider/account/denied/DeniedLayout";
+import RiderDenied from "./Pages/Rider/account/denied/Denied";
+import RiderApprovedDetails from "./Pages/Rider/account/approved/ApprovedDetails";
+import RiderDeniedDetails from "./Pages/Rider/account/denied/DeniedDetails";
+import RiderPendingDetails from "./Pages/Rider/account/pending/PendingDetails";
 
 export default function App() {
   return (
     <div className="parent-container">
-      <Offline>
+      {/* <Offline>
         <div className="network-offline">
           You are offline check your network connectivity
         </div>
-      </Offline>
+      </Offline> */}
 
       <Router>
         <Routes>
           {/* Layout wrapper */}
-          <Route element={<HomeLayout />}>
+          <Route element={<HomeLayout/>}>
             {/* Main pages */}
             <Route index element={<Dashboard />} />
             <Route path="daily-delivery" element={<DailyDelivery />} />
             <Route path="search" element={<Search />} />
 
-            {/* Vendor account + nested  hahahahaa lazy work*/}
+            {/* Vendor account + nested  hahahahaa ababio and his lazy work*/}
             <Route path="vendor-account" element={<VendorAccount />} />
-            <Route path="vendor-account" element={<PendingAccountLayout/>}>
+            <Route path="vendor-account" element={<PendingAccountLayout />}>
               <Route path="Pending-Account" element={<VendorPending />} />
-              <Route path="Pending-Account/details/:id" element={<ViewDetails />} />
+              <Route
+                path="Pending-Account/details/:id"
+                element={<ViewDetails />}
+              />
             </Route>
 
-            <Route path="vendor-account" element={<VendorApprovedLayout/>}>
-                  <Route path="Approved-Account" element={<VendorApprovedAccount />}/>
-                  <Route path="Approved-Account/details/:id" element={<VendorApprovedViewDetails/>}/>
+            <Route path="vendor-account" element={<VendorApprovedLayout />}>
+              <Route
+                path="Approved-Account"
+                element={<VendorApprovedAccount />}
+              />
+              <Route
+                path="Approved-Account/details/:id"
+                element={<VendorApprovedViewDetails />}
+              />
             </Route>
-            
 
-            <Route path="vendor-account" element={<VendorDeniedLayout/>}>
-                <Route path="Denied-Account" element={<VendorDenied />} />
-                <Route path="Denied-Account/details/:id" element={<VendorDeniedViewDetails/>}/>
-
+            <Route path="vendor-account" element={<VendorDeniedLayout />}>
+              <Route path="Denied-Account" element={<VendorDenied />} />
+              <Route
+                path="Denied-Account/details/:id"
+                element={<VendorDeniedViewDetails />}
+              />
             </Route>
 
             {/* 3PLs */}
             <Route path="3pls" element={<ThirdParties />} />
-            <Route path="3pls/Pending-Account" element={<ThirdPartiesPending />}/>
-            <Route  path="3pls/Approved-Account" element={<PendingAccountLayout3PL />}>
-             
-                
+            <Route
+              path="3pls/Pending-Account"
+              element={<ThirdPartiesPending />}
+            />
+            <Route
+              path="3pls/Approved-Account"
+              element={<PendingAccountLayout3PL />}
+            >
               <Route index element={<ThirdPartiesApproved />} />
               <Route path="details/:id" element={<ViewDetails3PL />} />
             </Route>
@@ -95,6 +120,23 @@ export default function App() {
               element={<ThirdPartiesDenied />}
             />
 
+            {/* Rider */}
+            <Route path="rider" element={<RiderLayout />}>
+              <Route path="pending" element={<RiderPendingLayout />}>
+                <Route index element={<RiderPending />} />
+                <Route path="details/:id" element={<RiderPendingDetails/>} />
+              </Route>
+              <Route path="approved" element={<RiderApprovedLayout/>}>
+                <Route index element={<RiderApproved/>} />
+                <Route path="details/:id" element={<RiderApprovedDetails/>} />
+              </Route>
+              <Route path="denied" element={<RiderDeniedLayout/>}>
+                <Route index element={<RiderDenied/>} />
+                <Route path="details/:id" element={<RiderDeniedDetails/>} />
+
+              </Route>
+            </Route>
+
             {/* Other pages */}
             <Route path="bulk-search" element={<BulkSearch />} />
             <Route path="bulk-update" element={<BulkUpdate />} />
@@ -102,10 +144,12 @@ export default function App() {
 
             {/* Staff */}
             <Route path="staff-account" element={<StaffAccount />}>
-              <Route path="Staff-List" element={<StaffList/>} />
-              <Route path="Create-Staff-Account" element={<CreateStaffAccount />}/>
-              <Route path="edit-staff-account/:id" element={<EditStaff/>}/>
-
+              <Route path="Staff-List" element={<StaffList />} />
+              <Route
+                path="Create-Staff-Account"
+                element={<CreateStaffAccount />}
+              />
+              <Route path="edit-staff-account/:id" element={<EditStaff />} />
             </Route>
 
             <Route path="staff-account" element={<Role />}>

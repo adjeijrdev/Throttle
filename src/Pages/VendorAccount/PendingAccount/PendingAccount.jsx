@@ -25,7 +25,7 @@ import { Spin } from "antd";
 
 function PendingAccount() {
   const [itemOffset, setItemOffset] = useState(0);
-  let itemsPerPage = 20;
+  let itemsPerPage = 15;
 
   const {
     loading: vendorLoading,

@@ -126,6 +126,8 @@
   border-bottom: 0.1rem solid var(--clr-white);
   /* margin-top: 14.3rem; */
   cursor:pointer;
+  font-size: 1.6rem;
+  letter-spacing: 1px;
   /* position: fixed; */
   /* top: 70%; */
   /* background-color: red; */

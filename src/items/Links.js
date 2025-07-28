@@ -69,8 +69,31 @@ export const SideNavLinks = [
       },
     ]
   },
+   {
+    id:8,
+    name: "Rider Account",
+    icon: plsIcon,
+    url: "/rider",
+     childrens:[
+       {
+        id: 1,
+        name: "Pending Account",
+        url: "/rider/pending"
+      },
+      {
+        id: 2,
+        name: "Approved Account",
+        url: "/rider/approved"
+      },
+      {
+        id: 3,
+        name: "Denied Account",
+        url: "/rider/denied"
+      },
+    ]
+  },
   {
-    id: 8,
+    id: 9,
     name: "Vendor Account",
     icon: VendorAccountIcon,
     url: "/vendor-account",
@@ -93,7 +116,7 @@ export const SideNavLinks = [
     ]
   },
   {
-    id: 9,
+    id: 10,
     name: "Staff Account",
     icon: StaffAccount,
     url: "/staff-account",
