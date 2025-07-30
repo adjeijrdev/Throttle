@@ -53,12 +53,15 @@
     border-bottom: 0.1rem solid #ddd;
     border-top: 0.1rem solid #ddd;
 }
+
 .status {
   padding: 4px 8px;
   border-radius: 4px;
   font-weight: 600;
+  width: 100%;
   font-size: 0.9em;
   display: inline-block;
+  text-align: center;
 }
 
 .completed {

@@ -720,9 +720,9 @@ export default function DailyDelivery(props) {
       <div className={styles.header_continer_st}>
         <div className={styles.header_con_content1}>
           <div className={styles.overview_container}>
-            <div className={styles.overview}>Daily Orders</div>
+            <div className={styles.overview}>Orders</div>
             <div className={styles.overviewtext}>
-              Visual summary of key sales performance metrics and your data
+              View and manage all orders
             </div>
           </div>
           <div className={styles.search_filter_con}>
@@ -734,10 +734,39 @@ export default function DailyDelivery(props) {
           </div>
         </div>
         <div className={styles.header_con_content2}>
+
+           <div className={styles.columnToggleContainer}>
+            <button onClick={toggleColDropdown} className={styles.columnButton}>
+              <Eye size={16} /> Columns <ChevronDown size={16} />
+            </button>
+            {showColsDropdown && (
+              <div className={styles.columnDropdown}>
+                {allColumns.map((col) => (
+                  <label key={col.key} className={styles.checkboxItem}>
+                    <input
+                      type="checkbox"
+                      checked={visibleCols[col.key]}
+                      onChange={() => handleColChange(col.key)}
+                    />
+                    {col.label}
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
           <button className={styles.sortBtn} onClick={()=>setShowVendorFilter(!showVendorFilter)}>
             <MdRestore />
             Sort by Vendor
-            {showVendorFilter ? <FaCaretUp /> : <FaCaretDown />}
+            {showVendorFilter  && (
+  <div className={styles.filter_modal_overlay} onClick={() => setShowVendorFilter(false)}>
+    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
+      <TableFilter
+        tableTeadValues={["Vendor Name", "Order Count", "Status"]}
+        onClose={() => setShowVendorFilter(false)}
+      />
+    </div>
+  </div>
+) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
           <button className={styles.sortBtn}>
             <MdRestore />
@@ -777,25 +806,11 @@ export default function DailyDelivery(props) {
               )}
             </div>
           </div>
-          <div className={styles.columnToggleContainer}>
-            <button onClick={toggleColDropdown} className={styles.columnButton}>
-              <Eye size={16} /> Columns <ChevronDown size={16} />
-            </button>
-            {showColsDropdown && (
-              <div className={styles.columnDropdown}>
-                {allColumns.map((col) => (
-                  <label key={col.key} className={styles.checkboxItem}>
-                    <input
-                      type="checkbox"
-                      checked={visibleCols[col.key]}
-                      onChange={() => handleColChange(col.key)}
-                    />
-                    {col.label}
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
+         <button className={styles.sortBtn}>
+            <MdRestore />
+            Sort Date by
+            {true ? <FaCaretUp /> : <FaCaretDown />}
+          </button>
 
           <div>
             <button
@@ -992,9 +1007,9 @@ export default function DailyDelivery(props) {
             </div>
           )}
 
-          <div className="pagination-tab">
+          {/* <div className="pagination-tab">
             <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
-          </div>
+          </div> */}
         </div>
 
         
