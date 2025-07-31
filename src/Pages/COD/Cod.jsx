@@ -26,7 +26,7 @@ export default function Cod() {
   const filterOptions = [
     "All",
     "Order Placed",
-    "In Progress",
+    "In Transit",
     "Assigned",
     "Completed",
     "Returned",
@@ -53,7 +53,7 @@ export default function Cod() {
       date: "2024-12-10",
       id: "A0M602",
       vendor: "Ishtari Ghana",
-      status: "In Progress",
+      status: "In Transit",
       action: "Add",
     },
     {
@@ -102,7 +102,7 @@ export default function Cod() {
       date: "2024-10-30",
       id: "A0M5609",
       vendor: "Ishtari Ghana",
-      status: "In Progress",
+      status: "In Transit",
       action: "Add",
     },
   ];
@@ -146,7 +146,7 @@ export default function Cod() {
   const statusClass = {
     Completed: styles.completed,
     Rejected: styles.rejected,
-    "In Progress": styles.inProgress,
+    "In Transit": styles.inProgress,
     Failed: styles.failed,
     Assigned: styles.assigned,
     Returned: styles.returned,

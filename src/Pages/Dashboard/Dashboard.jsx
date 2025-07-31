@@ -92,7 +92,7 @@ const handleFilter = (range) => {
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
     payAmount: 'GHC350.00',
-    status: 'In Progress',
+    status: 'In Transit',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
@@ -190,7 +190,7 @@ const handleFilter = (range) => {
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
     payAmount: 'GHC350.00',
-    status: 'In Progress',
+    status: 'In Transit',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
@@ -288,7 +288,7 @@ const handleFilter = (range) => {
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
     payAmount: 'GHC350.00',
-    status: 'In Progress',
+    status: 'In Transit',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
@@ -386,7 +386,7 @@ const handleFilter = (range) => {
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
     payAmount: 'GHC350.00',
-    status: 'In Progress',
+    status: 'In Transit',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
@@ -455,7 +455,7 @@ const handleFilter = (range) => {
 const filterOptions = [
   'All',
   'Order Placed',
-  'In Progress',
+  'In Transit',
   'Assigned',
   'Completed',
   'Returned',
@@ -466,7 +466,7 @@ const filterOptions = [
 const statusClass = {
   Completed: styles.completed,
   Rejected: styles.rejected,
-  'In Progress': styles.inProgress,
+  'In Transit': styles.inProgress,
   Failed: styles.failed,
   Assigned: styles.assigned,
   Returned: styles.returned,
@@ -795,8 +795,8 @@ const [isHeaderSelected, setIsHeaderSelected] = useState(false);
          bordercolor="1px solid #FF8787"
       />
        <StatCard
-        title="Order in Progress"
-        value={countByStatus('In Progress')}
+        title="Order In Transit"
+        value={countByStatus('In Transit')}
         img={staticon}
         change="+5.4% this week"
         bgColor="#88AEF1"

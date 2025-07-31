@@ -48,7 +48,7 @@ import Pagination from "../Dashboard/Pagination";
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
     payAmount: 'GHC350.00',
-    status: 'In Progress',
+    status: 'In Transit',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
@@ -146,7 +146,7 @@ import Pagination from "../Dashboard/Pagination";
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
     payAmount: 'GHC350.00',
-    status: 'In Progress',
+    status: 'In Transit',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
@@ -244,7 +244,7 @@ import Pagination from "../Dashboard/Pagination";
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
     payAmount: 'GHC350.00',
-    status: 'In Progress',
+    status: 'In Transit',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
@@ -342,7 +342,7 @@ import Pagination from "../Dashboard/Pagination";
     recipient: 'Ama Nelson',
     phone: '+233 54 786 6565',
     payAmount: 'GHC350.00',
-    status: 'In Progress',
+    status: 'In Transit',
     vendor: 'Ishtari Ghana',
     tpl: 'Robert',
      deliveryAmount: 'GHC350.00',
@@ -497,7 +497,7 @@ const [filter, setFilter] = useState('All');
   const filterOptions = [
   'All',
   'Order Placed',
-  'In Progress',
+  'In Transit',
   'Assigned',
   'Completed',
   'Returned',
@@ -539,7 +539,7 @@ const [filter, setFilter] = useState('All');
 const statusClass = {
   Completed: styles.completed,
   Rejected: styles.rejected,
-  'In Progress': styles.inProgress,
+  'In Transit': styles.inProgress,
   Failed: styles.failed,
   Assigned: styles.assigned,
   Returned: styles.returned,
@@ -768,7 +768,7 @@ try{
                 <option value="Rejected">Rejected</option>
                 <option value="Assigned">Assigned</option>
                 <option value="Returned">Returned</option>
-                <option value="In Progress">In Progress</option>
+                <option value="In Transit">In Transit</option>
               </select>
             </div>
           </div>
