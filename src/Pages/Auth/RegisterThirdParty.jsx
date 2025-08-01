@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 //importing Componenets
-import ThirdPartyStepper from "../../Components/ThirdPartyStepper";
+// import ThirdPartyStepper from "../../Components";
 
 //import images
 import BluredBackground from "../../Assets/blured_dashboard.png";

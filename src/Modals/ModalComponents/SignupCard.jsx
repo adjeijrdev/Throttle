@@ -5,6 +5,7 @@ import "./SignupCard.css";
 //importing images
 import Vendors from "../../Assets/icons/Vendors.png";
 import Rider from "../../Assets/icons/Rider.png";
+import Thirdparty from "../../Assets/icons/van.png";
 
 export default function SignupCard({ onClose }) {
   const navigate = useNavigate();
@@ -37,6 +38,13 @@ export default function SignupCard({ onClose }) {
         >
           <img src={Rider} alt="rider-logo" />
           <p>Rider</p>
+        </div>
+        <div
+          className="register-modal-button"
+          onClick={() => navigate("/register-third-party")}
+        >
+          <img src={Thirdparty} alt="Third-party-logo" />
+          <p>Third-Party Logistics</p>
         </div>
       </div>
     </div>

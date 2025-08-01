@@ -54,6 +54,7 @@ import RiderDenied from "./Pages/Rider/account/denied/Denied";
 import RiderApprovedDetails from "./Pages/Rider/account/approved/ApprovedDetails";
 import RiderDeniedDetails from "./Pages/Rider/account/denied/DeniedDetails";
 import RiderPendingDetails from "./Pages/Rider/account/pending/PendingDetails";
+import RegisterThirdParty from "./Pages/Auth/RegisterThirdParty";
 
 import UserProfile from "./UserProfile/UserProfile";
 
@@ -105,6 +106,7 @@ export default function App() {
             </Route>
 
             {/* 3PLs */}
+            <Route path="register-third-party" element={<RegisterThirdParty />} />
             <Route path="3pls" element={<ThirdParties />} />
             <Route
               path="3pls/Pending-Account"
