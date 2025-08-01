@@ -88,7 +88,7 @@ export default function HomeLayout() {
         <div className="header">
           <LuPanelRightClose onClick={()=>setCloseSideBar(false)} className={`${closeSideBar? "close-bar-st" :"close-bar-st-hide" }`}   />
         
-          <div className="user-card">
+          <div className="user-card" onClick={() => navigate("/user-profile")}>
             
             <div className="text">
               <h4>John Doe </h4>

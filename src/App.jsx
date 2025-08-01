@@ -55,6 +55,8 @@ import RiderApprovedDetails from "./Pages/Rider/account/approved/ApprovedDetails
 import RiderDeniedDetails from "./Pages/Rider/account/denied/DeniedDetails";
 import RiderPendingDetails from "./Pages/Rider/account/pending/PendingDetails";
 
+import UserProfile from "./UserProfile/UserProfile";
+
 export default function App() {
   return (
     <div className="parent-container">
@@ -140,11 +142,14 @@ export default function App() {
             {/* Other pages */}
             <Route path="bulk-search" element={<BulkSearch />} />
             <Route path="bulk-update" element={<BulkUpdate />} />
-            <Route path="cod" element={<Cod />} />
+            <Route path="cod" element={ <Cod />} />
+            <Route path="user-profile" element={<UserProfile />} />
+
+            
 
             {/* Staff */}
             <Route path="staff-account" element={<StaffAccount />}>
-              <Route path="Staff-List" element={<StaffList />} />
+              <Route path="Staff-List" element={<StaffList /> } />
               <Route
                 path="Create-Staff-Account"
                 element={<CreateStaffAccount />}
