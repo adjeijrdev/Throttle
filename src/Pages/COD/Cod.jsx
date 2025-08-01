@@ -179,21 +179,15 @@ export default function Cod() {
           <div style={{ display: "grid" }}>
             <div className={styles.overview}>Cash on Delivery</div>
             <div className={styles.overviewtext}>
-              Search bulk orders by entering order ID
+              Filter Cash on Delivery records by vendor, 3pl or date
             </div>
           </div>
         </div>
 
         <div className={styles.filed1}>
           <div className={styles.filed1_in1}>
-            <div className={styles.detailstitle}>Enter/Search Order ID</div>
-            <textarea
-              value={orderIds}
-              onChange={(e) => setOrderIds(e.target.value)}
-              rows={10}
-            ></textarea>
-          </div>
-          <div className={styles.filed1_in1}>
+            <div className={styles.detailstitle}>Filters</div>
+            <div className={styles.filed1_in1}>
             <div className={styles.detailstitle}> Date Range</div>
             <div className={styles.OutercontainerRight}>
               <div className={styles.filed1_in2_con1}>
@@ -204,7 +198,7 @@ export default function Cod() {
                 <label>To</label>
                 <CustomDatePicker />
               </div>
-              <div className={styles.statusControl}>
+              {/* <div className={styles.statusControl}>
                 <label>Delivery Status</label>
                 <CustomSelector2
                   options={deliveryStatusOptions}
@@ -213,9 +207,11 @@ export default function Cod() {
                   placeholder={"Select Delivery Status"}
                 />
                 
-              </div>
+              </div> */}
             </div>
           </div>
+          </div>
+          
 
           <button className={styles.verticalButton} onClick={toggleTable} >
             <ChevronLeft
