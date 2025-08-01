@@ -1,4 +1,5 @@
 import style from "./UserProfile.module.css";
+import CustomDatePicker from "../Components/datePicker/CustomDatePicker";
 
 import edit from "../Assets/icons/edit.png";
 import camera from "../Assets/icons/camera.png";
@@ -37,9 +38,6 @@ export default function UserProfile() {
                   <img src={badge} alt="badge" />
                 </div>
               </div>
-              {/* <div className={style["credentials"]}>
-                *********
-              </div> */}
             </div>
           </div>
 
@@ -47,17 +45,136 @@ export default function UserProfile() {
             <p>
               <span>
                 <img src={edit} alt="edit" />
-              </span>{" "}
-              Edit Profile{" "}
+              </span>
+              Edit Profile
             </p>
           </div>
         </div>
-        <h1>Personal Information</h1>
+        <h1 className={style["section-header"]}>Personal Information</h1>
         <hr />
-        <div className={style["inputs-area"]}> inputs </div>
-        <h1>Contact Details</h1>
+        {/* INPUT AREA */}
+        <div className={style["inputs-area"]}>
+          <div className={style["form-grid"]}>
+            <div className={style["form-group"]}>
+              <label>
+                Username
+              </label>
+              <input
+                type="text"
+                placeholder="username"
+              />
+            </div>
+            <div className={style["form-group"]}>
+              <label>
+                Gender
+              </label>
+              <input
+                type="text"
+                placeholder="gender"
+              />
+            </div>
+            <div className={style["form-group"]}>
+              <label>
+                ID Type
+              </label>
+              <input
+                type="text"
+                placeholder="id type"
+              />
+            </div>
+          </div>
+          <div className={style["form-grid"]}>
+            <div className={style["form-group"]}>
+              <label>
+                Date Joined
+              </label>
+              <input
+                type="text"
+                placeholder="Date Joined"
+              />
+            </div>
+            <div className={style["form-group"]}>
+              <label>
+                Date of Birth
+              </label>
+              <input
+                type="text"
+                placeholder="Date of Birth"
+              />
+            </div>
+            <div className={style["form-group"]}>
+              <label>
+                ID Number
+              </label>
+              <input
+                type="text"
+                placeholder="address"
+              />
+            </div>
+          </div>
+        </div>
+        <h1 className={style["section-header"]}>Contact Details</h1>
         <hr />
-        <div className={style["inputs-area"]}> inputs </div>
+        <div className={style["inputs-area"]}> 
+          <div className={style["form-grid"]}>
+            <div className={style["form-group"]}>
+              <label>
+                Mobile Number
+              </label>
+              <input
+                type="text"
+                placeholder="mobile number"
+              />
+            </div>
+            <div className={style["form-group"]}>
+              <label>
+                Region
+              </label>
+              <input
+                type="text"
+                placeholder="Region"
+              />
+            </div>
+            <div className={style["form-group"]}>
+              <label>
+                Emergency Contact Name
+              </label>
+              <input
+                type="text"
+                placeholder="Emergency Contact Name"
+              />
+            </div>
+          </div>
+          <div className={style["form-grid"]}>
+            <div className={style["form-group"]}>
+              <label>
+                Additional Mobile Number(Optional)
+              </label>
+              <input
+                type="text"
+                placeholder="number"
+              />
+            </div>
+            <div className={style["form-group"]}>
+              <label>
+                Residential Address
+              </label>
+              <input
+                type="text"
+                placeholder="address"
+              />
+            </div>
+            <div className={style["form-group"]}>
+              <label>
+                Emergency Contact Number
+              </label>
+              <input
+                type="text"
+                placeholder="number"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     // </div>
