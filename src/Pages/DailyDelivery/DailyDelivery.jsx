@@ -768,22 +768,63 @@ export default function DailyDelivery(props) {
   </div>
 ) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
-          <button className={styles.sortBtn}>
+          {/* <button className={styles.sortBtn}>
             <MdRestore />
             Sort by Rider
             {true ? <FaCaretUp /> : <FaCaretDown />}
+          </button> */}
+            <button className={styles.sortBtn} onClick={()=>setShowVendorFilter(!showVendorFilter)}>
+            <MdRestore />
+            Sort by Rider
+            {showVendorFilter  && (
+  <div className={styles.filter_modal_overlay} onClick={() => setShowVendorFilter(false)}>
+    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
+      <TableFilter
+        tableTeadValues={["Vendor Name", "Order Count", "Status"]}
+        onClose={() => setShowVendorFilter(false)}
+      />
+    </div>
+  </div>
+) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
 
-          <button className={styles.sortBtn}>
+          {/* <button className={styles.sortBtn}>
             <MdRestore />
             Sort by 3PL
             {true ? <FaCaretUp /> : <FaCaretDown />}
+          </button> */}
+  <button className={styles.sortBtn} onClick={()=>setShowVendorFilter(!showVendorFilter)}>
+            <MdRestore />
+            Sort by 3PL
+            {showVendorFilter  && (
+  <div className={styles.filter_modal_overlay} onClick={() => setShowVendorFilter(false)}>
+    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
+      <TableFilter
+        tableTeadValues={["Vendor Name", "Order Count", "Status"]}
+        onClose={() => setShowVendorFilter(false)}
+      />
+    </div>
+  </div>
+) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
-
-          <button className={styles.sortBtn}>
+          {/* <button className={styles.sortBtn}>
             <MdRestore />
             Bulk Update
             {true ? <FaCaretUp /> : <FaCaretDown />}
+          </button> */}
+            <button className={styles.sortBtn} onClick={()=>setShowVendorFilter(!showVendorFilter)}>
+            <MdRestore />
+            Bulk Update
+            {showVendorFilter  && (
+  <div className={styles.filter_modal_overlay} onClick={() => setShowVendorFilter(false)}>
+    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
+      <TableFilter
+        tableTeadValues={["Vendor Name", "Order Count", "Status"]}
+        onClose={() => setShowVendorFilter(false)}
+      />
+    </div>
+  </div>
+) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>

@@ -42,7 +42,7 @@ export const SideNavLinks = [
   },
   {
     id: 6,
-    name: "COD/Remittance Search",
+    name: "Cash on Delivery",
     icon: COD,
     url: "/cod",
   },
