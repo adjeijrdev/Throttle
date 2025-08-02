@@ -451,8 +451,9 @@ input[type="checkbox"]:checked::after {
   border-radius: 2rem;
   background-color: var(--clr-white);
   padding: 2.5rem;
-  background-color: #fffdfd;
+  background-color: white;
   border: 0.1rem solid #ccc;
+  filter: drop-shadow(1px 1px 1.4px black);
 }
 
 .mdCardContent{
