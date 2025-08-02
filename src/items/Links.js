@@ -8,6 +8,9 @@ import COD from "../Assets/icons/COD.png";
 import plsIcon from "../Assets/icons/Rider.png";
 import VendorAccountIcon from "../Assets/icons/VendorAccount.png";
 import StaffAccount from "../Assets/icons/StaffAccount.png"
+import plusIcon from "../Assets/icons/plusIcon.png";
+
+
 
 export const SideNavLinks = [
   {
@@ -24,9 +27,9 @@ export const SideNavLinks = [
   },
   {
     id: 3,
-    name: "Search",
-    icon: search,
-    url: "/search",
+    name: "Add Order",
+    icon: plusIcon,
+    url: "/addOrder",
   },
   {
     id: 4,

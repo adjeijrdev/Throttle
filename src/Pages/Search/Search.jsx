@@ -409,7 +409,7 @@ import Pagination from "../Dashboard/Pagination";
 ];
 
 
-export default function Search() {
+export default function AddOrder() {
   const [currentPage, setCurrentPage] = useState(3);
   const totalPages = 5;
    const [searchParams, setSearchParams] = useState({

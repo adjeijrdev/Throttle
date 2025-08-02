@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 
-export function useClickOutside(ref, callback) {
+export function useClickOutside(ref, callback,ignoreRef) {
   useEffect(() => {
     function handleClick(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        callback();
+       if (  ref.current && !ref.current.contains(event.target) &&
+        (!ignoreRef?.current || !ignoreRef.current.contains(event.target))
+      ) {
+        callback(); // Close the popup
       }
     }
 
@@ -12,5 +14,5 @@ export function useClickOutside(ref, callback) {
     return () => {
       document.removeEventListener("mousedown", handleClick);
     };
-  }, [ref, callback]);
+  }, [ref, callback,ignoreRef]);
 }

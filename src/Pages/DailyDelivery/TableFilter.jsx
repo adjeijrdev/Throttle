@@ -21,11 +21,7 @@ const roles = {
   nodes: [
     {
       createdAt: "2025-06-10T17:31:00.524Z",
-<<<<<<< HEAD
-      id: "68486bd48bb929365e6b70e23",
-=======
       id: "68486bd48b5b929365e6b70e2",
->>>>>>> 76b7a6ed40b5aeace4f70838cc763066da5265b9
       name: "Admin",
       updatedAt: "2025-06-10T22:00:47.106Z",
       description: "description1",
@@ -48,11 +44,7 @@ const roles = {
     },
     {
       createdAt: "2025-06-10T17:31:00.524Z",
-<<<<<<< HEAD
-      id: "68486bd48bb929365e6b70e24",
-=======
       id: "68486bd487bb929365e6b70e2",
->>>>>>> 76b7a6ed40b5aeace4f70838cc763066da5265b9
       name: "Admin",
       updatedAt: "2025-06-10T22:00:47.106Z",
       description: "description1",
@@ -467,15 +459,9 @@ function TableFilter({tableTeadValues}) {
           )}
         </Table>
 
-<<<<<<< HEAD
-        {/* <div className="pagination-tab">
-          <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
-        </div> */}
-=======
         <div className="pagination-tab">
           {/* <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} /> */}
         </div>
->>>>>>> 76b7a6ed40b5aeace4f70838cc763066da5265b9
       </div>
     
     </div>
