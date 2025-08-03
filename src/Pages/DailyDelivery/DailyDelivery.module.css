@@ -206,9 +206,9 @@
 }
 
 .columnButton {
-  background-color:white;
+  /* background-color:white;
   color: var(--clr-black);
-  border: 1px solid #e5e7eb;
+   border:1px solid #00000033;
   border-radius: 1rem;
   cursor: pointer;
   display: flex;
@@ -216,7 +216,18 @@
   justify-content: space-around;
    width: 15rem;
   padding: 0.8rem;
-  transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out; */
+   background-color: white;
+  border:1px solid #00000033;
+  width: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:0.5rem;
+  border-radius: 8px;
+  transition: background-color 250ms ease-in-out;
+  cursor: pointer;
+  padding: 1rem;
 }
 .columnButton:hover{
   background-color: var(--input-background);
@@ -421,6 +432,19 @@ input[type="checkbox"]:checked::after {
   transition: background-color 250ms ease-in-out;
   cursor: pointer;
 }
+.bulkbtn{
+  background-color: white;
+  border:1px solid #00000033;
+  width: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:0.5rem;
+  border-radius: 8px;
+  transition: background-color 250ms ease-in-out;
+  cursor: pointer;
+  padding: 1rem;
+}
 
 .sortBtn:hover{
   background-color: var(--input-background);
@@ -461,4 +485,35 @@ input[type="checkbox"]:checked::after {
   display: flex;
   justify-content: space-between;
   border-bottom: 0.2rem solid #ccc;
+}
+
+.bulk_update_dropdown {
+   position: absolute;
+  top: 100%; /* Position below the button */
+  left: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 1000;
+  min-width: 200px;
+  margin-top: 1rem;
+  padding: 10px 0;
+}
+
+.dropdown_item {
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #003627;
+}
+
+.dropdown_item:hover {
+  background-color: #f5f5f5;
+}
+
+.dropdown_icon {
+  margin-right: 10px;
+  color: #003627;
 }

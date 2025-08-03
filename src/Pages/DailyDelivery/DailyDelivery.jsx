@@ -19,6 +19,14 @@ import TableFilter from "./TableFilter";
 import MdContentVendor from "./MdContentVendor";
 import MdContentRider from "./MdContentRider";
 import MdContent3Pl from "./MdContent3Pl";
+import { 
+  MdEvent,
+  MdEventNote,
+  MdDirectionsTransit,
+  MdDeliveryDining,
+  MdLocalShipping,
+  MdComment
+} from "react-icons/md";
 
 
 export default function DailyDelivery(props) {
@@ -41,7 +49,7 @@ export default function DailyDelivery(props) {
   const [showVendorFilter, setShowVendorFilter] = useState(false);
   const [showRiderFilter, setShowRiderFilter] = useState(false);
   const [show3PlFilter,setShow3PlFilter] = useState(false);
-  const [showBulkUpdate, setShowUpdateFilter] =useState(false)
+  const [showBulkUpdate, setShowBulkUpdate] =useState(false);
   const formatDate = (dateString) => {
     try {
       if (!dateString) return null;
@@ -66,6 +74,35 @@ export default function DailyDelivery(props) {
     setDateRange(range);
     setShowDateFilter(false);
   };
+
+const handleBulkAction = (actionType) => {
+  // Close the dropdown
+  setShowBulkUpdate(false);
+  
+  // Handle the selected action
+  switch(actionType) {
+    case 'pickup':
+      // Handle pickup date change
+      break;
+    case 'delivery':
+      // Handle delivery date change
+      break;
+    case 'transit':
+      // Handle transit status change
+      break;
+    case 'rider':
+      // Handle rider assignment
+      break;
+    case '3pl':
+      // Handle 3PL assignment
+      break;
+    case 'remarks':
+      // Handle remarks addition
+      break;
+    default:
+      break;
+  }
+};
 
   const allOrders = [
     {
@@ -774,11 +811,7 @@ export default function DailyDelivery(props) {
   </div>
 ) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
-          {/* <button className={styles.sortBtn}>
-            <MdRestore />
-            Sort by Rider
-            {true ? <FaCaretUp /> : <FaCaretDown />}
-          </button> */}
+
             <button className={styles.sortBtn} onClick={()=>setShowRiderFilter(!showRiderFilter)}>
             <MdRestore />
             Sort by Rider
@@ -794,11 +827,6 @@ export default function DailyDelivery(props) {
 ) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
 
-          {/* <button className={styles.sortBtn}>
-            <MdRestore />
-            Sort by 3PL
-            {true ? <FaCaretUp /> : <FaCaretDown />}
-          </button> */}
   <button className={styles.sortBtn} onClick={()=>setShow3PlFilter(!show3PlFilter)}>
             <MdRestore />
             Sort by 3PL
@@ -813,25 +841,51 @@ export default function DailyDelivery(props) {
   </div>
 ) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
-          {/* <button className={styles.sortBtn}>
-            <MdRestore />
-            Bulk Update
-            {true ? <FaCaretUp /> : <FaCaretDown />}
-          </button> */}
-            <button className={styles.sortBtn} onClick={()=>setShowUpdateFilter(!showBulkUpdate)}>
-            <MdRestore />
-            Bulk Update
-            {showBulkUpdate  && (
-  <div className={styles.filter_modal_overlay} onClick={() => setShowVendorFilter(false)}>
-    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
-      <TableFilter
-        tableTeadValues={["Vendor Name", "Order Count", "Status"]}
-        onClose={() => setShowVendorFilter(false)}
-      />
+
+       <div style={{ position: 'relative', display: 'inline-block' }}>    
+ <button 
+  className={styles.bulkbtn} 
+  onClick={() => setShowBulkUpdate(!showBulkUpdate)}
+>
+  <MdRestore />
+  Bulk Update
+  {showBulkUpdate ? <FaCaretUp /> : <FaCaretDown />}
+  </button>
+
+    {showBulkUpdate && (
+     <div 
+      className={styles.bulk_update_dropdown}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('pickup')}>
+        <MdEvent size={16} className={styles.dropdown_icon} />
+        Change Pickup Date
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('delivery')}>
+        <MdEventNote size={16} className={styles.dropdown_icon} />
+        Change Delivery Date
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('transit')}>
+        <MdDirectionsTransit size={16} className={styles.dropdown_icon} />
+        Change to Transit
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('rider')}>
+        <MdDeliveryDining size={16} className={styles.dropdown_icon} />
+        Assign to Rider
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('3pl')}>
+        <MdLocalShipping size={16} className={styles.dropdown_icon} />
+        Assign to 3PL
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('remarks')}>
+        <MdComment size={16} className={styles.dropdown_icon} />
+        Add Remarks
+      </div>
     </div>
-  </div>
-) ? <FaCaretUp /> : <FaCaretDown />}
-          </button>
+  )}
+
+</div> 
+
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className={styles.exportContainer}>
