@@ -13,7 +13,7 @@ import "./Login.css";
 
 //importing images
 import BluredBackground from "../../Assets/blured_dashboard.png";
-import Man from "../../Assets/man.png";
+import Man from "../../Assets/DisplayModel.png";
 import Logo from "../../Assets/logos/LOGO-img.png";
 import EmailIcon from "../../Assets/input_icons/emailuser.png";
 import padLock from "../../Assets/input_icons/padlock.png";
@@ -25,7 +25,7 @@ const schema = z.object({
   password: z.string().trim(),
   role: z.enum(["STAFF", "VENDOR", "3PL", "RIDER"], {
     required_error: "Please select your role",
-  }),
+  }).default("STAFF"),
 });
 
 export default function Login() {
@@ -40,15 +40,15 @@ export default function Login() {
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm({ resolver: zodResolver(schema),  defaultValues: {
+      role: "STAFF", // Default role
+    } });
 
   const onSubmit = async (data) => {
-    
-
     try {
       const result = await loginAPI(data);
       // console.log(result);
-      navigate("/")
+      navigate("/");
     } catch (error) {
       toast.error(error.message, {
         style: {
@@ -62,7 +62,6 @@ export default function Login() {
       // console.log(error.message);
     }
   };
-
 
   const toggleVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -193,9 +192,7 @@ export default function Login() {
                   {errors.email.message}
                 </h3>
               )}
-              <div
-              className=""
-              >
+              <div className="">
                 <Input.Password
                   placeholder="input password"
                   iconRender={(visible) =>
@@ -204,7 +201,7 @@ export default function Login() {
                   className="login-password"
                   onChange={(e) =>
                     setValue("password", e.target.value, {
-                      shouldValidate: true
+                      shouldValidate: true,
                     })
                   }
                 />

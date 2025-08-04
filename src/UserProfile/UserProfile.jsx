@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import style from "./UserProfile.module.css";
 import CustomDatePicker from "../Components/datePicker/CustomDatePicker";
 
@@ -8,6 +9,8 @@ import badge from "../Assets/icons/carbon_badge.png";
 //internal imports
 import Dp from "../Assets/Models/dp.webp";
 export default function UserProfile() {
+  const navigate = useNavigate();
+
   return (
     <div className={style["body"]}>
       <div className={style["top-row"]}>
@@ -16,7 +19,7 @@ export default function UserProfile() {
         </div>
         <div className={style["buttons"]}>
           <button className={style["white"]}>Change Password</button>
-          <button className={style["green"]}>Logout</button>
+          <button className={style["green"]} onClick={() => navigate("/login")}>Logout</button>
         </div>
       </div>
       <div className={style["bottom-row"]}>
@@ -43,10 +46,11 @@ export default function UserProfile() {
 
           <div className={style["dp-side-button"]}>
             <p>
+               Edit Profile
               <span>
                 <img src={edit} alt="edit" />
               </span>
-              Edit Profile
+             
             </p>
           </div>
         </div>

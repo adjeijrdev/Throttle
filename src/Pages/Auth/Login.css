@@ -32,9 +32,9 @@
 
 /* GREEN SIDE STYLING WITH TEXT AND IMAGES */
 .green-side .TextBox {
-  width: 100%;
+  width: 90%;
   height: 20%;
-  margin-top: rem;
+  margin-top: -13rem;
   margin-left: 5rem;
 }
 .green-side .Images {
@@ -43,15 +43,15 @@
 }
 
 .blurred-box {
-  width: 100%;
+  width: 10%;
   height: 69%;
   position: relative;
   top: 42%;
-  left: -3rem;
+  /* left: -3rem; */
   border-radius: 0.3rem;
 }
 .blurred-box img {
-  width: 80%;
+  width: 30rem;
   height: 96%;
   margin-top: -9.3rem;
 
@@ -71,7 +71,7 @@
 }
 .man-box img {
   /* display: none; */
-  width: 100%;
+  width: 9rem;
   height: 100%;
   margin-top: -3rem;
   /* object-fit: fill; */

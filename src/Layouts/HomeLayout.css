@@ -185,7 +185,8 @@
   cursor: pointer;
 }
 .user-card:hover{
-  /* background: linear-gradient(90deg,rgba(49, 181, 49, 1) ); */
+  background-color: #17654f20;
+  border: 1px solid var(--main-theme);
 }
 
 .user-card .text {
