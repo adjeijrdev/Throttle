@@ -50,6 +50,7 @@ export default function DailyDelivery(props) {
   const [showRiderFilter, setShowRiderFilter] = useState(false);
   const [show3PlFilter,setShow3PlFilter] = useState(false);
   const [showBulkUpdate, setShowBulkUpdate] =useState(false);
+   const [showSortDate, setShowSortDate] = useState(false);
   const formatDate = (dateString) => {
     try {
       if (!dateString) return null;
@@ -98,6 +99,23 @@ const handleBulkAction = (actionType) => {
       break;
     case 'remarks':
       // Handle remarks addition
+      break;
+    default:
+      break;
+  }
+};
+
+const handleSortDateAction = (actionType) => {
+  // Close the dropdown
+  setShowSortDate(false);
+  
+  // Handle the selected action
+  switch(actionType) {
+    case 'pickup':
+      // Handle pickup date change
+      break;
+    case 'delivery':
+      // Handle delivery date change
       break;
     default:
       break;
@@ -907,11 +925,40 @@ const handleBulkAction = (actionType) => {
               )}
             </div>
           </div>
-         <button className={styles.sortBtn}>
+         {/* <button className={styles.sortBtn}>
             <MdRestore />
             Sort Date by
             {true ? <FaCaretUp /> : <FaCaretDown />}
-          </button>
+          </button> */}
+
+                <div style={{ position: 'relative', display: 'inline-block' }}>    
+ <button 
+  className={styles.bulkbtn} 
+  onClick={() => setShowSortDate(!showSortDate)}
+>
+  <MdRestore />
+  Sort Date by
+  {showDateFilter ? <FaCaretUp /> : <FaCaretDown />}
+  </button>
+
+    {showSortDate && (
+     <div 
+      className={styles.bulk_update_dropdown}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className={styles.dropdown_item} onClick={() => handleSortDateAction('pickup')}>
+        <MdEvent size={16} className={styles.dropdown_icon} />
+         Pickup Date
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleSortDateAction('delivery')}>
+        <MdEventNote size={16} className={styles.dropdown_icon} />
+         Delivery Date
+      </div>
+    </div>
+  )}
+
+</div> 
+          
           <div>
             <button
               className={styles.date__control}
