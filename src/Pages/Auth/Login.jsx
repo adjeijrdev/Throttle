@@ -13,7 +13,7 @@ import "./Login.css";
 
 //importing images
 import BluredBackground from "../../Assets/blured_dashboard.png";
-import Man from "../../Assets/man.png";
+import Man from "../../Assets/BlackModel.png";
 import Logo from "../../Assets/logos/LOGO-img.png";
 import EmailIcon from "../../Assets/input_icons/emailuser.png";
 import padLock from "../../Assets/input_icons/padlock.png";
