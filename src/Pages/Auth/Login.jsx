@@ -25,7 +25,8 @@ const schema = z.object({
   password: z.string().trim(),
   role: z.enum(["STAFF", "VENDOR", "3PL", "RIDER"], {
     required_error: "Please select your role",
-  }),
+  })
+  .default("STAFF"),
 });
 
 export default function Login() {
@@ -40,7 +41,11 @@ export default function Login() {
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm({ resolver: zodResolver(schema),
+    defaultValues: {
+      role: "STAFF",
+    }
+   });
 
   const onSubmit = async (data) => {
     
