@@ -19,35 +19,40 @@ import {
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
 import { GET_ALL_RIDERS } from "../../../../graphql/generalQueries";
+import { useSearchB } from "../../../../graphql/graphqlConfiguration";
+import PaginatedTabs from "../../../../Components/paginationTab/paginationTabs";
+import CustomSearchInput from "../../../../Components/searchInputBox/CustomSearchInput";
 
 function RiderPending() {
   const [itemOffset, setItemOffset] = useState(0);
   const [isDeleteModal, setDeleteModal] = useState(false);
+  const [searchRider, setSearchRider] = useState("");
+
   let itemsPerPage = 15;
 
   let navigate = useNavigate();
 
-   const {
+
+    const {
+      debouncedSearch,
       loading: ridersLoading,
       data: ridersData,
       error: riderError,
       fetchMore: fetchMoreRiders,
-      refetch: refetchRiders
-    } = useQuery(GET_ALL_RIDERS, {
-      variables: {
-        offset: itemOffset,
-        limit: itemsPerPage,
-        status: "PENDING",
-      },
-      notifyOnNetworkStatusChange: true,
-    });
-
+    } = useSearchB(GET_ALL_RIDERS, itemOffset, itemsPerPage, "PENDING");
   
+    
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchRider(value);
+    debouncedSearch(value);
+  };
+
   const totalNumberOfRiders = ridersData?.riders?.totalCount;
 
-      useEffect(()=>{
-        refetchRiders()
-    },[])
+    //   useEffect(()=>{
+    //     refetchRiders()
+    // },[])
 
   const tableTheme = useTheme([
     getTheme(),
@@ -135,6 +140,15 @@ function RiderPending() {
       <div className="vd-pending-title">Pending Riders Accounts</div>
 
       <div className="table-container-st">
+        <div className="full-search-container">
+                  <CustomSearchInput
+                    bgColor={"white"}
+                    placeholder="Search by full name, contact or vehicle"
+                    value={searchRider}
+                    onChange={handleSearch}
+                  />
+                </div>
+              
         <Table data={{ nodes: [...(ridersData?.riders.data || [])] }} theme={tableTheme}>
           {(tableList) => (
             <>
@@ -147,7 +161,7 @@ function RiderPending() {
                   <HeaderCell>Full name</HeaderCell>
                   <HeaderCell>Gender</HeaderCell>
                   <HeaderCell>Mobile Number</HeaderCell>
-                  <HeaderCell>Driver's License</HeaderCell>
+                  <HeaderCell>Vehicle</HeaderCell>
                   {/* <HeaderCell>City of Operation</HeaderCell> */}
                   <HeaderCell>Year</HeaderCell>
                   <HeaderCell>Status</HeaderCell>
@@ -181,7 +195,7 @@ function RiderPending() {
                     <Cell>{item?.userProfile?.fullName}</Cell>
                     <Cell>{item?.userProfile?.gender}</Cell>
                     <Cell>{item?.contactDetails?.phoneNumber}</Cell>
-                    <Cell>{item?.professionalDetails?.driverLicenseNumber}</Cell>
+                    <Cell>{item?.vehicleInfo?.vehicleType}</Cell>
                     <Cell>{item?.professionalDetails?.yearsOfDrivingExperience}</Cell>
                     <Cell>
                       {" "}
@@ -204,7 +218,15 @@ function RiderPending() {
         </Table>
 
         <div className="pagination-tab">
-          {/* <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} /> */}
+         
+           <PaginatedTabs
+                      totalRecords={totalNumberOfRiders}
+                      setItemOffset={setItemOffset}
+                      offSet={itemOffset}
+                      itemsPerPage={itemsPerPage}
+                      fetchMore={fetchMoreRiders}
+                    />
+      
         </div>
       </div>
 

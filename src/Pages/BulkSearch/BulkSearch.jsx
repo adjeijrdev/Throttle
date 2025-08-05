@@ -13,14 +13,14 @@ export default function BulkSearch() {
   const mockOrderData = [
     { date:'2024-12-10',id: 'A0M600',vendor: 'Ishtari Ghana', status: 'Completed', action:'Add' },
     { date:'2024-12-10',id: 'A0M601',vendor: 'Ishtari Ghana', status: 'Rejected', action:'Add' },
-    { date:'2024-12-10',id: 'A0M602',vendor: 'Ishtari Ghana', status: 'In Progress', action:'Add' },
+    { date:'2024-12-10',id: 'A0M602',vendor: 'Ishtari Ghana', status: 'In Transit', action:'Add' },
     { date:'2024-10-30',id: 'A0M603',vendor: 'Ishtari Ghana', status: 'Completed', action:'Add' },
     { date:'2024-10-30',id: 'A0M604',vendor: 'Ishtari Ghana', status: 'Failed', action:'Add' },
     { date:'2024-10-30',id: 'A0M605',vendor: 'Ishtari Ghana', status: 'Assigned', action:'Add' },
     { date:'2024-10-30',id: 'A0M606',vendor: 'Ishtari Ghana', status: 'Returned', action:'Add' },
     { date:'2024-10-30',id: 'A0M607',vendor: 'Ishtari Ghana', status: 'Completed', action:'Add' },
     { date:'2024-10-30',id: 'A0M608',vendor: 'Ishtari Ghana', status: 'Rejected', action:'Add' },
-    { date:'2024-10-30',id: 'A0M609',vendor: 'Ishtari Ghana', status: 'In Progress', action:'Add' },
+    { date:'2024-10-30',id: 'A0M609',vendor: 'Ishtari Ghana', status: 'In Transit', action:'Add' },
   ];
 
   const handleSearch = () => {
@@ -60,7 +60,7 @@ export default function BulkSearch() {
   const statusClass = {
     Completed: styles.completed,
     Rejected: styles.rejected,
-    'In Progress': styles.inProgress,
+    'In Transit': styles.inProgress,
     Failed: styles.failed,
     Assigned: styles.assigned,
     Returned: styles.returned,

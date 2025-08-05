@@ -57,6 +57,7 @@ import DashBoardLayout from "./Pages/Dashboard/DashBoardLayout";
 
 import AddOrderLayout from "./AddOrder/AddOrderLayout";
 import AddOrder from "./AddOrder/AddOrder";
+import OrderDetails from "./AddOrder/OrderDetails";
 
 export default function App() {
   return (
@@ -75,7 +76,7 @@ export default function App() {
             
             <Route element={<DashBoardLayout/>}>
                   <Route index element={<Dashboard />} />
-                 
+                 <Route path="orders/:id" element={<OrderDetails/>}/>
 
             </Route>
             <Route path="daily-delivery" element={<DailyDelivery />} />

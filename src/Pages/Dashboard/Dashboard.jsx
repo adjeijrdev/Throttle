@@ -1,4 +1,4 @@
-import { useState, useRef} from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./Dashboard.module.css";
 import Pagination from "./Pagination";
 import StatCard from "./StatCard";
@@ -16,11 +16,37 @@ import { useClickOutside } from "../../CustomHooks/useClickOutSide";
 import { format, parseISO } from "date-fns";
 import { SlCalender } from "react-icons/sl";
 import AddOrderModal from "./AddOrderModal";
+import { useSearch } from "../../graphql/graphqlConfiguration";
+import { GET_ALL_ORDERS } from "../../graphql/generalQueries";
+import PaginatedTabs from "../../Components/paginationTab/paginationTabs";
+import { Spin } from "antd";
+import { formatDateTime } from "../../utils/formateDateTime";
+import { useNavigate } from "react-router";
 
 export default function Dashboard(props) {
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 5;
+  const totalPages = 2;
+  
+  const itemsPerPage = 15;
+  const [itemOffset, setItemOffset] = useState(0);
+  const [searchItem, setSearchItem] = useState("");
+  const [allOrders, setAllOrders] = useState();
+  const navigate = useNavigate()
+    const {
+      debouncedSearch,
+      data: orderData,
+      loading: orderLoading,
+      error: orderError,
+      fetchMore: fetchMoreOrder,
+    } = useSearch(GET_ALL_ORDERS, itemOffset, itemsPerPage);
 
+  const totalNumberOfOrders = orderData?.orders?.totalCount;
+
+  useEffect(()=>{
+  console.log("order ",orderData)
+
+    setAllOrders(orderData)
+  },[orderData])
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
@@ -36,21 +62,21 @@ export default function Dashboard(props) {
   const [selectionPhase, setSelectionPhase] = useState("start");
   const [showDateFilter, setShowDateFilter] = useState(false);
 
-
-  const [stateDateRingeState, setDateRingeState] = useState([{
-          startDate: new Date(),
-          endDate: new Date(),
-          key: "selection",
-        },
-      ]);
+  const [stateDateRingeState, setDateRingeState] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
 
   const dateRangePickerRef = useRef(null);
   const buttonDateRangePickerRef = useRef(null);
-    useClickOutside(dateRangePickerRef , () => setShowDateFilter(false),buttonDateRangePickerRef);
-  
-      
-
-
+  useClickOutside(
+    dateRangePickerRef,
+    () => setShowDateFilter(false),
+    buttonDateRangePickerRef
+  );
 
   const formatDate = (dateString) => {
     try {
@@ -77,401 +103,401 @@ export default function Dashboard(props) {
     setShowDateFilter(false);
   };
 
-  const allOrders = [
-    {
-      orderId: "A0M600",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Completed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M601",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Rejected",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M602",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "In Progress",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M603",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Completed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M604",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Failed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M605",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Assigned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M606",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Returned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M607",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Completed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M608",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Rejected",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M609",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "In Progress",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M610",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Completed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M611",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Failed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M612",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Assigned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M613",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Returned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M614",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Order Placed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M615",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Order Placed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M616",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "In Progress",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M617",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Order Placed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M618",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Failed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M619",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Assigned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M620",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Returned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M621",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Completed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M622",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Rejected",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M623",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "In Progress",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M624",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Completed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M625",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Failed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M626",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Assigned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    {
-      orderId: "A0M627",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Returned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: "",
-    },
-    // Add more data...
-  ];
+  // const allOrders = [
+  //   {
+  //     orderId: "A0M600",
+  //     dateTime: "2024-12-10, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Completed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-12-10",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M601",
+  //     dateTime: "2024-12-10, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Rejected",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-12-10",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M602",
+  //     dateTime: "2024-12-10, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "In Progress",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-12-10",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M603",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Completed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M604",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Failed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M605",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Assigned",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M606",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Returned",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M607",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Completed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M608",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Rejected",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M609",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "In Progress",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M610",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Completed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M611",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Failed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M612",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Assigned",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M613",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Returned",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M614",
+  //     dateTime: "2024-12-10, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Order Placed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-12-10",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M615",
+  //     dateTime: "2024-12-10, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Order Placed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-12-10",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M616",
+  //     dateTime: "2024-12-10, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "In Progress",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-12-10",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M617",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Order Placed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M618",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Failed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M619",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Assigned",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M620",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Returned",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M621",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Completed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M622",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Rejected",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M623",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "In Progress",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M624",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Completed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M625",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Failed",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M626",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Assigned",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   {
+  //     orderId: "A0M627",
+  //     dateTime: "2024-10-30, 01:53",
+  //     destination: "Tema newton, Hse No 36b, Greater Accra",
+  //     recipient: "Ama Nelson",
+  //     phone: "+233 54 786 6565",
+  //     payAmount: "GHC350.00",
+  //     status: "Returned",
+  //     vendor: "Ishtari Ghana",
+  //     tpl: "Robert",
+  //     deliveryAmount: "GHC350.00",
+  //     orderdate: "2024-10-30",
+  //     orderimg: "",
+  //   },
+  //   // Add more data...
+  // ];
 
   const filterOptions = [
     "All",
@@ -502,10 +528,9 @@ export default function Dashboard(props) {
     });
   };
 
-  console.log("Order dates valid:", validateOrderDates(allOrders));
 
   // Improved date filtering logic
-  const filteredOrders = allOrders.filter((order) => {
+  const filteredOrders = allOrders?.orders?.data?.filter((order) => {
     // Status filter
     const statusMatch = filter === "All" || order.status === filter;
 
@@ -534,16 +559,16 @@ export default function Dashboard(props) {
   const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
   const exportToCSV = () => {
-    const rows = filteredOrders.map((o) => ({
+    const rows = filteredOrders?.map((o) => ({
       "Pickup Date, Time": o.dateTime,
       "Order ID": o.orderId,
       Destination: o.destination,
       Recipient: o.recipient,
       "Recipient's Tel": o.phone,
-      "Payment Amt": o.payAmount,
+      "Payment Amount": o.payAmount,
       Status: o.status,
       Vendor: o.vendor,
-      "3PLs": o.tpl,
+      "Assigned To": o.tpl,
       "Delivery Fee": o.deliveryAmount,
       "Delivery Date": o.orderdate,
       "Order Image": o.orderimg,
@@ -601,12 +626,12 @@ export default function Dashboard(props) {
         "Amount",
         "Status",
         "Vendor",
-        "3PL",
+        "Assigned To",
         "Delivery Fee",
         "Delivery Date",
       ];
 
-      const data = filteredOrders.map((order) => [
+      const data = filteredOrders?.map((order) => [
         order.dateTime || "",
         order.orderId || "",
         order.destination || "",
@@ -664,10 +689,10 @@ export default function Dashboard(props) {
     { key: "destination", label: "Destination" },
     { key: "recipient", label: "Recipient" },
     { key: "phone", label: "Recipient Tel" },
-    { key: "payAmount", label: "Payment Amt" },
+    { key: "payAmount", label: "Payment Amount" },
     { key: "status", label: "Status" },
     { key: "vendor", label: "Vendor" },
-    { key: "tpl", label: "3PLs" },
+    { key: "tpl", label: "Assigned To" },
     { key: "deliveryAmount", label: "Delivery Fee" },
     { key: "orderdate", label: "Delivery Date" },
     { key: "orderimg", label: "Order Image" },
@@ -678,8 +703,15 @@ export default function Dashboard(props) {
   );
 
   const [showColsDropdown, setShowColsDropdown] = useState(false);
-
+  const colsDropRef = useRef(null)
+  const showColsDropDownRefIgnore = useRef(null)
   const toggleColDropdown = () => setShowColsDropdown((prev) => !prev);
+
+   useClickOutside(
+    colsDropRef,
+    () => setShowColsDropdown(false),
+    showColsDropDownRefIgnore
+  );
 
   const handleColChange = (key) => {
     setVisibleCols((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -694,8 +726,8 @@ export default function Dashboard(props) {
   };
 
   const countByStatus = (status) => {
-    if (!status) return allOrders.length;
-    return allOrders.filter((o) => o.status === status).length;
+    if (!status) return allOrders?.orders?.data?.length;
+    return allOrders?.orders?.data?.filter((o) => o.status === status).length;
   };
 
   const handleStatusFilter = (option) => {
@@ -711,14 +743,17 @@ export default function Dashboard(props) {
 
   console.log("Filtering Debug:", {
     selectedDate: selectedDate?.toISOString(),
-    filteredOrders: filteredOrders.map((o) => o.orderdate),
+    filteredOrders: filteredOrders?.map((o) => o.orderdate),
   });
 
   const [showAddOrderDropdown, setShowAddOrderDropdown] = useState(false);
   const showAddOrderDropdownRef = useRef(null);
   const buttonAddOrderRef = useRef(null);
-  useClickOutside(showAddOrderDropdownRef , () => setShowAddOrderDropdown(false),buttonAddOrderRef);
-  
+  useClickOutside(
+    showAddOrderDropdownRef,
+    () => setShowAddOrderDropdown(false),
+    buttonAddOrderRef
+  );
 
   const toggleAddOrderDropdown = () => setShowAddOrderDropdown((prev) => !prev);
 
@@ -763,21 +798,27 @@ export default function Dashboard(props) {
 
           <div className={styles.date_Picker}>
             <button
-            ref={buttonDateRangePickerRef}
+              ref={buttonDateRangePickerRef}
               className={styles.date__control}
-              onClick={(event) =>{event.stopPropagation(),setShowDateFilter(prev => !prev)} }
+              onClick={(event) => {
+                event.stopPropagation(), setShowDateFilter((prev) => !prev);
+              }}
             >
-              
               {stateDateRingeState[0]
-                ? `${ format(stateDateRingeState[0]?.startDate, "dd/MM/yyyy")} - ${format(stateDateRingeState[0]?.endDate ,"dd/MM/yyyy")}`
+                ? `${format(
+                    stateDateRingeState[0]?.startDate,
+                    "dd/MM/yyyy"
+                  )} - ${format(stateDateRingeState[0]?.endDate, "dd/MM/yyyy")}`
                 : "Select Date Range"}
-                <SlCalender size={16} />
-
+              <SlCalender size={16} />
             </button>
 
             {showDateFilter && (
-              <div className={styles.modal_overlay} ref={dateRangePickerRef }>
-                <CustomDateRangePicker stateDateRingeState={stateDateRingeState} setDateRingeState={setDateRingeState}/>
+              <div className={styles.modal_overlay} ref={dateRangePickerRef}>
+                <CustomDateRangePicker
+                  stateDateRingeState={stateDateRingeState}
+                  setDateRingeState={setDateRingeState}
+                />
                 {/* <DateFilter onFilter={handleFilter} onCancel={handleCancel} /> */}
               </div>
             )}
@@ -893,12 +934,13 @@ export default function Dashboard(props) {
             <div className={styles.columnToggleContainer}>
               <button
                 onClick={toggleColDropdown}
+                ref={colsDropRef}
                 className={styles.columnButton}
               >
                 <Eye size={16} /> Columns <ChevronDown size={16} />
               </button>
               {showColsDropdown && (
-                <div className={styles.columnDropdown}>
+                <div className={styles.columnDropdown} ref={showColsDropDownRefIgnore}>
                   {allColumns.map((col) => (
                     <label key={col.key} className={styles.checkboxItem}>
                       <input
@@ -914,20 +956,16 @@ export default function Dashboard(props) {
             </div>
 
             <button
-            ref={buttonAddOrderRef}
+              ref={buttonAddOrderRef}
               className={styles.addorder}
               onClick={toggleAddOrderDropdown}
             >
               Add Order +
-             
             </button>
 
-             {
-             showAddOrderDropdown 
-              && (
-               <AddOrderModal ref={showAddOrderDropdownRef}/>
-              )}
-
+            {showAddOrderDropdown && (
+              <AddOrderModal ref={showAddOrderDropdownRef} />
+            )}
           </div>
         </div>
       </div>
@@ -952,155 +990,175 @@ export default function Dashboard(props) {
           </div>
 
           {/* Table */}
-          {filteredOrders.length > 0 ? (
-            <table className={styles.table}>
-              <thead className={styles.tableheader}>
-                <tr
-                  onClick={() => setIsHeaderSelected(!isHeaderSelected)}
-                  className={`${styles.headerRow} ${
-                    isHeaderSelected ? styles.selectedHeader : ""
-                  }`}
-                >
-                  {visibleCols.box && (
-                    <th className={styles.th}>
-                      <input
-                        type="checkbox"
-                        checked={isHeaderSelected}
-                        onChange={(e) => {
-                          setIsHeaderSelected(e.target.checked);
-                          e.stopPropagation();
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </th>
-                  )}
-                  {visibleCols["map"] && (
-                    <th className={styles.thSmall}>Map</th>
-                  )}
-                  {visibleCols.dateTime && (
-                    <th className={styles.th}>Pickup Date, Time</th>
-                  )}
-                  {visibleCols.orderId && (
-                    <th className={styles.th}>Order ID</th>
-                  )}
-                  {visibleCols.destination && (
-                    <th className={styles.th}>Destination</th>
-                  )}
-                  {visibleCols.recipient && (
-                    <th className={styles.th}>Recipient</th>
-                  )}
-                  {visibleCols.phone && (
-                    <th className={styles.th}>Recipient's Tel</th>
-                  )}
-                  {visibleCols.payAmount && (
-                    <th className={styles.th}>Payment Amt</th>
-                  )}
-                  {visibleCols.status && <th className={styles.th}>Status</th>}
-                  {visibleCols.vendor && <th className={styles.th}>Vendor</th>}
-                  {visibleCols.tpl && <th className={styles.th}>3PLs</th>}
-                  {visibleCols.deliveryAmount && (
-                    <th className={styles.th}>Delivery Fee</th>
-                  )}
-                  {visibleCols.orderdate && (
-                    <th className={styles.th}>Delivery Date</th>
-                  )}
-                  {visibleCols.orderimg && (
-                    <th className={styles.th}>Order Image</th>
-                  )}
-                </tr>
-              </thead>
-
-              <tbody>
-                {filteredOrders.map((order, index) => (
+          {filteredOrders?.length > 0 ? (
+            <div className={styles.tableconMain}>
+              <table className={styles.table}>
+                <thead className={styles.tableheader}>
                   <tr
-                    key={order.orderId} // Use orderId as key instead of index
-                    onClick={(e) => {
-                      // Don't trigger row selection if clicking on a link or button
-                      if (
-                        e.target.tagName !== "A" &&
-                        e.target.tagName !== "BUTTON"
-                      ) {
-                        toggleRowSelection(order.orderId);
-                      }
-                    }}
-                    className={`${styles.tableRow} ${
-                      selectedRows.includes(order.orderId)
-                        ? styles.selectedRow
-                        : ""
+                    onClick={() => setIsHeaderSelected(!isHeaderSelected)}
+                    className={`${styles.headerRow} ${
+                      isHeaderSelected ? styles.selectedHeader : ""
                     }`}
                   >
                     {visibleCols.box && (
-                      <td
-                        className={styles.td}
-                        onClick={(e) => e.stopPropagation()}
-                      >
+                      <th className={styles.th}>
                         <input
                           type="checkbox"
-                          checked={selectedRows.includes(order.orderId)}
+                          checked={isHeaderSelected}
                           onChange={(e) => {
-                            toggleRowSelection(order.orderId, e);
+                            setIsHeaderSelected(e.target.checked);
+                            e.stopPropagation();
                           }}
+                          onClick={(e) => e.stopPropagation()}
                         />
-                      </td>
+                      </th>
                     )}
-                    {visibleCols.map && (
-                      <td className={styles.td}>
-                        {" "}
-                        <img
-                          src={locationIcon}
-                          alt="Location Icon"
-                          style={{ width: "16px", height: "16px" }}
-                        />
-                      </td>
+                    {visibleCols["map"] && (
+                      <th className={styles.thSmall}>Map</th>
+                    )}
+                      {visibleCols.orderId && (
+                      <th className={styles.th}>Order ID</th>
                     )}
                     {visibleCols.dateTime && (
-                      <td className={styles.td}>{order.dateTime}</td>
+                      <th className={styles.th}>Pickup Date, Time</th>
                     )}
-                    {visibleCols.orderId && (
-                      <td className={styles.td}>{order.orderId}</td>
-                    )}
+                  
                     {visibleCols.destination && (
-                      <td className={styles.td}>{order.destination}</td>
+                      <th className={[styles.th,styles.destinationSt]} >Destination</th>
                     )}
                     {visibleCols.recipient && (
-                      <td className={styles.td}>{order.recipient}</td>
+                      <th className={styles.th}>Recipient</th>
                     )}
                     {visibleCols.phone && (
-                      <td className={styles.td}>{order.phone}</td>
+                      <th className={styles.th}>Recipient's Tel</th>
                     )}
                     {visibleCols.payAmount && (
-                      <td className={styles.td}>{order.payAmount}</td>
+                      <th className={styles.th}>Payment Amount</th>
                     )}
                     {visibleCols.status && (
-                      <td className={styles.td}>
-                        <span
-                          className={`${styles.status} ${
-                            statusClass[order.status]
-                          }`}
-                        >
-                          {order.status}
-                        </span>
-                      </td>
+                      <th className={styles.th}>Status</th>
                     )}
                     {visibleCols.vendor && (
-                      <td className={styles.td}>{order.vendor}</td>
+                      <th className={styles.th}>Vendor</th>
                     )}
-                    {visibleCols.tpl && (
-                      <td className={styles.td}>{order.tpl}</td>
-                    )}
+                    {visibleCols.tpl && <th className={styles.th}>Assigned To</th>}
                     {visibleCols.deliveryAmount && (
-                      <td className={styles.td}>{order.deliveryAmount}</td>
+                      <th className={styles.th}>Delivery Fee</th>
                     )}
                     {visibleCols.orderdate && (
-                      <td className={styles.td}>{order.orderdate}</td>
+                      <th className={styles.th}>Delivery Date, Time</th>
                     )}
                     {visibleCols.orderimg && (
-                      <td className={styles.td}>{order.orderimg}</td>
+                      <th className={styles.th}>Order Image</th>
                     )}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+
+                
+                <tbody>
+                  {
+
+                      orderLoading && <Spin size="large" className="loading-spinner" />
+                  }
+
+                  {
+                      
+                  allOrders?.orders?.data?.map((order, index) => (
+                    <tr
+                      key={order?._id} // Use orderId as key instead of index
+                      onClick={(e) => {
+                        // Don't trigger row selection if clicking on a link or button
+                        // if (
+                        //   e.target.tagName !== "A" &&
+                        //   e.target.tagName !== "BUTTON"
+                        // ) {
+                        //   toggleRowSelection(order?._id);
+                        // }
+                          navigate("/orders/1")
+                        
+                      }}
+                      
+                      className={`${styles.tableRow} ${
+                        selectedRows.includes(order?._id)
+                          ? styles.selectedRow
+                          : ""
+                      }`}
+                    >
+                      {visibleCols.box && (
+                        <td
+                          className={styles.td}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedRows.includes(order?._id)}
+                            onChange={(e) => {
+                              toggleRowSelection(order?._id, e);
+                            }}
+                          />
+                        </td>
+                      )}
+                      {visibleCols.map && (
+                        <td className={styles.td}>
+                          {" "}
+                          <img
+                            src={locationIcon}
+                            alt="Location Icon"
+                            style={{ width: "16px", height: "16px" }}
+                          />
+                        </td>
+                      )}
+                      {visibleCols.orderId && (
+                        <td className={styles.td}>{order?.orderId}</td>
+                      )}
+                      {visibleCols.dateTime && (
+                        <td className={styles.td}>{formatDateTime(order?.createdAt)}</td>
+                      )}
+                      
+                      {visibleCols.destination && (
+                        <td className={styles.td}>{order?.destination}</td>
+                      )}
+                     
+                      {visibleCols.recipient && (
+                        <td className={styles.td}>{order?.recipientName}</td>
+                      )}
+                      {visibleCols.phone && (
+                        <td className={styles.td}>{order?.recipientNumber}</td>
+                      )}
+                      {visibleCols.payAmount && (
+                        <td className={styles.td}>GHC {order?.paymentAmount}</td>
+                      )}
+                      {visibleCols.status && (
+                        <td className={styles.td}>
+                          <span
+                            className={`${styles.status} ${
+                              statusClass[order.status]
+                            }`}
+                          >
+                            {order?.status}
+                          </span>
+                        </td>
+                      )}
+                      {visibleCols.vendor && (
+                        <td className={styles.td}>{order?.source?.type}</td>
+                      )}
+                      {visibleCols.tpl && (
+                        <td className={styles.td}>{order?.assignedTo}</td>
+                      )}
+                      {visibleCols.deliveryAmount && (
+                        <td className={styles.td}>GHC{order?.deliveryFee}</td>
+                      )}
+                      {visibleCols.orderdate && (
+                        <td className={styles.td}>{formatDateTime(order?.orderDate) }</td>
+                      )}
+                      {visibleCols.orderimg && (
+                        <td className={styles.td}>{order?.productImage}</td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ) : (
             <div className={styles.noResults}>
               {selectedDate
@@ -1109,14 +1167,19 @@ export default function Dashboard(props) {
             </div>
           )}
         </div>
+         <div className="pagination-tab">
+         
+          <PaginatedTabs
+            totalRecords={totalNumberOfOrders}
+            setItemOffset={setItemOffset}
+            offSet={itemOffset}
+            itemsPerPage={itemsPerPage}
+            fetchMore={fetchMoreOrder}
+          />
+        </div>
       </div>
 
-      <Pagination
-        className="pagination"
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      
     </div>
   );
 }

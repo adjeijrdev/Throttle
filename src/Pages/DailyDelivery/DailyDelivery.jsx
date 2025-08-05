@@ -1,7 +1,9 @@
 import { useState } from "react";
-
 import styles from "./DailyDelivery.module.css";
-import { Upload, Eye, ChevronDown } from "lucide-react";
+import { Upload, Eye} from "lucide-react";
+import ExcelIcon from "../../Assets/icons/excel.png";
+import PdfIcon from "../../Assets/icons/pdf.png";
+import CsvIcon from "../../Assets/icons/csv.png";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import DateFilter from "../Dashboard/DateFilter";
@@ -14,6 +16,10 @@ import { MdRestore } from "react-icons/md";
 import PaginatedTabs from "../../Components/paginationTab/paginationTabs";
 import CustomSearchInput from "../../Components/searchInputBox/CustomSearchInput";
 import TableFilter from "./TableFilter";
+import MdContentVendor from "./MdContentVendor";
+import MdContentRider from "./MdContentRider";
+import MdContent3Pl from "./MdContent3Pl";
+
 
 export default function DailyDelivery(props) {
   const [itemOffset, setItemOffset] = useState(0);
@@ -35,7 +41,7 @@ export default function DailyDelivery(props) {
   const [showVendorFilter, setShowVendorFilter] = useState(false);
   const [showRiderFilter, setShowRiderFilter] = useState(false);
   const [show3PlFilter,setShow3PlFilter] = useState(false);
-  const [showBulkUpldate, setShowUpdateFilter] =useState(false)
+  const [showBulkUpdate, setShowUpdateFilter] =useState(false)
   const formatDate = (dateString) => {
     try {
       if (!dateString) return null;
@@ -97,7 +103,7 @@ export default function DailyDelivery(props) {
       recipient: "Ama Nelson",
       phone: "+233 54 786 6565",
       payAmount: "GHC350.00",
-      status: "In Progress",
+      status: "In Transit",
       vendor: "Ishtari Ghana",
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
@@ -195,7 +201,7 @@ export default function DailyDelivery(props) {
       recipient: "Ama Nelson",
       phone: "+233 54 786 6565",
       payAmount: "GHC350.00",
-      status: "In Progress",
+      status: "In Transit",
       vendor: "Ishtari Ghana",
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
@@ -293,7 +299,7 @@ export default function DailyDelivery(props) {
       recipient: "Ama Nelson",
       phone: "+233 54 786 6565",
       payAmount: "GHC350.00",
-      status: "In Progress",
+      status: "In Transit",
       vendor: "Ishtari Ghana",
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
@@ -392,7 +398,7 @@ export default function DailyDelivery(props) {
     //   recipient: "Ama Nelson",
     //   phone: "+233 54 786 6565",
     //   payAmount: "GHC350.00",
-    //   status: "In Progress",
+    //   status: "In Transit",
     //   vendor: "Ishtari Ghana",
     //   tpl: "Robert",
     //   deliveryAmount: "GHC350.00",
@@ -462,7 +468,7 @@ export default function DailyDelivery(props) {
   const filterOptions = [
     "All",
     "Order Placed",
-    "In Progress",
+    "In Transit",
     "Assigned",
     "Completed",
     "Returned",
@@ -473,7 +479,7 @@ export default function DailyDelivery(props) {
   const statusClass = {
     Completed: styles.completed,
     Rejected: styles.rejected,
-    "In Progress": styles.inProgress,
+    "In Transit": styles.inProgress,
     Failed: styles.failed,
     Assigned: styles.assigned,
     Returned: styles.returned,
@@ -737,7 +743,7 @@ export default function DailyDelivery(props) {
 
            <div className={styles.columnToggleContainer}>
             <button onClick={toggleColDropdown} className={styles.columnButton}>
-              <Eye size={16} /> Columns <ChevronDown size={16} />
+              <Eye size={16} /> Columns <FaCaretDown />
             </button>
             {showColsDropdown && (
               <div className={styles.columnDropdown}>
@@ -760,6 +766,64 @@ export default function DailyDelivery(props) {
             {showVendorFilter  && (
   <div className={styles.filter_modal_overlay} onClick={() => setShowVendorFilter(false)}>
     <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
+      <MdContentVendor
+        tableTeadValues={["Vendor Name", "Order Count", "Status"]}
+        onClose={() => setShowVendorFilter(false)}
+      />
+    </div>
+  </div>
+) ? <FaCaretUp /> : <FaCaretDown />}
+          </button>
+          {/* <button className={styles.sortBtn}>
+            <MdRestore />
+            Sort by Rider
+            {true ? <FaCaretUp /> : <FaCaretDown />}
+          </button> */}
+            <button className={styles.sortBtn} onClick={()=>setShowRiderFilter(!showRiderFilter)}>
+            <MdRestore />
+            Sort by Rider
+            {showRiderFilter  && (
+  <div className={styles.filter_modal_overlay} onClick={() => setShowRiderFilter(false)}>
+    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
+      <MdContentRider
+        tableTeadValues={["Rider Name", "Order Count", "Status"]}
+        onClose={() => setShowRiderFilter(false)}
+      />
+    </div>
+  </div>
+) ? <FaCaretUp /> : <FaCaretDown />}
+          </button>
+
+          {/* <button className={styles.sortBtn}>
+            <MdRestore />
+            Sort by 3PL
+            {true ? <FaCaretUp /> : <FaCaretDown />}
+          </button> */}
+  <button className={styles.sortBtn} onClick={()=>setShow3PlFilter(!show3PlFilter)}>
+            <MdRestore />
+            Sort by 3PL
+            {show3PlFilter  && (
+  <div className={styles.filter_modal_overlay} onClick={() => setShow3PlFilter(false)}>
+    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
+      <MdContent3Pl
+        tableTeadValues={["3Pl Name", "Order Count", "Status"]}
+        onClose={() => setShow3PlFilter(false)}
+      />
+    </div>
+  </div>
+) ? <FaCaretUp /> : <FaCaretDown />}
+          </button>
+          {/* <button className={styles.sortBtn}>
+            <MdRestore />
+            Bulk Update
+            {true ? <FaCaretUp /> : <FaCaretDown />}
+          </button> */}
+            <button className={styles.sortBtn} onClick={()=>setShowUpdateFilter(!showBulkUpdate)}>
+            <MdRestore />
+            Bulk Update
+            {showBulkUpdate  && (
+  <div className={styles.filter_modal_overlay} onClick={() => setShowVendorFilter(false)}>
+    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
       <TableFilter
         tableTeadValues={["Vendor Name", "Order Count", "Status"]}
         onClose={() => setShowVendorFilter(false)}
@@ -768,39 +832,22 @@ export default function DailyDelivery(props) {
   </div>
 ) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
-          <button className={styles.sortBtn}>
-            <MdRestore />
-            Sort by Rider
-            {true ? <FaCaretUp /> : <FaCaretDown />}
-          </button>
-
-          <button className={styles.sortBtn}>
-            <MdRestore />
-            Sort by 3PL
-            {true ? <FaCaretUp /> : <FaCaretDown />}
-          </button>
-
-          <button className={styles.sortBtn}>
-            <MdRestore />
-            Bulk Update
-            {true ? <FaCaretUp /> : <FaCaretDown />}
-          </button>
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className={styles.exportContainer}>
               <button onClick={toggleDropdown} className={styles.columnButton}>
-                <Upload size={16} /> Export <ChevronDown size={16} />
+                <Upload size={16} /> Export <FaCaretDown />
               </button>
               {showDropdown && (
                 <div className={styles.dropdownMenu}>
-                  <div className={styles.dropdownItem} onClick={exportToCSV}>
-                    Export CSV
-                  </div>
                   <div className={styles.dropdownItem} onClick={exportToExcel}>
-                    Export Excel
+                   < img src = {ExcelIcon} size={18}/>Excel
                   </div>
                   <div className={styles.dropdownItem} onClick={exportToPDF}>
-                    Export PDF
+                    < img src = {PdfIcon} size={18}/>PDF
+                  </div>
+                   <div className={styles.dropdownItem} onClick={exportToCSV}>
+                  < img src = {CsvIcon} size={18}/>CSV
                   </div>
                 </div>
               )}
@@ -811,7 +858,6 @@ export default function DailyDelivery(props) {
             Sort Date by
             {true ? <FaCaretUp /> : <FaCaretDown />}
           </button>
-
           <div>
             <button
               className={styles.date__control}
@@ -1010,12 +1056,23 @@ export default function DailyDelivery(props) {
           {/* <div className="pagination-tab">
             <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
           </div> */}
+
         </div>
 
         
         <div className={showVendorFilter ? styles.pop_up_table_filter : styles.hide_table_filter}>
-          <TableFilter
+          <MdContentVendor
             tableTeadValues={["Role Title", "Description", "Number of Staffs"]}
+          />
+        </div>
+         <div className={showRiderFilter ? styles.pop_up_table_filter : styles.hide_table_filter}>
+          <MdContentRider
+            tableTeadValues={["Rider Name", "Number", "Status"]}
+          />
+        </div>
+         <div className={show3PlFilter ? styles.pop_up_table_filter : styles.hide_table_filter}>
+          <MdContent3Pl
+            tableTeadValues={["3Pl Name", "Number", "Status"]}
           />
         </div>
       </div>

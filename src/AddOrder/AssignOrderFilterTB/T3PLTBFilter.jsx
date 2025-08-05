@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router";
 
 // import "./StaffRole.css";
 import { format, parseISO } from "date-fns";
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import { Spin } from "antd";
 
 import { useQuery } from "@apollo/client";
@@ -18,29 +18,35 @@ import {
 } from "@table-library/react-table-library/table";
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
-import { GET_ALL_RIDERS } from "../../../../graphql/generalQueries";
-import PaginatedTabs from "../../../../Components/paginationTab/paginationTabs";
-import CustomSearchInput from "../../../../Components/searchInputBox/CustomSearchInput";
-import { useSearchB } from "../../../../graphql/graphqlConfiguration";
 
-function RiderApproved() {
-  const [itemOffset, setItemOffset] = useState(0);
+import { GET_ALL_RIDERS } from "../../graphql/generalQueries";
+import PaginatedTabs from "../../Components/paginationTab/paginationTabs";
+import styles from "./AssignRiderFilter.module.css"
+import { useSearch, useSearchB } from "../../graphql/graphqlConfiguration";
+import CustomSearchInput from "../../Components/searchInputBox/CustomSearchInput";
+
+
+
+const   Assign3PLTableFilter= forwardRef((props,ref)=>{
+const [itemOffset, setItemOffset] = useState(0);
   const [isDeleteModal, setDeleteModal] = useState(false);
-  const [searchRider, setSearchRider] = useState("");
-
+  const [searchRider,setSearchRider] = useState("");
   let itemsPerPage = 15;
 
   let navigate = useNavigate();
 
+   
   const {
     debouncedSearch,
     loading: ridersLoading,
     data: ridersData,
     error: riderError,
     fetchMore: fetchMoreRiders,
-  } = useSearchB(GET_ALL_RIDERS, itemOffset, itemsPerPage, "APPROVED");
+  } = useSearchB(GET_ALL_RIDERS,itemOffset,itemsPerPage, "APPROVED");
 
-  const handleSearch = (e) => {
+
+
+    const handleSearch = (e) => {
     const value = e.target.value;
     setSearchRider(value);
     debouncedSearch(value);
@@ -55,7 +61,7 @@ function RiderApproved() {
         border-radius: 8px 8px 0rem 0rem;
         border: 0.1rem solid #979595;
     
-      --data-table-library_grid-template-columns:  50px repeat(6, minmax(0, 1fr)) !important;
+      --data-table-library_grid-template-columns:  repeat(4, minmax(0, 1fr)) !important;
      
       `,
       BaseCell: `
@@ -129,18 +135,17 @@ function RiderApproved() {
   ]);
 
   return (
-    <div className="">
-      <div className="vd-pending-title">Approved Riders Accounts</div>
-
-      <div className="table-container-st">
-        <div className="full-search-container">
-          <CustomSearchInput
-            bgColor={"white"}
-            placeholder="Search by full name, contact or vehicle"
-            value={searchRider}
-            onChange={handleSearch}
-          />
-        </div>
+    <div className={styles.tableContainer} ref={ref}>
+         <div className="searchBox">
+           
+                  <CustomSearchInput
+                    bgColor={"white"}
+                    placeholder="Search by full name, contact or vehicle"
+                    value={searchRider}
+                    onChange={handleSearch}
+                  />
+                </div>
+      <div >
         <Table
           data={{ nodes: [...(ridersData?.riders.data || [])] }}
           theme={tableTheme}
@@ -149,17 +154,15 @@ function RiderApproved() {
             <>
               <Header>
                 <HeaderRow>
-                  <HeaderCell>
-                    <input type="checkbox" />
-                  </HeaderCell>
+
                   {/* <HeaderCell>Rider ID</HeaderCell> */}
                   <HeaderCell>Full name</HeaderCell>
-                  <HeaderCell>Gender</HeaderCell>
-                  <HeaderCell>Mobile Number</HeaderCell>
+                 
+                  <HeaderCell>Contact</HeaderCell>
                   <HeaderCell>Vehicle</HeaderCell>
                   {/* <HeaderCell>City of Operation</HeaderCell> */}
-                  <HeaderCell>Year</HeaderCell>
-                  <HeaderCell>Status</HeaderCell>
+                  
+                  <HeaderCell>Action</HeaderCell>
                 </HeaderRow>
               </Header>
 
@@ -180,27 +183,21 @@ function RiderApproved() {
                 ) : (
                   tableList.map((item) => (
                     <Row key={item._id} item={item}>
-                      <Cell>
-                        <input type="checkbox" />
-                      </Cell>
+                      
                       <Cell>{item?.userProfile?.fullName}</Cell>
-                      <Cell>{item?.userProfile?.gender}</Cell>
+                     
                       <Cell>{item?.contactDetails?.phoneNumber}</Cell>
                       <Cell>
                         {item?.vehicleInfo?.vehicleType}
                       </Cell>
-                      <Cell>
-                        {item?.professionalDetails?.yearsOfDrivingExperience}
-                      </Cell>
+                     
                       <Cell>
                         {" "}
                         <button
                           className="status-btn-st"
-                          onClick={() =>
-                            navigate(`/rider/approved/details/${item?._id}`)
-                          }
+                          onClick={() => navigate(`/rider/approved/details/${item?._id}`)}
                         >
-                          Approved
+                          Assign
                         </button>{" "}
                       </Cell>
                     </Row>
@@ -212,7 +209,8 @@ function RiderApproved() {
         </Table>
 
         <div className="pagination-tab">
-          <PaginatedTabs
+    
+           <PaginatedTabs
             totalRecords={totalNumberOfRiders}
             setItemOffset={setItemOffset}
             offSet={itemOffset}
@@ -223,6 +221,6 @@ function RiderApproved() {
       </div>
     </div>
   );
-}
+})
 
-export default RiderApproved;
+export default Assign3PLTableFilter;

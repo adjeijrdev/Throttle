@@ -163,7 +163,7 @@ export function useSearch(query, roleOffset = 0, itemsPerPage = 20) {
   }, [search, roleOffset, itemsPerPage]);
 
   const debouncedSearch = debounce((searchTerm) => {
-    if (searchTerm.length > 0) {
+    if (searchTerm.length ) {
       search({
         variables: {
           offset: roleOffset,
@@ -176,3 +176,48 @@ export function useSearch(query, roleOffset = 0, itemsPerPage = 20) {
 
   return { debouncedSearch, data, loading, error, fetchMore };
 }
+
+
+
+export function useSearchB(query, roleOffset = 0, itemsPerPage = 20, status) {
+  const [search, { data, loading, error, fetchMore }] = useLazyQuery(query, {
+    variables: {
+      offset: roleOffset,
+      limit: itemsPerPage,
+      search: "",
+      status: status,
+
+    },
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "cache-and-network",
+  });
+
+  useEffect(() => {
+    search({
+      variables: {
+        offset: roleOffset,
+        limit: itemsPerPage,
+        search: "",
+        status: status,
+
+      },
+    });
+  }, [search, roleOffset, itemsPerPage]);
+
+  const debouncedSearch = debounce((searchTerm) => {
+    if (searchTerm.length) {
+      search({
+        variables: {
+          offset: roleOffset,
+          limit: itemsPerPage,
+          search: searchTerm,
+        status: status,
+
+        },
+      });
+    }
+  }, 300);
+
+  return { debouncedSearch, data, loading, error, fetchMore };
+}
+
