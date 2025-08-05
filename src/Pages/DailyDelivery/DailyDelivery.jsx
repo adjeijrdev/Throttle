@@ -9,6 +9,10 @@ import { saveAs } from "file-saver";
 import DateFilter from "../Dashboard/DateFilter";
 import locationIcon from "../../Assets/icons/location.png";
 import boxIcon from "../../Assets/icons/smallbox.png";
+import cameraIcon from "../../Assets/icons/camera.png";
+import imgIcon from "../../Assets/icons/img.png";
+
+
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
@@ -135,7 +139,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M601",
@@ -149,7 +153,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M602",
@@ -163,7 +167,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M603",
@@ -177,7 +181,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M604",
@@ -191,7 +195,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M605",
@@ -205,7 +209,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M606",
@@ -219,7 +223,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M607",
@@ -233,7 +237,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M608",
@@ -247,7 +251,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M609",
@@ -261,7 +265,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M610",
@@ -275,7 +279,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M611",
@@ -289,7 +293,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M612",
@@ -303,7 +307,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M613",
@@ -317,7 +321,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M614",
@@ -331,7 +335,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M615",
@@ -345,7 +349,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M616",
@@ -359,7 +363,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M617",
@@ -373,7 +377,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M618",
@@ -387,7 +391,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M619",
@@ -401,7 +405,7 @@ const handleSortDateAction = (actionType) => {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     // ,
     // {
@@ -717,7 +721,13 @@ const handleSortDateAction = (actionType) => {
     { key: "tpl", label: "3PLs" },
     { key: "deliveryAmount", label: "Delivery Fee" },
     { key: "orderdate", label: "Delivery Date" },
-    { key: "orderimg", label: "Order Image" },
+    { key: "orderimg", label:  (
+        <img
+          src={cameraIcon}
+          alt="cameraIcon"
+          style={{ width: "14px", height: "14px", verticalAlign: "middle" }}
+        />
+      ), },
   ];
 
   const [visibleCols, setVisibleCols] = useState(
@@ -1051,7 +1061,8 @@ const handleSortDateAction = (actionType) => {
                     <th className={styles.th}>Delivery Date</th>
                   )}
                   {visibleCols.orderimg && (
-                    <th className={styles.th}>Order Image</th>
+                    <th className={styles.th}><img src={cameraIcon }  alt="cameraIcon"
+          style={{ width: "18px", height: "16px", verticalAlign: "middle",filter: "invert(100%)" }}/></th>
                   )}
                 </tr>
               </thead>
@@ -1140,7 +1151,16 @@ const handleSortDateAction = (actionType) => {
                       <td className={styles.td}>{order.orderdate}</td>
                     )}
                     {visibleCols.orderimg && (
-                      <td className={styles.td}>{order.orderimg}</td>
+                      <td className={styles.td}><img 
+      src={order.orderimg} 
+      alt="imgIcon" 
+      style={{ 
+        width: "18px", 
+        height: "16px", 
+        verticalAlign: "middle",
+        filter: "invert(100%)" // Make it white
+      }} 
+    /></td>
                     )}
                   </tr>
                 ))}
