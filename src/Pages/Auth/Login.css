@@ -43,23 +43,29 @@
 }
 
 .blurred-box {
-  width: 91%;
-  height: 64%;
+  width: 79%;
+  height: 65%;
   position: relative;
-  top: 38%;
-  border-radius: 0.3rem;
+  top: 28%;
+  left: 13%;
+  border-radius: 1.3rem;
+  object-fit: cover;
+
 }
 .blurred-box img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+    border-radius: .3rem;
 }
+
+/* MAN MODEL */
 .man-box {
-  width: 80%;
-  height: 85%;
+  width: 60%;
+  height: 125%;
   z-index: 3;
   position: relative;
-  top: -48.8%;
+  top: -91.6%;
   padding: 0;
   margin: 0;
 }
@@ -87,13 +93,18 @@
   /* padding: 6rem 1rem 1rem 1rem; */
 }
 .text-on-green h1 {
+  /* display: none; */
   font-family: "Poppins", sans-serif;
-  font-size: clamp(20px, 6.6rem, 70px);
+  /* font-size: clamp(20px, 6.6rem, 70px); */
+  font-size: clamp(20px, 6.1rem, 70px);
   font-weight: 150;
   font-style: normal;
-  margin-bottom: 0%;
+  margin-bottom: 4rem;
   padding-bottom: 0px;
-  margin: 0px;
+  margin: -3rem 10rem 2rem 0rem;
+  /* margin-top: -6px;
+  margin-bottom: 15px; */
+  margin-left: 6rem;
   padding: 0px;
   line-height: 1;
   white-space: normal;
@@ -107,6 +118,7 @@
       blink-caret .75s step-end infinite; */
 }
 .to-text {
+  /* display: none; */
   font-family: "Sacramento", cursive;
   font-weight: 400;
   font-style: normal;
@@ -115,24 +127,27 @@
   font-weight: 350;
 }
 .text-on-green h3 {
+  /* display: none; */
   font-family: "Poppins", sans-serif;
-  font-size: 3.3rem;
+  font-size: 3rem;
   font-weight: 250;
   font-style: normal;
   padding: 0px;
-  margin: -1.6rem 0px 0px 0px;
+  margin: -2.9rem 0px 6px 0px;
+  margin-left: 6rem;
   display: relative;
   top: -27rem;
   line-height: 1;
   white-space: normal;
 }
 .text-on-green pre {
+  /* display: none; */
   font-family: "Poppins", sans-serif;
-  font-size: 2.2rem;
+  font-size: 1.9rem;
   font-weight: 120;
   font-style: normal;
   padding: 2.5rem 0 0 0;
-  margin: 0px;
+  margin-left: 15rem;
   line-height: 1.3;
   white-space: normal;
   /* display: relative;

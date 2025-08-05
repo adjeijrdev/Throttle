@@ -1,15 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import "./RiderRegistration.css";
+
+//importing Componenets
+import ThirdPartyStepper from "../../Components/ThirdPartyStepper";
 
 //import images
 import BluredBackground from "../../Assets/blured_dashboard.png";
 import Logo from "../../Assets/logos/LOGO-img.png";
 
-//importing personal component
-import RiderStepper from "../../Components/RiderStepper";
-
-export default function RiderRegistration() {
-   const navigate = useNavigate();
+export default function RegisterThirdParty() {
+  const navigate = useNavigate();
   return (
     <div className="Register-main-container">
       <div className="green-left">
@@ -33,7 +32,7 @@ export default function RiderRegistration() {
         </div>
         <div className="registring-part-form-contianer">
           <div className="close" onClick={()=> navigate('/login')} > <h1>X</h1></div>
-          <RiderStepper name="Rider"/>
+          <ThirdPartyStepper name="Third-Party Logistics" />
         </div>
       </div>
     </div>
