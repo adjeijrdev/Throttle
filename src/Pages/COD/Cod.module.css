@@ -394,6 +394,64 @@ border-radius: 8px;
   transform: translateY(-2px);
 }
 
+.carditem{
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 2rem;
+  margin-top: 2rem;
+}
 
-
-
+.carditem_1{
+  padding: 2rem;
+  width: 30rem;
+  background-color: white;
+  border-radius: 0.6rem;
+  border: none;
+  display: flex;
+  gap: 1rem;
+}
+.iconwrap_1{
+width: 4.5rem;
+height: 4.5rem;
+border-radius: 50%;
+background-color: #b2f1cd;
+display: inline-flex;
+justify-content: center;
+align-items: center;
+}
+.iconwrap_2{
+width: 4.5rem;
+height: 4.5rem;
+border-radius: 50%;
+background-color: #fbeab1;
+display: inline-flex;
+justify-content: center;
+align-items: center;
+}
+.iconwrap_3{
+width: 4.5rem;
+height: 4.5rem;
+border-radius: 50%;
+background-color: #b0cfef;
+display: inline-flex;
+justify-content: center;
+align-items: center;
+}
+.iconwrap_4{
+width: 4.5rem;
+height: 4.5rem;
+border-radius: 50%;
+background-color: #f2c6c6;
+display: inline-flex;
+justify-content: center;
+align-items: center;
+}
+ .iconwrap_5{
+width: 4.5rem;
+height: 4.5rem;
+border-radius: 50%;
+background-color: #7BF0AC;
+display: inline-flex;
+justify-content: center;
+align-items: center;
+}

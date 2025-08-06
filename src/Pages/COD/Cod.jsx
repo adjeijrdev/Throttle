@@ -1,7 +1,11 @@
 import styles from "./Cod.module.css";
 import reseticon from "../../Assets/icons/reseticon.png";
 import funnelIcon from "../../Assets/icons/funnel.png";
-
+import greencheckIcon from "../../Assets/icons/greencheck.png";
+import moneyIcon from "../../Assets/icons/money.png";
+import cashIcon from "../../Assets/icons/cash.png";
+import redclockIcon from "../../Assets/icons/redclock.png";
+import payIcon from "../../Assets/icons/pay.png";
 import searchicon from "../../Assets/icons/searchicon.png";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
@@ -296,55 +300,50 @@ export default function Cod() {
           
         </div>
 
+<div className={styles.carditem}>
+  <button className={styles.carditem_1}>
+     <span className={styles.iconwrap_1}>
+      <img src={greencheckIcon} alt="check" size={12}/>
+      </span><div style={{display:"flex",flexDirection:"column"}}>
+        <text style={{color:"#17654F"}}>Completed Orders</text>
+        <text style={{fontWeight:"600", fontSize:"2.5rem", display:"inline-flex"}}>1,308</text>
+        </div></button>
 
+  <button  className={styles.carditem_1}>
+    <span className={styles.iconwrap_2}>
+      <img src={moneyIcon} alt="moneybag" size={12} />
+      </span><div style={{display:"flex",flexDirection:"column"}}>
+        <text style={{color:"#AD7611"}}>Total Revenue</text>
+        <text style={{fontWeight:"600", fontSize:"2.5rem", display:"inline-flex"}}>GHC2,394.70</text>
+        </div></button>
 
-        {/* <div>
-         
+  <button className={styles.carditem_1}>
+    <span className={styles.iconwrap_3}>
+      <img src={cashIcon} alt="cash" size={12} />
+      </span><div style={{display:"flex",flexDirection:"column"}}>
+        <text style={{color:"#115FAD"}}> Total Delivery Fees</text>
+        <text style={{fontWeight:"600", fontSize:"2.5rem", display:"inline-flex"}}>GHC1,227.30</text>
+        </div></button>
 
-          <div className={styles.btncontainer}>
-            <button className={styles.resetbtn} onClick={handleReset}>
-              <img
-                src={reseticon}
-                alt="reset Icon"
-                style={{ width: "16px", height: "16px" }}
-              />{" "}
-              Reset
-            </button>
-            <button className={styles.searchbtn} onClick={handleSearch}>
-              <img
-                src={searchicon}
-                alt="search Icon"
-                style={{ width: "16px", height: "16px" }}
-              />{" "}
-              Search
-            </button>
-          </div>
-        </div> */}
+  <button className={styles.carditem_1}>
+    <span className={styles.iconwrap_4}>
+      <img src={redclockIcon} alt="redclock" size={12}/>
+      </span><div style={{display:"flex",flexDirection:"column"}}>
+        <text style={{color:"#E11515"}}>Pending Remittance</text>
+         <text style={{fontWeight:"600", fontSize:"2.5rem", display:"inline-flex"}}>GHC1,167.40</text>
       </div>
+      </button>
 
-      {/* <div className={styles.result_con}>
-
-        <div className={styles.result_con_field1}>
-          <div className={styles.result_field_label}>Total Amount Collected (GH₵)</div>
-          <div className={styles.result_field_value}>200</div>
-        </div>
-
-        <div className={styles.result_con_field1}>
-          <div className={styles.result_field_label}>Total Amount Collected (GH₵)</div>
-          <div className={styles.result_field_value}>200</div>
-        </div>
-
-        <div className={styles.result_con_field1}>
-          <div className={styles.result_field_label}>Total Amount Collected (GH₵)</div>
-          <div className={styles.result_field_value}>200</div>
-        </div>
-
-        <div className={styles.result_con_field1}>
-          <div className={styles.result_field_label}>Total Amount Collected (GH₵)</div>
-          <div className={styles.result_field_value}>200</div>
-        </div>
-
-      </div> */}
+  <button className={styles.carditem_1}>
+    <span className={styles.iconwrap_5}>
+      <img src={payIcon} alt="money" size={12} />
+      </span><div style={{display:"flex",flexDirection:"column"}}>
+         <text style={{color:"#43A047"}}>Paid to Vendor</text>
+         <text style={{fontWeight:"600", fontSize:"2.5rem", display:"inline-flex"}}>GHC0.00</text>
+      </div>
+      </button>
+</div>
+      </div>
     </div>
   );
 }
