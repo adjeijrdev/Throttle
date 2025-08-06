@@ -455,3 +455,85 @@ display: inline-flex;
 justify-content: center;
 align-items: center;
 }
+
+
+.tableContainer {
+  margin-top: 2rem;
+  width: 100%;
+  overflow-x: auto;
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+}
+
+.orderTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--clr-white);
+  border-radius: 0.8rem;
+}
+
+.orderTable th, .orderTable td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.orderTable th {
+  background-color: var(--main-theme);
+  color: white;
+  font-weight: 500;
+
+}
+
+.orderTable tr:hover {
+  background-color:var(--input-background);
+}
+.statusPill {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9em;
+  display: inline-block;
+}
+.completed {
+  background-color: #C3F9D5;
+  color: #065f46;
+}
+
+/* .rejected {
+  background-color: #FFC9C9;
+  color: #991b1b;
+}
+
+.inProgress {
+  background-color: #88AEF1;
+  color: #1e3a8a;
+}
+
+.failed {
+  background-color: #FF9ABA;
+  color: #9d174d;
+}
+
+.assigned {
+  background-color: #FFEC8B;
+  color: #78350f;
+}
+.returned{
+  background-color: #AFAFAF;
+  color:#414040;
+} */
+.actionButton {
+  background-color: #888787;
+  color: #2e2d2d;
+  border: 1px solid#605c5c;
+  border-radius: 0.5rem;
+  padding: 0.5rem 2rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+  background-color: #054231;
+}

@@ -1,12 +1,10 @@
 import styles from "./Cod.module.css";
-import reseticon from "../../Assets/icons/reseticon.png";
 import funnelIcon from "../../Assets/icons/funnel.png";
 import greencheckIcon from "../../Assets/icons/greencheck.png";
 import moneyIcon from "../../Assets/icons/money.png";
 import cashIcon from "../../Assets/icons/cash.png";
 import redclockIcon from "../../Assets/icons/redclock.png";
 import payIcon from "../../Assets/icons/pay.png";
-import searchicon from "../../Assets/icons/searchicon.png";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import CustomDatePicker from "../../Components/datePicker/CustomDatePicker";
@@ -147,6 +145,18 @@ export default function Cod() {
     },
   ];
 
+
+  const data = mockOrderData.map(order => [
+      order.dateTime || '',
+      order.id || '',
+      order.vendor || '',
+      order.status || '',
+      order.action || '',
+      order.orderprice || '',
+      order.deliveryfee || '',
+      order.rider || ''
+    
+    ]);
   const handleSearch = () => {
     if (!orderIds.trim()) {
       alert("Please enter at least one order ID");
@@ -343,6 +353,50 @@ export default function Cod() {
       </div>
       </button>
 </div>
+
+ <div className={styles.tableContainer}>
+                <table className={styles.orderTable}>
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Vendor</th>
+                        <th>Delivery Date & Time</th>
+                        <th>Order Price</th>
+                        <th>Delivery Fee</th>
+                        <th>3PL/Rider</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+  {mockOrderData.map((order) => (
+    
+    <tr key={order.id}>
+      <td>{order.id}</td>
+      <td>{order.vendor}</td>
+      <td>{order.dateTime}</td>
+      <td style={{color:"red"}}>{order.orderprice}</td>
+      <td style={{color:"blue"}}>{order.deliveryfee}</td>
+      <td>{order.rider}</td>
+      <td>
+        <span className={`${styles.statusPill} ${statusClass[order.status] || ''}`}>
+          {order.status}
+        </span>
+      </td>
+      <td>
+        <button 
+          className={styles.actionButton}
+          onClick={() => handleAddAction(order.id)}
+        >
+          {order.action}
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
+                </table>
+              </div>
       </div>
     </div>
   );
