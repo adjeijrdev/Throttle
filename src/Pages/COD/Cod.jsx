@@ -1,5 +1,7 @@
 import styles from "./Cod.module.css";
 import reseticon from "../../Assets/icons/reseticon.png";
+import funnelIcon from "../../Assets/icons/funnel.png";
+
 import searchicon from "../../Assets/icons/searchicon.png";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
@@ -11,6 +13,7 @@ import { useClickOutside } from "../../CustomHooks/useClickOutSide";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import {useRef,useEffect} from "react"
 import RightItemSelectTB from "../../Components/RightItemSelectTB/RightItemSelectTB";
+
 
 export default function Cod() {
   const [orderIds, setOrderIds] = useState("");
@@ -33,77 +36,110 @@ export default function Cod() {
     "Failed",
     "Rejected",
   ];
+
+
   // Mock data - replace with your actual data fetching logic
   const mockOrderData = [
     {
-      date: "2024-12-10",
+      dateTime: "2024-12-10, 01:53",
       id: "A0M600",
       vendor: "Ishtari Ghana",
       status: "Completed",
       action: "Add",
+      orderprice:"GHC350.00",
+      deliveryfee:"GHC22.00",
+      rider:"Robert Trost",
+
     },
     {
-      date: "2024-12-10",
+      dateTime: "2024-12-10, 01:53",
       id: "A0M601",
       vendor: "Ishtari Ghana",
-      status: "Rejected",
+     status: "Completed",
       action: "Add",
+      orderprice:"GHC350.00",
+      deliveryfee:"GHC22.00",
+      rider:"Robert Trost",
     },
     {
-      date: "2024-12-10",
+      dateTime: "2024-12-10, 01:53",
       id: "A0M602",
       vendor: "Ishtari Ghana",
-      status: "In Transit",
+      status: "Completed",
       action: "Add",
+      orderprice:"GHC350.00",
+      deliveryfee:"GHC22.00",
+      rider:"Robert Trost",
     },
     {
-      date: "2024-10-30",
+      date: "2024-10-30, 01:53",
       id: "A0M603",
       vendor: "Ishtari Ghana",
       status: "Completed",
       action: "Add",
+      orderprice:"GHC350.00",
+      deliveryfee:"GHC22.00",
+      rider:"Robert Trost",
     },
     {
-      date: "2024-10-30",
+      dateTime: "2024-10-30, 01:53",
       id: "A0M604",
       vendor: "Ishtari Ghana",
-      status: "Failed",
+     status: "Completed",
       action: "Add",
+      orderprice:"GHC350.00",
+      deliveryfee:"GHC22.00",
+      rider:"Robert Trost",
     },
     {
-      date: "2024-10-30",
+      dateTime: "2024-10-30,01:53",
       id: "A0M605",
       vendor: "Ishtari Ghana",
-      status: "Assigned",
+      status: "Completed",
       action: "Add",
+      orderprice:"GHC350.00",
+      deliveryfee:"GHC22.00",
+      rider:"Robert Trost",
     },
     {
-      date: "2024-10-30",
+      dateTime: "2024-10-30, 01:53",
       id: "A0M6306",
       vendor: "Ishtari Ghana",
-      status: "Returned",
+      status: "Completed",
       action: "Add",
+      orderprice:"GHC350.00",
+      deliveryfee:"GHC22.00",
+      rider:"Robert Trost",
     },
     {
-      date: "2024-10-30",
+      dateTime: "2024-10-30, 01:53",
       id: "A0M6057",
       vendor: "Ishtari Ghana",
       status: "Completed",
       action: "Add",
+      orderprice:"GHC350.00",
+      deliveryfee:"GHC22.00",
+      rider:"Robert Trost",
     },
     {
-      date: "2024-10-30",
+      dateTime: "2024-10-30, 01:53",
       id: "A0M6078",
       vendor: "Ishtari Ghana",
-      status: "Rejected",
+      status: "Completed",
       action: "Add",
+      orderprice:"GHC350.00",
+      deliveryfee:"GHC22.00",
+      rider:"Robert Trost",
     },
     {
-      date: "2024-10-30",
+      dateTime: "2024-10-30, 01:53",
       id: "A0M5609",
       vendor: "Ishtari Ghana",
-      status: "In Transit",
+     status: "Completed",
       action: "Add",
+      orderprice:"GHC350.00",
+      deliveryfee:"GHC22.00",
+      rider:"Robert Trost",
     },
   ];
 
@@ -186,34 +222,64 @@ export default function Cod() {
 
         <div className={styles.filed1}>
           <div className={styles.filed1_in1}>
-            <div className={styles.detailstitle}>Filters</div>
+            <div className={styles.detailstitle}>Filters <img
+                src={funnelIcon}
+                alt="funnel Icon"
+                style={{ width: "16px", height: "16px" }}
+              /></div>
             <div className={styles.filed1_in1}>
-            <div className={styles.detailstitle}> Date Range</div>
+            <div className={styles.detailstitleR}> Date Range</div>
             <div className={styles.OutercontainerRight}>
               <div className={styles.filed1_in2_con1}>
                 <label>From</label>
-                <CustomDatePicker />
+                <CustomDatePicker/>
               </div>
               <div className={styles.filed1_in2_con1}>
                 <label>To</label>
-                <CustomDatePicker />
+                <CustomDatePicker/>
               </div>
-              {/* <div className={styles.statusControl}>
-                <label>Delivery Status</label>
-                <CustomSelector2
+            </div>
+          </div>
+             <div className={styles.Outercontainertwo}>
+            <div className={styles.remarks}>
+              <label>Vendor</label>
+              <CustomSelector2
                   options={deliveryStatusOptions}
                   selectedValue={deliveryStatus}
                   setSelectedValue={setDeliveryStatus}
-                  placeholder={"Select Delivery Status"}
+                  placeholder={"All Vendors"}
+                  width="490px"
+                
                 />
                 
-              </div> */}
+            </div>
+            <div className={styles.remarks}>
+              <label>3PL</label>
+             <CustomSelector2
+                  options={deliveryStatusOptions}
+                  selectedValue={deliveryStatus}
+                  setSelectedValue={setDeliveryStatus}
+                  placeholder={"All 3PLs"}
+                   width="490px"
+                 
+                />
+            </div>
+            <div className={styles.remarks}>
+              <label>Rider</label>
+              <CustomSelector2
+                  options={deliveryStatusOptions}
+                  selectedValue={deliveryStatus}
+                  setSelectedValue={setDeliveryStatus}
+                  placeholder={"All Riders"}
+                   width="490px"
+                 
+                />
             </div>
           </div>
           </div>
           
 
-          <button className={styles.verticalButton} onClick={toggleTable} >
+          {/* <button className={styles.verticalButton} onClick={toggleTable} >
             <ChevronLeft
               size={18}
               style={{
@@ -225,49 +291,15 @@ export default function Cod() {
        
           <div className={ showTable ? styles.showTabe_st : styles.dontShowTb_st}>
           <RightItemSelectTB showTable={ showTable} toggleTable={toggleTable}/>
-          </div>
+          </div> */}
+
           
         </div>
 
-              
 
-        <div>
-          <div className={styles.Outercontainertwo}>
-            <div className={styles.remarks}>
-              <label>Vendor</label>
-              <CustomSelector2
-                  options={deliveryStatusOptions}
-                  selectedValue={deliveryStatus}
-                  setSelectedValue={setDeliveryStatus}
-                  placeholder={"Select Delivery Status"}
-                  width="400px"
-                
-                />
-                
-            </div>
-            <div className={styles.remarks}>
-              <label>3PL</label>
-             <CustomSelector2
-                  options={deliveryStatusOptions}
-                  selectedValue={deliveryStatus}
-                  setSelectedValue={setDeliveryStatus}
-                  placeholder={"Select Delivery Status"}
-                   width="400px"
-                 
-                />
-            </div>
-            <div className={styles.remarks}>
-              <label>Rider</label>
-              <CustomSelector2
-                  options={deliveryStatusOptions}
-                  selectedValue={deliveryStatus}
-                  setSelectedValue={setDeliveryStatus}
-                  placeholder={"Select Delivery Status"}
-                   width="400px"
-                 
-                />
-            </div>
-          </div>
+
+        {/* <div>
+         
 
           <div className={styles.btncontainer}>
             <button className={styles.resetbtn} onClick={handleReset}>
@@ -287,10 +319,10 @@ export default function Cod() {
               Search
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
 
-      <div className={styles.result_con}>
+      {/* <div className={styles.result_con}>
 
         <div className={styles.result_con_field1}>
           <div className={styles.result_field_label}>Total Amount Collected (GH₵)</div>
@@ -312,7 +344,7 @@ export default function Cod() {
           <div className={styles.result_field_value}>200</div>
         </div>
 
-      </div>
+      </div> */}
     </div>
   );
 }
