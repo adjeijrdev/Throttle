@@ -182,6 +182,11 @@
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
+  cursor: pointer;
+}
+.user-card:hover{
+  background-color: #17654f20;
+  border: 1px solid var(--main-theme);
 }
 
 .user-card .text {

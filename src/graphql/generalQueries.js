@@ -216,8 +216,8 @@ export const GET_VENDOR = gql`
 `;
 
 export const GET_ALL_RIDERS = gql`
-  query GET_ALL_Riders($offset: Int!, $limit: Int!, $status: Status!) {
-    riders(offset: $offset, limit: $limit, status: $status) {
+  query GET_ALL_Riders($offset: Int!, $limit: Int!, $status: Status!,$search:String!) {
+    riders(offset: $offset, limit: $limit, status: $status, search:$search) {
       currentPage
       hasNextPage
       totalCount
@@ -326,6 +326,46 @@ export const GET_RIDER = gql`
         emergencyContactNumber
         phoneNumber
         residentailAddress
+      }
+    }
+  }
+`;
+
+export const GET_ALL_ORDERS = gql`
+  query GET_ALL_ORDERS($offset: Int!, $limit: Int!, $search: String!) {
+    orders(offset: $offset, limit: $limit, search: $search) {
+      currentPage
+      hasNextPage
+      totalCount
+      data {
+        _id
+        assignedTo {
+          entityAssignedId
+          type
+        }
+        deliveryDate
+        deliveryFee
+        destination
+        location {
+          lat
+          lng
+        }
+        orderDate
+        orderId
+        paymentAmount
+        paymentNumber
+        productDescription
+        productImage
+        recipientName
+        recipientNumber
+        rejectedReasons
+        source {
+          type
+          vendorID
+        }
+        status
+        updatedAt
+        createdAt
       }
     }
   }

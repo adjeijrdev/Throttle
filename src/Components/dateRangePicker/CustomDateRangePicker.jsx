@@ -7,27 +7,15 @@ import "./CustomDateRangePicker.css"
 
 
 
-export default function CustomDateRangePicker() {
-   const [state, setState] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection'
-    }
-  ]);
+export default function CustomDateRangePicker({stateDateRingeState,setDateRingeState}) {
 
 
-  const selectionRange = {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection',
-    }
   
   return (
 
         <DateRangePicker
-        ranges={state}
-        onChange={item => setState([item.selection])}
+        ranges={stateDateRingeState}
+        onChange={item => setDateRingeState([item.selection])}
         color="#f3f"
       />
     

@@ -1,5 +1,6 @@
 import { z } from "zod/v3";
 
+
 export const riderSchema = z
   .object({
     fullName: z.string().min(1, "Please provide your fullname!!!"),

@@ -5,9 +5,13 @@ import bulkSearchIcon from "../Assets/icons/Bulk-search.png";
 import bulkUpadateIcon from "../Assets/icons/Bulk-update.png";
 import COD from "../Assets/icons/COD.png";
 // import plsIcon from "../Assets/icons/3pls.png";
-import plsIcon from "../Assets/icons/Rider.png";
+import plsIcon from "../Assets/icons/van.png";
+import rider from "../Assets/icons/Rider.png";
 import VendorAccountIcon from "../Assets/icons/VendorAccount.png";
 import StaffAccount from "../Assets/icons/StaffAccount.png"
+import plusIcon from "../Assets/icons/plusIcon.png";
+
+
 
 export const SideNavLinks = [
   {
@@ -24,25 +28,13 @@ export const SideNavLinks = [
   },
   {
     id: 3,
-    name: "Search",
-    icon: search,
-    url: "/search",
-  },
-  {
-    id: 4,
-    name: "Bulk Search",
-    icon: bulkSearchIcon,
-    url: "/bulk-search",
-  },
-  {
-    id: 5,
-    name: "Bulk Update",
-    icon: bulkUpadateIcon,
-    url: "/bulk-update",
+    name: "Add Order",
+    icon: plusIcon,
+    url: "/addOrder",
   },
   {
     id: 6,
-    name: "Cash on Delivery",
+    name: "Cash On Delivery",
     icon: COD,
     url: "/cod",
   },
@@ -72,7 +64,7 @@ export const SideNavLinks = [
    {
     id:8,
     name: "Rider Account",
-    icon: plsIcon,
+    icon: rider,
     url: "/rider",
      childrens:[
        {
@@ -139,3 +131,17 @@ export const SideNavLinks = [
     ]
   }
 ];
+
+
+ // {
+  //   id: 4,
+  //   name: "Bulk Search",
+  //   icon: bulkSearchIcon,
+  //   url: "/bulk-search",
+  // },
+  // {
+  //   id: 5,
+  //   name: "Bulk Update",
+  //   icon: bulkUpadateIcon,
+  //   url: "/bulk-update",
+  // },

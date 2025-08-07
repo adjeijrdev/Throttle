@@ -695,7 +695,7 @@ const Stepper = ({ name }) => {
         {/* <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} /> */}
       </form>
 
-      <div className={style.cancel_registration_btn}>
+      {/* <div className={style.cancel_registration_btn}>
         Don't want to continue?{" "}
         <Link
           to="/login"
@@ -704,7 +704,7 @@ const Stepper = ({ name }) => {
           {" "}
           Cancel Registration
         </Link>
-      </div>
+      </div> */}
     </>
   );
 };

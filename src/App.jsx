@@ -8,7 +8,6 @@ import Login from "./Pages/Auth/Login";
 import HomeLayout from "./Layouts/HomeLayout";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import DailyDelivery from "./Pages/DailyDelivery/DailyDelivery";
-import Search from "./Pages/Search/Search";
 import VendorAccount from "./Pages/VendorAccount/VendorAccount";
 import ThirdParties from "./Pages/3PLS/ThirdParties";
 import BulkSearch from "./Pages/BulkSearch/BulkSearch";
@@ -18,6 +17,7 @@ import Register from "./Pages/Auth/Register";
 import Media from "./Pages/Media";
 import RiderRegistration from "./Pages/Auth/RiderRegistration";
 import StaffAccount from "./Pages/StaffAccount/StaffAccount";
+import RegisterThirdParty from "./Pages/Auth/RegisterThirdParty";
 
 //Importing subMenus
 import ThirdPartiesApproved from "./Pages/3PLS/ApprovedAccount/ApprovedAccount";
@@ -54,6 +54,13 @@ import RiderDenied from "./Pages/Rider/account/denied/Denied";
 import RiderApprovedDetails from "./Pages/Rider/account/approved/ApprovedDetails";
 import RiderDeniedDetails from "./Pages/Rider/account/denied/DeniedDetails";
 import RiderPendingDetails from "./Pages/Rider/account/pending/PendingDetails";
+import DashBoardLayout from "./Pages/Dashboard/DashBoardLayout";
+
+import AddOrderLayout from "./AddOrder/AddOrderLayout";
+import AddOrder from "./AddOrder/AddOrder";
+import OrderDetails from "./AddOrder/OrderDetails";
+
+import UserProfile from "./UserProfile/UserProfile";
 
 export default function App() {
   return (
@@ -69,9 +76,17 @@ export default function App() {
           {/* Layout wrapper */}
           <Route element={<HomeLayout/>}>
             {/* Main pages */}
-            <Route index element={<Dashboard />} />
+            
+            <Route element={<DashBoardLayout/>}>
+                  <Route index element={<Dashboard />} />
+                 <Route path="orders/:id" element={<OrderDetails/>}/>
+
+            </Route>
             <Route path="daily-delivery" element={<DailyDelivery />} />
-            <Route path="search" element={<Search />} />
+
+            <Route path="addOrder" element={<AddOrderLayout/>} >
+                  <Route index element={<AddOrder/>}/>
+            </Route>
 
             {/* Vendor account + nested  hahahahaa ababio and his lazy work*/}
             <Route path="vendor-account" element={<VendorAccount />} />
@@ -118,7 +133,7 @@ export default function App() {
             <Route
               path="3pls/Denied-Account"
               element={<ThirdPartiesDenied />}
-            />
+            />   
 
             {/* Rider */}
             <Route path="rider" element={<RiderLayout />}>
@@ -141,6 +156,7 @@ export default function App() {
             <Route path="bulk-search" element={<BulkSearch />} />
             <Route path="bulk-update" element={<BulkUpdate />} />
             <Route path="cod" element={<Cod />} />
+            <Route path="user-profile" element={<UserProfile />} />
 
             {/* Staff */}
             <Route path="staff-account" element={<StaffAccount />}>
@@ -163,6 +179,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/register-rider" element={<RiderRegistration />} />
+          <Route path="/register-third-party" element={<RegisterThirdParty />} />
           <Route path="/media" element={<Media />} />
         </Routes>
       </Router>

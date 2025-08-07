@@ -1,0 +1,254 @@
+
+.headerTitle{
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+.subTitle{
+    font-size: 1.8rem;
+    font-weight: 600;
+    border-bottom: 1px solid #979595;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.documentUploadContainer{
+    width: 25.9rem;
+  display: flex;
+  /* height: 163px; */
+  height: 19rem;
+  /* padding: 16px 30px; */
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+
+  border-radius: 16px;
+  border: 1px solid var(--Green-Color, #17654f);
+  background: var(--white, #fff);
+}
+
+.doc_title{
+    font-weight: 400;
+    font-size: 1.6rem;
+    color:#000;
+    margin-bottom: 1rem;
+}
+
+.drop-box {
+  border: 1px solid var(--main-theme);
+  border-radius: 20px;
+  width: 25.9rem;
+
+  height: 18rem;
+  background-color: var(--clr-white);
+  cursor: pointer;
+  transition: background 250ms ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.drop-box:hover {
+  background-color: #f0f0f0;
+}
+
+
+.preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.upload-button {
+  margin-top: 1.4rem;
+  margin-bottom: 3rem;
+  width: 5rem;
+  height: 5rem;
+  border: 1px solid var(--main-theme);
+  border-style: dashed;
+  padding: 10px 20px;
+  font-size: 1.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: var(--clr-white);
+  color: var(--main-theme);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.uploadImageContainer{
+    display: flex;
+    align-items: center;
+    gap:3rem;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ff4444;
+  padding: 8px;
+}
+
+
+.topHeader{
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.uploaderBtn{
+  border: 1px solid #17654f;
+  background-color: #17654f;
+
+  padding: 15px;
+  border-radius: 10px;
+  color:white;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  transition: background 250ms ease-in-out;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.uploaderBtn:hover{
+  background-color: #1e8567;
+
+}
+
+
+.uploadModalContainer{
+  position: absolute;
+  top:50%;
+  right:20%;
+  transform: translate(-50%, -50%);
+
+  background-color: white;
+  height: 250px;
+  width: 500px;
+  border-radius: 5px;
+  filter: drop-shadow(1px 1px 1.4px black);
+
+}
+
+.uploadMainContent{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+  padding:25px 15px;
+  height: 90%;
+}
+
+.uploadMDcloseBtn{
+  display: flex;
+  justify-content: flex-end;
+  align-items:center;
+  width: 100%;
+  cursor: pointer;
+  padding:5px;
+  
+  text-align: center;
+}
+.upoadModalTitle{
+  font-size: 2rem;
+  color: #17654F;
+  text-align: center;
+ 
+}
+
+.upMdtitleSub{
+  font-size: 1.5rem;
+  margin-left: 51px;
+}
+
+.mdfileName{
+  font-size: 1.2rem;
+  color:#FF0554;
+
+}
+
+.modalBtnContanier{
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.modalBtnContanier button{
+  padding: 5px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 250ms ease-in-out;
+}
+
+.modalBtnRemove{
+  background-color: #FF0554;
+  border:none;
+  color:white;
+
+}
+
+.modalBtnRemove:hover{
+  background-color: #e21355;
+
+}
+.modalBtnRemove:active{
+   scale: 0.9;
+
+}
+
+.modalBtnUpload{
+  background-color: #17654F;
+  color:white;
+
+}
+
+.modalBtnUpload:hover{
+  background-color: #218b6d;
+
+}
+
+.modalBtnUpload:active{
+  scale: 0.95;
+
+}
+
+.modalBtnChange{
+  background-color:transparent;
+  color:#17654F;
+  border:1px solid #17654F;
+}
+
+.modalBtnChange:hover{
+  background-color: #dce9e5;
+}
+
+.modalBtnChange:active{
+  scale: 0.95;
+}
+
+

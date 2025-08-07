@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import "./RiderRegistration.css";
 
 //import images
@@ -8,6 +9,7 @@ import Logo from "../../Assets/logos/LOGO-img.png";
 import RiderStepper from "../../Components/RiderStepper";
 
 export default function RiderRegistration() {
+   const navigate = useNavigate();
   return (
     <div className="Register-main-container">
       <div className="green-left">
@@ -30,6 +32,7 @@ export default function RiderRegistration() {
           <img src={Logo} alt="Throttle-logo" />
         </div>
         <div className="registring-part-form-contianer">
+          <div className="close" onClick={()=> navigate('/login')} > <h1>X</h1></div>
           <RiderStepper name="Rider"/>
         </div>
       </div>
