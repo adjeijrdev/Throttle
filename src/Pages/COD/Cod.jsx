@@ -78,7 +78,7 @@ export default function Cod() {
       rider:"Robert Trost",
     },
     {
-      date: "2024-10-30, 01:53",
+      dateTime: "2024-10-30, 01:53",
       id: "A0M603",
       vendor: "Ishtari Ghana",
       status: "Completed",
