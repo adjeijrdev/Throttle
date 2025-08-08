@@ -9,6 +9,11 @@ export function formatDateTime(isoDateString) {
   const minutes = String(date.getMinutes()).padStart(2, '0');
 
   // Format as DD-MM-YYYY HH:mm
+  if (isoDateString){
   return `${day}-${month}-${year} ${hours}:${minutes}`;
+
+  }else{
+    return ""
+  }
 }
 

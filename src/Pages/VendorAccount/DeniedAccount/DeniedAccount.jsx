@@ -197,6 +197,17 @@ function DeniedAccount() {
                     </Row>
                   ))
                 )}
+
+                {(tableList.length <=0 && !vendorLoading) && (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+
+                    <Cell>No Data Found</Cell>
+                  </Row>
+                )}
               </Body>
             </>
           )}

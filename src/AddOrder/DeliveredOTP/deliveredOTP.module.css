@@ -1,0 +1,56 @@
+
+.modalContainer{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 400px;
+    padding: 24px;
+    filter: drop-shadow(1px 1px 1.4px black);
+    border-radius: 8px;
+    gap:12px;
+    
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+}
+
+.modalTitle{
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 600;
+
+}
+
+
+.otpBoxContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:8px;
+}
+
+
+.otpBoxContainer input{
+    width:50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+/* .otpBoxContainer input:active, */
+.otpBoxContainer input:focus{
+    border:3px solid  #17654F;
+    outline: none;
+    
+    
+}
+
+.btn{
+    padding:15px 0px;
+    background-color: #17654F;
+    color: white;
+    border:0px;
+    border-radius: 8px;
+    margin-top:15px;
+}

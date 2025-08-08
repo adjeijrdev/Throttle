@@ -12,7 +12,7 @@ export const orderUplodViaExcelCSVAPI= async (formData) => {
     });
     return response;
   } catch (error) {
-    console.log(error)
+   
     if (error?.response?.data?.errors) {
       throw error?.response?.data?.errors[0];
     } else {
@@ -24,3 +24,47 @@ export const orderUplodViaExcelCSVAPI= async (formData) => {
     }
   }
 };
+
+export const assignOrderAPI = async(formData)=>{
+  try{
+    const response = await api.patch("/order/assignTo",formData,{
+       headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return response
+  }catch(error){
+  if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
+    }
+  }
+}
+
+
+export const OrderInTransitAPI = async(id)=>{
+  try{
+    const response = await api.patch(`/order/transit/${id}`,{},{
+       headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return response
+  }catch(error){
+  if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
+    }
+  }
+}
+

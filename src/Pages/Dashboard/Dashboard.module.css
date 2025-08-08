@@ -86,7 +86,7 @@
   background-color: var(--main-theme);
   color: var(--clr-white);
   height: 47px;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   letter-spacing: 1px;
   font-weight: 400;
   
@@ -95,15 +95,16 @@
 
 .thSmall {
   
-  /* width: 40px; */
-  /* padding: 8px; */
-  /* text-align: left; */
+  font-size: 1.2rem;
+  font-weight: 500;
+
 }
 
 
 .th {
    white-space: nowrap;
-
+  font-size:1.2rem;
+  font-weight: 500;
   padding: 1.2rem;
   text-align: left;
   gap: 2rem;
@@ -357,6 +358,7 @@
   color: #666;
   font-size: 1.2rem;
   margin-top: 1rem;
+  /* background-color: red; */
 }
 
 .selectedRow {

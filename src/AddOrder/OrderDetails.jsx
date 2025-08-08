@@ -1,16 +1,38 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import AssignModal from "./assignModal/AssignModal";
 import styles from "./orderDetails.module.css";
 import { useClickOutside } from "../CustomHooks/useClickOutSide";
 import AssignRiderTableFilter from "./AssignOrderFilterTB/AssignRiderFilter";
 import Assign3PLTableFilter from "./AssignOrderFilterTB/T3PLTBFilter";
+import { useParams } from "react-router";
+import toast from "react-hot-toast";
+import { assignOrderAPI, OrderInTransitAPI } from "../api/order";
+import { GET_ORDER } from "../graphql/generalQueries";
+import { useQuery } from "@apollo/client";
+import { formatDateTime } from "../utils/formateDateTime";
+import orderAsignIcon from "../Assets/icons/OrderAssign.png";
+import { BeatLoader } from "react-spinners";
+import ChangeOrderStatusModal from "./changeOrder/ChangeOrderState";
+import DeliveredOTPModal from "./DeliveredOTP/DeliveredOTP";
 
 export default function OrderDetails() {
   const [showAssignModal, setShowAssignModal] = useState(false);
-  const [showAssignRiderFiltersTable, setShowAssignRiderFilterTable] =useState(false);
-  const [showAssign3PLFiltersTable, setShowAssign3PLFilterTable] =useState(false);
+  const [showAssignRiderFiltersTable, setShowAssignRiderFilterTable] =
+    useState(false);
+  const [showAssign3PLFiltersTable, setShowAssign3PLFilterTable] =
+    useState(false);
+  const [orderInTransit, setOrderInTransit] = useState(false);
+  const { id } = useParams();
+  const [deliveryFee, setDeliveryFee] = useState("");
+  const [isChangingStatus, setIsChangingStatus] = useState(false);
+  const [showChangeOrderStatusModal, setChangeOrderStatusModal] = useState(false);
 
-    
+  const showChangeOrderStatusModalRef = useRef(null);
+  useClickOutside(
+    showChangeOrderStatusModalRef,
+    () => setChangeOrderStatusModal(false)
+    // buttonAddOrderRef
+  );
 
   const showAssignModalRef = useRef(null);
   useClickOutside(
@@ -27,24 +49,138 @@ export default function OrderDetails() {
     // buttonAddOrderRef
   );
 
-  const handleShowRidersTable=()=>{
+  const handleShowRidersTable = () => {
     setShowAssignModal(false);
-    setShowAssignRiderFilterTable(true)
-  }
+    setShowAssignRiderFilterTable(true);
+  };
 
-
-   const show3plAssignTBRef = useRef(null);
+  const show3plAssignTBRef = useRef(null);
   useClickOutside(
     show3plAssignTBRef,
     () => setShowAssign3PLFilterTable(false)
     // buttonAddOrderRef
   );
 
-  const handleShow3PLTable=()=>{
+  const handleShow3PLTable = () => {
     setShowAssignModal(false);
-   setShowAssign3PLFilterTable(true)
-  }
- 
+    setShowAssign3PLFilterTable(true);
+  };
+
+  const {
+    loading: orderLoading,
+    data: orderData,
+    error: orderError,
+    reset: orderReset,
+    refetch: refetchOrder,
+  } = useQuery(GET_ORDER, {
+    variables: {
+      orderId: id,
+    },
+    notifyOnNetworkStatusChange: true,
+  });
+
+  useEffect(() => {
+    setDeliveryFee(orderData?.order?.deliveryFee);
+  }, [orderData]);
+
+  const handleAssignOrder = async ({ assignToID, assignToModelName }) => {
+    try {
+      if (deliveryFee.length < 1) {
+        toast.error("Delivery fee is required", {
+          style: {
+            border: "1px solid oklch(88.5% 0.062 18.334)",
+            // backgroundColor:"oklch(88.5% 0.062 18.334)",
+            color: "oklch(39.6% 0.141 25.723)",
+            fontSize: "16px",
+            width: "500px",
+          },
+        });
+        return;
+      }
+
+      const result = await assignOrderAPI({
+        orderId: id,
+        deliveryFee: Number.parseFloat(deliveryFee),
+        assignToID,
+        assignToModelName,
+      });
+
+      toast.success(result?.data?.message, {
+        style: {
+          border: "1px solid #17654F",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "black",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+      refetchOrder();
+    } catch (error) {
+      toast.error(error?.message, {
+        style: {
+          border: "1px solid oklch(88.5% 0.062 18.334)",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "oklch(39.6% 0.141 25.723)",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+    }
+    setShowAssignRiderFilterTable(false);
+  };
+
+  const handleOrderToTransit = async () => {
+    try {
+      setOrderInTransit(true);
+
+      const result = await OrderInTransitAPI(id);
+
+      toast.success(result?.data?.message, {
+        style: {
+          border: "1px solid #17654F",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "black",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+      refetchOrder();
+    } catch (error) {
+      toast.error(error?.message, {
+        style: {
+          border: "1px solid oklch(88.5% 0.062 18.334)",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "oklch(39.6% 0.141 25.723)",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+    }
+    setOrderInTransit(false);
+  };
+
+  const assignOrderStatusBackground = (status) => {
+    switch (status) {
+      case "ORDER PLACED":
+        return "#A6CFFF";
+
+      case "ASSIGNED":
+        return "#FFEC8B";
+
+      case "IN TRANSIT":
+        return "#88AFF1";
+
+      case "COMPLETED":
+        return "#C3F9D5";
+      case "RETURNED":
+        return "#AFAFAF";
+      case "FAILED":
+        return "#FF9ABA";
+      case "REJECTED":
+        return "#FFCACA";
+    }
+  };
+
   return (
     <div>
       <div>
@@ -61,11 +197,17 @@ export default function OrderDetails() {
               <div>Product Imge</div>
               <div className={styles.detailsLeftRight}>
                 <div className={styles.detailsLeftTitle}>
-                  ZELOTES F-26C Rechargeable Display Dual-mode Wireless Mouse
+                  {orderData?.order?.productDescription}
                 </div>
                 <div className={styles.Detailstotal}>
                   <span className={styles.totalCostTitle}>Total Cost:</span>
-                  <span className={styles.totalConstValue}>GHC 212.00</span>
+                  <span className={styles.totalConstValue}>
+                    {orderData?.order?.paymentAmount &&
+                      `GHC ${
+                        orderData?.order?.paymentAmount +
+                        orderData?.order?.deliveryFee
+                      }`}
+                  </span>
                 </div>
 
                 <div className={styles.border_b}>
@@ -74,25 +216,36 @@ export default function OrderDetails() {
                     <span className={styles.smallTextBold}>Vendor Name:</span>
                     <span className={styles.smallText}>
                       {" "}
-                      Tech Haven Store
+                      {orderData?.order?.source?.type == "SELF" && "Throttle"}
                     </span>{" "}
                   </p>
-                  <p>
-                    <span className={styles.smallTextBold}>
-                      Vendor Contact:
-                    </span>{" "}
-                    <span
-                      className={styles.smallText}
-                      style={{ color: "#0074FF" }}
-                    >
-                      {" "}
-                      suppoert@gmakdk.com
-                    </span>
-                  </p>
+                  {orderData?.order?.source?.type != "SELF" && (
+                    <p>
+                      <span className={styles.smallTextBold}>
+                        Vendor Contact:
+                      </span>{" "}
+                      <span
+                        className={styles.smallText}
+                        style={{ color: "#0074FF" }}
+                      >
+                        {" "}
+                        suppoert@gmakdk.com
+                      </span>
+                    </p>
+                  )}
                 </div>
                 <div>
                   <p className={styles.smallTextBold}>Delivery Status</p>
-                  <p className={[styles.orderStatusPlaces]}>Order Placed</p>
+                  <p
+                    className={[styles.orderStatusPlaces]}
+                    style={{
+                      backgroundColor: assignOrderStatusBackground(
+                        orderData?.order?.status
+                      ),
+                    }}
+                  >
+                    {orderData?.order?.status}
+                  </p>
                 </div>
               </div>
             </div>
@@ -103,15 +256,21 @@ export default function OrderDetails() {
                 <div className={styles.con_content}>
                   <div className={styles.con_box}>
                     <p className={styles.con_box_title}>Order ID</p>
-                    <p className={styles.con_box_value}>AOM600</p>
+                    <p className={styles.con_box_value}>
+                      {orderData?.order?.orderId}
+                    </p>
                   </div>
                   <div className={styles.con_box}>
                     <p className={styles.con_box_title}>Pickup Date & Time</p>
-                    <p className={styles.con_box_value}>21-12-2024, 01:53</p>
+                    <p className={styles.con_box_value}>
+                      {formatDateTime(orderData?.order?.orderDate || "")}
+                    </p>
                   </div>
                   <div className={styles.con_box}>
                     <p className={styles.con_box_title}>Delivery Date</p>
-                    <p className={styles.con_box_value}>02-2-2023</p>
+                    <p className={styles.con_box_value}>
+                      {formatDateTime(orderData?.order?.deliveryDate || "")}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -119,22 +278,26 @@ export default function OrderDetails() {
                 <p className={styles.con_title}>Recipient Information</p>
                 <div className={styles.con_content}>
                   <div className={styles.con_box}>
-                    <p className={styles.con_box_title}>Customer Name</p>
-                    <p className={styles.con_box_value}>James Owusu</p>
+                    <p className={styles.con_box_title}>Recipient Name</p>
+                    <p className={styles.con_box_value}>
+                      {orderData?.order?.recipientName}
+                    </p>
                   </div>
                   <div className={styles.con_box}>
-                    <p className={styles.con_box_title}>Customer Contact</p>
-                    <p className={styles.con_box_value}>+23355123843</p>
+                    <p className={styles.con_box_title}>Recipient Contact</p>
+                    <p className={styles.con_box_value}>
+                      {orderData?.order?.recipientNumber}
+                    </p>
                   </div>
                   <div className={styles.con_box}>
                     <p className={styles.con_box_title}>Alternate Contact</p>
-                    <p className={styles.con_box_value}>+2332348347375</p>
+                    <p className={styles.con_box_value}></p>
                   </div>
 
                   <div className={styles.con_box}>
                     <p className={styles.con_box_title}>Delivery Address</p>
                     <p className={styles.con_box_value}>
-                      House No.21,East Legon, Accra, Ghana
+                      {orderData?.order?.destination}
                     </p>
                   </div>
                 </div>
@@ -148,60 +311,163 @@ export default function OrderDetails() {
               <div>
                 <div>
                   <p className={styles.smallTextBold}>Payment Status</p>
-                  <p className={styles.payment}>Pending</p>
+                  <p className={styles.payment}>
+                    {orderData?.order?.paymentStatus}
+                  </p>
                 </div>
-                <div className={styles.down_con1_down}>
+
+                {orderData?.order?.status !== "ORDER PLACED" && (
+                  <div className={styles.down_con1_down}>
+                    <div className={styles.con_box}>
+                      <p className={styles.con_box_title}>Remittant(GHC)</p>
+                      <p className={styles.con_box_value}>
+                        {orderData?.order?.paymentAmount}
+                      </p>
+                    </div>
+                    <div>
+                      <p className={styles.con_box_title}>Delivery fee(GHC)</p>
+                      <p className={styles.con_box_value}>
+                        {orderData?.order?.deliveryFee}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {orderData?.order?.status === "ORDER PLACED" && (
+              <div className={styles.detailsDownRight}>
+                <div className={styles.down_title}>Cost</div>
+                <div className={styles.cost}>
                   <div className={styles.con_box}>
                     <p className={styles.con_box_title}>Remittant(GHC)</p>
-                    <p className={styles.con_box_value}>187.00</p>
+                    <p className={styles.con_box_value}>
+                      {orderData?.order?.paymentAmount}
+                    </p>
                   </div>
-                  <div>
+                  <div className={styles.con_box}>
                     <p className={styles.con_box_title}>Delivery fee(GHC)</p>
-                    <p className={styles.con_box_value}>25.00</p>
+                    <input
+                      type="number"
+                      className={styles.con_box_value}
+                      value={deliveryFee}
+                      onChange={(e) => setDeliveryFee(e.target.value)}
+                    />
                   </div>
                 </div>
               </div>
-            </div>
-            <div className={styles.detailsDownRight}>
-              <div className={styles.down_title}>Cost</div>
-              <div className={styles.cost}>
+            )}
+
+            <div className={styles.recipientBox}>
+              <p className={styles.con_title}>
+                <span>Rider</span>
+                <button onClick={() => setShowAssignModal((prev) => !prev)}>
+                  Reassign
+                </button>
+              </p>
+
+              <div className={styles.con_content}>
                 <div className={styles.con_box}>
-                  <p className={styles.con_box_title}>Remittant(GHC)</p>
-                  <p className={styles.con_box_value}>187.00</p>
+                  <p className={styles.con_box_title}>Rider Name</p>
+                  <p className={styles.con_box_value}>
+                    {orderData?.order?.assignedTo?.userProfile?.fullName}
+                  </p>
                 </div>
                 <div className={styles.con_box}>
-                  <p className={styles.con_box_title}>Delivery fee(GHC)</p>
-                  <p className={styles.con_box_value}>25.00</p>
+                  <p className={styles.con_box_title}>Rider Contact</p>
+                  <p className={styles.con_box_value}>
+                    {orderData?.order?.assignedTo?.contactDetails?.phoneNumber}
+                  </p>
                 </div>
                 <div className={styles.con_box}>
-                  <p className={styles.con_box_title}>Contact</p>
-                  <p className={styles.con_box_value}>+2332084757332</p>
+                  <p className={styles.con_box_title}>Alternate Contact</p>
+                  <p className={styles.con_box_value}>
+                    {
+                      orderData?.order?.assignedTo?.contactDetails
+                        ?.additionalPhoneNumber
+                    }
+                  </p>
                 </div>
+
                 <div className={styles.con_box}>
-                  <p className={styles.con_box_title}>Vehicle</p>
-                  <p className={styles.con_box_value}>Yamaha 125 Motorbike</p>
+                  <p className={styles.con_box_title}>Vehicle </p>
+                  <p className={styles.con_box_value}>
+                    {orderData?.order?.assignedTo?.vehicleInfo?.vehicleType}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className={styles.detailsBottomDown}>
-            <div className={styles.bottom_con1}>
+            <div></div>
+            {/* <div className={styles.bottom_con1}>
               <p className={styles.down_title}>Remark</p>
               <textarea
                 className={styles.remarkValue}
                 value={"review value"}
               ></textarea>
-            </div>
+            </div> */}
             <div className={styles.changeStatusContainer}>
-              <div className={styles.down_title}>Rider/3PL</div>
-              <button
-                className={styles.assignBtn}
+              <div className={styles.down_title}>
+                {orderData?.order?.status === "ORDER PLACED"
+                  ? "Rider/3PL"
+                  : "Change status"}
+              </div>
+              {orderData?.order?.status === "ORDER PLACED" && (
+                <button
+                  className={styles.assignBtn}
+                  onClick={() => setShowAssignModal((prev) => !prev)}
+                >
+                  <img src={orderAsignIcon} />
+                  Assign
+                </button>
+              )}
 
-                onClick={() => setShowAssignModal((prev) => !prev)}
-              >
-                Assign
-              </button>
+              {orderData?.order?.status === "ASSIGNED" && (
+                <button
+                  className={styles.assignBtn}
+                  onClick={() => handleOrderToTransit()}
+                >
+                  {orderInTransit ? (
+                    <BeatLoader color="white" />
+                  ) : (
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "12px",
+                      }}
+                    >
+                      <img src={orderAsignIcon} /> In Transit
+                    </span>
+                  )}
+                </button>
+              )}
+
+              {orderData?.order?.status !== "ASSIGNED" &&
+                orderData?.order?.status !== "ORDER PLACED" && (
+                  <button
+                    className={styles.assignBtn}
+                    onClick={()=>setChangeOrderStatusModal(true)}
+                  >
+                    {isChangingStatus ? (
+                      <BeatLoader color="white" />
+                    ) : (
+                      <span
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          gap: "12px",
+                        }}
+                      >
+                        <img src={orderAsignIcon} /> Change to
+                      </span>
+                    )}
+                  </button>
+                )}
             </div>
           </div>
 
@@ -213,12 +479,21 @@ export default function OrderDetails() {
             />
           )}
           {showAssignRiderFiltersTable && (
-            <AssignRiderTableFilter ref={showRideAssignTBRef} />
+            <AssignRiderTableFilter
+              ref={showRideAssignTBRef}
+              handleAssignOrder={handleAssignOrder}
+            />
           )}
-           {showAssign3PLFiltersTable && (
-            
+          {showAssign3PLFiltersTable && (
             <Assign3PLTableFilter ref={show3plAssignTBRef} />
           )}
+          {showChangeOrderStatusModal && <ChangeOrderStatusModal ref={showChangeOrderStatusModalRef}/>}
+
+          {
+            false && (
+              <DeliveredOTPModal/>
+            )
+          }
         </div>
       </div>
     </div>

@@ -206,6 +206,16 @@ function RiderApproved() {
                     </Row>
                   ))
                 )}
+                  {(tableList.length <=0 && !ridersLoading) && (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+
+                    <Cell>No Data Found</Cell>
+                  </Row>
+                )}
               </Body>
             </>
           )}

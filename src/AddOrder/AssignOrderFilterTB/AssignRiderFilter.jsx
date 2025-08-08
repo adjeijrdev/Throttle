@@ -21,32 +21,27 @@ import { getTheme } from "@table-library/react-table-library/baseline";
 
 import { GET_ALL_RIDERS } from "../../graphql/generalQueries";
 import PaginatedTabs from "../../Components/paginationTab/paginationTabs";
-import styles from "./AssignRiderFilter.module.css"
+import styles from "./AssignRiderFilter.module.css";
 import { useSearch, useSearchB } from "../../graphql/graphqlConfiguration";
 import CustomSearchInput from "../../Components/searchInputBox/CustomSearchInput";
 
-
-
-const  AssignRiderTableFilter= forwardRef((props,ref)=>{
-const [itemOffset, setItemOffset] = useState(0);
+const AssignRiderTableFilter = forwardRef(({ handleAssignOrder  }, ref) => {
+  const [itemOffset, setItemOffset] = useState(0);
   const [isDeleteModal, setDeleteModal] = useState(false);
-  const [searchRider,setSearchRider] = useState("");
+  const [searchRider, setSearchRider] = useState("");
   let itemsPerPage = 15;
 
   let navigate = useNavigate();
 
-   
   const {
     debouncedSearch,
     loading: ridersLoading,
     data: ridersData,
     error: riderError,
     fetchMore: fetchMoreRiders,
-  } = useSearchB(GET_ALL_RIDERS,itemOffset,itemsPerPage, "APPROVED");
+  } = useSearchB(GET_ALL_RIDERS, itemOffset, itemsPerPage, "APPROVED");
 
-
-
-    const handleSearch = (e) => {
+  const handleSearch = (e) => {
     const value = e.target.value;
     setSearchRider(value);
     debouncedSearch(value);
@@ -134,18 +129,18 @@ const [itemOffset, setItemOffset] = useState(0);
     },
   ]);
 
+
   return (
     <div className={styles.tableContainer} ref={ref}>
-         <div className="searchBox">
-           
-                  <CustomSearchInput
-                    bgColor={"white"}
-                    placeholder="Search by full name, contact or vehicle"
-                    value={searchRider}
-                    onChange={handleSearch}
-                  />
-                </div>
-      <div >
+      <div className="searchBox">
+        <CustomSearchInput
+          bgColor={"white"}
+          placeholder="Search by full name, contact or vehicle"
+          value={searchRider}
+          onChange={handleSearch}
+        />
+      </div>
+      <div>
         <Table
           data={{ nodes: [...(ridersData?.riders.data || [])] }}
           theme={tableTheme}
@@ -154,14 +149,13 @@ const [itemOffset, setItemOffset] = useState(0);
             <>
               <Header>
                 <HeaderRow>
-
                   {/* <HeaderCell>Rider ID</HeaderCell> */}
                   <HeaderCell>Full name</HeaderCell>
-                 
+
                   <HeaderCell>Contact</HeaderCell>
                   <HeaderCell>Vehicle</HeaderCell>
                   {/* <HeaderCell>City of Operation</HeaderCell> */}
-                  
+
                   <HeaderCell>Action</HeaderCell>
                 </HeaderRow>
               </Header>
@@ -171,31 +165,30 @@ const [itemOffset, setItemOffset] = useState(0);
                   <Row>
                     <Cell></Cell>
                     <Cell></Cell>
-                    <Cell></Cell>
-                    <Cell></Cell>
+
+                   
 
                     <Cell>
                       <Spin size="large" className="loading-spinner" />
                     </Cell>
-                    <Cell></Cell>
+                  
                     <Cell></Cell>
                   </Row>
                 ) : (
                   tableList.map((item) => (
                     <Row key={item._id} item={item}>
-                      
                       <Cell>{item?.userProfile?.fullName}</Cell>
-                     
+
                       <Cell>{item?.contactDetails?.phoneNumber}</Cell>
-                      <Cell>
-                        {item?.vehicleInfo?.vehicleType}
-                      </Cell>
-                     
+                      <Cell>{item?.vehicleInfo?.vehicleType}</Cell>
+
                       <Cell>
                         {" "}
                         <button
                           className="status-btn-st"
-                          onClick={() => navigate(`/rider/approved/details/${item?._id}`)}
+                          onClick={() =>
+                           handleAssignOrder({assignToID:item._id, assignToModelName:"Rider"})
+                          }
                         >
                           Assign
                         </button>{" "}
@@ -209,8 +202,7 @@ const [itemOffset, setItemOffset] = useState(0);
         </Table>
 
         <div className="pagination-tab">
-    
-           <PaginatedTabs
+          <PaginatedTabs
             totalRecords={totalNumberOfRiders}
             setItemOffset={setItemOffset}
             offSet={itemOffset}
@@ -221,6 +213,6 @@ const [itemOffset, setItemOffset] = useState(0);
       </div>
     </div>
   );
-})
+});
 
 export default AssignRiderTableFilter;

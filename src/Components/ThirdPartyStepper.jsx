@@ -36,7 +36,7 @@ const Stepper = ({ name }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors,isSubmitting },
     trigger,
     setValue,
     watch,
@@ -86,6 +86,7 @@ const Stepper = ({ name }) => {
 
   // Form submission
   const onSubmit = (data) => {
+    console.log(data)
     console.log("Form data:", data);
     toggleModal();
   };
@@ -106,7 +107,7 @@ const nextStep = async () => {
   const idImage = watch("idImage");
 
   return (
-    <form onSubmit={handleSubmit} className={style["form-container"]}>
+    <form onSubmit={handleSubmit(onSubmit)} className={style["form-container"]}>
       <h2 className={style["form-title"]}>Registration process as a {name}</h2>
 
       <div className={style["stepper"]}>

@@ -204,7 +204,7 @@ export default function AddOrder() {
                 <h3 className={styles.subTitle}>Product description</h3>
                 <div>
                   <label htmlFor="description" style={{ fontSize: "16px" }}>
-                    Enter role description
+                    Enter product description
                   </label>
                   <br />
                   <textarea

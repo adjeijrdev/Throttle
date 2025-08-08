@@ -91,7 +91,6 @@ padding-bottom: 1rem;
 }
 
 .orderStatusPlaces{
-background-color: #A6CFFF;
 color:black;
 border-radius: 8px;
 width: 100%;
@@ -126,15 +125,16 @@ font-weight: 600;
 }
 
 .detailsRight .con_content{
-    display: flex;
-    flex-wrap: wrap;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    /* flex-wrap: wrap; */
     justify-content: left;
     align-items: top;
     gap:12px;
 }
 
 .detailsRight .con_content .con_box{
-    width:280px;
+    /* width:280px; */
 
 }
 
@@ -144,11 +144,14 @@ font-weight: 600;
     color:black;
 }
  .con_box_value{
+    width: 100%;
     border: 1px solid #979595;
     border-radius: 8px;
     padding:14px;
     font-size:1.6rem;
     font-weight: 500;
+    height: 50px;
+    /* overflow-x: auto; */
     color:black;
 }
 
@@ -174,6 +177,7 @@ font-weight: 600;
 
  .payment{
     width: 100%;
+    height: 50px;
      border: 1px solid #979595;
     border-radius: 8px;
     padding:14px;
@@ -183,18 +187,19 @@ font-weight: 600;
 }
 
 .down_con1_down{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     width: 100%;
     gap:12px;
 }
 
 .down_con1_down .con_box{
-    width:280px;
+    /* width:280px; */
 }
 
 
 .down_con1_down .con_box_value{
-        width:280px;
+        /* width:280px; */
 
 }
 
@@ -205,14 +210,15 @@ font-weight: 600;
 }
 
 .detailsDownRight .cost{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     width: 100%;
     gap:12px;
     flex-wrap: wrap;
 }
 
 .detailsDownRight .cost .con_box{
-        width:280px;
+        /* width:280px; */
 
 }
 
@@ -253,8 +259,8 @@ font-weight: 600;
 
 .changeStatusContainer{
 background-color: white;
-height: 85%;
-    padding:2rem;
+height: 90%;
+    padding:1rem;
     max-height: 150px;
     border-radius: 8px;
 
@@ -265,14 +271,56 @@ height: 85%;
     color:white;
     width: 100%;
     padding:12px 0px;
+    display: flex;
+    gap:1rem;
+    justify-content: center;
+    align-items: center;
     /* margin:8px; */
-    width: 98%;
+    width: 100%;
     border-radius: 4px;
     cursor: pointer;
     transition: background 250ms ease-in-out;
+    margin-bottom: 2rem;
 }
 
 .assignBtn:hover{
     background-color: #218b6d;
 
+}
+
+.recipientBox{
+    background-color: white;
+    border-radius: 8px;
+    padding:2rem;
+
+}
+
+
+.recipientBox .con_title{
+    display: flex;
+    justify-content: space-between;
+      font-size: 1.6rem;
+    font-weight: 500;
+    color:#17654F;
+    margin-bottom: 1.5rem;
+}
+
+.recipientBox .con_title button{
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding:10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 250ms ease-in-out;
+}
+
+.recipientBox .con_title button:hover{
+    background-color: #D6E3E0;
+
+}
+
+.recipientBox .con_content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:12px;
 }

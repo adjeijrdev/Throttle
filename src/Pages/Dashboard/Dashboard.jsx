@@ -103,401 +103,6 @@ export default function Dashboard(props) {
     setShowDateFilter(false);
   };
 
-  // const allOrders = [
-  //   {
-  //     orderId: "A0M600",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M601",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Rejected",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M602",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "In Progress",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M603",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M604",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Failed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M605",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Assigned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M606",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Returned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M607",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M608",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Rejected",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M609",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "In Progress",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M610",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M611",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Failed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M612",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Assigned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M613",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Returned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M614",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Order Placed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M615",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Order Placed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M616",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "In Progress",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M617",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Order Placed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M618",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Failed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M619",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Assigned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M620",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Returned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M621",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M622",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Rejected",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M623",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "In Progress",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M624",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M625",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Failed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M626",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Assigned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M627",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Returned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   // Add more data...
-  // ];
 
   const filterOptions = [
     "All",
@@ -990,7 +595,7 @@ export default function Dashboard(props) {
           </div>
 
           {/* Table */}
-          {filteredOrders?.length > 0 ? (
+       
             <div className={styles.tableconMain}>
               <table className={styles.table}>
                 <thead className={styles.tableheader}>
@@ -1024,7 +629,7 @@ export default function Dashboard(props) {
                     )}
                   
                     {visibleCols.destination && (
-                      <th className={[styles.th,styles.destinationSt]} >Destination</th>
+                      <th className={[styles.th]} >Destination</th>
                     )}
                     {visibleCols.recipient && (
                       <th className={styles.th}>Recipient</th>
@@ -1041,7 +646,7 @@ export default function Dashboard(props) {
                     {visibleCols.vendor && (
                       <th className={styles.th}>Vendor</th>
                     )}
-                    {visibleCols.tpl && <th className={styles.th}>Assigned To</th>}
+                    {visibleCols.tpl && <th className={styles.th}>3PL/Rider</th>}
                     {visibleCols.deliveryAmount && (
                       <th className={styles.th}>Delivery Fee</th>
                     )}
@@ -1057,8 +662,18 @@ export default function Dashboard(props) {
                 
                 <tbody>
                   {
+                    
+                      orderLoading &&(
 
-                      orderLoading && <Spin size="large" className="loading-spinner" />
+                        <tr>
+                          
+                          <td style={{width:"100%", textAlign:"center",padding:"4rem 0rem"}} colSpan={12}>
+                         <Spin size="large" className="loading-spinner" />
+
+                          </td>
+
+                    </tr>
+                      ) 
                   }
 
                   {
@@ -1074,7 +689,7 @@ export default function Dashboard(props) {
                         // ) {
                         //   toggleRowSelection(order?._id);
                         // }
-                          navigate("/orders/1")
+                          navigate(`/orders/${order?._id}`)
                         
                       }}
                       
@@ -1143,10 +758,10 @@ export default function Dashboard(props) {
                         <td className={styles.td}>{order?.source?.type}</td>
                       )}
                       {visibleCols.tpl && (
-                        <td className={styles.td}>{order?.assignedTo}</td>
+                        <td className={styles.td}>{order?.assignedTo?.userProfile &&  order?.assignedTo?.userProfile?.fullName}</td>
                       )}
                       {visibleCols.deliveryAmount && (
-                        <td className={styles.td}>GHC{order?.deliveryFee}</td>
+                        <td className={styles.td}>{order?.deliveryFee && `GHC ${order?.deliveryFee}` }</td>
                       )}
                       {visibleCols.orderdate && (
                         <td className={styles.td}>{formatDateTime(order?.orderDate) }</td>
@@ -1159,13 +774,15 @@ export default function Dashboard(props) {
                 </tbody>
               </table>
             </div>
-          ) : (
-            <div className={styles.noResults}>
-              {selectedDate
-                ? `No orders found for ${selectedDate.toLocaleDateString()}`
-                : "No orders match your filters"}
-            </div>
-          )}
+          
+          
+           
+              
+              {  (!orderLoading && !allOrders?.orders?.data)
+           
+                      &&  <div className={styles.noResults}>No orders found  </div>
+              }
+          
         </div>
          <div className="pagination-tab">
          

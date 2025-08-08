@@ -21,8 +21,6 @@ import { getTheme } from "@table-library/react-table-library/baseline";
 import { GET_ALL_VENDORS } from "../../../graphql/generalQueries";
 import { Spin } from "antd";
 
-
-
 function PendingAccount() {
   const [itemOffset, setItemOffset] = useState(0);
   let itemsPerPage = 15;
@@ -32,7 +30,7 @@ function PendingAccount() {
     data: vendorData,
     error: vendorError,
     fetchMore: fetchMoreVendors,
-    refetch: refetchVendors
+    refetch: refetchVendors,
   } = useQuery(GET_ALL_VENDORS, {
     variables: {
       offset: itemOffset,
@@ -45,10 +43,10 @@ function PendingAccount() {
   const totalNumberOfVendors = vendorData?.vendors?.totalCount;
   const [isDeleteModal, setDeleteModal] = useState(false);
 
-    useEffect(()=>{
-      refetchVendors()
-  },[])
-  
+  useEffect(() => {
+    refetchVendors();
+  }, []);
+
   let navigate = useNavigate();
 
   // const tableTheme = useTheme(getTheme());
@@ -164,7 +162,6 @@ function PendingAccount() {
                     <Cell></Cell>
                     <Cell></Cell>
                     <Cell></Cell>
-                    
 
                     <Cell>
                       <Spin size="large" className="loading-spinner" />
@@ -205,6 +202,16 @@ function PendingAccount() {
                       </Cell>
                     </Row>
                   ))
+                )}
+                {(tableList.length <=0 && !vendorLoading) && (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+
+                    <Cell>No Data Found</Cell>
+                  </Row>
                 )}
               </Body>
             </>
