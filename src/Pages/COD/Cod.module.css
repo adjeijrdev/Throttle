@@ -11,15 +11,11 @@
     margin-bottom: 1rem;
 }
 .Outercontainertwo{
- /* background-color:var(--clr-white);  */
- /* width: 148rem; */
  background-color:none;
      padding: 1.5rem;
-    /* border-radius: 8px; */
      margin-top: 1.5rem;
      display: flex;
      gap: 1.5rem;
-     /* justify-content: space-between; */
 }
 
  .detailstitle{
@@ -39,7 +35,6 @@
     display: flex;
     flex-direction: row;
     gap: 2rem;
-    /* width: 148rem; */
     background-color: none;
     padding:1rem;
 
@@ -47,61 +42,9 @@
 
   .OutercontainerRight label{
      display: inline-block;
-     /* text-align: left; */
     font-weight: 600;
     font-size: 1.3rem;
   }
-
-
-/* 
-  .btncontainer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1.5rem;
-  margin-top: 5rem;
-}
-
-.resetbtn{
-   background-color:#FFFFFF;
-  color: var(--main-theme);
-  border: 1px solid var(--main-theme);
-  border-radius: 0.8rem;
-  cursor: pointer;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  justify-content: center;
-   width: 20%;
-  padding: 0.8rem;
-}
-.resetbtn:hover{
-   background-color: var(--input-background);
-  border-color: white;
-}
-.searchbtn {
-    background-color:var(--main-theme);
-     color: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.8rem;
-  cursor: pointer;
-  display: flex;
-  gap: 5px;
-  justify-content: center;
-  align-items: center;
-   width: 20%;
-  padding: 0.8rem;
-}
-.searchbtn:hover{
-  background-color: #054231;
-  border-color: var(--main-theme);
-  
-}
-
-.verticalButton:hover{
-   background-color: #054231;
-  border-color: var(--main-theme);
-} */
-
 
 .tableContainer {
   margin-top: 2rem;
@@ -181,17 +124,7 @@
   background-color: #054231;
 }
 
-/* .statusControl label {
-     text-align: left;
-    font-weight: 500;
-    font-size: 1.6rem;
-}
 
-.statusControl{
-  display: flex;
-  flex-direction: column;
-  gap:7px;
-} */
 
 /* Style the select element */
 .statusControl select {
@@ -206,7 +139,6 @@
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 3rem;
-   /* width: 550px; */
     border-radius: 1rem;
     border: 1px solid #ccc;
 }
@@ -242,8 +174,6 @@
    
 }
 .remarks label{
- /* display: inline-block; */
-     /* text-align: left; */
     font-weight: 600;
     font-size: 1.4rem;
 }
@@ -251,16 +181,11 @@
 
 .filed1{
   display: flex;
-  /* justify-content: space-between; */
-  /* grid-template-columns: 1fr 1fr 0.1fr; */
   gap:2rem;
   background-color: white;
   padding:1.5rem ;
   position: relative;
   border-radius: 8px;
-  /* transition: all;
-  transition-timing-function: ease-in-out;
-  transition-duration: 450ms; */
 
 }
 
@@ -269,7 +194,6 @@
 
   display: flex;
   flex-direction: column;
-  /* width: 72.2rem; */
 }
 
 .filed1_in1 textarea{
@@ -301,23 +225,6 @@
 }
 
 
-/* .verticalButton{
-   background-color:var(--main-theme);
-  color: var(--clr-white);
-  border: 1px solid #e5e7eb;
-  border-bottom-left-radius: 1rem;
-  border-top-left-radius: 1rem;
-  border-bottom-right-radius: none;
-  border-top-right-radius: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-   width: 7.5rem;
-     height: 280px;
-  padding: 0.8rem;
-  margin-top: 0.5rem;
-} */
 
 .showTabe_st {
   transition: all 400ms ease-in-out; 
@@ -367,7 +274,6 @@
 .result_field_value{
   border:1px solid #EAEBEE;
   padding-left: 2rem;
-  /* width: 50rem; */
   height: 4rem;
   display: flex;
   align-items: center;
@@ -383,7 +289,6 @@ border-radius: 8px;
   display: flex; 
   align-items: center;
   padding:0.5rem 1rem;
-  /* width: 25rem; */
   border-radius: 0.75rem;
   box-shadow: 0 4px 6px rgba(19, 19, 19, 0.1);
   transition: transform 0.2s;
@@ -396,7 +301,6 @@ border-radius: 8px;
 
 .carditem{
   display: flex;
-  /* justify-content: space-between; */
   gap: 2rem;
   margin-top: 2rem;
 }
@@ -455,8 +359,73 @@ display: inline-flex;
 justify-content: center;
 align-items: center;
 }
+.sortBtn{
+  padding: 1rem;
+  background-color: white;
+  border:1px solid #00000033;
+  /* width: 20rem; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:0.5rem;
+  border-radius: 8px;
+  transition: background-color 250ms ease-in-out;
+  cursor: pointer;
+}
+.sortBtn:hover{
+  background-color: var(--input-background);
+  border-color: white;
+}
+.columnButton {
+   background-color: white;
+  border:1px solid #00000033;
+  width: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:0.5rem;
+  border-radius: 8px;
+  transition: background-color 250ms ease-in-out;
+  cursor: pointer;
+  padding: 1rem;
+}
+.columnButton:hover{
+  background-color: var(--input-background);
+  border-color: white;
 
+}
+.exportContainer {
+  position: relative;
+  display: inline-block;
+}
+.dropdownMenu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  /* border-radius: 1rem; */
+  overflow: hidden;
+  min-width: 140px;
+}
 
+.dropdownItem {
+  font-size: 1.3rem;
+  color: #065f46;
+  padding: 8px 12px;
+  cursor: pointer;
+  /* white-space: nowrap; */
+  display: flex;
+  flex-direction: row;
+  gap: 1.3rem;
+}
+
+.dropdownItem:hover{
+  background-color: var(--input-background);
+  border-color: white;
+}
 .tableContainer {
   margin-top: 2rem;
   width: 100%;
@@ -470,6 +439,7 @@ align-items: center;
   border-collapse: collapse;
   background-color: var(--clr-white);
   border-radius: 0.8rem;
+  font-size: 1.2rem;
 }
 
 .orderTable th, .orderTable td {
@@ -497,43 +467,33 @@ align-items: center;
 }
 .completed {
   background-color: #C3F9D5;
-  color: #065f46;
+  color: black;
+}
+.paidtovendor {
+  background-color: var(--main-theme);
+  color: var(--clr-white);
 }
 
-/* .rejected {
-  background-color: #FFC9C9;
-  color: #991b1b;
-}
-
-.inProgress {
-  background-color: #88AEF1;
-  color: #1e3a8a;
-}
-
-.failed {
-  background-color: #FF9ABA;
-  color: #9d174d;
-}
-
-.assigned {
-  background-color: #FFEC8B;
-  color: #78350f;
-}
-.returned{
-  background-color: #AFAFAF;
-  color:#414040;
-} */
 .actionButton {
-  background-color: #888787;
-  color: #2e2d2d;
+  background-color: var(--clr-white);
+  color: black;
   border: 1px solid#605c5c;
   border-radius: 0.5rem;
   padding: 0.5rem 2rem;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 1.2rem;
   transition: background-color 0.2s;
 }
 
 .actionButton:hover {
-  background-color: #054231;
+  background-color:#C3F9D5 ;
+}
+
+.btncontainercod{
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 2rem;
+  flex-direction: row;
+  float: right;
 }
