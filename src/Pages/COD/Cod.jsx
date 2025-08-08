@@ -203,10 +203,11 @@ export default function Cod() {
   };
 
   const deliveryStatusOptions = [
-    { value: "all", label: "All" },
-    { value: "delivered", label: "Delivered" },
-    { value: "pending", label: "Pending Remittance" },
-    { value: "remitted", label: "Remitted" },
+    { value: "all", label: "All Vendors" },
+    { value: "delivered", label: "Ishtari Ghana LTD" },
+    { value: "pending", label: "Iplaykora" },
+    { value: "remitted", label: "Snr Arrow" },
+    { value: "remitted", label: "General Electricals" },
   ];
 
 
