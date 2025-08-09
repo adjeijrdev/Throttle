@@ -9,6 +9,10 @@ import { saveAs } from "file-saver";
 import DateFilter from "../Dashboard/DateFilter";
 import locationIcon from "../../Assets/icons/location.png";
 import boxIcon from "../../Assets/icons/smallbox.png";
+import cameraIcon from "../../Assets/icons/camera.png";
+import imgIcon from "../../Assets/icons/img.png";
+
+
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
@@ -19,6 +23,14 @@ import TableFilter from "./TableFilter";
 import MdContentVendor from "./MdContentVendor";
 import MdContentRider from "./MdContentRider";
 import MdContent3Pl from "./MdContent3Pl";
+import { 
+  MdEvent,
+  MdEventNote,
+  MdDirectionsTransit,
+  MdDeliveryDining,
+  MdLocalShipping,
+  MdComment
+} from "react-icons/md";
 
 
 export default function DailyDelivery(props) {
@@ -41,7 +53,8 @@ export default function DailyDelivery(props) {
   const [showVendorFilter, setShowVendorFilter] = useState(false);
   const [showRiderFilter, setShowRiderFilter] = useState(false);
   const [show3PlFilter,setShow3PlFilter] = useState(false);
-  const [showBulkUpdate, setShowUpdateFilter] =useState(false)
+  const [showBulkUpdate, setShowBulkUpdate] =useState(false);
+   const [showSortDate, setShowSortDate] = useState(false);
   const formatDate = (dateString) => {
     try {
       if (!dateString) return null;
@@ -67,6 +80,52 @@ export default function DailyDelivery(props) {
     setShowDateFilter(false);
   };
 
+const handleBulkAction = (actionType) => {
+  // Close the dropdown
+  setShowBulkUpdate(false);
+  
+  // Handle the selected action
+  switch(actionType) {
+    case 'pickup':
+      // Handle pickup date change
+      break;
+    case 'delivery':
+      // Handle delivery date change
+      break;
+    case 'transit':
+      // Handle transit status change
+      break;
+    case 'rider':
+      // Handle rider assignment
+      break;
+    case '3pl':
+      // Handle 3PL assignment
+      break;
+    case 'remarks':
+      // Handle remarks addition
+      break;
+    default:
+      break;
+  }
+};
+
+const handleSortDateAction = (actionType) => {
+  // Close the dropdown
+  setShowSortDate(false);
+  
+  // Handle the selected action
+  switch(actionType) {
+    case 'pickup':
+      // Handle pickup date change
+      break;
+    case 'delivery':
+      // Handle delivery date change
+      break;
+    default:
+      break;
+  }
+};
+
   const allOrders = [
     {
       orderId: "A0M600",
@@ -80,7 +139,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M601",
@@ -94,7 +153,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M602",
@@ -108,7 +167,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M603",
@@ -122,7 +181,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M604",
@@ -136,7 +195,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M605",
@@ -150,7 +209,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M606",
@@ -164,7 +223,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M607",
@@ -178,7 +237,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M608",
@@ -192,7 +251,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M609",
@@ -206,7 +265,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M610",
@@ -220,7 +279,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M611",
@@ -234,7 +293,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M612",
@@ -248,7 +307,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M613",
@@ -262,7 +321,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M614",
@@ -276,7 +335,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M615",
@@ -290,7 +349,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M616",
@@ -304,7 +363,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-12-10",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M617",
@@ -318,7 +377,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M618",
@@ -332,7 +391,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     {
       orderId: "A0M619",
@@ -346,7 +405,7 @@ export default function DailyDelivery(props) {
       tpl: "Robert",
       deliveryAmount: "GHC350.00",
       orderdate: "2024-10-30",
-      orderimg: "",
+      orderimg: imgIcon,
     },
     // ,
     // {
@@ -662,7 +721,13 @@ export default function DailyDelivery(props) {
     { key: "tpl", label: "3PLs" },
     { key: "deliveryAmount", label: "Delivery Fee" },
     { key: "orderdate", label: "Delivery Date" },
-    { key: "orderimg", label: "Order Image" },
+    { key: "orderimg", label:  (
+        <img
+          src={cameraIcon}
+          alt="cameraIcon"
+          style={{ width: "14px", height: "14px", verticalAlign: "middle" }}
+        />
+      ), },
   ];
 
   const [visibleCols, setVisibleCols] = useState(
@@ -774,11 +839,7 @@ export default function DailyDelivery(props) {
   </div>
 ) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
-          {/* <button className={styles.sortBtn}>
-            <MdRestore />
-            Sort by Rider
-            {true ? <FaCaretUp /> : <FaCaretDown />}
-          </button> */}
+
             <button className={styles.sortBtn} onClick={()=>setShowRiderFilter(!showRiderFilter)}>
             <MdRestore />
             Sort by Rider
@@ -794,11 +855,6 @@ export default function DailyDelivery(props) {
 ) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
 
-          {/* <button className={styles.sortBtn}>
-            <MdRestore />
-            Sort by 3PL
-            {true ? <FaCaretUp /> : <FaCaretDown />}
-          </button> */}
   <button className={styles.sortBtn} onClick={()=>setShow3PlFilter(!show3PlFilter)}>
             <MdRestore />
             Sort by 3PL
@@ -813,25 +869,51 @@ export default function DailyDelivery(props) {
   </div>
 ) ? <FaCaretUp /> : <FaCaretDown />}
           </button>
-          {/* <button className={styles.sortBtn}>
-            <MdRestore />
-            Bulk Update
-            {true ? <FaCaretUp /> : <FaCaretDown />}
-          </button> */}
-            <button className={styles.sortBtn} onClick={()=>setShowUpdateFilter(!showBulkUpdate)}>
-            <MdRestore />
-            Bulk Update
-            {showBulkUpdate  && (
-  <div className={styles.filter_modal_overlay} onClick={() => setShowVendorFilter(false)}>
-    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
-      <TableFilter
-        tableTeadValues={["Vendor Name", "Order Count", "Status"]}
-        onClose={() => setShowVendorFilter(false)}
-      />
+
+       <div style={{ position: 'relative', display: 'inline-block' }}>    
+ <button 
+  className={styles.bulkbtn} 
+  onClick={() => setShowBulkUpdate(!showBulkUpdate)}
+>
+  <MdRestore />
+  Bulk Update
+  {showBulkUpdate ? <FaCaretUp /> : <FaCaretDown />}
+  </button>
+
+    {showBulkUpdate && (
+     <div 
+      className={styles.bulk_update_dropdown}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('pickup')}>
+        <MdEvent size={16} className={styles.dropdown_icon} />
+        Change Pickup Date
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('delivery')}>
+        <MdEventNote size={16} className={styles.dropdown_icon} />
+        Change Delivery Date
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('transit')}>
+        <MdDirectionsTransit size={16} className={styles.dropdown_icon} />
+        Change to Transit
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('rider')}>
+        <MdDeliveryDining size={16} className={styles.dropdown_icon} />
+        Assign to Rider
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('3pl')}>
+        <MdLocalShipping size={16} className={styles.dropdown_icon} />
+        Assign to 3PL
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleBulkAction('remarks')}>
+        <MdComment size={16} className={styles.dropdown_icon} />
+        Add Remarks
+      </div>
     </div>
-  </div>
-) ? <FaCaretUp /> : <FaCaretDown />}
-          </button>
+  )}
+
+</div> 
+
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className={styles.exportContainer}>
@@ -853,11 +935,40 @@ export default function DailyDelivery(props) {
               )}
             </div>
           </div>
-         <button className={styles.sortBtn}>
+         {/* <button className={styles.sortBtn}>
             <MdRestore />
             Sort Date by
             {true ? <FaCaretUp /> : <FaCaretDown />}
-          </button>
+          </button> */}
+
+                <div style={{ position: 'relative', display: 'inline-block' }}>    
+ <button 
+  className={styles.bulkbtn} 
+  onClick={() => setShowSortDate(!showSortDate)}
+>
+  <MdRestore />
+  Sort Date by
+  {showDateFilter ? <FaCaretUp /> : <FaCaretDown />}
+  </button>
+
+    {showSortDate && (
+     <div 
+      className={styles.bulk_update_dropdown}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className={styles.dropdown_item} onClick={() => handleSortDateAction('pickup')}>
+        <MdEvent size={16} className={styles.dropdown_icon} />
+         Pickup Date
+      </div>
+      <div className={styles.dropdown_item} onClick={() => handleSortDateAction('delivery')}>
+        <MdEventNote size={16} className={styles.dropdown_icon} />
+         Delivery Date
+      </div>
+    </div>
+  )}
+
+</div> 
+          
           <div>
             <button
               className={styles.date__control}
@@ -950,7 +1061,8 @@ export default function DailyDelivery(props) {
                     <th className={styles.th}>Delivery Date</th>
                   )}
                   {visibleCols.orderimg && (
-                    <th className={styles.th}>Order Image</th>
+                    <th className={styles.th}><img src={cameraIcon }  alt="cameraIcon"
+          style={{ width: "18px", height: "16px", verticalAlign: "middle",filter: "invert(100%)" }}/></th>
                   )}
                 </tr>
               </thead>
@@ -1039,7 +1151,16 @@ export default function DailyDelivery(props) {
                       <td className={styles.td}>{order.orderdate}</td>
                     )}
                     {visibleCols.orderimg && (
-                      <td className={styles.td}>{order.orderimg}</td>
+                      <td className={styles.td}><img 
+      src={order.orderimg} 
+      alt="imgIcon" 
+      style={{ 
+        width: "18px", 
+        height: "16px", 
+        verticalAlign: "middle",
+        filter: "invert(100%)" // Make it white
+      }} 
+    /></td>
                     )}
                   </tr>
                 ))}

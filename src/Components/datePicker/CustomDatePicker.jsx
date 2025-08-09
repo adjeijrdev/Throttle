@@ -12,7 +12,7 @@ export default function CustomDatePicker({date,setDate}) {
   
   return (
 
-          <Calendar id="buttondisplay" className="cal-con-st"  value={date} onChange={(e) => setDate(e.value)} showIcon  />
+          <Calendar id="buttondisplay" className="cal-con-st" placeholder="DD/MM/YYYY" value={date} onChange={(e) => setDate(e.value)} showIcon  />
     
   );
 }
