@@ -142,7 +142,7 @@ export const removeSingleRiderFromCache = (riderId) =>{
 }
 
 export function useSearch(query, roleOffset = 0, itemsPerPage = 20) {
-  const [search, { data, loading, error, fetchMore }] = useLazyQuery(query, {
+  const [search, { data, loading, error, fetchMore,refetch }] = useLazyQuery(query, {
     variables: {
       offset: roleOffset,
       limit: itemsPerPage,
@@ -174,7 +174,7 @@ export function useSearch(query, roleOffset = 0, itemsPerPage = 20) {
     }
   }, 300);
 
-  return { debouncedSearch, data, loading, error, fetchMore };
+  return { debouncedSearch, data, loading, error, fetchMore,refetch };
 }
 
 

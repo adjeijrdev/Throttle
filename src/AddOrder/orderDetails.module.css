@@ -312,6 +312,7 @@ height: 90%;
     border-radius: 8px;
     cursor: pointer;
     transition: background 250ms ease-in-out;
+  
 }
 
 .recipientBox .con_title button:hover{

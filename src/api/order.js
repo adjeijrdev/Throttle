@@ -68,3 +68,69 @@ export const OrderInTransitAPI = async(id)=>{
   }
 }
 
+
+export const OrderCompletedAPI = async(formData)=>{
+  try{
+    const response = await api.patch(`/order/completed/`,formData,{
+       headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return response
+  }catch(error){
+  if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
+    }
+  }
+}
+
+export const OrderFailedAPI = async(formData)=>{
+  try{
+    const response = await api.patch(`/order/failed`,formData,{
+       headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return response
+  }catch(error){
+  if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
+    }
+  }
+}
+
+export const OrderRejectedAPI = async(formData)=>{
+  try{
+    const response = await api.patch(`/order/rejected`,formData,{
+       headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return response
+  }catch(error){
+  if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
+    }
+  }
+}
+
+
+

@@ -14,6 +14,8 @@ import orderAsignIcon from "../Assets/icons/OrderAssign.png";
 import { BeatLoader } from "react-spinners";
 import ChangeOrderStatusModal from "./changeOrder/ChangeOrderState";
 import DeliveredOTPModal from "./DeliveredOTP/DeliveredOTP";
+import { FailedModal } from "./failedModal/FailedModal";
+import { RejectedModal } from "./rejectedModal/RejectedModal";
 
 export default function OrderDetails() {
   const [showAssignModal, setShowAssignModal] = useState(false);
@@ -25,7 +27,32 @@ export default function OrderDetails() {
   const { id } = useParams();
   const [deliveryFee, setDeliveryFee] = useState("");
   const [isChangingStatus, setIsChangingStatus] = useState(false);
-  const [showChangeOrderStatusModal, setChangeOrderStatusModal] = useState(false);
+  const [showChangeOrderStatusModal, setChangeOrderStatusModal] =
+    useState(false);
+  const [showOrderCompletedOTPModal, setShowOrderCompletedOTPModal] =
+    useState(false);
+  const [showFailedModal, setShowFailedModal] = useState(false);
+  const [showRejectedModal, setShowRejectedModal] = useState(false);
+
+  const showRejectedModalRef = useRef(null);
+  useClickOutside(
+    showRejectedModalRef,
+    () => setShowRejectedModal(false)
+    // buttonAddOrderRef
+  );
+  const showFailedModalRef = useRef(null);
+  useClickOutside(
+    showFailedModalRef,
+    () => setShowFailedModal(false)
+    // buttonAddOrderRef
+  );
+
+  const showOrderCompletedOTPModalRef = useRef(null);
+  useClickOutside(
+    showOrderCompletedOTPModalRef,
+    () => setShowOrderCompletedOTPModal(false)
+    // buttonAddOrderRef
+  );
 
   const showChangeOrderStatusModalRef = useRef(null);
   useClickOutside(
@@ -357,46 +384,52 @@ export default function OrderDetails() {
                 </div>
               </div>
             )}
+            {orderData?.order?.status !== "ORDER PLACED" && (
+              <div className={styles.recipientBox}>
+                <p className={styles.con_title}>
+                  <span>Rider</span>
+                  {orderData?.order?.status === "ASSIGNED" && (
+                    <button onClick={() => setShowAssignModal((prev) => !prev)}>
+                      Reassign
+                    </button>
+                  )}
+                </p>
 
-            <div className={styles.recipientBox}>
-              <p className={styles.con_title}>
-                <span>Rider</span>
-                <button onClick={() => setShowAssignModal((prev) => !prev)}>
-                  Reassign
-                </button>
-              </p>
+                <div className={styles.con_content}>
+                  <div className={styles.con_box}>
+                    <p className={styles.con_box_title}>Rider Name</p>
+                    <p className={styles.con_box_value}>
+                      {orderData?.order?.assignedTo?.userProfile?.fullName}
+                    </p>
+                  </div>
+                  <div className={styles.con_box}>
+                    <p className={styles.con_box_title}>Rider Contact</p>
+                    <p className={styles.con_box_value}>
+                      {
+                        orderData?.order?.assignedTo?.contactDetails
+                          ?.phoneNumber
+                      }
+                    </p>
+                  </div>
+                  <div className={styles.con_box}>
+                    <p className={styles.con_box_title}>Alternate Contact</p>
+                    <p className={styles.con_box_value}>
+                      {
+                        orderData?.order?.assignedTo?.contactDetails
+                          ?.additionalPhoneNumber
+                      }
+                    </p>
+                  </div>
 
-              <div className={styles.con_content}>
-                <div className={styles.con_box}>
-                  <p className={styles.con_box_title}>Rider Name</p>
-                  <p className={styles.con_box_value}>
-                    {orderData?.order?.assignedTo?.userProfile?.fullName}
-                  </p>
-                </div>
-                <div className={styles.con_box}>
-                  <p className={styles.con_box_title}>Rider Contact</p>
-                  <p className={styles.con_box_value}>
-                    {orderData?.order?.assignedTo?.contactDetails?.phoneNumber}
-                  </p>
-                </div>
-                <div className={styles.con_box}>
-                  <p className={styles.con_box_title}>Alternate Contact</p>
-                  <p className={styles.con_box_value}>
-                    {
-                      orderData?.order?.assignedTo?.contactDetails
-                        ?.additionalPhoneNumber
-                    }
-                  </p>
-                </div>
-
-                <div className={styles.con_box}>
-                  <p className={styles.con_box_title}>Vehicle </p>
-                  <p className={styles.con_box_value}>
-                    {orderData?.order?.assignedTo?.vehicleInfo?.vehicleType}
-                  </p>
+                  <div className={styles.con_box}>
+                    <p className={styles.con_box_title}>Vehicle </p>
+                    <p className={styles.con_box_value}>
+                      {orderData?.order?.assignedTo?.vehicleInfo?.vehicleType}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div className={styles.detailsBottomDown}>
@@ -450,7 +483,7 @@ export default function OrderDetails() {
                 orderData?.order?.status !== "ORDER PLACED" && (
                   <button
                     className={styles.assignBtn}
-                    onClick={()=>setChangeOrderStatusModal(true)}
+                    onClick={() => setChangeOrderStatusModal(true)}
                   >
                     {isChangingStatus ? (
                       <BeatLoader color="white" />
@@ -487,13 +520,40 @@ export default function OrderDetails() {
           {showAssign3PLFiltersTable && (
             <Assign3PLTableFilter ref={show3plAssignTBRef} />
           )}
-          {showChangeOrderStatusModal && <ChangeOrderStatusModal ref={showChangeOrderStatusModalRef}/>}
+          {showChangeOrderStatusModal && (
+            <ChangeOrderStatusModal
+              ref={showChangeOrderStatusModalRef}
+              closeSelfHandler={setChangeOrderStatusModal}
+              setShowOrderCompletedOTPModal={setShowOrderCompletedOTPModal}
+              setShowFailedModal={setShowFailedModal}
+              setShowRejectedModal={setShowRejectedModal}
+            />
+          )}
 
-          {
-            false && (
-              <DeliveredOTPModal/>
-            )
-          }
+          {showOrderCompletedOTPModal && (
+            <DeliveredOTPModal
+              orderId={id}
+              refetchOrder={refetchOrder}
+              ref={showOrderCompletedOTPModalRef}
+              setShowOrderCompletedOTPModal={setShowOrderCompletedOTPModal}
+            />
+          )}
+
+          {showFailedModal && (
+            <FailedModal
+              setShowFailedModal={setShowFailedModal}
+              ref={showFailedModalRef}
+              refetchOrder={refetchOrder}
+            />
+          )}
+
+          {showRejectedModal && (
+            <RejectedModal
+              setShowRejectedModal={setShowRejectedModal}
+              ref={showRejectedModalRef}
+              refetchOrder={refetchOrder}
+            />
+          )}
         </div>
       </div>
     </div>

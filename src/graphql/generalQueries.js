@@ -342,6 +342,14 @@ export const GET_ALL_ORDERS = gql`
       currentPage
       hasNextPage
       totalCount
+      totalNumberOfOrders
+      totalNumOfOderPlaced
+      totalNumOfInTransit
+      totalNumberOfAssigned
+      totalNumberOfCompleted
+      totalNumberOfReturned
+      totalNumberOfFailed
+      totalNumberOfRejected
       data {
         _id
         assignedTo {

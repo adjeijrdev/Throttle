@@ -48,9 +48,13 @@
 
 .btn{
     padding:15px 0px;
-    background-color: #17654F;
+
     color: white;
     border:0px;
     border-radius: 8px;
+    margin:0px auto;
     margin-top:15px;
+    width: 80%;
+    cursor: pointer;
+
 }

@@ -22,11 +22,12 @@ import PaginatedTabs from "../../Components/paginationTab/paginationTabs";
 import { Spin } from "antd";
 import { formatDateTime } from "../../utils/formateDateTime";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 export default function Dashboard(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 2;
-  
+
   const itemsPerPage = 15;
   const [itemOffset, setItemOffset] = useState(0);
   const [searchItem, setSearchItem] = useState("");
@@ -38,6 +39,7 @@ export default function Dashboard(props) {
       loading: orderLoading,
       error: orderError,
       fetchMore: fetchMoreOrder,
+      refetch: refetchOrders
     } = useSearch(GET_ALL_ORDERS, itemOffset, itemsPerPage);
 
   const totalNumberOfOrders = orderData?.orders?.totalCount;
@@ -47,11 +49,7 @@ export default function Dashboard(props) {
 
     setAllOrders(orderData)
   },[orderData])
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-    }
-  };
+
   const [filter, setFilter] = useState("All");
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -90,30 +88,28 @@ export default function Dashboard(props) {
   };
   const [enteredDate, setEnteredDate] = useState("");
 
-  const dateChangeHandler = (event) => {
-    setEnteredDate(event.target.value);
-  };
-
-  const handleFilter = (range) => {
-    if (range.start > range.end) {
-      alert("End date must be after start date");
-      return;
-    }
-    setDateRange(range);
-    setShowDateFilter(false);
-  };
 
 
   const filterOptions = [
     "All",
     "Order Placed",
-    "In Progress",
+    "In Transit",
     "Assigned",
     "Completed",
     "Returned",
     "Failed",
     "Rejected",
   ];
+
+  const handleOrderStatusFilter =(filter_by)=>{
+
+    if(filter_by=="All"){
+      return ""
+    }else{
+      return filter_by?.toUpperCase()
+    }
+
+  }
 
   const statusClass = {
     Completed: styles.completed,
@@ -125,58 +121,26 @@ export default function Dashboard(props) {
     "Order Placed": styles.inProgress,
   };
 
-  // Add validation to your order data
-  const validateOrderDates = (orders) => {
-    return orders.every((order) => {
-      const [d, m, y] = order.orderdate.split("-");
-      return d && m && y && !isNaN(new Date(y, m - 1, d));
-    });
-  };
-
-
-  // Improved date filtering logic
-  const filteredOrders = allOrders?.orders?.data?.filter((order) => {
-    // Status filter
-    const statusMatch = filter === "All" || order.status === filter;
-
-    // Skip date filtering if no range selected
-    if (!dateRange.start || !dateRange.end) return statusMatch;
-
-    try {
-      const orderDate = new Date(order.orderdate);
-      const start = new Date(dateRange.start);
-      const end = new Date(dateRange.end);
-
-      // Normalize times for comparison
-      start.setHours(0, 0, 0, 0);
-      end.setHours(23, 59, 59, 999);
-      orderDate.setHours(0, 0, 0, 0);
-
-      return statusMatch && orderDate >= start && orderDate <= end;
-    } catch (e) {
-      console.error("Date range error:", e);
-      return statusMatch;
-    }
-  });
 
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
   const exportToCSV = () => {
-    const rows = filteredOrders?.map((o) => ({
-      "Pickup Date, Time": o.dateTime,
+    const rows = orderData?.orders?.data?.map((o) => ({
       "Order ID": o.orderId,
+      "Pickup Date and Time": formatDateTime(o.orderDate),
       Destination: o.destination,
-      Recipient: o.recipient,
-      "Recipient's Tel": o.phone,
-      "Payment Amount": o.payAmount,
-      Status: o.status,
-      Vendor: o.vendor,
-      "Assigned To": o.tpl,
-      "Delivery Fee": o.deliveryAmount,
-      "Delivery Date": o.orderdate,
-      "Order Image": o.orderimg,
+      Recipient: o.recipientName,
+      "Recipient's Tel": o.recipientNumber,
+      Status:o.status,
+      Vendor: o.source?.type,
+      "Assigned To": o.assignedTo?.userProfile?.fullName || o.assignedTo?.businessInfo?.companyName ,
+      "Delivery Fee": o.deliveryFee,
+      "Payment Amount": o.paymentAmount,
+      "Total Payment": (o.paymentAmount + o.deliveryFee),
+      "Delivery Date":  formatDateTime(o.deliveryDate),
+      "Order Image": o.productImage,
     }));
 
     const header = Object.keys(rows[0]);
@@ -191,7 +155,24 @@ export default function Dashboard(props) {
   };
 
   const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(filteredOrders);
+    const data = orderData?.orders?.data?.map((o)=>{
+      return {
+      "Order ID": o.orderId,
+      "Pickup Date and Time": formatDateTime(o.orderDate),
+      Destination: o.destination,
+      Recipient: o.recipientName,
+      "Recipient's Tel": o.recipientNumber,
+      Status:o.status,
+      Vendor: o.source?.type,
+      "Assigned To": o.assignedTo?.userProfile?.fullName || o.assignedTo?.businessInfo?.companyName ,
+      "Delivery Fee": o.deliveryFee,
+      "Payment Amount": o.paymentAmount,
+      "Total Payment": (o.paymentAmount + o.deliveryFee),
+      "Delivery Date": formatDateTime(o.deliveryDate),
+      "Order Image": o.productImage,
+    }
+    })
+    const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
     const excelBuffer = XLSX.write(workbook, {
@@ -206,8 +187,16 @@ export default function Dashboard(props) {
   const exportToPDF = () => {
     try {
       // Check if there's data to export
-      if (!filteredOrders || filteredOrders.length === 0) {
-        alert("No orders to export");
+      if (!orderData?.orders?.data) {
+        toast.error("No orders to export", {
+                style: {
+                  border: "1px solid oklch(88.5% 0.062 18.334)",
+                  // backgroundColor:"oklch(88.5% 0.062 18.334)",
+                  color: "oklch(39.6% 0.141 25.723)",
+                  fontSize: "16px",
+                  width: "500px",
+                },
+              });
         setShowDropdown(false);
         return;
       }
@@ -223,31 +212,34 @@ export default function Dashboard(props) {
 
       // Prepare table data
       const headers = [
-        "Date/Time",
         "Order ID",
+        "Date/Time",
         "Destination",
         "Recipient",
         "Phone",
-        "Amount",
         "Status",
         "Vendor",
         "Assigned To",
+        "Remittant",
         "Delivery Fee",
+        "Total Payment",
         "Delivery Date",
       ];
 
-      const data = filteredOrders?.map((order) => [
-        order.dateTime || "",
+      const data = orderData?.orders?.data?.map((order) => [
         order.orderId || "",
+       formatDateTime(order.orderDate)  || "",
         order.destination || "",
-        order.recipient || "",
-        order.phone || "",
-        order.payAmount || "",
+        order.recipientName || "",
+        order.recipientNumber || "",
+        
         order.status || "",
-        order.vendor || "",
-        order.tpl || "",
-        order.deliveryAmount || "",
-        order.orderdate || "",
+        order.source?.type || "",
+         order.assignedTo?.userProfile?.fullName || order.assignedTo?.businessInfo?.companyName|| "",
+        order.paymentAmount || "",
+        order.deliveryFee || "",
+        (order.deliveryFee + order.paymentAmount) || "",
+         formatDateTime(order.deliveryDate) || "",
       ]);
 
       // Generate the table
@@ -300,7 +292,7 @@ export default function Dashboard(props) {
     { key: "tpl", label: "Assigned To" },
     { key: "deliveryAmount", label: "Delivery Fee" },
     { key: "orderdate", label: "Delivery Date" },
-    { key: "orderimg", label: "Order Image" },
+    { key: "grantTotal", label: "Grand Total" },
   ];
 
   const [visibleCols, setVisibleCols] = useState(
@@ -330,26 +322,10 @@ export default function Dashboard(props) {
     setSelectionPhase("start"); // Reset selection phase
   };
 
-  const countByStatus = (status) => {
-    if (!status) return allOrders?.orders?.data?.length;
-    return allOrders?.orders?.data?.filter((o) => o.status === status).length;
-  };
 
-  const handleStatusFilter = (option) => {
-    setFilter(option);
-    setSelectedDate(null);
-  };
 
-  // In your handleCancel function
-  const handleCancel = () => {
-    setShowDateFilter(false);
-    setSelectionPhase("start"); // Reset to start date selection
-  };
+ 
 
-  console.log("Filtering Debug:", {
-    selectedDate: selectedDate?.toISOString(),
-    filteredOrders: filteredOrders?.map((o) => o.orderdate),
-  });
 
   const [showAddOrderDropdown, setShowAddOrderDropdown] = useState(false);
   const showAddOrderDropdownRef = useRef(null);
@@ -360,20 +336,6 @@ export default function Dashboard(props) {
     buttonAddOrderRef
   );
 
-  const toggleAddOrderDropdown = () => setShowAddOrderDropdown((prev) => !prev);
-
-  // Add these functions (you can implement the actual logic later)
-  const handleManualAdd = () => {
-    setShowAddOrderDropdown(false);
-    // Your manual add order logic here
-    console.log("Manual add order selected");
-  };
-
-  const handleImportFromFile = () => {
-    setShowAddOrderDropdown(false);
-    // Your import from file logic here
-    console.log("Import from file selected");
-  };
   const [selectedRows, setSelectedRows] = useState([]);
   const toggleRowSelection = (orderId, e) => {
     // Prevent event bubbling when clicking the checkbox
@@ -389,6 +351,28 @@ export default function Dashboard(props) {
   };
 
   const [isHeaderSelected, setIsHeaderSelected] = useState(false);
+
+    const assignOrderStatusBackground = (status) => {
+    switch (status) {
+      case "ORDER PLACED":
+        return "#A6CFFF";
+
+      case "ASSIGNED":
+        return "#FFEC8B";
+
+      case "IN TRANSIT":
+        return "#88AFF1";
+
+      case "COMPLETED":
+        return "#C3F9D5";
+      case "RETURNED":
+        return "#AFAFAF";
+      case "FAILED":
+        return "#FF9ABA";
+      case "REJECTED":
+        return "#FFCACA";
+    }
+  };
 
   return (
     <div className="dashboard-content">
@@ -433,15 +417,23 @@ export default function Dashboard(props) {
         <div className={styles.DashbD_head_container}>
           <StatCard
             title="All Orders"
-            value={countByStatus()}
+            value={allOrders?.orders?.totalNumberOfOrders}
             img={staticon}
             change="+5.4% this week"
             bgColor="white"
             bordercolor="1px solid gray"
           />
           <StatCard
+            title="Order PLACED (NEW)"
+            value={allOrders?.orders?.totalNumOfOderPlaced}
+            img={staticon}
+            change="+5.4% this week"
+            bgColor="#A6CFFF"
+            bordercolor="1px solid #95bbe7ff"
+          />
+          <StatCard
             title="Order Completed"
-            value={countByStatus("Completed")}
+            value={allOrders?.orders?.totalNumberOfCompleted}
             img={staticon}
             change="+5.4% this week"
             bgColor="#C3F9D5"
@@ -449,7 +441,7 @@ export default function Dashboard(props) {
           />
           <StatCard
             title="Order Failed"
-            value={countByStatus("Failed")}
+            value={allOrders?.orders?.totalNumberOfFailed}
             img={staticon}
             change="+5.4% this week"
             bgColor="#FF9ABA"
@@ -457,15 +449,15 @@ export default function Dashboard(props) {
           />
           <StatCard
             title="Order Rejected"
-            value={countByStatus("Rejected")}
+            value={allOrders?.orders?.totalNumberOfRejected}
             img={staticon}
             change="+5.4% this week"
             bgColor="#FFC9C9"
             bordercolor="1px solid #FF8787"
           />
           <StatCard
-            title="Order in Progress"
-            value={countByStatus("In Progress")}
+            title="Order in Transit"
+            value={allOrders?.orders?.totalNumOfInTransit}
             img={staticon}
             change="+5.4% this week"
             bgColor="#88AEF1"
@@ -473,7 +465,7 @@ export default function Dashboard(props) {
           />
           <StatCard
             title="Order Assigned"
-            value={countByStatus("Assigned")}
+            value={allOrders?.orders?.totalNumberOfAssigned}
             img={staticon}
             change="+5.4% this week"
             bgColor="#FFEC8B"
@@ -481,7 +473,7 @@ export default function Dashboard(props) {
           />
           <StatCard
             title="Order Returned"
-            value={countByStatus("Returned")}
+            value={allOrders?.orders?.totalNumberOfReturned}
             img={staticon}
             change="+5.4% this week"
             bgColor="#AFAFAF"
@@ -563,7 +555,7 @@ export default function Dashboard(props) {
             <button
               ref={buttonAddOrderRef}
               className={styles.addorder}
-              onClick={toggleAddOrderDropdown}
+              onClick={()=>navigate("/addOrder")}
             >
               Add Order +
             </button>
@@ -584,7 +576,7 @@ export default function Dashboard(props) {
             {filterOptions.map((option) => (
               <button
                 key={option}
-                onClick={() => setFilter(option)}
+                onClick={() => {setFilter(option), refetchOrders({search:handleOrderStatusFilter(option)})}}
                 className={`${styles.filterButton} ${
                   filter === option ? styles.activeFilter : ""
                 }`}
@@ -637,24 +629,28 @@ export default function Dashboard(props) {
                     {visibleCols.phone && (
                       <th className={styles.th}>Recipient's Tel</th>
                     )}
-                    {visibleCols.payAmount && (
-                      <th className={styles.th}>Payment Amount</th>
-                    )}
+                   
                     {visibleCols.status && (
                       <th className={styles.th}>Status</th>
                     )}
                     {visibleCols.vendor && (
                       <th className={styles.th}>Vendor</th>
                     )}
-                    {visibleCols.tpl && <th className={styles.th}>3PL/Rider</th>}
-                    {visibleCols.deliveryAmount && (
-                      <th className={styles.th}>Delivery Fee</th>
-                    )}
+                    
                     {visibleCols.orderdate && (
                       <th className={styles.th}>Delivery Date, Time</th>
                     )}
-                    {visibleCols.orderimg && (
-                      <th className={styles.th}>Order Image</th>
+                    {visibleCols.tpl && <th className={styles.th}>3PL/Rider</th>}
+
+                    
+                     {visibleCols.payAmount && (
+                      <th className={styles.th}>Payment Amount</th>
+                    )}
+                    {visibleCols.deliveryAmount && (
+                      <th className={styles.th}>Delivery Fee</th>
+                    )}
+                     {visibleCols.grantTotal && (
+                      <th className={styles.th}>Grand Total</th>
                     )}
                   </tr>
                 </thead>
@@ -663,7 +659,7 @@ export default function Dashboard(props) {
                 <tbody>
                   {
                     
-                      orderLoading &&(
+                      (orderLoading && !allOrders?.orders?.data) &&(
 
                         <tr>
                           
@@ -727,7 +723,7 @@ export default function Dashboard(props) {
                         <td className={styles.td}>{order?.orderId}</td>
                       )}
                       {visibleCols.dateTime && (
-                        <td className={styles.td}>{formatDateTime(order?.createdAt)}</td>
+                        <td className={styles.td}>{formatDateTime(order?.orderDate)}</td>
                       )}
                       
                       {visibleCols.destination && (
@@ -740,15 +736,17 @@ export default function Dashboard(props) {
                       {visibleCols.phone && (
                         <td className={styles.td}>{order?.recipientNumber}</td>
                       )}
-                      {visibleCols.payAmount && (
-                        <td className={styles.td}>GHC {order?.paymentAmount}</td>
-                      )}
+                      
                       {visibleCols.status && (
                         <td className={styles.td}>
                           <span
+
                             className={`${styles.status} ${
                               statusClass[order.status]
                             }`}
+                            style={{
+                              backgroundColor:assignOrderStatusBackground(order?.status)
+                            }}
                           >
                             {order?.status}
                           </span>
@@ -757,17 +755,22 @@ export default function Dashboard(props) {
                       {visibleCols.vendor && (
                         <td className={styles.td}>{order?.source?.type}</td>
                       )}
+                       {visibleCols.orderdate && (
+                        <td className={styles.td}>{formatDateTime(order?.deliveryDate) }</td>
+                      )}
                       {visibleCols.tpl && (
                         <td className={styles.td}>{order?.assignedTo?.userProfile &&  order?.assignedTo?.userProfile?.fullName}</td>
+                      )}
+                      
+                     
+                      {visibleCols.payAmount && (
+                        <td className={styles.td}>GHC {order?.paymentAmount}</td>
                       )}
                       {visibleCols.deliveryAmount && (
                         <td className={styles.td}>{order?.deliveryFee && `GHC ${order?.deliveryFee}` }</td>
                       )}
-                      {visibleCols.orderdate && (
-                        <td className={styles.td}>{formatDateTime(order?.orderDate) }</td>
-                      )}
-                      {visibleCols.orderimg && (
-                        <td className={styles.td}>{order?.productImage}</td>
+                      {visibleCols.grantTotal && (
+                        <td className={styles.td}>GHC {(order?.paymentAmount + order?.deliveryFee)}</td>
                       )}
                     </tr>
                   ))}
