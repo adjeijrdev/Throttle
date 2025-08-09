@@ -53,19 +53,19 @@
   margin: 0 auto;
   border-radius: 50%;
   background-color: white;
-  border: 0.125rem solid var(--dark-green);
+  border: 0.125rem solid var(--main-theme);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: var(--dark-green);
+  color: var(--main-theme);
 }
 .step-circle.active {
-  background-color: var(--dark-green);
+  background-color: var(--main-theme);
   color: white;
 }
 .step-circle.completed {
-  background-color: var(--dark-green);
+  background-color: var(--main-theme);
   color: white;
 }
 
@@ -76,7 +76,7 @@
   left: 61%;
   width: 90%;
   height: 2px;
-  background: var(--dark-green);
+  background: var(--main-theme);
 }
 
 .step-label {
@@ -193,7 +193,7 @@
 }
 
 .btn-filled {
-  background-color: var(--dark-green);
+  background-color: var(--main-theme);
   color: white;
   width: 70%;
   border: none;
@@ -201,9 +201,9 @@
 
 .btn-outline {
   background-color: white;
-  color: var(--dark-green);
+  color: var(--main-theme);
   width: 70%;
-  border: 2px solid var(--dark-green);
+  border: 0.8px solid var(--main-theme);
 }
 
 input[type="email"],

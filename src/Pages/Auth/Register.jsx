@@ -29,7 +29,7 @@ export default function Register() {
         </div>
       </div>
       <div className="white-right">
-        <div className="logo registering-part-logo">
+        <div className="registering-part-logo">
           <img src={Logo} alt="Throttle-logo" />
         </div>
         <div className="registring-part-form-contianer">
