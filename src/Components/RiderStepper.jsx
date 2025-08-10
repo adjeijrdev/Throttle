@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 //Importing in-application components
 import DropDownInput from "../Components/DropDownMenuInput/DropDownInput";
 import { useNavigate, Link } from "react-router";
+import PhoneNumberInput from "./Phone/PhoneNumberInput";
 
 //import images
 import LeftSVG from "../Assets/icons/Left.png";
@@ -15,7 +16,7 @@ import img from "../Assets/icons/img.png";
 import padLock from "../Assets/input_icons/padlock.png";
 import EmailIcon from "../Assets/input_icons/emailuser.png";
 import Calendar from "../Assets/icons/Calendar.png";
-import { useForm } from "react-hook-form";
+import { useForm,  Controller } from "react-hook-form";
 import { riderSchema } from "../items/RiderSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CustomSelector2 from "./form/selector/CustomSelecter2";
@@ -42,6 +43,7 @@ const Stepper = ({ name }) => {
     trigger,
     setValue,
     watch,
+    control,
     formState: { errors, isSubmitting, touchedFields, setError },
   } = useForm({
     resolver: zodResolver(riderSchema),
@@ -523,7 +525,7 @@ const Stepper = ({ name }) => {
                     {" "}
                     Mobile Number<sup style={{ color: "red" }}>*</sup>
                   </label>
-                  <input
+                  {/* <input
                     type="text"
                     id="phoneNumber"
                     name="phoneNumber"
@@ -535,7 +537,17 @@ const Stepper = ({ name }) => {
                     <p className={style.error}>
                       {errors?.contactDetails?.phoneNumber?.message}{" "}
                     </p>
-                  )}
+                  )} */}
+                  <Controller
+                    name="phoneNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <PhoneNumberInput
+                        {...field}
+                        error={errors?.contactDetails?.phoneNumber?.message|| ""}
+                      />
+                    )}
+                  />
                 </div>
                 <div className={style["form-group"]}>
                   <label htmlFor="residentialAddress">
@@ -998,7 +1010,6 @@ const Stepper = ({ name }) => {
         )}
         {/* <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} /> */}
       </form>
-      
     </>
   );
 };
