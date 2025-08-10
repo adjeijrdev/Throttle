@@ -327,8 +327,8 @@ const Stepper = ({ name }) => {
             border: "1px solid oklch(88.5% 0.062 18.334)",
             // backgroundColor:"oklch(88.5% 0.062 18.334)",
             color: "oklch(39.6% 0.141 25.723)",
-            fontSize: "16px",
-            width: "500px",
+            fontSize: "1.6rem",
+            width: "50rem",
           },
         });
       }

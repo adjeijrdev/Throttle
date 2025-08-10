@@ -2,8 +2,9 @@ import { useState, useRef } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import style from "./ThirdPartyStepper.module.css";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { ThirdPartySchema } from "../items/ThirdPartySchema";
+import PhoneNumberInput from "./Phone/PhoneNumberInput";
 
 //Importing in-application components
 import DropDownInput from "../Components/DropDownMenuInput/DropDownInput";
@@ -21,7 +22,7 @@ import Calendar from "../Assets/icons/Calendar.png";
 const steps = [
   "Personal info",
   "Contact Details",
-  "Vehicle Details",
+  "Payment & Billings",
   "Document Uploads",
   "Account Details",
   // "Account Details",
@@ -36,14 +37,15 @@ const Stepper = ({ name }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting, touchedFields, setError },
     trigger,
     setValue,
     watch,
     control,
   } = useForm({
     resolver: zodResolver(ThirdPartySchema),
-    mode: "onChange",
+    mode: "all",
+    reValidateMode: "onChange",
   });
 
   //const password visibility toggle functions
@@ -91,11 +93,11 @@ const Stepper = ({ name }) => {
   };
 
   // Step navigation with validation
-const nextStep = async () => {
-  if (currentStep < steps.length - 1) {
-    setCurrentStep(prev => prev + 1);
-  }
-};
+  const nextStep = async () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
 
   const prevStep = () => {
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
@@ -121,7 +123,7 @@ const nextStep = async () => {
                   : ""
               }`}
             >
-              { index < currentStep ? <img src={check} /> : index + 1}
+              {index < currentStep ? <img src={check} /> : index + 1}
             </div>
             <p className={style["step-label"]}>{label}</p>
           </div>
@@ -129,10 +131,10 @@ const nextStep = async () => {
       </div>
       <div className={style["form-input-container"]}>
         <div className={style["form-step"]}>
-          { /* Step 1 - Personal Info */}
+          {/* Step 1 - Personal Info */}
           {currentStep === 0 && (
-            < div className={style["form-grid"]}>
-              <div className={style["form-group"]} >
+            <div className={style["form-grid"]}>
+              <div className={style["form-group"]}>
                 <label>
                   Company Name<sup>*</sup>
                 </label>
@@ -155,12 +157,14 @@ const nextStep = async () => {
                 </label>
                 <input
                   type="text"
-                  {...register("streetAddress") }
+                  {...register("streetAddress")}
                   placeholder="location"
                   required
                 />
                 {errors.streetAddress && (
-                  <p className={style.errorMessage}>{errors.streetAddress.message}</p>
+                  <p className={style.errorMessage}>
+                    {errors.streetAddress.message}
+                  </p>
                 )}
               </div>
 
@@ -177,7 +181,9 @@ const nextStep = async () => {
                   />
                 </div>
                 {errors.registrationNumber && (
-                  <p className={style.errorMessage}>{errors.registrationNumber.message}</p>
+                  <p className={style.errorMessage}>
+                    {errors.registrationNumber.message}
+                  </p>
                 )}
               </div>
 
@@ -191,7 +197,7 @@ const nextStep = async () => {
                   placeholder="address"
                 />
                 {errors.gpsAddress && (
-                  < p className={style.errorMessage}>
+                  <p className={style.errorMessage}>
                     {errors.gpsAddress.message}
                   </p>
                 )}
@@ -259,7 +265,9 @@ const nextStep = async () => {
                   required
                 />
                 {errors.primaryContact && (
-                  <p className={style.errorMessage}>{errors.primaryContact.message}</p>
+                  <p className={style.errorMessage}>
+                    {errors.primaryContact.message}
+                  </p>
                 )}
               </div>
 
@@ -269,12 +277,14 @@ const nextStep = async () => {
                 </label>
                 <input
                   type="text"
-                  {...register("email")}
+                  {...register("phoneNumber")}
                   placeholder="contact"
                   required
                 />
-                {errors.email && (
-                  <p className={style.errorMessage}>{errors.email.message}</p>
+                {errors.phoneNumber && (
+                  <p className={style.errorMessage}>
+                    {errors.phoneNumber.message}
+                  </p>
                 )}
               </div>
 
@@ -284,12 +294,14 @@ const nextStep = async () => {
                 </label>
                 <input
                   type="text"
-                  {...register("phone")}
+                  {...register("position")}
                   placeholder="Position"
                   required
                 />
-                {errors.phone && (
-                  <p className={style.errorMessage}>{errors.phone.message}</p>
+                {errors.position && (
+                  <p className={style.errorMessage}>
+                    {errors.position.message}
+                  </p>
                 )}
               </div>
 
@@ -299,12 +311,12 @@ const nextStep = async () => {
                 </label>
                 <input
                   type="text"
-                  {...register("emergencyContactName")}
+                  {...register("ghanaCardNumber")}
                   placeholder="number"
                 />
-                {errors.emergencyContactName && (
+                {errors.ghanaCardNumber && (
                   <p className={style.errorMessage}>
-                    {errors.emergencyContactName.message}
+                    {errors.ghanaCardNumber.message}
                   </p>
                 )}
               </div>
@@ -313,15 +325,9 @@ const nextStep = async () => {
                 <label>
                   Email Address<sup>*</sup>
                 </label>
-                <input
-                  type="text"
-                  {...register("emergencyEmail")}
-                  placeholder="Email"
-                />
-                {errors.emergencyEmail && (
-                  <p className={style.errorMessage}>
-                    {errors.emergencyEmail.message}
-                  </p>
+                <input type="text" {...register("email")} placeholder="Email" />
+                {errors.email && (
+                  <p className={style.errorMessage}>{errors.email.message}</p>
                 )}
               </div>
 
@@ -329,20 +335,20 @@ const nextStep = async () => {
                 <label>
                   Office Line<sup>*</sup>
                 </label>
-                <input
-                  type="text"
-                  {...register("emergencyPhone")}
-                  placeholder="Contact"
+                <Controller
+                  name="officeLine"
+                  control={control}
+                  render={({ field }) => (
+                    <PhoneNumberInput
+                      {...field}
+                      error={errors.officeLine?.message || ""}
+                    />
+                  )}
                 />
-                {errors.emergencyPhone && (
-                  <p className={style.errorMessage}>
-                    {errors.emergencyPhone.message}
-                  </p>
-                )}
               </div>
             </div>
           )}
-           {/* Step 3 - Document Uploads */}
+          {/* Step 3 - Document Uploads */}
           {currentStep === 2 && (
             <div className={style["form-grid"]}>
               {/* <label>Account Email</label> */}
@@ -353,29 +359,26 @@ const nextStep = async () => {
                 </label>
                 <input
                   type="text"
-                  {...register("vehicleType")}
+                  {...register("bankName")}
                   placeholder="bank name"
                 />
-                {errors.vehicleType && (
+                {errors.bankName && (
                   <p className={style.errorMessage}>
-                    {errors.vehicleType.message}
+                    {errors.bankName.message}
                   </p>
                 )}
               </div>
 
               <div className={style["form-group"]}>
-                <label>
-                  Mobile Money Name
-                  {/* <sup>*</sup> */}
-                </label>
+                <label>Mobile Money Name</label>
                 <input
                   type="text"
-                  {...register("vehicleRegNumber")}
+                  {...register("mobileMoneyName")}
                   placeholder="momo name"
                 />
-                {errors.vehicleRegNumber && (
+                {errors.mobileMoneyName && (
                   <p className={style.errorMessage}>
-                    {errors.vehicleRegNumber.message}
+                    {errors.mobileMoneyName.message}
                   </p>
                 )}
               </div>
@@ -385,27 +388,29 @@ const nextStep = async () => {
                 </label>
                 <input
                   type="text"
-                  {...register("bankName")}
+                  {...register("bankAccountName")}
                   placeholder="account name"
                 />
               </div>
-              {errors.bankName && (
-                <p className={style.errorMessage}>{errors.bankName.message}</p>
+              {errors.bankAccountName && (
+                <p className={style.errorMessage}>
+                  {errors.bankAccountName.message}
+                </p>
               )}
               <div className={style["form-group"]}>
                 <label>
                   Mobile Money Number<sup>*</sup>
                 </label>
-                <input
-                  type="text"
-                  {...register("momoName")}
-                  placeholder="momo number"
+                <Controller
+                  name="mobileMoneyNumber"
+                  control={control}
+                  render={({ field }) => (
+                    <PhoneNumberInput
+                      {...field}
+                      error={errors.mobileMoneyNumber?.message || ""}
+                    />
+                  )}
                 />
-                {errors.momoName && (
-                  <p className={style.errorMessage}>
-                    {errors.momoName.message}
-                  </p>
-                )}
               </div>
 
               <div className={style["form-group"]}>
@@ -414,12 +419,12 @@ const nextStep = async () => {
                 </label>
                 <input
                   type="text"
-                  {...register("bankNumber")}
+                  {...register("bankAccountNumber")}
                   placeholder=" account number"
                 />
-                {errors.bankNumber && (
+                {errors.bankAccountNumber && (
                   <p className={style.errorMessage}>
-                    {errors.bankNumber.message}
+                    {errors.bankAccountNumber.message}
                   </p>
                 )}
               </div>
