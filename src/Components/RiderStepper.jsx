@@ -570,7 +570,7 @@ const Stepper = ({ name }) => {
                   <label htmlFor="additionalPhoneNumber">
                     Additional Mobile Number (Optional)
                   </label>
-                  <input
+                  {/* <input
                     id="additionalPhoneNumber"
                     type="text"
                     name="additionalPhoneNumber"
@@ -581,7 +581,17 @@ const Stepper = ({ name }) => {
                     <p className={style.error}>
                       {errors?.contactDetails?.additionalPhoneNumber?.message}{" "}
                     </p>
-                  )}
+                  )} */}
+                  <Controller
+                    name="additionalPhoneNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <PhoneNumberInput
+                        {...field}
+                        error={errors?.contactDetails?.additionalPhoneNumber?.message|| ""}
+                      />
+                    )}
+                  />
                 </div>
                 <div className={style["form-group"]}>
                   <label htmlFor="emergencyContactName">
@@ -621,7 +631,7 @@ const Stepper = ({ name }) => {
                   <label htmlFor="emergencyContactNumber">
                     Emergency contact number<sup>*</sup>
                   </label>
-                  <input
+                  {/* <input
                     type="text"
                     name="emergencyContactNumber"
                     id="emergencyContactNumber"
@@ -632,7 +642,17 @@ const Stepper = ({ name }) => {
                     <p className={style.error}>
                       {errors?.contactDetails?.emergencyContactNumber?.message}{" "}
                     </p>
-                  )}
+                  )} */}
+                  <Controller
+                    name="emergencyContactNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <PhoneNumberInput
+                        {...field}
+                        error={errors?.contactDetails?.emergencyContactNumber?.message|| ""}
+                      />
+                    )}
+                  />
                 </div>
               </div>
             )}

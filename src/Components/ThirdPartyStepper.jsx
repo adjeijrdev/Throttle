@@ -275,17 +275,16 @@ const Stepper = ({ name }) => {
                 <label>
                   Phone Number<sup>*</sup>
                 </label>
-                <input
-                  type="text"
-                  {...register("phoneNumber")}
-                  placeholder="contact"
-                  required
+                <Controller
+                  name="phoneNumber"
+                  control={control}
+                  render={({ field }) => (
+                    <PhoneNumberInput
+                      {...field}
+                      error={errors.phoneNumber?.message || ""}
+                    />
+                  )}
                 />
-                {errors.phoneNumber && (
-                  <p className={style.errorMessage}>
-                    {errors.phoneNumber.message}
-                  </p>
-                )}
               </div>
 
               <div className={style["form-group"]}>

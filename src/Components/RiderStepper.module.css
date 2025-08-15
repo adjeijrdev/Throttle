@@ -19,7 +19,7 @@
 .stepper {
   display: flex;
   justify-content: space-between;
-  /* margin-bottom: 3rem; */
+  margin-bottom: 3rem;
   position: relative;
 }
 .stepper p {
@@ -119,7 +119,9 @@
   align-items: center;
 }
 .form__grid1{
-  padding: 0 40px;
+  margin: 0rem auto;
+  width: 40rem;
+  align-items: center;
 }
 .form-grid_document {
   display: grid;
@@ -164,7 +166,7 @@
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  margin-top: 14rem;
+  margin-top: 10rem;
 
   /* position: relative; */
 }
@@ -273,7 +275,7 @@ input[type="date"] {
 }
 input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: var(--main-theme);
-  height: 2.67em;
+  height: 2.7em;
   width: 3.5em;
   position: relative;
   right: -1em;
@@ -287,7 +289,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   position: absolute;
   left: 24em;
   width: 5em;
-  height: 4em;
+  height: 2em;
   background-color: var(--main-theme);
   border-radius: 0px 9px 9px 0px;
   pointer-events: none;
@@ -576,23 +578,27 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .error {
   color: #d32f2f; /* Deep red */
-  font-size: 1rem;
+  /* font-size: 1rem;
   margin-top: 4px;
-  width: 100%;
+  width: 100%; */
   /* padding: 6px 12px; */
   padding-left: 6px;
-  background-color: #fdecea; /* Light red background */
-  border-left: 4px solid #f44336;
+ ; /* Light red background */
+  /* border-left: 4px solid #f44336;
   border-radius: 4px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 8px; */
   animation: shake 0.5s ease-in-out;
 }
-
-.error::before {
-  content: "⚠";
-  font-size: 1.3rem;
+.errorMessage{
+  border-left: 3px solid red;
+  border-radius: 2px;
+  padding-left: 10px;
+  margin: -6px;
+  margin-bottom: 0px;
+  color: red;
+   background-color: #fdecea;
 }
 
 @keyframes shake {
