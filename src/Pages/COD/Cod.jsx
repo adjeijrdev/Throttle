@@ -31,7 +31,9 @@ export default function Cod() {
   const [orderIds, setOrderIds] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showTable, setShowTable] = useState(false);
-  const [deliveryStatus, setDeliveryStatus] = useState(null);
+  const [vendorStatus, setVendorStatus] = useState(null);
+  const [riderStatus, setRiderStatus] = useState(null);
+  const [tplStatus, setTplStatus] = useState(null);
 
   const [statusFilter, setStatusFilter] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -41,6 +43,11 @@ export default function Cod() {
   const filterOptions = [
     "Paid to Vendor",
     "Completed",
+  ];
+   
+  const actionOptions =[
+     "Paid to Vendor",
+     "Undo Paid to Vendor",
   ];
 
 
@@ -202,7 +209,13 @@ export default function Cod() {
     "Paid to Vendor": styles.paidtovendor,
   };
 
-  const deliveryStatusOptions = [
+  const actionClass ={
+     "Paid to Vendor": styles.paidto,
+    "Undo Paid to Vendor": styles.undopaid,
+  }
+
+
+  const vendorStatusOptions = [
     { value: "all", label: "All Vendors" },
     { value: "delivered", label: "Ishtari Ghana LTD" },
     { value: "pending", label: "Iplaykora" },
@@ -210,6 +223,22 @@ export default function Cod() {
     { value: "remitted", label: "General Electricals" },
   ];
 
+   const tplStatusOptions = [
+    { value: "all", label: "All 3PLs" },
+    { value: "delivered", label: "One Ghana Delivery" },
+    { value: "pending", label: "Watson Delivery Company" },
+    { value: "remitted", label: "Russell Delivery Ghana" },
+    { value: "remitted", label: "Mckinney Delivery Company" },
+     { value: "remitted", label: "No 3PL Select" },
+  ];
+   const riderStatusOptions = [
+    { value: "all", label: "All Riders" },
+    { value: "delivered", label: "Esther Howard" },
+    { value: "pending", label: "Leslie Alexander" },
+    { value: "remitted", label: "Robert Fax" },
+    { value: "remitted", label: "Cameron Williamson" },
+     { value: "remitted", label: "No Rider Selected" },
+  ];
 
 //  const [showDropdown, setShowDropdown] = useState(false);
 
@@ -374,11 +403,11 @@ export default function Cod() {
             <div className={styles.remarks}>
               <label>Vendor</label>
               <CustomSelector2
-                  options={deliveryStatusOptions}
-                  selectedValue={deliveryStatus}
-                  setSelectedValue={setDeliveryStatus}
+                  options={vendorStatusOptions}
+                  selectedValue={vendorStatus}
+                  setSelectedValue={setVendorStatus}
                   placeholder={"All Vendors"}
-                  width="490px"
+                  width="37rem"
                 
                 />
                 
@@ -386,22 +415,22 @@ export default function Cod() {
             <div className={styles.remarks}>
               <label>3PL</label>
              <CustomSelector2
-                  options={deliveryStatusOptions}
-                  selectedValue={deliveryStatus}
-                  setSelectedValue={setDeliveryStatus}
+                  options={tplStatusOptions}
+                  selectedValue={tplStatus}
+                  setSelectedValue={setTplStatus}
                   placeholder={"All 3PLs"}
-                   width="490px"
+                   width="37rem"
                  
                 />
             </div>
             <div className={styles.remarks}>
               <label>Rider</label>
               <CustomSelector2
-                  options={deliveryStatusOptions}
-                  selectedValue={deliveryStatus}
-                  setSelectedValue={setDeliveryStatus}
+                  options={riderStatusOptions}
+                  selectedValue={riderStatus}
+                  setSelectedValue={setRiderStatus}
                   placeholder={"All Riders"}
-                   width="490px"
+                   width="37rem"
                  
                 />
             </div>
@@ -410,7 +439,7 @@ export default function Cod() {
         </div>
 
 <div className={styles.carditem}>
-  <button className={styles.carditem_1}>
+  <button className={styles.carditem__1}>
      <span className={styles.iconwrap_1}>
       <img src={greencheckIcon} alt="check" size={12}/>
       </span><div style={{display:"flex",flexDirection:"column"}}>
@@ -418,7 +447,7 @@ export default function Cod() {
         <text style={{fontWeight:"600", fontSize:"2.5rem", display:"inline-flex"}}>1,308</text>
         </div></button>
 
-  <button  className={styles.carditem_1}>
+  <button  className={styles.carditem__2}>
     <span className={styles.iconwrap_2}>
       <img src={moneyIcon} alt="moneybag" size={12} />
       </span><div style={{display:"flex",flexDirection:"column"}}>
@@ -426,7 +455,7 @@ export default function Cod() {
         <text style={{fontWeight:"600", fontSize:"2.5rem", display:"inline-flex"}}>GHC2,394.70</text>
         </div></button>
 
-  <button className={styles.carditem_1}>
+  <button className={styles.carditem__3}>
     <span className={styles.iconwrap_3}>
       <img src={cashIcon} alt="cash" size={12} />
       </span><div style={{display:"flex",flexDirection:"column"}}>
@@ -434,7 +463,7 @@ export default function Cod() {
         <text style={{fontWeight:"600", fontSize:"2.5rem", display:"inline-flex"}}>GHC1,227.30</text>
         </div></button>
 
-  <button className={styles.carditem_1}>
+  <button className={styles.carditem__4}>
     <span className={styles.iconwrap_4}>
       <img src={redclockIcon} alt="redclock" size={12}/>
       </span><div style={{display:"flex",flexDirection:"column"}}>
@@ -443,7 +472,7 @@ export default function Cod() {
       </div>
       </button>
 
-  <button className={styles.carditem_1}>
+  <button className={styles.carditem__5}>
     <span className={styles.iconwrap_5}>
       <img src={payIcon} alt="money" size={12} />
       </span><div style={{display:"flex",flexDirection:"column"}}>
@@ -518,7 +547,7 @@ export default function Cod() {
       </td>
       <td>
         <button 
-          className={styles.actionButton}
+          className={`${styles.actionButton} ${actionClass[order.action] || ''}`}
           onClick={() => handleAddAction(order.id)}
         >
           {order.action}

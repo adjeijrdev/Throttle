@@ -305,14 +305,75 @@ border-radius: 8px;
   margin-top: 2rem;
 }
 
-.carditem_1{
-  padding: 2rem;
-  width: 30rem;
+.carditem__1{
+  padding: 1rem;
+  width: 35rem;
   background-color: white;
   border-radius: 0.6rem;
-  border: none;
+  border: 1.5px solid white;
   display: flex;
   gap: 1rem;
+}
+.carditem__1:hover {
+  border-color:#17654F;
+  cursor: pointer;
+   box-shadow: 0 4px 6px rgba(20, 20, 20, 0.1);
+}
+.carditem__2{
+  padding: 1rem;
+  width: 35rem;
+  background-color: white;
+  border-radius: 0.6rem;
+  border: 1.5px solid white;
+  display: flex;
+  gap: 1rem;
+}
+.carditem__2:hover {
+  border-color:#AD7611;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(20, 20, 20, 0.1);
+}
+.carditem__3{
+  padding: 1rem;
+  width: 35rem;
+  background-color: white;
+  border-radius: 0.6rem;
+ border: 1.5px solid white;
+  display: flex;
+  gap: 1rem;
+}
+.carditem__3:hover {
+  border-color:#115FAD;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(20, 20, 20, 0.1);
+}
+.carditem__4{
+  padding: 1rem;
+  width: 35rem;
+  background-color: white;
+  border-radius: 0.6rem;
+ border: 1.5px solid white;
+  display: flex;
+  gap: 1rem;
+}
+.carditem__4:hover {
+  border-color:#E11515;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(20, 20, 20, 0.1);
+}
+.carditem__5{
+  padding: 1rem;
+  width: 35rem;
+  background-color: white;
+  border-radius: 0.6rem;
+  border: 1.5px solid white;
+  display: flex;
+  gap: 1rem;
+}
+.carditem__5:hover {
+  border-color:#43A047;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(20, 20, 20, 0.1);
 }
 .iconwrap_1{
 width: 4.5rem;
@@ -489,6 +550,14 @@ align-items: center;
   background-color:#C3F9D5 ;
 }
 
+.paidto:hover {
+  background-color: #7BF0AC;
+  border-color: #33ae66;
+}
+.undopaid:hover {
+  background-color: #f0b0c9;
+  border-color: #f64589;
+}
 .btncontainercod{
   margin-top: 3rem;
   margin-bottom: 1.5rem;
