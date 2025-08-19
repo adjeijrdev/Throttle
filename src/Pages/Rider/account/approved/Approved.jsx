@@ -197,7 +197,7 @@ function RiderApproved() {
                         <button
                           className="status-btn-st"
                           onClick={() =>
-                            navigate(`/rider/approved/details/${item?._id}`)
+                            navigate(`/dashboard/rider/approved/details/${item?._id}`)
                           }
                         >
                           Approved

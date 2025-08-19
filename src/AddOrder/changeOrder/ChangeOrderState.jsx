@@ -6,7 +6,8 @@ import { forwardRef, useState } from "react";
 const ChangeOrderStatusModal = forwardRef(({setShowOrderCompletedOTPModal,closeSelfHandler,setShowFailedModal,setShowRejectedModal}, ref) => {
   return (
  
-  <div className={styles.modalContainer} ref={ref}>
+ <div className={styles.fullPage}>
+ <div className={styles.modalContainer} ref={ref}>
       <p className={styles.modalTitle}>Change status to</p>
       <button  onClick={()=>{ closeSelfHandler(false);setShowOrderCompletedOTPModal(true)}}>
         <span>
@@ -27,6 +28,8 @@ const ChangeOrderStatusModal = forwardRef(({setShowOrderCompletedOTPModal,closeS
         Failed
       </button>
     </div>
+ </div>
+ 
    
   
   );

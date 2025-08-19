@@ -198,7 +198,7 @@ function RiderDenied() {
                         {" "}
                         <button
                           className="status-btn-st"
-                          onClick={() => navigate(`/rider/denied/details/${item?._id}`)}
+                          onClick={() => navigate(`/dashboard/rider/denied/details/${item?._id}`)}
                         >
                           Denied
                         </button>{" "}

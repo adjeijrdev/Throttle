@@ -80,6 +80,7 @@ export const GET_ALL_VENDORS = gql`
         _id
         role
         status
+        
         businessInfo {
           areaOfOperation
           businessAddress
@@ -337,8 +338,20 @@ export const GET_RIDER = gql`
 `;
 
 export const GET_ALL_ORDERS = gql`
-  query GET_ALL_ORDERS($offset: Int!, $limit: Int!, $search: String!) {
-    orders(offset: $offset, limit: $limit, search: $search) {
+  query GET_ALL_ORDERS(
+    $offset: Int!
+    $limit: Int!
+    $search: String!
+    $entityFilter: String!
+    $orderIds: [String]
+  ) {
+    orders(
+      offset: $offset
+      limit: $limit
+      search: $search
+      entityFilter: $entityFilter
+      orderIds: $orderIds
+    ) {
       currentPage
       hasNextPage
       totalCount
@@ -382,9 +395,12 @@ export const GET_ALL_ORDERS = gql`
         recipientName
         recipientNumber
         rejectedReasons
+        
         source {
-          type
-          vendorID
+          _id
+          businessInfo {
+            companyName
+          }
         }
         status
         updatedAt
@@ -438,10 +454,13 @@ export const GET_ORDER = gql`
       recipientName
       recipientNumber
       rejectedReasons
-      source {
-        type
-        vendorID
-      }
+      
+        # source {
+        #   _id
+        #   businessInfo {
+        #     companyName
+        #   }
+        # }
       status
       updatedAt
     }

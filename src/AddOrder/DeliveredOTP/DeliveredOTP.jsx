@@ -66,7 +66,8 @@ const DeliveredOTPModal = forwardRef(({orderId,refetchOrder,setShowOrderComplete
 
 
   return (
-    <div className={styles.modalContainer} ref={ref}>
+    <div className={styles.fullPage}>
+         <div className={styles.modalContainer} ref={ref}>
       <p className={styles.modalTitle}>Change status to</p>
 
       <div className={styles.otpBoxContainer}>
@@ -102,6 +103,8 @@ const DeliveredOTPModal = forwardRef(({orderId,refetchOrder,setShowOrderComplete
         )}
       </button>
     </div>
+    </div>
+   
   );
 });
 

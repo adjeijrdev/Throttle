@@ -6,7 +6,11 @@ import AssignRiderTableFilter from "./AssignOrderFilterTB/AssignRiderFilter";
 import Assign3PLTableFilter from "./AssignOrderFilterTB/T3PLTBFilter";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";
-import { assignOrderAPI, OrderInTransitAPI } from "../api/order";
+import {
+  assignOrderAPI,
+  deleteSingleOrderdAPI,
+  OrderInTransitAPI,
+} from "../api/order";
 import { GET_ORDER } from "../graphql/generalQueries";
 import { useQuery } from "@apollo/client";
 import { formatDateTime } from "../utils/formateDateTime";
@@ -16,6 +20,8 @@ import ChangeOrderStatusModal from "./changeOrder/ChangeOrderState";
 import DeliveredOTPModal from "./DeliveredOTP/DeliveredOTP";
 import { FailedModal } from "./failedModal/FailedModal";
 import { RejectedModal } from "./rejectedModal/RejectedModal";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 export default function OrderDetails() {
   const [showAssignModal, setShowAssignModal] = useState(false);
@@ -33,6 +39,10 @@ export default function OrderDetails() {
     useState(false);
   const [showFailedModal, setShowFailedModal] = useState(false);
   const [showRejectedModal, setShowRejectedModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const viewAbleTabs = useSelector((state) => state.staffAuth?.viewAbleTabs);
+
+  const navigate = useNavigate();
 
   const showRejectedModalRef = useRef(null);
   useClickOutside(
@@ -186,6 +196,36 @@ export default function OrderDetails() {
     setOrderInTransit(false);
   };
 
+  const handleDeleteOrder = async () => {
+    try {
+      setIsDeleting(true);
+
+      const result = await deleteSingleOrderdAPI(id);
+
+      toast.success(result?.data?.message, {
+        style: {
+          border: "1px solid #17654F",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "black",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+      navigate(-1);
+    } catch (error) {
+      toast.error(error?.message, {
+        style: {
+          border: "1px solid oklch(88.5% 0.062 18.334)",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "oklch(39.6% 0.141 25.723)",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+    }
+    setIsDeleting(false);
+  };
+
   const assignOrderStatusBackground = (status) => {
     switch (status) {
       case "ORDER PLACED":
@@ -212,16 +252,44 @@ export default function OrderDetails() {
     <div>
       <div>
         <div className={styles.orderDetailsHeader}>
-          <div className={styles.orderDetailsTitle}>Order Details</div>
-          <div className={styles.orderDetailsDescription}>
-            View and manage orders.
+          <div className={styles.orderHeaderContainer}>
+            <div>
+              <div className={styles.orderDetailsTitle}>Order Details</div>
+              <div className={styles.orderDetailsDescription}>
+                View and manage orders.
+              </div>
+            </div>
+
+            {
+              !viewAbleTabs?.includes("Vendor") && (
+                 <button
+              className={styles.deleteOrder}
+              onClick={() => handleDeleteOrder()}
+            >
+              {isDeleting ? <BeatLoader color="white" /> : <span>Delete</span>}
+            </button>
+              )
+            }
+           
           </div>
         </div>
 
         <div className={styles.orderDetails}>
           <div className={styles.orderDetailMain}>
             <div className={styles.detailsLeft}>
-              <div>Product Imge</div>
+              <div
+                className={styles.productImge}
+                style={{
+                  backgroundImage: `url(${orderData?.order?.productImage})`,
+                  width: "90%",
+                  height: "90%",
+                  backgroundSize: "contain",
+                  backgroundPosition: "top",
+                  backgroundRepeat: "no-repeat",
+                }}
+              >
+                {!orderData?.order?.productImage && "Product Image"}
+              </div>
               <div className={styles.detailsLeftRight}>
                 <div className={styles.detailsLeftTitle}>
                   {orderData?.order?.productDescription}
@@ -372,120 +440,128 @@ export default function OrderDetails() {
                       {orderData?.order?.paymentAmount}
                     </p>
                   </div>
-                  <div className={styles.con_box}>
-                    <p className={styles.con_box_title}>Delivery fee(GHC)</p>
-                    <input
-                      type="number"
-                      className={styles.con_box_value}
-                      value={deliveryFee}
-                      onChange={(e) => setDeliveryFee(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-            {orderData?.order?.status !== "ORDER PLACED" && (
-              <div className={styles.recipientBox}>
-                <p className={styles.con_title}>
-                  <span>Rider</span>
-                  {orderData?.order?.status === "ASSIGNED" && (
-                    <button onClick={() => setShowAssignModal((prev) => !prev)}>
-                      Reassign
-                    </button>
+                  {!viewAbleTabs?.includes("Vendor") && (
+                    <div className={styles.con_box}>
+                      <p className={styles.con_box_title}>Delivery fee(GHC)</p>
+                      <input
+                        type="number"
+                        className={styles.con_box_value}
+                        value={deliveryFee}
+                        onChange={(e) => setDeliveryFee(e.target.value)}
+                      />
+                    </div>
                   )}
-                </p>
-
-                <div className={styles.con_content}>
-                  <div className={styles.con_box}>
-                    <p className={styles.con_box_title}>Rider Name</p>
-                    <p className={styles.con_box_value}>
-                      {orderData?.order?.assignedTo?.userProfile?.fullName}
-                    </p>
-                  </div>
-                  <div className={styles.con_box}>
-                    <p className={styles.con_box_title}>Rider Contact</p>
-                    <p className={styles.con_box_value}>
-                      {
-                        orderData?.order?.assignedTo?.contactDetails
-                          ?.phoneNumber
-                      }
-                    </p>
-                  </div>
-                  <div className={styles.con_box}>
-                    <p className={styles.con_box_title}>Alternate Contact</p>
-                    <p className={styles.con_box_value}>
-                      {
-                        orderData?.order?.assignedTo?.contactDetails
-                          ?.additionalPhoneNumber
-                      }
-                    </p>
-                  </div>
-
-                  <div className={styles.con_box}>
-                    <p className={styles.con_box_title}>Vehicle </p>
-                    <p className={styles.con_box_value}>
-                      {orderData?.order?.assignedTo?.vehicleInfo?.vehicleType}
-                    </p>
-                  </div>
                 </div>
               </div>
             )}
+
+
+            {orderData?.order?.status !== "ORDER PLACED" &&
+              !viewAbleTabs?.includes("Vendor")? (
+                <div className={styles.recipientBox}>
+                  <p className={styles.con_title}>
+                    <span>Rider</span>
+                    {orderData?.order?.status === "ASSIGNED" && (
+                      <button
+                        onClick={() => setShowAssignModal((prev) => !prev)}
+                      >
+                        Reassign
+                      </button>
+                    )}
+                  </p>
+
+                  <div className={styles.con_content}>
+                    <div className={styles.con_box}>
+                      <p className={styles.con_box_title}>Rider Name</p>
+                      <p className={styles.con_box_value}>
+                        {orderData?.order?.assignedTo?.userProfile?.fullName}
+                      </p>
+                    </div>
+                    <div className={styles.con_box}>
+                      <p className={styles.con_box_title}>Rider Contact</p>
+                      <p className={styles.con_box_value}>
+                        {
+                          orderData?.order?.assignedTo?.contactDetails
+                            ?.phoneNumber
+                        }
+                      </p>
+                    </div>
+                    <div className={styles.con_box}>
+                      <p className={styles.con_box_title}>Alternate Contact</p>
+                      <p className={styles.con_box_value}>
+                        {
+                          orderData?.order?.assignedTo?.contactDetails
+                            ?.additionalPhoneNumber
+                        }
+                      </p>
+                    </div>
+
+                    <div className={styles.con_box}>
+                      <p className={styles.con_box_title}>Vehicle </p>
+                      <p className={styles.con_box_value}>
+                        {orderData?.order?.assignedTo?.vehicleInfo?.vehicleType}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )
+            :
+            orderData?.order?.rejectedReasons ? (
+              <div className={styles.bottom_con1}>
+                <p className={styles.down_title}>Remark</p>
+                <textarea
+                  className={styles.remarkValue}
+                  value={orderData?.order?.rejectedReasons}
+                  style={{
+                    height:"200px"
+                  }}
+                ></textarea>
+              </div>
+            ) : (
+              <div></div>
+            )
+            
+            }
           </div>
 
-          <div className={styles.detailsBottomDown}>
-            <div></div>
-            {/* <div className={styles.bottom_con1}>
-              <p className={styles.down_title}>Remark</p>
-              <textarea
-                className={styles.remarkValue}
-                value={"review value"}
-              ></textarea>
-            </div> */}
-            <div className={styles.changeStatusContainer}>
-              <div className={styles.down_title}>
-                {orderData?.order?.status === "ORDER PLACED"
-                  ? "Rider/3PL"
-                  : "Change status"}
+            {
+              !viewAbleTabs?.includes("Vendor")&&(
+  <div className={styles.detailsBottomDown}>
+            {orderData?.order?.rejectedReasons ? (
+              <div className={styles.bottom_con1}>
+                <p className={styles.down_title}>Remark</p>
+                <textarea
+                  className={styles.remarkValue}
+                  value={orderData?.order?.rejectedReasons}
+                ></textarea>
               </div>
-              {orderData?.order?.status === "ORDER PLACED" && (
-                <button
-                  className={styles.assignBtn}
-                  onClick={() => setShowAssignModal((prev) => !prev)}
-                >
-                  <img src={orderAsignIcon} />
-                  Assign
-                </button>
-              )}
+            ) : (
+              <div></div>
+            )}
 
-              {orderData?.order?.status === "ASSIGNED" && (
-                <button
-                  className={styles.assignBtn}
-                  onClick={() => handleOrderToTransit()}
-                >
-                  {orderInTransit ? (
-                    <BeatLoader color="white" />
-                  ) : (
-                    <span
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        gap: "12px",
-                      }}
-                    >
-                      <img src={orderAsignIcon} /> In Transit
-                    </span>
-                  )}
-                </button>
-              )}
-
-              {orderData?.order?.status !== "ASSIGNED" &&
-                orderData?.order?.status !== "ORDER PLACED" && (
+            {!viewAbleTabs?.includes("Vendor") && (
+              <div className={styles.changeStatusContainer}>
+                <div className={styles.down_title}>
+                  {orderData?.order?.status === "ORDER PLACED"
+                    ? "Rider/3PL"
+                    : "Change status"}
+                </div>
+                {orderData?.order?.status === "ORDER PLACED" && (
                   <button
                     className={styles.assignBtn}
-                    onClick={() => setChangeOrderStatusModal(true)}
+                    onClick={() => setShowAssignModal((prev) => !prev)}
                   >
-                    {isChangingStatus ? (
+                    <img src={orderAsignIcon} />
+                    Assign
+                  </button>
+                )}
+
+                {orderData?.order?.status === "ASSIGNED" && (
+                  <button
+                    className={styles.assignBtn}
+                    onClick={() => handleOrderToTransit()}
+                  >
+                    {orderInTransit ? (
                       <BeatLoader color="white" />
                     ) : (
                       <span
@@ -496,13 +572,40 @@ export default function OrderDetails() {
                           gap: "12px",
                         }}
                       >
-                        <img src={orderAsignIcon} /> Change to
+                        <img src={orderAsignIcon} /> In Transit
                       </span>
                     )}
                   </button>
                 )}
-            </div>
+
+                {orderData?.order?.status !== "ASSIGNED" &&
+                  orderData?.order?.status !== "ORDER PLACED" && (
+                    <button
+                      className={styles.assignBtn}
+                      onClick={() => setChangeOrderStatusModal(true)}
+                    >
+                      {isChangingStatus ? (
+                        <BeatLoader color="white" />
+                      ) : (
+                        <span
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: "12px",
+                          }}
+                        >
+                          <img src={orderAsignIcon} /> Change to
+                        </span>
+                      )}
+                    </button>
+                  )}
+              </div>
+            )}
           </div>
+              )
+            }
+        
 
           {showAssignModal && (
             <AssignModal
@@ -544,6 +647,7 @@ export default function OrderDetails() {
               setShowFailedModal={setShowFailedModal}
               ref={showFailedModalRef}
               refetchOrder={refetchOrder}
+              orderId={id}
             />
           )}
 
@@ -552,6 +656,7 @@ export default function OrderDetails() {
               setShowRejectedModal={setShowRejectedModal}
               ref={showRejectedModalRef}
               refetchOrder={refetchOrder}
+              orderId={id}
             />
           )}
         </div>

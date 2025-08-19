@@ -131,6 +131,7 @@ const AssignRiderTableFilter = forwardRef(({ handleAssignOrder  }, ref) => {
 
 
   return (
+    <div className={styles.fullPage}>
     <div className={styles.tableContainer} ref={ref}>
       <div className="searchBox">
         <CustomSearchInput
@@ -212,6 +213,8 @@ const AssignRiderTableFilter = forwardRef(({ handleAssignOrder  }, ref) => {
         </div>
       </div>
     </div>
+    </div>
+
   );
 });
 

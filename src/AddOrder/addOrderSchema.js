@@ -13,7 +13,7 @@ export const addOrderSchema = z.object({
         }),
     deliveryPrice: z.string().trim().min(1,"⚠ order price is required").regex(/^\d*$/, {
           message: "Only positive number is allowed",
-        }),
+        }).optional(),
     description: z.string().trim().optional(),
     productImage:  z.instanceof(File)
           .refine((file) => file.size <= 5 * 1024 * 1024, "Max file size is 5MB")

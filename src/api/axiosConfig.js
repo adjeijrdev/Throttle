@@ -48,7 +48,7 @@ api.interceptors.response.use(
 
           // Redirect to login or handle logout
           if (typeof window !== "undefined") {
-            window.location.href = "/login";
+            window.location.href = "/";
           }
         }
         return Promise.reject(refreshError);

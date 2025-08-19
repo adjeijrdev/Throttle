@@ -36,6 +36,8 @@ export default function ViewDetails() {
     },
   });
 
+
+
   const { fetchMore: fetchMoreVendors } = useQuery(GET_ALL_VENDORS, {
     variables: {
       offset: 0,
@@ -60,7 +62,7 @@ export default function ViewDetails() {
         },
       });
 
-      navigate(`/vendor-account/Approved-Account/details/${id}`, {
+      navigate(`/dashboard/vendor-account/Approved-Account/details/${id}`, {
           replace: true,
         });
 
@@ -97,7 +99,7 @@ export default function ViewDetails() {
         },
       });
 
-        navigate(`/vendor-account/Denied-Account/details/${id}`, {
+        navigate(`/dashboard/vendor-account/Denied-Account/details/${id}`, {
           replace: true,
         });
       
@@ -276,8 +278,8 @@ export default function ViewDetails() {
                 <TextItem
                   title="Mobile Money Recipient Name"
                   value={
-                    vendorData?.vendor?.financialDetails?.recipientName
-                      ?.recipientName
+                    vendorData?.vendor?.financialDetails?.mobileMoneyAccount?.recipientName
+                     
                   }
                 />
               </div>

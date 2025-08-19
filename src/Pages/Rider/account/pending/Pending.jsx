@@ -203,7 +203,7 @@ function RiderPending() {
                         className="status-btn-st"
                         onClick={() =>
                           navigate(
-                            `/rider/pending/details/${item?._id}`
+                            `/dashboard/rider/pending/details/${item?._id}`
                           )
                         }
                       >

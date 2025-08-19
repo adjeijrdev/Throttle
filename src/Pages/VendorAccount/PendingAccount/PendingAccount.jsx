@@ -190,7 +190,7 @@ function PendingAccount() {
                           className="status-btn-st"
                           onClick={() =>
                             navigate(
-                              `/vendor-account/Pending-Account/details/${item?._id}`,
+                              `/dashboard/vendor-account/Pending-Account/details/${item?._id}`,
                               {
                                 state: { status: "PENDING" },
                               }

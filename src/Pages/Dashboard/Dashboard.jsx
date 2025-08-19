@@ -16,7 +16,7 @@ import { useClickOutside } from "../../CustomHooks/useClickOutSide";
 import { format, parseISO } from "date-fns";
 import { SlCalender } from "react-icons/sl";
 import AddOrderModal from "./AddOrderModal";
-import { useSearch } from "../../graphql/graphqlConfiguration";
+import { useOrderSearch, useSearch } from "../../graphql/graphqlConfiguration";
 import { GET_ALL_ORDERS } from "../../graphql/generalQueries";
 import PaginatedTabs from "../../Components/paginationTab/paginationTabs";
 import { Spin } from "antd";
@@ -40,8 +40,9 @@ export default function Dashboard(props) {
       error: orderError,
       fetchMore: fetchMoreOrder,
       refetch: refetchOrders
-    } = useSearch(GET_ALL_ORDERS, itemOffset, itemsPerPage);
+    } = useOrderSearch(GET_ALL_ORDERS, itemOffset, itemsPerPage);
 
+    
   const totalNumberOfOrders = orderData?.orders?.totalCount;
 
   useEffect(()=>{
@@ -51,7 +52,6 @@ export default function Dashboard(props) {
   },[orderData])
 
   const [filter, setFilter] = useState("All");
-  const [selectedDate, setSelectedDate] = useState(null);
 
   const [dateRange, setDateRange] = useState({
     start: null,
@@ -122,13 +122,23 @@ export default function Dashboard(props) {
   };
 
 
+
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
+    const toggleDropdownRef = useRef(null);
+  const toggleDropdownIgnoreRef = useRef(null);
+  useClickOutside(
+    toggleDropdownRef ,
+    () => toggleDropdown(),
+    toggleDropdownIgnoreRef
+  );
+
   const exportToCSV = () => {
     const rows = orderData?.orders?.data?.map((o) => ({
       "Order ID": o.orderId,
+      "Description": o.productDescription,
       "Pickup Date and Time": formatDateTime(o.orderDate),
       Destination: o.destination,
       Recipient: o.recipientName,
@@ -158,6 +168,7 @@ export default function Dashboard(props) {
     const data = orderData?.orders?.data?.map((o)=>{
       return {
       "Order ID": o.orderId,
+      "Description": o.productDescription,
       "Pickup Date and Time": formatDateTime(o.orderDate),
       Destination: o.destination,
       Recipient: o.recipientName,
@@ -213,6 +224,7 @@ export default function Dashboard(props) {
       // Prepare table data
       const headers = [
         "Order ID",
+        "Description",
         "Date/Time",
         "Destination",
         "Recipient",
@@ -228,6 +240,7 @@ export default function Dashboard(props) {
 
       const data = orderData?.orders?.data?.map((order) => [
         order.orderId || "",
+        order.productDescription || "",
        formatDateTime(order.orderDate)  || "",
         order.destination || "",
         order.recipientName || "",
@@ -281,8 +294,9 @@ export default function Dashboard(props) {
       ),
     },
     { key: "map", label: "Map" },
-    { key: "dateTime", label: "Pickup Date, Time" },
     { key: "orderId", label: "Order ID" },
+    {key: "description", label:"Description"},
+    { key: "dateTime", label: "Pickup Date, Time" },
     { key: "destination", label: "Destination" },
     { key: "recipient", label: "Recipient" },
     { key: "phone", label: "Recipient Tel" },
@@ -507,11 +521,12 @@ export default function Dashboard(props) {
                 <button
                   onClick={toggleDropdown}
                   className={styles.columnButton}
+                  ref={toggleDropdownIgnoreRef}
                 >
                   <Upload size={16} /> Export <ChevronDown size={16} />
                 </button>
                 {showDropdown && (
-                  <div className={styles.dropdownMenu}>
+                  <div className={styles.dropdownMenu} ref={toggleDropdownRef}>
                     <div className={styles.dropdownItem} onClick={exportToCSV}>
                       Export CSV
                     </div>
@@ -576,7 +591,7 @@ export default function Dashboard(props) {
             {filterOptions.map((option) => (
               <button
                 key={option}
-                onClick={() => {setFilter(option), refetchOrders({search:handleOrderStatusFilter(option)})}}
+                onClick={() => {setFilter(option),  debouncedSearch(handleOrderStatusFilter(option),"",[])}}
                 className={`${styles.filterButton} ${
                   filter === option ? styles.activeFilter : ""
                 }`}
@@ -615,6 +630,9 @@ export default function Dashboard(props) {
                     )}
                       {visibleCols.orderId && (
                       <th className={styles.th}>Order ID</th>
+                    )}
+                     {visibleCols.description && (
+                      <th className={styles.th}>Description</th>
                     )}
                     {visibleCols.dateTime && (
                       <th className={styles.th}>Pickup Date, Time</th>
@@ -685,7 +703,7 @@ export default function Dashboard(props) {
                         // ) {
                         //   toggleRowSelection(order?._id);
                         // }
-                          navigate(`/orders/${order?._id}`)
+                          navigate(`/dashboard/main/orders/${order?._id}`)
                         
                       }}
                       
@@ -722,6 +740,9 @@ export default function Dashboard(props) {
                       {visibleCols.orderId && (
                         <td className={styles.td}>{order?.orderId}</td>
                       )}
+                      {visibleCols.description && (
+                        <td className={styles.td}>{order?.productDescription}</td>
+                      )}
                       {visibleCols.dateTime && (
                         <td className={styles.td}>{formatDateTime(order?.orderDate)}</td>
                       )}
@@ -753,7 +774,7 @@ export default function Dashboard(props) {
                         </td>
                       )}
                       {visibleCols.vendor && (
-                        <td className={styles.td}>{order?.source?.type}</td>
+                        <td className={styles.td}>{order?.source == null ? "SELF": order?.source?.businessInfo?.companyName}</td>
                       )}
                        {visibleCols.orderdate && (
                         <td className={styles.td}>{formatDateTime(order?.deliveryDate) }</td>
@@ -777,10 +798,7 @@ export default function Dashboard(props) {
                 </tbody>
               </table>
             </div>
-          
-          
-           
-              
+ 
               {  (!orderLoading && !allOrders?.orders?.data)
            
                       &&  <div className={styles.noResults}>No orders found  </div>
@@ -803,3 +821,7 @@ export default function Dashboard(props) {
     </div>
   );
 }
+
+
+
+

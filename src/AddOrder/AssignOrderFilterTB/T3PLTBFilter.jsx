@@ -135,7 +135,8 @@ const [itemOffset, setItemOffset] = useState(0);
   ]);
 
   return (
-    <div className={styles.tableContainer} ref={ref}>
+    <div className={styles.fullPage}>
+   <div className={styles.tableContainer} ref={ref}>
          <div className="searchBox">
            
                   <CustomSearchInput
@@ -171,8 +172,7 @@ const [itemOffset, setItemOffset] = useState(0);
                   <Row>
                     <Cell></Cell>
                     <Cell></Cell>
-                    <Cell></Cell>
-                    <Cell></Cell>
+                   
 
                     <Cell>
                       <Spin size="large" className="loading-spinner" />
@@ -220,6 +220,8 @@ const [itemOffset, setItemOffset] = useState(0);
         </div>
       </div>
     </div>
+    </div>
+ 
   );
 })
 

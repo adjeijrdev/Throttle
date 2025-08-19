@@ -3,19 +3,114 @@ import {
   InMemoryCache,
   HttpLink,
   useLazyQuery,
+  from
 } from "@apollo/client";
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
 import { debounce } from "lodash";
 import { useEffect } from "react";
-
+import { useMemo } from "react";
+import { Observable } from "@apollo/client/utilities";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+import axios from "axios";
 
+
+let isRefreshing = false;
+let pendingRequests=  []
+
+const resolvePendingRequests = () => {
+  pendingRequests.forEach(cb => cb());
+  pendingRequests = [];
+};
+
+
+const rejectPendingRequests = (error) => {
+  pendingRequests.forEach(cb => cb(error));
+  pendingRequests = [];
+};
 const httpLink = new HttpLink({
   uri: `${BASE_URL}/graphql`,
   credentials: "include",
 });
 
+
+
+const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+  if (graphQLErrors) {
+    for (const err of graphQLErrors) {
+      switch (err.extensions?.code) {
+        case 'UNAUTHENTICATED':
+        case 'EXPIRED_ACCESS_TOKEN': 
+            
+          if (!isRefreshing) {
+            isRefreshing = true;
+            
+            // Refresh token - this will automatically set new cookies
+            axios.post(`${BASE_URL}/auth/refreshToken`, {}, { 
+              withCredentials: true 
+            })
+              .then(() => {
+                console.log("errrrrrro working")
+                resolvePendingRequests();
+                isRefreshing = false;
+              })
+              .catch(error => {
+                rejectPendingRequests(error);
+                isRefreshing = false;
+                
+                if (error.response?.status === 401 && 
+                    error.response.data.errorCode === "EXPIRED_REFRESH_TOKEN") {
+                  // Redirect to login
+                  window.location.href = "/login";
+                }
+              });
+          }
+          
+          // Return a new observable that waits for the token refresh
+          return new Observable(observer => {
+            pendingRequests.push(() => {
+              forward(operation).subscribe(observer);
+            });
+          });
+      }
+    }
+  }
+  
+  if (networkError && 'statusCode' in networkError && networkError.statusCode === 401) {
+    // Handle network-level 401 errors
+    if (!isRefreshing) {
+      isRefreshing = true;
+      
+      axios.post(`${BASE_URL}/auth/refreshToken`, {}, { 
+        withCredentials: true 
+      })
+        .then(() => {
+          resolvePendingRequests();
+          isRefreshing = false;
+        })
+        .catch(error => {
+          rejectPendingRequests(error);
+          isRefreshing = false;
+          
+          if (error.response?.status === 401 && 
+              error.response.data.errorCode === "EXPIRED_REFRESH_TOKEN") {
+            window.location.href = "/";
+          }
+        });
+    }
+    
+    return new Observable(observer => {
+      pendingRequests.push(() => {
+        forward(operation).subscribe(observer);
+      });
+    });
+  }
+});
+
+
+
 export const graphqlConfiguration = new ApolloClient({
-  link: httpLink,
+  link:from([errorLink,httpLink] ),
 
   cache: new InMemoryCache({
     typePolicies: {
@@ -114,7 +209,25 @@ export const graphqlConfiguration = new ApolloClient({
       },
     },
   }),
+
+ defaultOptions: {
+  watchQuery: {
+    // fetchPolicy: "cache-and-network",
+    errorPolicy: "all",
+  },
+  query: {
+    // fetchPolicy: "cache-and-network",
+    errorPolicy: "all",
+  },
+  mutate: {
+    errorPolicy: "all",
+  },
+}
 });
+
+
+
+
 
 export const removeSingleRoleFromCache = (roleId) => {
   graphqlConfiguration.cache.evict({ id: `Role:${roleId}` });
@@ -127,7 +240,7 @@ export const removeSingleStaffFromCache = (staffId) => {
 };
 
 export const clearCache = async () => {
-  graphqlConfiguration.clearStore()
+  graphqlConfiguration.clearStore();
 };
 
 export const removeSingleVendrFromCache = (vendorId) => {
@@ -135,22 +248,24 @@ export const removeSingleVendrFromCache = (vendorId) => {
   graphqlConfiguration.cache.gc();
 };
 
-
-export const removeSingleRiderFromCache = (riderId) =>{
-    graphqlConfiguration.cache.evict({ id: `Rider:${riderId}` });
+export const removeSingleRiderFromCache = (riderId) => {
+  graphqlConfiguration.cache.evict({ id: `Rider:${riderId}` });
   graphqlConfiguration.cache.gc();
-}
+};
 
-export function useSearch(query, roleOffset = 0, itemsPerPage = 20) {
-  const [search, { data, loading, error, fetchMore,refetch }] = useLazyQuery(query, {
-    variables: {
-      offset: roleOffset,
-      limit: itemsPerPage,
-      search: "",
-    },
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: "cache-and-network",
-  });
+export function useSearch(query, roleOffset = 0, itemsPerPage = 15) {
+  const [search, { data, loading, error, fetchMore, refetch }] = useLazyQuery(
+    query,
+    {
+      variables: {
+        offset: roleOffset,
+        limit: itemsPerPage,
+        search: "",
+      },
+      notifyOnNetworkStatusChange: true,
+      fetchPolicy: "cache-and-network",
+    }
+  );
 
   useEffect(() => {
     search({
@@ -163,7 +278,7 @@ export function useSearch(query, roleOffset = 0, itemsPerPage = 20) {
   }, [search, roleOffset, itemsPerPage]);
 
   const debouncedSearch = debounce((searchTerm) => {
-    if (searchTerm.length ) {
+    if (searchTerm.length >= 0) {
       search({
         variables: {
           offset: roleOffset,
@@ -174,10 +289,8 @@ export function useSearch(query, roleOffset = 0, itemsPerPage = 20) {
     }
   }, 300);
 
-  return { debouncedSearch, data, loading, error, fetchMore,refetch };
+  return { debouncedSearch, data, loading, error, fetchMore, refetch };
 }
-
-
 
 export function useSearchB(query, roleOffset = 0, itemsPerPage = 20, status) {
   const [search, { data, loading, error, fetchMore }] = useLazyQuery(query, {
@@ -186,7 +299,6 @@ export function useSearchB(query, roleOffset = 0, itemsPerPage = 20, status) {
       limit: itemsPerPage,
       search: "",
       status: status,
-
     },
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "cache-and-network",
@@ -199,20 +311,18 @@ export function useSearchB(query, roleOffset = 0, itemsPerPage = 20, status) {
         limit: itemsPerPage,
         search: "",
         status: status,
-
       },
     });
   }, [search, roleOffset, itemsPerPage]);
 
   const debouncedSearch = debounce((searchTerm) => {
-    if (searchTerm.length) {
+    if (searchTerm.length >= 0) {
       search({
         variables: {
           offset: roleOffset,
           limit: itemsPerPage,
           search: searchTerm,
-        status: status,
-
+          status: status,
         },
       });
     }
@@ -221,3 +331,50 @@ export function useSearchB(query, roleOffset = 0, itemsPerPage = 20, status) {
   return { debouncedSearch, data, loading, error, fetchMore };
 }
 
+
+export function useOrderSearch(query, roleOffset = 0, itemsPerPage = 20) {
+
+  const [search, { data, loading, error, fetchMore }] = useLazyQuery(query, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "cache-and-network",
+  });
+
+  console.log(error)
+
+  useEffect(() => {
+    search({
+      variables: {
+        offset: roleOffset,
+        limit: itemsPerPage,
+        search: "",
+        entityFilter: "",
+        orderIds:[]
+      },
+    });
+  }, [search, roleOffset, itemsPerPage]);
+
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((searchTerm, entityFilterTerm, orderIdsTerm) => {
+        if (searchTerm.trim().length >= 0 || entityFilterTerm.trim().length >= 0 ||  orderIdsTerm?.length >=0) {
+          
+          search({
+            variables: {
+              offset: roleOffset,
+              limit: itemsPerPage,
+              search: searchTerm,
+              entityFilter: entityFilterTerm,
+              orderIds:orderIdsTerm
+            },
+          });
+        }
+      }, 300),
+    [search, roleOffset, itemsPerPage]
+  );
+
+  useEffect(() => {
+    return () => debouncedSearch.cancel();
+  }, [debouncedSearch]);
+
+  return { debouncedSearch, data, loading, error, fetchMore };
+}

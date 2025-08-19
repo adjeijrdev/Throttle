@@ -155,7 +155,7 @@ function CreateRole() {
             <ul>
               {permssions?.permissions?.map((permission) => {
                 return (
-                  <li key={permission._id}>
+                  <li key={permission._id} >
                     <div>
                       <input
                         type="checkbox"
@@ -166,7 +166,7 @@ function CreateRole() {
                       />
                     </div>
 
-                    <label htmlFor={permission._id} className="list-label">
+                    <label htmlFor={permission._id} className="list-label" style={{cursor:"pointer"}}>
                       {permission?.description}
                     </label>
                   </li>

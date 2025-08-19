@@ -61,8 +61,12 @@ import AddOrder from "./AddOrder/AddOrder";
 import OrderDetails from "./AddOrder/OrderDetails";
 
 import UserProfile from "./UserProfile/UserProfile";
+import { useSelector } from "react-redux";
+import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 
 export default function App() {
+  const viewAbleTabs = useSelector((state) => state.staffAuth?.viewAbleTabs);
+
   return (
     <div className="parent-container">
       {/* <Offline>
@@ -73,114 +77,161 @@ export default function App() {
 
       <Router>
         <Routes>
-          {/* Layout wrapper */}
-          <Route element={<HomeLayout/>}>
-            {/* Main pages */}
-            
-            <Route element={<DashBoardLayout/>}>
-                  <Route index element={<Dashboard />} />
-                 <Route path="orders/:id" element={<OrderDetails/>}/>
-
-            </Route>
-            <Route path="daily-delivery" element={<DailyDelivery />} />
-
-            <Route path="addOrder" element={<AddOrderLayout/>} >
-                  <Route index element={<AddOrder/>}/>
-            </Route>
-
-            {/* Vendor account + nested  hahahahaa ababio and his lazy work*/}
-            <Route path="vendor-account" element={<VendorAccount />} />
-            <Route path="vendor-account" element={<PendingAccountLayout />}>
-              <Route path="Pending-Account" element={<VendorPending />} />
-              <Route
-                path="Pending-Account/details/:id"
-                element={<ViewDetails />}
-              />
-            </Route>
-
-            <Route path="vendor-account" element={<VendorApprovedLayout />}>
-              <Route
-                path="Approved-Account"
-                element={<VendorApprovedAccount />}
-              />
-              <Route
-                path="Approved-Account/details/:id"
-                element={<VendorApprovedViewDetails />}
-              />
-            </Route>
-
-            <Route path="vendor-account" element={<VendorDeniedLayout />}>
-              <Route path="Denied-Account" element={<VendorDenied />} />
-              <Route
-                path="Denied-Account/details/:id"
-                element={<VendorDeniedViewDetails />}
-              />
-            </Route>
-
-            {/* 3PLs */}
-            <Route path="3pls" element={<ThirdParties />} />
-            <Route
-              path="3pls/Pending-Account"
-              element={<ThirdPartiesPending />}
-            />
-            <Route
-              path="3pls/Approved-Account"
-              element={<PendingAccountLayout3PL />}
-            >
-              <Route index element={<ThirdPartiesApproved />} />
-              <Route path="details/:id" element={<ViewDetails3PL />} />
-            </Route>
-            <Route
-              path="3pls/Denied-Account"
-              element={<ThirdPartiesDenied />}
-            />   
-
-            {/* Rider */}
-            <Route path="rider" element={<RiderLayout />}>
-              <Route path="pending" element={<RiderPendingLayout />}>
-                <Route index element={<RiderPending />} />
-                <Route path="details/:id" element={<RiderPendingDetails/>} />
-              </Route>
-              <Route path="approved" element={<RiderApprovedLayout/>}>
-                <Route index element={<RiderApproved/>} />
-                <Route path="details/:id" element={<RiderApprovedDetails/>} />
-              </Route>
-              <Route path="denied" element={<RiderDeniedLayout/>}>
-                <Route index element={<RiderDenied/>} />
-                <Route path="details/:id" element={<RiderDeniedDetails/>} />
-
-              </Route>
-            </Route>
-
-            {/* Other pages */}
-            <Route path="bulk-search" element={<BulkSearch />} />
-            <Route path="bulk-update" element={<BulkUpdate />} />
-            <Route path="cod" element={<Cod />} />
-            <Route path="user-profile" element={<UserProfile />} />
-
-            {/* Staff */}
-            <Route path="staff-account" element={<StaffAccount />}>
-              <Route path="Staff-List" element={<StaffList />} />
-              <Route
-                path="Create-Staff-Account"
-                element={<CreateStaffAccount />}
-              />
-              <Route path="edit-staff-account/:id" element={<EditStaff />} />
-            </Route>
-
-            <Route path="staff-account" element={<Role />}>
-              <Route path="Staff-Role" element={<StaffRoles />} />
-              <Route path="create-Role" element={<CreateRole />} />
-              <Route path="edit-role/:id" element={<EditRole />} />
-            </Route>
-          </Route>
-
           {/* Auth + media (outside layout) */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/register-rider" element={<RiderRegistration />} />
-          <Route path="/register-third-party" element={<RegisterThirdParty />} />
+          <Route
+            path="/register-third-party"
+            element={<RegisterThirdParty />}
+          />
+
+          {/* Layout wrapper */}
+          {viewAbleTabs?.length !== 0 && (
+            <Route path="dashboard" element={<HomeLayout />}>
+              {/* Main pages */}
+
+              {viewAbleTabs?.includes("View Orders") && (
+                <>
+                  <Route path="main" element={<DashBoardLayout />}>
+                    <Route index element={<Dashboard />} />
+                    <Route path="orders/:id" element={<OrderDetails />} />
+                  </Route>
+                  <Route path="daily-delivery" element={<DailyDelivery />} />
+                </>
+              )}
+
+              {viewAbleTabs?.includes("Add Order") && (
+                <Route path="addOrder" element={<AddOrderLayout />}>
+                  <Route index element={<AddOrder />} />
+                </Route>
+              )}
+
+              {viewAbleTabs?.includes("Cash on Delivery") && (
+                <Route path="cod" element={<Cod />} />
+              )}
+
+              {viewAbleTabs?.includes("Approve 3PL") && (
+                <>
+                  {/* 3PLs */}
+                  <Route path="3pls" element={<ThirdParties />} />
+                  <Route
+                    path="3pls/Pending-Account"
+                    element={<ThirdPartiesPending />}
+                  />
+                  <Route
+                    path="3pls/Approved-Account"
+                    element={<PendingAccountLayout3PL />}
+                  >
+                    <Route index element={<ThirdPartiesApproved />} />
+                    <Route path="details/:id" element={<ViewDetails3PL />} />
+                  </Route>
+                  <Route
+                    path="3pls/Denied-Account"
+                    element={<ThirdPartiesDenied />}
+                  />
+                </>
+              )}
+
+              {viewAbleTabs?.includes("Approve Rider") && (
+                <>
+                  {/* Rider */}
+                  <Route path="rider" element={<RiderLayout />}>
+                    <Route path="pending" element={<RiderPendingLayout />}>
+                      <Route index element={<RiderPending />} />
+                      <Route
+                        path="details/:id"
+                        element={<RiderPendingDetails />}
+                      />
+                    </Route>
+                    <Route path="approved" element={<RiderApprovedLayout />}>
+                      <Route index element={<RiderApproved />} />
+                      <Route
+                        path="details/:id"
+                        element={<RiderApprovedDetails />}
+                      />
+                    </Route>
+                    <Route path="denied" element={<RiderDeniedLayout />}>
+                      <Route index element={<RiderDenied />} />
+                      <Route
+                        path="details/:id"
+                        element={<RiderDeniedDetails />}
+                      />
+                    </Route>
+                  </Route>
+                </>
+              )}
+
+              {viewAbleTabs?.includes("Approve Vendor") && (
+                <>
+                  {/* Vendor account + nested  hahahahaa ababio and his lazy work*/}
+                  <Route path="vendor-account" element={<VendorAccount />} />
+                  <Route
+                    path="vendor-account"
+                    element={<PendingAccountLayout />}
+                  >
+                    <Route path="Pending-Account" element={<VendorPending />} />
+                    <Route
+                      path="Pending-Account/details/:id"
+                      element={<ViewDetails />}
+                    />
+                  </Route>
+                  <Route
+                    path="vendor-account"
+                    element={<VendorApprovedLayout />}
+                  >
+                    <Route
+                      path="Approved-Account"
+                      element={<VendorApprovedAccount />}
+                    />
+                    <Route
+                      path="Approved-Account/details/:id"
+                      element={<VendorApprovedViewDetails />}
+                    />
+                  </Route>
+                  <Route path="vendor-account" element={<VendorDeniedLayout />}>
+                    <Route path="Denied-Account" element={<VendorDenied />} />
+                    <Route
+                      path="Denied-Account/details/:id"
+                      element={<VendorDeniedViewDetails />}
+                    />
+                  </Route>
+                </>
+              )}
+
+              {viewAbleTabs?.includes("Create Staff") && (
+                <>
+                  <Route path="user-profile" element={<UserProfile />} />
+                  {/* Staff */}
+
+                  <Route path="staff-account" element={<StaffAccount />}>
+                    <Route path="Staff-List" element={<StaffList />} />
+                    <Route
+                      path="Create-Staff-Account"
+                      element={<CreateStaffAccount />}
+                    />
+                    <Route
+                      path="edit-staff-account/:id"
+                      element={<EditStaff />}
+                    />
+                  </Route>
+                  <Route path="staff-account" element={<Role />}>
+                    <Route path="Staff-Role" element={<StaffRoles />} />
+                    <Route path="create-Role" element={<CreateRole />} />
+                    <Route path="edit-role/:id" element={<EditRole />} />
+                  </Route>
+                </>
+              )}
+
+              {/* Other pages */}
+              <Route path="bulk-search" element={<BulkSearch />} />
+              <Route path="bulk-update" element={<BulkUpdate />} />
+            </Route>
+          )}
+
           <Route path="/media" element={<Media />} />
+
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </div>

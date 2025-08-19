@@ -7,7 +7,7 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import { OrderRejectedAPI } from "../../api/order";
 
 export const RejectedModal = forwardRef(
-  ({ setShowRejectedModal, refetchOrder }, ref) => {
+  ({ setShowRejectedModal, refetchOrder ,orderId}, ref) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [remark, setRemark] = useState("");
 
@@ -29,6 +29,7 @@ export const RejectedModal = forwardRef(
             width: "500px",
           },
         });
+        setShowRejectedModal(false)
         refetchOrder();
       } catch (error) {
         toast.error(error?.message, {
@@ -45,7 +46,8 @@ export const RejectedModal = forwardRef(
     };
 
     return (
-      <div className={styles.modalContainer} ref={ref}>
+        <div className={styles.fullPage}>
+   <div className={styles.modalContainer} ref={ref}>
         <p className={styles.headerContainer}>
           <span> Remark</span>
           <button
@@ -58,7 +60,7 @@ export const RejectedModal = forwardRef(
         <div className={styles.mainContent}>
           <textarea
             value={remark}
-            setValue={(e) => setRemark(e.target.value)}
+            onChange={(e) => setRemark(e.target.value)}
           />
 
           <button
@@ -82,6 +84,8 @@ export const RejectedModal = forwardRef(
           </button>
         </div>
       </div>
+        </div>
+   
     );
   }
 );

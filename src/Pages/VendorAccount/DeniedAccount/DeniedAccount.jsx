@@ -187,7 +187,7 @@ function DeniedAccount() {
                           className="status-btn-st"
                           onClick={() =>
                             navigate(
-                              `/vendor-account/Denied-Account/details/${item?._id}`,
+                              `/dashboard/vendor-account/Denied-Account/details/${item?._id}`,
                             )
                           }
                         >

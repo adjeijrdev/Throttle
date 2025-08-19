@@ -19,6 +19,9 @@ import EmailIcon from "../../Assets/input_icons/emailuser.png";
 import padLock from "../../Assets/input_icons/padlock.png";
 import RegisterAppModal from "../../Modals/RegisterAppModal";
 import CustomAlert from "../../Components/Alert/CustomAlert";
+import { useSelector, useDispatch } from 'react-redux'
+import { setViewAbleTabs } from "../../store/authentication/staffAuthSlice";
+import getDisplayAbleTabes from "../../items/Links";
 
 const schema = z.object({
   email: z.string().trim().email("⚠ Invalid email"),
@@ -34,7 +37,7 @@ export default function Login() {
   const [selectedOption, setSelectedOption] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
+const dispatch = useDispatch()
   //FORM VALIDATION
   const {
     register,
@@ -52,8 +55,15 @@ export default function Login() {
 
     try {
       const result = await loginAPI(data);
-      // console.log(result);
-      navigate("/")
+     console.log(result)
+       dispatch(setViewAbleTabs(result?.data?.viewAbleTabs))
+       
+          const SideNavLinks= getDisplayAbleTabes(result?.data?.viewAbleTabs);
+         if(SideNavLinks.length !==0){
+          
+            navigate(SideNavLinks[0]?.url)
+          }
+
     } catch (error) {
       toast.error(error.message, {
         style: {
@@ -133,6 +143,7 @@ export default function Login() {
                   value="STAFF"
                   {...register("role")}
                   className=""
+
                 />
                 <label htmlFor="Staff">Staff</label>
               </div>
@@ -184,6 +195,7 @@ export default function Login() {
                   type="text"
                   placeholder="Enter your email"
                   {...register("email")}
+                  
                 />
               </div>
               {errors.email && (

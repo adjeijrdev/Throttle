@@ -11,6 +11,25 @@ padding-bottom: 1rem;
   
 }
 
+.orderHeaderContainer{
+    display: flex;
+    justify-content: space-between;
+}
+.orderHeaderContainer button{
+    background-color: #17654F;
+    border-radius: 4px;
+    color:white;
+    height: 40px;
+    width:150px;
+    padding: 5px;
+    border:0px;
+    transition: background 250ms ease-in-out;
+    cursor: pointer;
+}
+
+.orderHeaderContainer button:hover{
+    background-color: #218b6d;
+}
 .orderDetailsDescription{
   font-size: 1.6rem;
   color: rgba(0, 0, 0, 0.5);
@@ -45,6 +64,7 @@ padding-bottom: 1rem;
     display: flex;
     flex-direction: column;
     gap:15px;
+    /* background-position: top; */
 }
 
 .detailsLeftTitle{
@@ -65,6 +85,10 @@ padding-bottom: 1rem;
     font-weight: 600;
     color:#17654F;
     /* border:1px solid red; */
+}
+
+.productImge{
+
 }
 
 .Detailstotal{
@@ -259,7 +283,7 @@ font-weight: 600;
 
 .changeStatusContainer{
 background-color: white;
-height: 90%;
+height: 120px;
     padding:1rem;
     max-height: 150px;
     border-radius: 8px;

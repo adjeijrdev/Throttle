@@ -73,6 +73,9 @@ function CreateStaffAccount() {
     notifyOnNetworkStatusChange: true,
   });
 
+  useEffect(()=>{
+refetchRole()
+  },[])
 
   useEffect(() => {
     
@@ -295,7 +298,7 @@ function CreateStaffAccount() {
                     type="button"
                     onClick={(e) => {
                       e.preventDefault();
-                      navigate("/staff-account/create-Role");
+                      navigate("/dashboard/staff-account/create-Role");
                       
                     }}
                   >

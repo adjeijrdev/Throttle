@@ -305,23 +305,4 @@ export const deleteStaffAPI = async (id) => {
 };
 
 
-export const orderUploadAPI= async (formData) => {
-  try {
-    const response = await api.post("/order", formData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response;
-  } catch (error) {
-    if (error?.response?.data?.errors) {
-      throw error?.response?.data?.errors[0];
-    } else {
-      throw (
-        error?.response?.data || {
-          message: "Sorry an error occured on the server",
-        }
-      );
-    }
-  }
-};
+

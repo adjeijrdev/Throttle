@@ -1,19 +1,18 @@
-
-.headerTitle{
-    font-size: 2.2rem;
-    font-weight: 600;
+.headerTitle {
+  font-size: 2.2rem;
+  font-weight: 600;
 }
 
-.subTitle{
-    font-size: 1.8rem;
-    font-weight: 600;
-    border-bottom: 1px solid #979595;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+.subTitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  border-bottom: 1px solid #979595;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
-.documentUploadContainer{
-    width: 25.9rem;
+.documentUploadContainer {
+  width: 25.9rem;
   display: flex;
   /* height: 163px; */
   height: 19rem;
@@ -27,11 +26,11 @@
   background: var(--white, #fff);
 }
 
-.doc_title{
-    font-weight: 400;
-    font-size: 1.6rem;
-    color:#000;
-    margin-bottom: 1rem;
+.doc_title {
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: #000;
+  margin-bottom: 1rem;
 }
 
 .drop-box {
@@ -53,7 +52,6 @@
 .drop-box:hover {
   background-color: #f0f0f0;
 }
-
 
 .preview-image {
   max-width: 100%;
@@ -80,10 +78,10 @@
   transition: background 0.3s ease;
 }
 
-.uploadImageContainer{
-    display: flex;
-    align-items: center;
-    gap:3rem;
+.uploadImageContainer {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
 }
 
 .remove-image-btn {
@@ -111,20 +109,18 @@
   padding: 8px;
 }
 
-
-.topHeader{
+.topHeader {
   display: flex;
   justify-content: space-between;
-
 }
 
-.uploaderBtn{
+.uploaderBtn {
   border: 1px solid #17654f;
   background-color: #17654f;
 
   padding: 15px;
   border-radius: 10px;
-  color:white;
+  color: white;
   font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: 1px;
@@ -134,16 +130,14 @@
   cursor: pointer;
 }
 
-.uploaderBtn:hover{
+.uploaderBtn:hover {
   background-color: #1e8567;
-
 }
 
-
-.uploadModalContainer{
+.uploadModalContainer {
   position: absolute;
-  top:50%;
-  right:20%;
+  top: 50%;
+  right: 20%;
   transform: translate(-50%, -50%);
 
   background-color: white;
@@ -151,53 +145,50 @@
   width: 500px;
   border-radius: 5px;
   filter: drop-shadow(1px 1px 1.4px black);
-
 }
 
-.uploadMainContent{
+.uploadMainContent {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 15px;
-  padding:25px 15px;
+  padding: 25px 15px;
   height: 90%;
 }
 
-.uploadMDcloseBtn{
+.uploadMDcloseBtn {
   display: flex;
   justify-content: flex-end;
-  align-items:center;
+  align-items: center;
   width: 100%;
   cursor: pointer;
-  padding:5px;
-  
+  padding: 5px;
+
   text-align: center;
 }
-.upoadModalTitle{
+.upoadModalTitle {
   font-size: 2rem;
-  color: #17654F;
+  color: #17654f;
   text-align: center;
- 
 }
 
-.upMdtitleSub{
+.upMdtitleSub {
   font-size: 1.5rem;
   margin-left: 51px;
 }
 
-.mdfileName{
+.mdfileName {
   font-size: 1.2rem;
-  color:#FF0554;
-
+  color: #ff0554;
 }
 
-.modalBtnContanier{
+.modalBtnContanier {
   display: flex;
   justify-content: center;
   gap: 2rem;
 }
 
-.modalBtnContanier button{
+.modalBtnContanier button {
   padding: 5px 25px;
   border-radius: 5px;
   cursor: pointer;
@@ -205,50 +196,57 @@
   transition: all 250ms ease-in-out;
 }
 
-.modalBtnRemove{
-  background-color: #FF0554;
-  border:none;
-  color:white;
-
+.modalBtnRemove {
+  background-color: #ff0554;
+  border: none;
+  color: white;
 }
 
-.modalBtnRemove:hover{
+.modalBtnRemove:hover {
   background-color: #e21355;
-
 }
-.modalBtnRemove:active{
-   scale: 0.9;
-
+.modalBtnRemove:active {
+  scale: 0.9;
 }
 
-.modalBtnUpload{
-  background-color: #17654F;
-  color:white;
-
+.modalBtnUpload {
+  background-color: #17654f;
+  color: white;
 }
 
-.modalBtnUpload:hover{
+.modalBtnUpload:hover {
   background-color: #218b6d;
-
 }
 
-.modalBtnUpload:active{
+.modalBtnUpload:active {
   scale: 0.95;
-
 }
 
-.modalBtnChange{
-  background-color:transparent;
-  color:#17654F;
-  border:1px solid #17654F;
+.modalBtnChange {
+  background-color: transparent;
+  color: #17654f;
+  border: 1px solid #17654f;
 }
 
-.modalBtnChange:hover{
+.modalBtnChange:hover {
   background-color: #dce9e5;
 }
 
-.modalBtnChange:active{
+.modalBtnChange:active {
   scale: 0.95;
 }
 
+.unit_quantity {
+  border-radius: 1.4rem !important;
+  border: 0.1rem solid #17654f !important;
+  height: 5rem !important;
+  width: 9.2rem !important;
+  padding: 1.4rem !important;
+  background-color: white;
+  stroke-width: 0.1rem !important;
+  transition: background 250ms ease-in-out;
+}
 
+.unit_quantity:hover {
+  background-color: #17654f;
+}

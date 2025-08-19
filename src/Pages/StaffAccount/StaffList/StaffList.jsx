@@ -6,7 +6,10 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_STAFFS } from "../../../graphql/generalQueries";
 import { Spin } from "antd";
-import { removeSingleStaffFromCache, useSearch } from "../../../graphql/graphqlConfiguration";
+import {
+  removeSingleStaffFromCache,
+  useSearch,
+} from "../../../graphql/graphqlConfiguration";
 import {
   Table,
   Header,
@@ -25,15 +28,13 @@ import { MdDeleteOutline } from "react-icons/md";
 import { deleteStaffAPI } from "../../../api/authentication";
 import DeleteModal from "../../../Components/DeleteModal";
 
-
-
 function StaffList() {
   const [itemOffset, setItemOffset] = useState(0);
   const [isDeleteModal, setDeleteModal] = useState(false);
-    const [staffIdToDelete, setStaffIdToDelete] = useState("");
-    const [deleteStaffName, setDeleteStaffName] =  useState("")
-    const [isDeleting, setIsDeleting] = useState(false)
-  
+  const [staffIdToDelete, setStaffIdToDelete] = useState("");
+  const [deleteStaffName, setDeleteStaffName] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
   let itemsPerPage = 15;
   const [searchRole, setSearchRole] = useState("");
 
@@ -47,6 +48,9 @@ function StaffList() {
     fetchMore: fetchMoreStaff,
   } = useSearch(GET_ALL_STAFFS, itemOffset, itemsPerPage);
 
+  useEffect(()=>{
+    console.log(staffData)
+  },[staffData])
   const totalNumberOfStaffs = staffData?.staffs?.totalCount;
 
   const tableTheme = useTheme([
@@ -153,45 +157,42 @@ function StaffList() {
     },
   ]);
 
-
-
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchRole(value);
     debouncedSearch(value);
   };
 
-    const handleDeleteStaff= async () => {
-      try {
-        setIsDeleting(true)
-        const result = await deleteStaffAPI(staffIdToDelete);
-  
-        toast.success(result?.message, {
-          style: {
-            border: "1px solid #17654F",
-            // backgroundColor:"oklch(88.5% 0.062 18.334)",
-            color: "black",
-            fontSize: "16px",
-            width: "500px",
-          },
-        });
-  
-        removeSingleStaffFromCache(staffIdToDelete)
-      } catch (error) {
-        toast.error(error?.message, {
-          style: {
-            border: "1px solid oklch(88.5% 0.062 18.334)",
-            // backgroundColor:"oklch(88.5% 0.062 18.334)",
-            color: "oklch(39.6% 0.141 25.723)",
-            fontSize: "16px",
-            width: "500px",
-          },
-        });
-      }
-      setDeleteModal(false);
-        setIsDeleting(false)
+  const handleDeleteStaff = async () => {
+    try {
+      setIsDeleting(true);
+      const result = await deleteStaffAPI(staffIdToDelete);
 
-    };
+      toast.success(result?.message, {
+        style: {
+          border: "1px solid #17654F",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "black",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+
+      removeSingleStaffFromCache(staffIdToDelete);
+    } catch (error) {
+      toast.error(error?.message, {
+        style: {
+          border: "1px solid oklch(88.5% 0.062 18.334)",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "oklch(39.6% 0.141 25.723)",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+    }
+    setDeleteModal(false);
+    setIsDeleting(false);
+  };
   return (
     <div className="roles">
       <div className="headers">
@@ -200,12 +201,11 @@ function StaffList() {
 
           <button
             className="btn-new-role"
-            onClick={(e) => navigate("/staff-account/Create-Staff-Account")}
+            onClick={(e) => navigate("/dashboard/staff-account/Create-Staff-Account")}
           >
             Create Staff Account<span className="new-plus"> +</span>
           </button>
         </div>
-
 
         <div className="searchBox">
           <CustomSearchInput
@@ -217,15 +217,15 @@ function StaffList() {
         </div>
       </div>
 
-       {isDeleteModal && (
-              <DeleteModal
-                setDeleteModel={setDeleteModal}
-                handleDelete={handleDeleteStaff}
-                itemName={deleteStaffName}
-                item="Staff"
-                isDeleting={isDeleting}
-              />
-            )}
+      {isDeleteModal && (
+        <DeleteModal
+          setDeleteModel={setDeleteModal}
+          handleDelete={handleDeleteStaff}
+          itemName={deleteStaffName}
+          item="Staff"
+          isDeleting={isDeleting}
+        />
+      )}
 
       <div className="table-container-st">
         <Table
@@ -265,7 +265,6 @@ function StaffList() {
                     <Cell></Cell>
                     <Cell></Cell>
                     <Cell></Cell>
-
                   </Row>
                 ) : (
                   tableList.map((item) => (
@@ -287,29 +286,35 @@ function StaffList() {
                       </Cell>
                       <Cell>
                         <div className="staff-actions">
-                          <button  
-                          onClick={(e) =>
-                              navigate(`/staff-account/edit-staff-account/${item._id}`)
+                          <button
+                            onClick={(e) =>
+                              navigate(
+                                `/dashboard/staff-account/edit-staff-account/${item._id}`
+                              )
                             }
-                            >
+                          >
                             <FaEdit size={18} color="#36454F" />
-
                           </button>
                           <button
-                          onClick={()=>{
+                            onClick={() => {
                               setDeleteModal(true),
-                            setStaffIdToDelete(item?._id)
-                            setDeleteStaffName(`${item?.userProfile?.fullName?.surname} ${item?.userProfile?.fullName?.surname}`)
-                          }}  
+                                setStaffIdToDelete(item?._id);
+                              setDeleteStaffName(
+                                `${item?.userProfile?.fullName?.surname} ${item?.userProfile?.fullName?.surname}`
+                              );
+                            }}
                           >
-                              <MdDeleteOutline  size={18} color="oklch(70.4% 0.191 22.216)" />
+                            <MdDeleteOutline
+                              size={18}
+                              color="oklch(70.4% 0.191 22.216)"
+                            />
                           </button>
-                          
                         </div>
                       </Cell>
                     </Row>
                   ))
                 )}
+                
               </Body>
             </>
           )}

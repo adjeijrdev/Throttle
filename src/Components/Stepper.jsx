@@ -137,7 +137,7 @@ const Stepper = ({ name }) => {
         },
       });
 
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       toast.error(error?.message, {
         style: {

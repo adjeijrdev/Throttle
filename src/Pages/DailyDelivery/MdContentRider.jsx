@@ -3,7 +3,10 @@ import styles from "./DailyDelivery.module.css";
 import CustomSearchInput from "../../Components/searchInputBox/CustomSearchInput";
 
 export default function MdContentRider () {
-    return (
+    
+  
+  
+  return (
 
     <div className={styles.MdCard}>
           <CustomSearchInput bgColor={"white"}  />
@@ -22,3 +25,5 @@ export default function MdContentRider () {
     </div>
     );
 }
+
+
