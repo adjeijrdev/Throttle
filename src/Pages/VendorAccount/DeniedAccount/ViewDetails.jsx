@@ -51,7 +51,7 @@ export default function VendorDeniedViewDetails() {
       removeSingleVendrFromCache(id);
       // fetchMoreVendors()
       refetchVendor();
-      navigate(`/vendor-account/Approved-Account/details/${id}`,{replace:true});
+      navigate(`/dashboard/vendor-account/Approved-Account/details/${id}`,{replace:true});
     } catch (error) {
       toast.error(error?.message, {
         style: {

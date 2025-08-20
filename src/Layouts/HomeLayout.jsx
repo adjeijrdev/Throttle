@@ -5,7 +5,7 @@ import "./HomeLayout.css";
 import Logo from "../Assets/logos/LOGO-img.png";
 import Logout from "../Assets/icons/logout.png";
 import SideLink from "../Components/SideLink";
-import { SideNavLinks } from "../items/Links";
+import getDisplayAbleTabes  from "../items/Links";
 import dp from "../Assets/Models/dp.webp";
 import { LuPanelLeftClose, LuPanelRightClose } from "react-icons/lu";
 import { BeatLoader } from "react-spinners";
@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import DashBoardLogo from "../Assets/icons/dashboard.png";
 import { logoutAPI } from "../api/authentication";
 import { clearCache } from "../graphql/graphqlConfiguration";
+import { useSelector } from 'react-redux'
 
 export default function HomeLayout() {
   const navigate = useNavigate();
@@ -36,9 +37,9 @@ export default function HomeLayout() {
           width: "500px",
         },
       });
-
+        localStorage.removeItem("viewAbleTabs");
         await clearCache()
-      navigate(`/login`);
+      navigate(`/`);
     } catch (error) {
       toast.error(error?.message, {
         style: {
@@ -52,6 +53,9 @@ export default function HomeLayout() {
     }
         setIsLoginOut(false)
   };
+  const viewAbleTabs = useSelector((state) => state.staffAuth?.viewAbleTabs);
+ 
+  const SideNavLinks= getDisplayAbleTabes(viewAbleTabs);
 
   return (
     <div className= {`${!closeSideBar ? "main-container" : " main-container-close-mode"}`} >
@@ -88,7 +92,7 @@ export default function HomeLayout() {
         <div className="header">
           <LuPanelRightClose onClick={()=>setCloseSideBar(false)} className={`${closeSideBar? "close-bar-st" :"close-bar-st-hide" }`}   />
         
-          <div className="user-card" onClick={() => navigate("/user-profile")}>
+          <div className="user-card" onClick={() => navigate("/dashboard/user-profile")}>
             
             <div className="text">
               <h4>Justice Williamson </h4>

@@ -203,7 +203,7 @@ function RiderPending() {
                         className="status-btn-st"
                         onClick={() =>
                           navigate(
-                            `/rider/pending/details/${item?._id}`
+                            `/dashboard/rider/pending/details/${item?._id}`
                           )
                         }
                       >
@@ -212,6 +212,16 @@ function RiderPending() {
                     </Cell>
                   </Row>
                 ))}
+                {(tableList.length <=0 && !ridersLoading) && (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+
+                    <Cell>No Data Found</Cell>
+                  </Row>
+                )}
               </Body>
             </>
           )}

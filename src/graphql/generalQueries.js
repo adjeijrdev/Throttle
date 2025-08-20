@@ -80,6 +80,7 @@ export const GET_ALL_VENDORS = gql`
         _id
         role
         status
+        
         businessInfo {
           areaOfOperation
           businessAddress
@@ -216,8 +217,13 @@ export const GET_VENDOR = gql`
 `;
 
 export const GET_ALL_RIDERS = gql`
-  query GET_ALL_Riders($offset: Int!, $limit: Int!, $status: Status!,$search:String!) {
-    riders(offset: $offset, limit: $limit, status: $status, search:$search) {
+  query GET_ALL_Riders(
+    $offset: Int!
+    $limit: Int!
+    $status: Status!
+    $search: String!
+  ) {
+    riders(offset: $offset, limit: $limit, status: $status, search: $search) {
       currentPage
       hasNextPage
       totalCount
@@ -332,17 +338,47 @@ export const GET_RIDER = gql`
 `;
 
 export const GET_ALL_ORDERS = gql`
-  query GET_ALL_ORDERS($offset: Int!, $limit: Int!, $search: String!) {
-    orders(offset: $offset, limit: $limit, search: $search) {
+  query GET_ALL_ORDERS(
+    $offset: Int!
+    $limit: Int!
+    $search: String!
+    $entityFilter: String!
+    $orderIds: [String]
+  ) {
+    orders(
+      offset: $offset
+      limit: $limit
+      search: $search
+      entityFilter: $entityFilter
+      orderIds: $orderIds
+    ) {
       currentPage
       hasNextPage
       totalCount
+      totalNumberOfOrders
+      totalNumOfOderPlaced
+      totalNumOfInTransit
+      totalNumberOfAssigned
+      totalNumberOfCompleted
+      totalNumberOfReturned
+      totalNumberOfFailed
+      totalNumberOfRejected
       data {
         _id
         assignedTo {
-          entityAssignedId
-          type
+          ... on Rider {
+            userProfile {
+              fullName
+            }
+          }
+
+          ... on T3PL {
+            businessInfo {
+              companyName
+            }
+          }
         }
+        paymentStatus
         deliveryDate
         deliveryFee
         destination
@@ -359,14 +395,74 @@ export const GET_ALL_ORDERS = gql`
         recipientName
         recipientNumber
         rejectedReasons
+        
         source {
-          type
-          vendorID
+          _id
+          businessInfo {
+            companyName
+          }
         }
         status
         updatedAt
         createdAt
       }
+    }
+  }
+`;
+
+export const GET_ORDER = gql`
+  query GET_ORDER($orderId: ID!) {
+    order(id: $orderId) {
+      _id
+
+      assignedTo {
+        ... on Rider {
+          userProfile {
+            fullName
+          }
+          contactDetails {
+            phoneNumber
+            additionalPhoneNumber
+          }
+          vehicleInfo {
+            vehicleType
+          }
+        }
+
+        ... on T3PL {
+          businessInfo {
+            companyName
+          }
+        }
+      }
+
+      createdAt
+      deliveryDate
+      deliveryFee
+      destination
+      location {
+        lat
+        lng
+      }
+      orderDate
+      orderId
+      paymentAmount
+      paymentNumber
+      paymentStatus
+      productImage
+      productDescription
+      recipientName
+      recipientNumber
+      rejectedReasons
+      
+        # source {
+        #   _id
+        #   businessInfo {
+        #     companyName
+        #   }
+        # }
+      status
+      updatedAt
     }
   }
 `;

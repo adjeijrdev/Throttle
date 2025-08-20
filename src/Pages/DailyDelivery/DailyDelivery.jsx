@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./DailyDelivery.module.css";
-import { Upload, Eye} from "lucide-react";
+import { Upload, Eye } from "lucide-react";
 import ExcelIcon from "../../Assets/icons/excel.png";
 import PdfIcon from "../../Assets/icons/pdf.png";
 import CsvIcon from "../../Assets/icons/csv.png";
@@ -11,8 +11,7 @@ import locationIcon from "../../Assets/icons/location.png";
 import boxIcon from "../../Assets/icons/smallbox.png";
 import cameraIcon from "../../Assets/icons/camera.png";
 import imgIcon from "../../Assets/icons/img.png";
-
-
+import { useNavigate } from "react-router";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
@@ -23,20 +22,22 @@ import TableFilter from "./TableFilter";
 import MdContentVendor from "./MdContentVendor";
 import MdContentRider from "./MdContentRider";
 import MdContent3Pl from "./MdContent3Pl";
-import { 
+import { GET_ALL_ORDERS } from "../../graphql/generalQueries";
+import { useOrderSearch } from "../../graphql/graphqlConfiguration";
+import {
   MdEvent,
   MdEventNote,
   MdDirectionsTransit,
   MdDeliveryDining,
   MdLocalShipping,
-  MdComment
+  MdComment,
 } from "react-icons/md";
-
-
+import { Spin } from "antd";
+import { formatDateTime } from "../../utils/formateDateTime";
+import { useClickOutside } from "../../CustomHooks/useClickOutSide";
 export default function DailyDelivery(props) {
   const [itemOffset, setItemOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(2);
-  const totalPages = 50;
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -52,9 +53,32 @@ export default function DailyDelivery(props) {
   const [showDateFilter, setShowDateFilter] = useState(false);
   const [showVendorFilter, setShowVendorFilter] = useState(false);
   const [showRiderFilter, setShowRiderFilter] = useState(false);
-  const [show3PlFilter,setShow3PlFilter] = useState(false);
-  const [showBulkUpdate, setShowBulkUpdate] =useState(false);
-   const [showSortDate, setShowSortDate] = useState(false);
+  const [show3PlFilter, setShow3PlFilter] = useState(false);
+  const [showBulkUpdate, setShowBulkUpdate] = useState(false);
+  const [showSortDate, setShowSortDate] = useState(false);
+
+  const [allOrders, setAllOrders] = useState();
+  const navigate = useNavigate();
+
+  const itemsPerPage = 15;
+
+  const {
+    debouncedSearch,
+    data: orderData,
+    loading: orderLoading,
+    error: orderError,
+    fetchMore: fetchMoreOrder,
+    refetch: refetchOrders,
+  } = useOrderSearch(GET_ALL_ORDERS, itemOffset, itemsPerPage);
+
+  const totalNumberOfOrders = orderData?.orders?.totalCount;
+
+  useEffect(() => {
+    console.log("order ", orderData);
+
+    setAllOrders(orderData);
+  }, [orderData]);
+
   const formatDate = (dateString) => {
     try {
       if (!dateString) return null;
@@ -80,449 +104,51 @@ export default function DailyDelivery(props) {
     setShowDateFilter(false);
   };
 
-const handleBulkAction = (actionType) => {
-  // Close the dropdown
-  setShowBulkUpdate(false);
-  
-  // Handle the selected action
-  switch(actionType) {
-    case 'pickup':
-      // Handle pickup date change
-      break;
-    case 'delivery':
-      // Handle delivery date change
-      break;
-    case 'transit':
-      // Handle transit status change
-      break;
-    case 'rider':
-      // Handle rider assignment
-      break;
-    case '3pl':
-      // Handle 3PL assignment
-      break;
-    case 'remarks':
-      // Handle remarks addition
-      break;
-    default:
-      break;
-  }
-};
+  const handleBulkAction = (actionType) => {
+    // Close the dropdown
+    setShowBulkUpdate(false);
 
-const handleSortDateAction = (actionType) => {
-  // Close the dropdown
-  setShowSortDate(false);
-  
-  // Handle the selected action
-  switch(actionType) {
-    case 'pickup':
-      // Handle pickup date change
-      break;
-    case 'delivery':
-      // Handle delivery date change
-      break;
-    default:
-      break;
-  }
-};
+    // Handle the selected action
+    switch (actionType) {
+      case "pickup":
+        // Handle pickup date change
+        break;
+      case "delivery":
+        // Handle delivery date change
+        break;
+      case "transit":
+        // Handle transit status change
+        break;
+      case "rider":
+        // Handle rider assignment
+        break;
+      case "3pl":
+        // Handle 3PL assignment
+        break;
+      case "remarks":
+        // Handle remarks addition
+        break;
+      default:
+        break;
+    }
+  };
 
-  const allOrders = [
-    {
-      orderId: "A0M600",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Completed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M601",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Rejected",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M602",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "In Transit",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M603",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Completed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M604",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Failed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M605",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Assigned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M606",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Returned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M607",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Completed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M608",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Rejected",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M609",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "In Transit",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M610",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Completed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M611",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Failed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M612",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Assigned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M613",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Returned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M614",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Order Placed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M615",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Order Placed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M616",
-      dateTime: "2024-12-10, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "In Transit",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-12-10",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M617",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Order Placed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M618",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Failed",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    {
-      orderId: "A0M619",
-      dateTime: "2024-10-30, 01:53",
-      destination: "Tema newton, Hse No 36b, Greater Accra",
-      recipient: "Ama Nelson",
-      phone: "+233 54 786 6565",
-      payAmount: "GHC350.00",
-      status: "Assigned",
-      vendor: "Ishtari Ghana",
-      tpl: "Robert",
-      deliveryAmount: "GHC350.00",
-      orderdate: "2024-10-30",
-      orderimg: imgIcon,
-    },
-    // ,
-    // {
-    //   orderId: "A0M620",
-    //   dateTime: "2024-10-30, 01:53",
-    //   destination: "Tema newton, Hse No 36b, Greater Accra",
-    //   recipient: "Ama Nelson",
-    //   phone: "+233 54 786 6565",
-    //   payAmount: "GHC350.00",
-    //   status: "Returned",
-    //   vendor: "Ishtari Ghana",
-    //   tpl: "Robert",
-    //   deliveryAmount: "GHC350.00",
-    //   orderdate: "2024-10-30",
-    //   orderimg: "",
-    // },
-    // {
-    //   orderId: "A0M621",
-    //   dateTime: "2024-10-30, 01:53",
-    //   destination: "Tema newton, Hse No 36b, Greater Accra",
-    //   recipient: "Ama Nelson",
-    //   phone: "+233 54 786 6565",
-    //   payAmount: "GHC350.00",
-    //   status: "Completed",
-    //   vendor: "Ishtari Ghana",
-    //   tpl: "Robert",
-    //   deliveryAmount: "GHC350.00",
-    //   orderdate: "2024-10-30",
-    //   orderimg: "",
-    // },
-    // {
-    //   orderId: "A0M622",
-    //   dateTime: "2024-10-30, 01:53",
-    //   destination: "Tema newton, Hse No 36b, Greater Accra",
-    //   recipient: "Ama Nelson",
-    //   phone: "+233 54 786 6565",
-    //   payAmount: "GHC350.00",
-    //   status: "Rejected",
-    //   vendor: "Ishtari Ghana",
-    //   tpl: "Robert",
-    //   deliveryAmount: "GHC350.00",
-    //   orderdate: "2024-10-30",
-    //   orderimg: "",
-    // },
-    // {
-    //   orderId: "A0M623",
-    //   dateTime: "2024-10-30, 01:53",
-    //   destination: "Tema newton, Hse No 36b, Greater Accra",
-    //   recipient: "Ama Nelson",
-    //   phone: "+233 54 786 6565",
-    //   payAmount: "GHC350.00",
-    //   status: "In Transit",
-    //   vendor: "Ishtari Ghana",
-    //   tpl: "Robert",
-    //   deliveryAmount: "GHC350.00",
-    //   orderdate: "2024-10-30",
-    //   orderimg: "",
-    // }
-    // ,
-    // {
-    //   orderId: "A0M624",
-    //   dateTime: "2024-10-30, 01:53",
-    //   destination: "Tema newton, Hse No 36b, Greater Accra",
-    //   recipient: "Ama Nelson",
-    //   phone: "+233 54 786 6565",
-    //   payAmount: "GHC350.00",
-    //   status: "Completed",
-    //   vendor: "Ishtari Ghana",
-    //   tpl: "Robert",
-    //   deliveryAmount: "GHC350.00",
-    //   orderdate: "2024-10-30",
-    //   orderimg: "",
-    // },
-    // {
-    //   orderId: "A0M625",
-    //   dateTime: "2024-10-30, 01:53",
-    //   destination: "Tema newton, Hse No 36b, Greater Accra",
-    //   recipient: "Ama Nelson",
-    //   phone: "+233 54 786 6565",
-    //   payAmount: "GHC350.00",
-    //   status: "Failed",
-    //   vendor: "Ishtari Ghana",
-    //   tpl: "Robert",
-    //   deliveryAmount: "GHC350.00",
-    //   orderdate: "2024-10-30",
-    //   orderimg: "",
-    // },
-    // {
-    //   orderId: "A0M626",
-    //   dateTime: "2024-10-30, 01:53",
-    //   destination: "Tema newton, Hse No 36b, Greater Accra",
-    //   recipient: "Ama Nelson",
-    //   phone: "+233 54 786 6565",
-    //   payAmount: "GHC350.00",
-    //   status: "Assigned",
-    //   vendor: "Ishtari Ghana",
-    //   tpl: "Robert",
-    //   deliveryAmount: "GHC350.00",
-    //   orderdate: "2024-10-30",
-    //   orderimg: "",
-    // },
-    // {
-    //   orderId: "A0M627",
-    //   dateTime: "2024-10-30, 01:53",
-    //   destination: "Tema newton, Hse No 36b, Greater Accra",
-    //   recipient: "Ama Nelson",
-    //   phone: "+233 54 786 6565",
-    //   payAmount: "GHC350.00",
-    //   status: "Returned",
-    //   vendor: "Ishtari Ghana",
-    //   tpl: "Robert",
-    //   deliveryAmount: "GHC350.00",
-    //   orderdate: "2024-10-30",
-    //   orderimg: "",
-    // },
-    // Add more data...
-  ];
+  const handleSortDateAction = (actionType) => {
+    // Close the dropdown
+    setShowSortDate(false);
+
+    // Handle the selected action
+    switch (actionType) {
+      case "pickup":
+        // Handle pickup date change
+        break;
+      case "delivery":
+        // Handle delivery date change
+        break;
+      default:
+        break;
+    }
+  };
 
   const filterOptions = [
     "All",
@@ -544,41 +170,6 @@ const handleSortDateAction = (actionType) => {
     Returned: styles.returned,
     "Order Placed": styles.inProgress,
   };
-
-  // Add validation to your order data
-  const validateOrderDates = (orders) => {
-    return orders.every((order) => {
-      const [d, m, y] = order.orderdate.split("-");
-      return d && m && y && !isNaN(new Date(y, m - 1, d));
-    });
-  };
-
-  console.log("Order dates valid:", validateOrderDates(allOrders));
-
-  // Improved date filtering logic
-  const filteredOrders = allOrders.filter((order) => {
-    // Status filter
-    const statusMatch = filter === "All" || order.status === filter;
-
-    // Skip date filtering if no range selected
-    if (!dateRange.start || !dateRange.end) return statusMatch;
-
-    try {
-      const orderDate = new Date(order.orderdate);
-      const start = new Date(dateRange.start);
-      const end = new Date(dateRange.end);
-
-      // Normalize times for comparison
-      start.setHours(0, 0, 0, 0);
-      end.setHours(23, 59, 59, 999);
-      orderDate.setHours(0, 0, 0, 0);
-
-      return statusMatch && orderDate >= start && orderDate <= end;
-    } catch (e) {
-      console.error("Date range error:", e);
-      return statusMatch;
-    }
-  });
 
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -710,24 +301,19 @@ const handleSortDateAction = (actionType) => {
       ),
     },
     { key: "map", label: "Map" },
-    { key: "dateTime", label: "Pickup Date, Time" },
     { key: "orderId", label: "Order ID" },
+    { key: "description", label: "Description" },
+    { key: "dateTime", label: "Pickup Date, Time" },
     { key: "destination", label: "Destination" },
     { key: "recipient", label: "Recipient" },
     { key: "phone", label: "Recipient Tel" },
-    { key: "payAmount", label: "Payment Amt" },
+    { key: "payAmount", label: "Payment Amount" },
     { key: "status", label: "Status" },
     { key: "vendor", label: "Vendor" },
-    { key: "tpl", label: "3PLs" },
+    { key: "tpl", label: "Assigned To" },
     { key: "deliveryAmount", label: "Delivery Fee" },
     { key: "orderdate", label: "Delivery Date" },
-    { key: "orderimg", label:  (
-        <img
-          src={cameraIcon}
-          alt="cameraIcon"
-          style={{ width: "14px", height: "14px", verticalAlign: "middle" }}
-        />
-      ), },
+    { key: "grantTotal", label: "Grand Total" },
   ];
 
   const [visibleCols, setVisibleCols] = useState(
@@ -737,6 +323,17 @@ const handleSortDateAction = (actionType) => {
   const [showColsDropdown, setShowColsDropdown] = useState(false);
 
   const toggleColDropdown = () => setShowColsDropdown((prev) => !prev);
+
+  
+    const toggleDropdownRef = useRef(null);
+    const toggleDropdownIgnoreRef = useRef(null);
+    useClickOutside(
+      toggleDropdownRef ,
+      () => toggleColDropdown(),
+      toggleDropdownIgnoreRef
+    );
+
+
 
   const handleColChange = (key) => {
     setVisibleCols((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -766,11 +363,6 @@ const handleSortDateAction = (actionType) => {
     setSelectionPhase("start"); // Reset to start date selection
   };
 
-  console.log("Filtering Debug:", {
-    selectedDate: selectedDate?.toISOString(),
-    filteredOrders: filteredOrders.map((o) => o.orderdate),
-  });
-
   const [selectedRows, setSelectedRows] = useState([]);
   const toggleRowSelection = (orderId, e) => {
     // Prevent event bubbling when clicking the checkbox
@@ -786,6 +378,35 @@ const handleSortDateAction = (actionType) => {
   };
   const [isHeaderSelected, setIsHeaderSelected] = useState(false);
 
+  const assignOrderStatusBackground = (status) => {
+    switch (status) {
+      case "ORDER PLACED":
+        return "#A6CFFF";
+
+      case "ASSIGNED":
+        return "#FFEC8B";
+
+      case "IN TRANSIT":
+        return "#88AFF1";
+
+      case "COMPLETED":
+        return "#C3F9D5";
+      case "RETURNED":
+        return "#AFAFAF";
+      case "FAILED":
+        return "#FF9ABA";
+      case "REJECTED":
+        return "#FFCACA";
+    }
+  };
+
+  const handleOrderStatusFilter = (filter_by) => {
+    if (filter_by == "All") {
+      return "";
+    } else {
+      return filter_by?.toUpperCase();
+    }
+  };
   return (
     <div className="dashboard-content">
       <div className={styles.header_continer_st}>
@@ -805,13 +426,12 @@ const handleSortDateAction = (actionType) => {
           </div>
         </div>
         <div className={styles.header_con_content2}>
-
-           <div className={styles.columnToggleContainer}>
-            <button onClick={toggleColDropdown} className={styles.columnButton}>
+          <div className={styles.columnToggleContainer}>
+            <button onClick={toggleColDropdown} className={styles.columnButton} ref={toggleDropdownIgnoreRef}>
               <Eye size={16} /> Columns <FaCaretDown />
             </button>
             {showColsDropdown && (
-              <div className={styles.columnDropdown}>
+              <div className={styles.columnDropdown} ref={toggleDropdownRef}>
                 {allColumns.map((col) => (
                   <label key={col.key} className={styles.checkboxItem}>
                     <input
@@ -825,95 +445,156 @@ const handleSortDateAction = (actionType) => {
               </div>
             )}
           </div>
-          <button className={styles.sortBtn} onClick={()=>setShowVendorFilter(!showVendorFilter)}>
+          <button
+            className={styles.sortBtn}
+            onClick={() => setShowVendorFilter(!showVendorFilter)}
+          >
             <MdRestore />
             Sort by Vendor
-            {showVendorFilter  && (
-  <div className={styles.filter_modal_overlay} onClick={() => setShowVendorFilter(false)}>
-    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
-      <MdContentVendor
-        tableTeadValues={["Vendor Name", "Order Count", "Status"]}
-        onClose={() => setShowVendorFilter(false)}
-      />
-    </div>
-  </div>
-) ? <FaCaretUp /> : <FaCaretDown />}
+            {showVendorFilter && (
+              <div
+                className={styles.filter_modal_overlay}
+                onClick={() => setShowVendorFilter(false)}
+              >
+                <div
+                  className={styles.filter_modal_content}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <MdContentVendor
+                    tableTeadValues={["Vendor Name", "Order Count", "Status"]}
+                    onClose={() => setShowVendorFilter(false)}
+                  />
+                </div>
+              </div>
+            ) ? (
+              <FaCaretUp />
+            ) : (
+              <FaCaretDown />
+            )}
           </button>
 
-            <button className={styles.sortBtn} onClick={()=>setShowRiderFilter(!showRiderFilter)}>
+          <button
+            className={styles.sortBtn}
+            onClick={() => setShowRiderFilter(!showRiderFilter)}
+          >
             <MdRestore />
             Sort by Rider
-            {showRiderFilter  && (
-  <div className={styles.filter_modal_overlay} onClick={() => setShowRiderFilter(false)}>
-    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
-      <MdContentRider
-        tableTeadValues={["Rider Name", "Order Count", "Status"]}
-        onClose={() => setShowRiderFilter(false)}
-      />
-    </div>
-  </div>
-) ? <FaCaretUp /> : <FaCaretDown />}
+            {showRiderFilter && (
+              <div
+                className={styles.filter_modal_overlay}
+                onClick={() => setShowRiderFilter(false)}
+              >
+                <div
+                  className={styles.filter_modal_content}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <MdContentRider
+                    tableTeadValues={["Rider Name", "Order Count", "Status"]}
+                    onClose={() => setShowRiderFilter(false)}
+                  />
+                </div>
+              </div>
+            ) ? (
+              <FaCaretUp />
+            ) : (
+              <FaCaretDown />
+            )}
           </button>
 
-  <button className={styles.sortBtn} onClick={()=>setShow3PlFilter(!show3PlFilter)}>
+          <button
+            className={styles.sortBtn}
+            onClick={() => setShow3PlFilter(!show3PlFilter)}
+          >
             <MdRestore />
             Sort by 3PL
-            {show3PlFilter  && (
-  <div className={styles.filter_modal_overlay} onClick={() => setShow3PlFilter(false)}>
-    <div className={styles.filter_modal_content} onClick={e => e.stopPropagation()}>
-      <MdContent3Pl
-        tableTeadValues={["3Pl Name", "Order Count", "Status"]}
-        onClose={() => setShow3PlFilter(false)}
-      />
-    </div>
-  </div>
-) ? <FaCaretUp /> : <FaCaretDown />}
+            {show3PlFilter && (
+              <div
+                className={styles.filter_modal_overlay}
+                onClick={() => setShow3PlFilter(false)}
+              >
+                <div
+                  className={styles.filter_modal_content}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <MdContent3Pl
+                    tableTeadValues={["3Pl Name", "Order Count", "Status"]}
+                    onClose={() => setShow3PlFilter(false)}
+                  />
+                </div>
+              </div>
+            ) ? (
+              <FaCaretUp />
+            ) : (
+              <FaCaretDown />
+            )}
           </button>
 
-       <div style={{ position: 'relative', display: 'inline-block' }}>    
- <button 
-  className={styles.bulkbtn} 
-  onClick={() => setShowBulkUpdate(!showBulkUpdate)}
->
-  <MdRestore />
-  Bulk Update
-  {showBulkUpdate ? <FaCaretUp /> : <FaCaretDown />}
-  </button>
+          <div style={{ position: "relative", display: "inline-block" }}>
+            <button
+              className={styles.bulkbtn}
+              onClick={() => setShowBulkUpdate(!showBulkUpdate)}
+            >
+              <MdRestore />
+              Bulk Update
+              {showBulkUpdate ? <FaCaretUp /> : <FaCaretDown />}
+            </button>
 
-    {showBulkUpdate && (
-     <div 
-      className={styles.bulk_update_dropdown}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className={styles.dropdown_item} onClick={() => handleBulkAction('pickup')}>
-        <MdEvent size={16} className={styles.dropdown_icon} />
-        Change Pickup Date
-      </div>
-      <div className={styles.dropdown_item} onClick={() => handleBulkAction('delivery')}>
-        <MdEventNote size={16} className={styles.dropdown_icon} />
-        Change Delivery Date
-      </div>
-      <div className={styles.dropdown_item} onClick={() => handleBulkAction('transit')}>
-        <MdDirectionsTransit size={16} className={styles.dropdown_icon} />
-        Change to Transit
-      </div>
-      <div className={styles.dropdown_item} onClick={() => handleBulkAction('rider')}>
-        <MdDeliveryDining size={16} className={styles.dropdown_icon} />
-        Assign to Rider
-      </div>
-      <div className={styles.dropdown_item} onClick={() => handleBulkAction('3pl')}>
-        <MdLocalShipping size={16} className={styles.dropdown_icon} />
-        Assign to 3PL
-      </div>
-      <div className={styles.dropdown_item} onClick={() => handleBulkAction('remarks')}>
-        <MdComment size={16} className={styles.dropdown_icon} />
-        Add Remarks
-      </div>
-    </div>
-  )}
-
-</div> 
-
+            {showBulkUpdate && (
+              <div
+                className={styles.bulk_update_dropdown}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div
+                  className={styles.dropdown_item}
+                  onClick={() => handleBulkAction("pickup")}
+                >
+                  <MdEvent size={16} className={styles.dropdown_icon} />
+                  Change Pickup Date
+                </div>
+                <div
+                  className={styles.dropdown_item}
+                  onClick={() => handleBulkAction("delivery")}
+                >
+                  <MdEventNote size={16} className={styles.dropdown_icon} />
+                  Change Delivery Date
+                </div>
+                <div
+                  className={styles.dropdown_item}
+                  onClick={() => handleBulkAction("transit")}
+                >
+                  <MdDirectionsTransit
+                    size={16}
+                    className={styles.dropdown_icon}
+                  />
+                  Change to Transit
+                </div>
+                <div
+                  className={styles.dropdown_item}
+                  onClick={() => handleBulkAction("rider")}
+                >
+                  <MdDeliveryDining
+                    size={16}
+                    className={styles.dropdown_icon}
+                  />
+                  Assign to Rider
+                </div>
+                <div
+                  className={styles.dropdown_item}
+                  onClick={() => handleBulkAction("3pl")}
+                >
+                  <MdLocalShipping size={16} className={styles.dropdown_icon} />
+                  Assign to 3PL
+                </div>
+                <div
+                  className={styles.dropdown_item}
+                  onClick={() => handleBulkAction("remarks")}
+                >
+                  <MdComment size={16} className={styles.dropdown_icon} />
+                  Add Remarks
+                </div>
+              </div>
+            )}
+          </div>
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className={styles.exportContainer}>
@@ -923,52 +604,60 @@ const handleSortDateAction = (actionType) => {
               {showDropdown && (
                 <div className={styles.dropdownMenu}>
                   <div className={styles.dropdownItem} onClick={exportToExcel}>
-                   < img src = {ExcelIcon} size={18}/>Excel
+                    <img src={ExcelIcon} size={18} />
+                    Excel
                   </div>
                   <div className={styles.dropdownItem} onClick={exportToPDF}>
-                    < img src = {PdfIcon} size={18}/>PDF
+                    <img src={PdfIcon} size={18} />
+                    PDF
                   </div>
-                   <div className={styles.dropdownItem} onClick={exportToCSV}>
-                  < img src = {CsvIcon} size={18}/>CSV
+                  <div className={styles.dropdownItem} onClick={exportToCSV}>
+                    <img src={CsvIcon} size={18} />
+                    CSV
                   </div>
                 </div>
               )}
             </div>
           </div>
-         {/* <button className={styles.sortBtn}>
+          {/* <button className={styles.sortBtn}>
             <MdRestore />
             Sort Date by
             {true ? <FaCaretUp /> : <FaCaretDown />}
           </button> */}
 
-                <div style={{ position: 'relative', display: 'inline-block' }}>    
- <button 
-  className={styles.bulkbtn} 
-  onClick={() => setShowSortDate(!showSortDate)}
->
-  <MdRestore />
-  Sort Date by
-  {showDateFilter ? <FaCaretUp /> : <FaCaretDown />}
-  </button>
+          <div style={{ position: "relative", display: "inline-block" }}>
+            <button
+              className={styles.bulkbtn}
+              onClick={() => setShowSortDate(!showSortDate)}
+            >
+              <MdRestore />
+              Sort Date by
+              {showDateFilter ? <FaCaretUp /> : <FaCaretDown />}
+            </button>
 
-    {showSortDate && (
-     <div 
-      className={styles.bulk_update_dropdown}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className={styles.dropdown_item} onClick={() => handleSortDateAction('pickup')}>
-        <MdEvent size={16} className={styles.dropdown_icon} />
-         Pickup Date
-      </div>
-      <div className={styles.dropdown_item} onClick={() => handleSortDateAction('delivery')}>
-        <MdEventNote size={16} className={styles.dropdown_icon} />
-         Delivery Date
-      </div>
-    </div>
-  )}
+            {showSortDate && (
+              <div
+                className={styles.bulk_update_dropdown}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div
+                  className={styles.dropdown_item}
+                  onClick={() => handleSortDateAction("pickup")}
+                >
+                  <MdEvent size={16} className={styles.dropdown_icon} />
+                  Pickup Date
+                </div>
+                <div
+                  className={styles.dropdown_item}
+                  onClick={() => handleSortDateAction("delivery")}
+                >
+                  <MdEventNote size={16} className={styles.dropdown_icon} />
+                  Delivery Date
+                </div>
+              </div>
+            )}
+          </div>
 
-</div> 
-          
           <div>
             <button
               className={styles.date__control}
@@ -996,7 +685,10 @@ const handleSortDateAction = (actionType) => {
             {filterOptions.map((option) => (
               <button
                 key={option}
-                onClick={() => setFilter(option)}
+                onClick={() => {
+                  setFilter(option),
+                    debouncedSearch(handleOrderStatusFilter(option), "", []);
+                }}
                 className={`${styles.filterButton} ${
                   filter === option ? styles.activeFilter : ""
                 }`}
@@ -1007,11 +699,11 @@ const handleSortDateAction = (actionType) => {
           </div>
 
           {/* Table */}
-          {filteredOrders.length > 0 ? (
+          <div className={styles.tableconMain}>
             <table className={styles.table}>
               <thead className={styles.tableheader}>
                 <tr
-                  onClick={() => setIsHeaderSelected(!isHeaderSelected)}
+                  // onClick={() => setIsHeaderSelected(!isHeaderSelected)}
                   className={`${styles.headerRow} ${
                     isHeaderSelected ? styles.selectedHeader : ""
                   }`}
@@ -1026,21 +718,24 @@ const handleSortDateAction = (actionType) => {
                           e.stopPropagation();
                         }}
                         onClick={(e) => e.stopPropagation()}
-                        className={styles.checkbox_st}
                       />
                     </th>
                   )}
                   {visibleCols["map"] && (
                     <th className={styles.thSmall}>Map</th>
                   )}
-                  {visibleCols.dateTime && (
-                    <th className={styles.th}>Pickup Date, Time</th>
-                  )}
                   {visibleCols.orderId && (
                     <th className={styles.th}>Order ID</th>
                   )}
+                  {visibleCols.description && (
+                    <th className={styles.th}>Description</th>
+                  )}
+                  {visibleCols.dateTime && (
+                    <th className={styles.th}>Pickup Date, Time</th>
+                  )}
+
                   {visibleCols.destination && (
-                    <th className={styles.th}>Destination</th>
+                    <th className={[styles.th]}>Destination</th>
                   )}
                   {visibleCols.recipient && (
                     <th className={styles.th}>Recipient</th>
@@ -1048,39 +743,58 @@ const handleSortDateAction = (actionType) => {
                   {visibleCols.phone && (
                     <th className={styles.th}>Recipient's Tel</th>
                   )}
-                  {visibleCols.payAmount && (
-                    <th className={styles.th}>Payment Amt</th>
-                  )}
+
                   {visibleCols.status && <th className={styles.th}>Status</th>}
                   {visibleCols.vendor && <th className={styles.th}>Vendor</th>}
-                  {visibleCols.tpl && <th className={styles.th}>3PLs</th>}
+
+                  {visibleCols.orderdate && (
+                    <th className={styles.th}>Delivery Date, Time</th>
+                  )}
+                  {visibleCols.tpl && <th className={styles.th}>3PL/Rider</th>}
+
+                  {visibleCols.payAmount && (
+                    <th className={styles.th}>Payment Amount</th>
+                  )}
                   {visibleCols.deliveryAmount && (
                     <th className={styles.th}>Delivery Fee</th>
                   )}
-                  {visibleCols.orderdate && (
-                    <th className={styles.th}>Delivery Date</th>
-                  )}
-                  {visibleCols.orderimg && (
-                    <th className={styles.th}><img src={cameraIcon }  alt="cameraIcon"
-          style={{ width: "18px", height: "16px", verticalAlign: "middle",filter: "invert(100%)" }}/></th>
+                  {visibleCols.grantTotal && (
+                    <th className={styles.th}>Grand Total</th>
                   )}
                 </tr>
               </thead>
+
               <tbody>
-                {filteredOrders.map((order, index) => (
+                {orderLoading && !allOrders?.orders?.data && (
+                  <tr>
+                    <td
+                      style={{
+                        width: "100%",
+                        textAlign: "center",
+                        padding: "4rem 0rem",
+                      }}
+                      colSpan={12}
+                    >
+                      <Spin size="large" className="loading-spinner" />
+                    </td>
+                  </tr>
+                )}
+
+                {allOrders?.orders?.data?.map((order, index) => (
                   <tr
-                    key={order.orderId} // Use orderId as key instead of index
+                    key={order?._id} // Use orderId as key instead of index
                     onClick={(e) => {
                       // Don't trigger row selection if clicking on a link or button
-                      if (
-                        e.target.tagName !== "A" &&
-                        e.target.tagName !== "BUTTON"
-                      ) {
-                        toggleRowSelection(order.orderId);
-                      }
+                      // if (
+                      //   e.target.tagName !== "A" &&
+                      //   e.target.tagName !== "BUTTON"
+                      // ) {
+                      //   toggleRowSelection(order?._id);
+                      // }
+                      navigate(`/orders/${order?._id}`);
                     }}
                     className={`${styles.tableRow} ${
-                      selectedRows.includes(order.orderId)
+                      selectedRows.includes(order?._id)
                         ? styles.selectedRow
                         : ""
                     }`}
@@ -1092,9 +806,9 @@ const handleSortDateAction = (actionType) => {
                       >
                         <input
                           type="checkbox"
-                          checked={selectedRows.includes(order.orderId)}
+                          checked={selectedRows.includes(order?._id)}
                           onChange={(e) => {
-                            toggleRowSelection(order.orderId, e);
+                            toggleRowSelection(order?._id, e);
                           }}
                         />
                       </td>
@@ -1109,96 +823,125 @@ const handleSortDateAction = (actionType) => {
                         />
                       </td>
                     )}
-                    {visibleCols.dateTime && (
-                      <td className={styles.td}>{order.dateTime}</td>
-                    )}
                     {visibleCols.orderId && (
-                      <td className={styles.td}>{order.orderId}</td>
+                      <td className={styles.td}>{order?.orderId}</td>
                     )}
+                    {visibleCols.description && (
+                      <td className={styles.td}>{order?.productDescription}</td>
+                    )}
+                    {visibleCols.dateTime && (
+                      <td className={styles.td}>
+                        {formatDateTime(order?.orderDate)}
+                      </td>
+                    )}
+
                     {visibleCols.destination && (
-                      <td className={styles.td}>{order.destination}</td>
+                      <td className={styles.td}>{order?.destination}</td>
                     )}
+
                     {visibleCols.recipient && (
-                      <td className={styles.td}>{order.recipient}</td>
+                      <td className={styles.td}>{order?.recipientName}</td>
                     )}
                     {visibleCols.phone && (
-                      <td className={styles.td}>{order.phone}</td>
+                      <td className={styles.td}>{order?.recipientNumber}</td>
                     )}
-                    {visibleCols.payAmount && (
-                      <td className={styles.td}>{order.payAmount}</td>
-                    )}
+
                     {visibleCols.status && (
                       <td className={styles.td}>
                         <span
                           className={`${styles.status} ${
                             statusClass[order.status]
                           }`}
+                          style={{
+                            backgroundColor: assignOrderStatusBackground(
+                              order?.status
+                            ),
+                          }}
                         >
-                          {order.status}
+                          {order?.status}
                         </span>
                       </td>
                     )}
                     {visibleCols.vendor && (
-                      <td className={styles.td}>{order.vendor}</td>
-                    )}
-                    {visibleCols.tpl && (
-                      <td className={styles.td}>{order.tpl}</td>
-                    )}
-                    {visibleCols.deliveryAmount && (
-                      <td className={styles.td}>{order.deliveryAmount}</td>
+                      <td className={styles.td}>{order?.source?.type}</td>
                     )}
                     {visibleCols.orderdate && (
-                      <td className={styles.td}>{order.orderdate}</td>
+                      <td className={styles.td}>
+                        {formatDateTime(order?.deliveryDate)}
+                      </td>
                     )}
-                    {visibleCols.orderimg && (
-                      <td className={styles.td}><img 
-      src={order.orderimg} 
-      alt="imgIcon" 
-      style={{ 
-        width: "18px", 
-        height: "16px", 
-        verticalAlign: "middle",
-        filter: "invert(100%)" // Make it white
-      }} 
-    /></td>
+                    {visibleCols.tpl && (
+                      <td className={styles.td}>
+                        {order?.assignedTo?.userProfile &&
+                          order?.assignedTo?.userProfile?.fullName}
+                      </td>
+                    )}
+
+                    {visibleCols.payAmount && (
+                      <td className={styles.td}>GHC {order?.paymentAmount}</td>
+                    )}
+                    {visibleCols.deliveryAmount && (
+                      <td className={styles.td}>
+                        {order?.deliveryFee && `GHC ${order?.deliveryFee}`}
+                      </td>
+                    )}
+                    {visibleCols.grantTotal && (
+                      <td className={styles.td}>
+                        GHC {order?.paymentAmount + order?.deliveryFee}
+                      </td>
                     )}
                   </tr>
                 ))}
               </tbody>
             </table>
-          ) : (
-            <div className={styles.noResults}>
-              {selectedDate
-                ? `No orders found for ${selectedDate.toLocaleDateString()}`
-                : "No orders match your filters"}
-            </div>
+          </div>
+
+          {!orderLoading && !allOrders?.orders?.data && (
+            <div className={styles.noResults}>No orders found </div>
           )}
-
-          {/* <div className="pagination-tab">
-            <PaginatedTabs pageCount={30} setItemOffset={setItemOffset} />
-          </div> */}
-
+        </div>
+        <div className="pagination-tab">
+          <PaginatedTabs
+            totalRecords={totalNumberOfOrders}
+            setItemOffset={setItemOffset}
+            offSet={itemOffset}
+            itemsPerPage={itemsPerPage}
+            fetchMore={fetchMoreOrder}
+          />
         </div>
 
-        
-        <div className={showVendorFilter ? styles.pop_up_table_filter : styles.hide_table_filter}>
+        <div
+          className={
+            showVendorFilter
+              ? styles.pop_up_table_filter
+              : styles.hide_table_filter
+          }
+        >
           <MdContentVendor
             tableTeadValues={["Role Title", "Description", "Number of Staffs"]}
           />
         </div>
-         <div className={showRiderFilter ? styles.pop_up_table_filter : styles.hide_table_filter}>
+        <div
+          className={
+            showRiderFilter
+              ? styles.pop_up_table_filter
+              : styles.hide_table_filter
+          }
+        >
           <MdContentRider
             tableTeadValues={["Rider Name", "Number", "Status"]}
           />
         </div>
-         <div className={show3PlFilter ? styles.pop_up_table_filter : styles.hide_table_filter}>
-          <MdContent3Pl
-            tableTeadValues={["3Pl Name", "Number", "Status"]}
-          />
+        <div
+          className={
+            show3PlFilter
+              ? styles.pop_up_table_filter
+              : styles.hide_table_filter
+          }
+        >
+          <MdContent3Pl tableTeadValues={["3Pl Name", "Number", "Status"]} />
         </div>
       </div>
-
-    
     </div>
   );
 }

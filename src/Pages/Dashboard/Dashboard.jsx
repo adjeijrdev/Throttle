@@ -16,17 +16,18 @@ import { useClickOutside } from "../../CustomHooks/useClickOutSide";
 import { format, parseISO } from "date-fns";
 import { SlCalender } from "react-icons/sl";
 import AddOrderModal from "./AddOrderModal";
-import { useSearch } from "../../graphql/graphqlConfiguration";
+import { useOrderSearch, useSearch } from "../../graphql/graphqlConfiguration";
 import { GET_ALL_ORDERS } from "../../graphql/generalQueries";
 import PaginatedTabs from "../../Components/paginationTab/paginationTabs";
 import { Spin } from "antd";
 import { formatDateTime } from "../../utils/formateDateTime";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 export default function Dashboard(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 2;
-  
+
   const itemsPerPage = 15;
   const [itemOffset, setItemOffset] = useState(0);
   const [searchItem, setSearchItem] = useState("");
@@ -38,8 +39,10 @@ export default function Dashboard(props) {
       loading: orderLoading,
       error: orderError,
       fetchMore: fetchMoreOrder,
-    } = useSearch(GET_ALL_ORDERS, itemOffset, itemsPerPage);
+      refetch: refetchOrders
+    } = useOrderSearch(GET_ALL_ORDERS, itemOffset, itemsPerPage);
 
+    
   const totalNumberOfOrders = orderData?.orders?.totalCount;
 
   useEffect(()=>{
@@ -47,13 +50,8 @@ export default function Dashboard(props) {
 
     setAllOrders(orderData)
   },[orderData])
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
-    }
-  };
+
   const [filter, setFilter] = useState("All");
-  const [selectedDate, setSelectedDate] = useState(null);
 
   const [dateRange, setDateRange] = useState({
     start: null,
@@ -90,425 +88,28 @@ export default function Dashboard(props) {
   };
   const [enteredDate, setEnteredDate] = useState("");
 
-  const dateChangeHandler = (event) => {
-    setEnteredDate(event.target.value);
-  };
 
-  const handleFilter = (range) => {
-    if (range.start > range.end) {
-      alert("End date must be after start date");
-      return;
-    }
-    setDateRange(range);
-    setShowDateFilter(false);
-  };
-
-  // const allOrders = [
-  //   {
-  //     orderId: "A0M600",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M601",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Rejected",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M602",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "In Progress",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M603",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M604",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Failed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M605",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Assigned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M606",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Returned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M607",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M608",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Rejected",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M609",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "In Progress",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M610",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M611",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Failed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M612",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Assigned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M613",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Returned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M614",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Order Placed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M615",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Order Placed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M616",
-  //     dateTime: "2024-12-10, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "In Progress",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-12-10",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M617",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Order Placed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M618",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Failed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M619",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Assigned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M620",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Returned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M621",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M622",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Rejected",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M623",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "In Progress",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M624",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Completed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M625",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Failed",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M626",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Assigned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   {
-  //     orderId: "A0M627",
-  //     dateTime: "2024-10-30, 01:53",
-  //     destination: "Tema newton, Hse No 36b, Greater Accra",
-  //     recipient: "Ama Nelson",
-  //     phone: "+233 54 786 6565",
-  //     payAmount: "GHC350.00",
-  //     status: "Returned",
-  //     vendor: "Ishtari Ghana",
-  //     tpl: "Robert",
-  //     deliveryAmount: "GHC350.00",
-  //     orderdate: "2024-10-30",
-  //     orderimg: "",
-  //   },
-  //   // Add more data...
-  // ];
 
   const filterOptions = [
     "All",
     "Order Placed",
-    "In Progress",
+    "In Transit",
     "Assigned",
     "Completed",
     "Returned",
     "Failed",
     "Rejected",
   ];
+
+  const handleOrderStatusFilter =(filter_by)=>{
+
+    if(filter_by=="All"){
+      return ""
+    }else{
+      return filter_by?.toUpperCase()
+    }
+
+  }
 
   const statusClass = {
     Completed: styles.completed,
@@ -520,58 +121,36 @@ export default function Dashboard(props) {
     "Order Placed": styles.inProgress,
   };
 
-  // Add validation to your order data
-  const validateOrderDates = (orders) => {
-    return orders.every((order) => {
-      const [d, m, y] = order.orderdate.split("-");
-      return d && m && y && !isNaN(new Date(y, m - 1, d));
-    });
-  };
 
-
-  // Improved date filtering logic
-  const filteredOrders = allOrders?.orders?.data?.filter((order) => {
-    // Status filter
-    const statusMatch = filter === "All" || order.status === filter;
-
-    // Skip date filtering if no range selected
-    if (!dateRange.start || !dateRange.end) return statusMatch;
-
-    try {
-      const orderDate = new Date(order.orderdate);
-      const start = new Date(dateRange.start);
-      const end = new Date(dateRange.end);
-
-      // Normalize times for comparison
-      start.setHours(0, 0, 0, 0);
-      end.setHours(23, 59, 59, 999);
-      orderDate.setHours(0, 0, 0, 0);
-
-      return statusMatch && orderDate >= start && orderDate <= end;
-    } catch (e) {
-      console.error("Date range error:", e);
-      return statusMatch;
-    }
-  });
 
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
+    const toggleDropdownRef = useRef(null);
+  const toggleDropdownIgnoreRef = useRef(null);
+  useClickOutside(
+    toggleDropdownRef ,
+    () => toggleDropdown(),
+    toggleDropdownIgnoreRef
+  );
+
   const exportToCSV = () => {
-    const rows = filteredOrders?.map((o) => ({
-      "Pickup Date, Time": o.dateTime,
+    const rows = orderData?.orders?.data?.map((o) => ({
       "Order ID": o.orderId,
+      "Description": o.productDescription,
+      "Pickup Date and Time": formatDateTime(o.orderDate),
       Destination: o.destination,
-      Recipient: o.recipient,
-      "Recipient's Tel": o.phone,
-      "Payment Amount": o.payAmount,
-      Status: o.status,
-      Vendor: o.vendor,
-      "Assigned To": o.tpl,
-      "Delivery Fee": o.deliveryAmount,
-      "Delivery Date": o.orderdate,
-      "Order Image": o.orderimg,
+      Recipient: o.recipientName,
+      "Recipient's Tel": o.recipientNumber,
+      Status:o.status,
+      Vendor: o.source?.type,
+      "Assigned To": o.assignedTo?.userProfile?.fullName || o.assignedTo?.businessInfo?.companyName ,
+      "Delivery Fee": o.deliveryFee,
+      "Payment Amount": o.paymentAmount,
+      "Total Payment": (o.paymentAmount + o.deliveryFee),
+      "Delivery Date":  formatDateTime(o.deliveryDate),
+      "Order Image": o.productImage,
     }));
 
     const header = Object.keys(rows[0]);
@@ -586,7 +165,25 @@ export default function Dashboard(props) {
   };
 
   const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(filteredOrders);
+    const data = orderData?.orders?.data?.map((o)=>{
+      return {
+      "Order ID": o.orderId,
+      "Description": o.productDescription,
+      "Pickup Date and Time": formatDateTime(o.orderDate),
+      Destination: o.destination,
+      Recipient: o.recipientName,
+      "Recipient's Tel": o.recipientNumber,
+      Status:o.status,
+      Vendor: o.source?.type,
+      "Assigned To": o.assignedTo?.userProfile?.fullName || o.assignedTo?.businessInfo?.companyName ,
+      "Delivery Fee": o.deliveryFee,
+      "Payment Amount": o.paymentAmount,
+      "Total Payment": (o.paymentAmount + o.deliveryFee),
+      "Delivery Date": formatDateTime(o.deliveryDate),
+      "Order Image": o.productImage,
+    }
+    })
+    const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
     const excelBuffer = XLSX.write(workbook, {
@@ -601,8 +198,16 @@ export default function Dashboard(props) {
   const exportToPDF = () => {
     try {
       // Check if there's data to export
-      if (!filteredOrders || filteredOrders.length === 0) {
-        alert("No orders to export");
+      if (!orderData?.orders?.data) {
+        toast.error("No orders to export", {
+                style: {
+                  border: "1px solid oklch(88.5% 0.062 18.334)",
+                  // backgroundColor:"oklch(88.5% 0.062 18.334)",
+                  color: "oklch(39.6% 0.141 25.723)",
+                  fontSize: "16px",
+                  width: "500px",
+                },
+              });
         setShowDropdown(false);
         return;
       }
@@ -618,31 +223,36 @@ export default function Dashboard(props) {
 
       // Prepare table data
       const headers = [
-        "Date/Time",
         "Order ID",
+        "Description",
+        "Date/Time",
         "Destination",
         "Recipient",
         "Phone",
-        "Amount",
         "Status",
         "Vendor",
         "Assigned To",
+        "Remittant",
         "Delivery Fee",
+        "Total Payment",
         "Delivery Date",
       ];
 
-      const data = filteredOrders?.map((order) => [
-        order.dateTime || "",
+      const data = orderData?.orders?.data?.map((order) => [
         order.orderId || "",
+        order.productDescription || "",
+       formatDateTime(order.orderDate)  || "",
         order.destination || "",
-        order.recipient || "",
-        order.phone || "",
-        order.payAmount || "",
+        order.recipientName || "",
+        order.recipientNumber || "",
+        
         order.status || "",
-        order.vendor || "",
-        order.tpl || "",
-        order.deliveryAmount || "",
-        order.orderdate || "",
+        order.source?.type || "",
+         order.assignedTo?.userProfile?.fullName || order.assignedTo?.businessInfo?.companyName|| "",
+        order.paymentAmount || "",
+        order.deliveryFee || "",
+        (order.deliveryFee + order.paymentAmount) || "",
+         formatDateTime(order.deliveryDate) || "",
       ]);
 
       // Generate the table
@@ -684,8 +294,9 @@ export default function Dashboard(props) {
       ),
     },
     { key: "map", label: "Map" },
-    { key: "dateTime", label: "Pickup Date, Time" },
     { key: "orderId", label: "Order ID" },
+    {key: "description", label:"Description"},
+    { key: "dateTime", label: "Pickup Date, Time" },
     { key: "destination", label: "Destination" },
     { key: "recipient", label: "Recipient" },
     { key: "phone", label: "Recipient Tel" },
@@ -695,7 +306,7 @@ export default function Dashboard(props) {
     { key: "tpl", label: "Assigned To" },
     { key: "deliveryAmount", label: "Delivery Fee" },
     { key: "orderdate", label: "Delivery Date" },
-    { key: "orderimg", label: "Order Image" },
+    { key: "grantTotal", label: "Grand Total" },
   ];
 
   const [visibleCols, setVisibleCols] = useState(
@@ -725,26 +336,10 @@ export default function Dashboard(props) {
     setSelectionPhase("start"); // Reset selection phase
   };
 
-  const countByStatus = (status) => {
-    if (!status) return allOrders?.orders?.data?.length;
-    return allOrders?.orders?.data?.filter((o) => o.status === status).length;
-  };
 
-  const handleStatusFilter = (option) => {
-    setFilter(option);
-    setSelectedDate(null);
-  };
 
-  // In your handleCancel function
-  const handleCancel = () => {
-    setShowDateFilter(false);
-    setSelectionPhase("start"); // Reset to start date selection
-  };
+ 
 
-  console.log("Filtering Debug:", {
-    selectedDate: selectedDate?.toISOString(),
-    filteredOrders: filteredOrders?.map((o) => o.orderdate),
-  });
 
   const [showAddOrderDropdown, setShowAddOrderDropdown] = useState(false);
   const showAddOrderDropdownRef = useRef(null);
@@ -755,20 +350,6 @@ export default function Dashboard(props) {
     buttonAddOrderRef
   );
 
-  const toggleAddOrderDropdown = () => setShowAddOrderDropdown((prev) => !prev);
-
-  // Add these functions (you can implement the actual logic later)
-  const handleManualAdd = () => {
-    setShowAddOrderDropdown(false);
-    // Your manual add order logic here
-    console.log("Manual add order selected");
-  };
-
-  const handleImportFromFile = () => {
-    setShowAddOrderDropdown(false);
-    // Your import from file logic here
-    console.log("Import from file selected");
-  };
   const [selectedRows, setSelectedRows] = useState([]);
   const toggleRowSelection = (orderId, e) => {
     // Prevent event bubbling when clicking the checkbox
@@ -784,6 +365,28 @@ export default function Dashboard(props) {
   };
 
   const [isHeaderSelected, setIsHeaderSelected] = useState(false);
+
+    const assignOrderStatusBackground = (status) => {
+    switch (status) {
+      case "ORDER PLACED":
+        return "#A6CFFF";
+
+      case "ASSIGNED":
+        return "#FFEC8B";
+
+      case "IN TRANSIT":
+        return "#88AFF1";
+
+      case "COMPLETED":
+        return "#C3F9D5";
+      case "RETURNED":
+        return "#AFAFAF";
+      case "FAILED":
+        return "#FF9ABA";
+      case "REJECTED":
+        return "#FFCACA";
+    }
+  };
 
   return (
     <div className="dashboard-content">
@@ -828,15 +431,23 @@ export default function Dashboard(props) {
         <div className={styles.DashbD_head_container}>
           <StatCard
             title="All Orders"
-            value={countByStatus()}
+            value={allOrders?.orders?.totalNumberOfOrders}
             img={staticon}
             change="+5.4% this week"
             bgColor="white"
             bordercolor="1px solid gray"
           />
           <StatCard
+            title="Order PLACED (NEW)"
+            value={allOrders?.orders?.totalNumOfOderPlaced}
+            img={staticon}
+            change="+5.4% this week"
+            bgColor="#A6CFFF"
+            bordercolor="1px solid #95bbe7ff"
+          />
+          <StatCard
             title="Order Completed"
-            value={countByStatus("Completed")}
+            value={allOrders?.orders?.totalNumberOfCompleted}
             img={staticon}
             change="+5.4% this week"
             bgColor="#C3F9D5"
@@ -844,7 +455,7 @@ export default function Dashboard(props) {
           />
           <StatCard
             title="Order Failed"
-            value={countByStatus("Failed")}
+            value={allOrders?.orders?.totalNumberOfFailed}
             img={staticon}
             change="+5.4% this week"
             bgColor="#FF9ABA"
@@ -852,15 +463,15 @@ export default function Dashboard(props) {
           />
           <StatCard
             title="Order Rejected"
-            value={countByStatus("Rejected")}
+            value={allOrders?.orders?.totalNumberOfRejected}
             img={staticon}
             change="+5.4% this week"
             bgColor="#FFC9C9"
             bordercolor="1px solid #FF8787"
           />
           <StatCard
-            title="Order in Progress"
-            value={countByStatus("In Progress")}
+            title="Order in Transit"
+            value={allOrders?.orders?.totalNumOfInTransit}
             img={staticon}
             change="+5.4% this week"
             bgColor="#88AEF1"
@@ -868,7 +479,7 @@ export default function Dashboard(props) {
           />
           <StatCard
             title="Order Assigned"
-            value={countByStatus("Assigned")}
+            value={allOrders?.orders?.totalNumberOfAssigned}
             img={staticon}
             change="+5.4% this week"
             bgColor="#FFEC8B"
@@ -876,7 +487,7 @@ export default function Dashboard(props) {
           />
           <StatCard
             title="Order Returned"
-            value={countByStatus("Returned")}
+            value={allOrders?.orders?.totalNumberOfReturned}
             img={staticon}
             change="+5.4% this week"
             bgColor="#AFAFAF"
@@ -910,11 +521,12 @@ export default function Dashboard(props) {
                 <button
                   onClick={toggleDropdown}
                   className={styles.columnButton}
+                  ref={toggleDropdownIgnoreRef}
                 >
                   <Upload size={16} /> Export <ChevronDown size={16} />
                 </button>
                 {showDropdown && (
-                  <div className={styles.dropdownMenu}>
+                  <div className={styles.dropdownMenu} ref={toggleDropdownRef}>
                     <div className={styles.dropdownItem} onClick={exportToCSV}>
                       Export CSV
                     </div>
@@ -958,7 +570,7 @@ export default function Dashboard(props) {
             <button
               ref={buttonAddOrderRef}
               className={styles.addorder}
-              onClick={toggleAddOrderDropdown}
+              onClick={()=>navigate("/addOrder")}
             >
               Add Order +
             </button>
@@ -979,7 +591,7 @@ export default function Dashboard(props) {
             {filterOptions.map((option) => (
               <button
                 key={option}
-                onClick={() => setFilter(option)}
+                onClick={() => {setFilter(option),  debouncedSearch(handleOrderStatusFilter(option),"",[])}}
                 className={`${styles.filterButton} ${
                   filter === option ? styles.activeFilter : ""
                 }`}
@@ -990,7 +602,7 @@ export default function Dashboard(props) {
           </div>
 
           {/* Table */}
-          {filteredOrders?.length > 0 ? (
+       
             <div className={styles.tableconMain}>
               <table className={styles.table}>
                 <thead className={styles.tableheader}>
@@ -1019,12 +631,15 @@ export default function Dashboard(props) {
                       {visibleCols.orderId && (
                       <th className={styles.th}>Order ID</th>
                     )}
+                     {visibleCols.description && (
+                      <th className={styles.th}>Description</th>
+                    )}
                     {visibleCols.dateTime && (
                       <th className={styles.th}>Pickup Date, Time</th>
                     )}
                   
                     {visibleCols.destination && (
-                      <th className={[styles.th,styles.destinationSt]} >Destination</th>
+                      <th className={[styles.th]} >Destination</th>
                     )}
                     {visibleCols.recipient && (
                       <th className={styles.th}>Recipient</th>
@@ -1032,24 +647,28 @@ export default function Dashboard(props) {
                     {visibleCols.phone && (
                       <th className={styles.th}>Recipient's Tel</th>
                     )}
-                    {visibleCols.payAmount && (
-                      <th className={styles.th}>Payment Amount</th>
-                    )}
+                   
                     {visibleCols.status && (
                       <th className={styles.th}>Status</th>
                     )}
                     {visibleCols.vendor && (
                       <th className={styles.th}>Vendor</th>
                     )}
-                    {visibleCols.tpl && <th className={styles.th}>Assigned To</th>}
-                    {visibleCols.deliveryAmount && (
-                      <th className={styles.th}>Delivery Fee</th>
-                    )}
+                    
                     {visibleCols.orderdate && (
                       <th className={styles.th}>Delivery Date, Time</th>
                     )}
-                    {visibleCols.orderimg && (
-                      <th className={styles.th}>Order Image</th>
+                    {visibleCols.tpl && <th className={styles.th}>3PL/Rider</th>}
+
+                    
+                     {visibleCols.payAmount && (
+                      <th className={styles.th}>Payment Amount</th>
+                    )}
+                    {visibleCols.deliveryAmount && (
+                      <th className={styles.th}>Delivery Fee</th>
+                    )}
+                     {visibleCols.grantTotal && (
+                      <th className={styles.th}>Grand Total</th>
                     )}
                   </tr>
                 </thead>
@@ -1057,8 +676,18 @@ export default function Dashboard(props) {
                 
                 <tbody>
                   {
+                    
+                      (orderLoading && !allOrders?.orders?.data) &&(
 
-                      orderLoading && <Spin size="large" className="loading-spinner" />
+                        <tr>
+                          
+                          <td style={{width:"100%", textAlign:"center",padding:"4rem 0rem"}} colSpan={12}>
+                         <Spin size="large" className="loading-spinner" />
+
+                          </td>
+
+                    </tr>
+                      ) 
                   }
 
                   {
@@ -1074,7 +703,7 @@ export default function Dashboard(props) {
                         // ) {
                         //   toggleRowSelection(order?._id);
                         // }
-                          navigate("/orders/1")
+                          navigate(`/dashboard/main/orders/${order?._id}`)
                         
                       }}
                       
@@ -1111,8 +740,11 @@ export default function Dashboard(props) {
                       {visibleCols.orderId && (
                         <td className={styles.td}>{order?.orderId}</td>
                       )}
+                      {visibleCols.description && (
+                        <td className={styles.td}>{order?.productDescription}</td>
+                      )}
                       {visibleCols.dateTime && (
-                        <td className={styles.td}>{formatDateTime(order?.createdAt)}</td>
+                        <td className={styles.td}>{formatDateTime(order?.orderDate)}</td>
                       )}
                       
                       {visibleCols.destination && (
@@ -1125,47 +757,53 @@ export default function Dashboard(props) {
                       {visibleCols.phone && (
                         <td className={styles.td}>{order?.recipientNumber}</td>
                       )}
-                      {visibleCols.payAmount && (
-                        <td className={styles.td}>GHC {order?.paymentAmount}</td>
-                      )}
+                      
                       {visibleCols.status && (
                         <td className={styles.td}>
                           <span
+
                             className={`${styles.status} ${
                               statusClass[order.status]
                             }`}
+                            style={{
+                              backgroundColor:assignOrderStatusBackground(order?.status)
+                            }}
                           >
                             {order?.status}
                           </span>
                         </td>
                       )}
                       {visibleCols.vendor && (
-                        <td className={styles.td}>{order?.source?.type}</td>
+                        <td className={styles.td}>{order?.source == null ? "SELF": order?.source?.businessInfo?.companyName}</td>
+                      )}
+                       {visibleCols.orderdate && (
+                        <td className={styles.td}>{formatDateTime(order?.deliveryDate) }</td>
                       )}
                       {visibleCols.tpl && (
-                        <td className={styles.td}>{order?.assignedTo}</td>
+                        <td className={styles.td}>{order?.assignedTo?.userProfile &&  order?.assignedTo?.userProfile?.fullName}</td>
+                      )}
+                      
+                     
+                      {visibleCols.payAmount && (
+                        <td className={styles.td}>GHC {order?.paymentAmount}</td>
                       )}
                       {visibleCols.deliveryAmount && (
-                        <td className={styles.td}>GHC{order?.deliveryFee}</td>
+                        <td className={styles.td}>{order?.deliveryFee && `GHC ${order?.deliveryFee}` }</td>
                       )}
-                      {visibleCols.orderdate && (
-                        <td className={styles.td}>{formatDateTime(order?.orderDate) }</td>
-                      )}
-                      {visibleCols.orderimg && (
-                        <td className={styles.td}>{order?.productImage}</td>
+                      {visibleCols.grantTotal && (
+                        <td className={styles.td}>GHC {(order?.paymentAmount + order?.deliveryFee)}</td>
                       )}
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          ) : (
-            <div className={styles.noResults}>
-              {selectedDate
-                ? `No orders found for ${selectedDate.toLocaleDateString()}`
-                : "No orders match your filters"}
-            </div>
-          )}
+ 
+              {  (!orderLoading && !allOrders?.orders?.data)
+           
+                      &&  <div className={styles.noResults}>No orders found  </div>
+              }
+          
         </div>
          <div className="pagination-tab">
          
@@ -1183,3 +821,7 @@ export default function Dashboard(props) {
     </div>
   );
 }
+
+
+
+

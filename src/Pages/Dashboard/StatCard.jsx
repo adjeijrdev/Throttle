@@ -23,7 +23,9 @@ const StatCard = ({
             "--hover-color": bgColor, 
         }}
       >
-        <div className={styles.card_con_b}>
+        <div 
+        // className={styles.card_con_b}
+        >
           <div className={styles.info}>
             <div className={styles.iconWrapper}>
               {img && <img src={img} className={styles.icon} alt="stat icon" />}
@@ -35,12 +37,12 @@ const StatCard = ({
             </div>
           </div>
 
-          <div className={styles.infochange}>
+          {/* <div className={styles.infochange}>
             <FaArrowUpLong size={16} color="#43A047" />
             <span style={{ color: "#43A047", fontSize: "10px" }}>5% </span>
 
             <span className={styles.change}> {change}</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

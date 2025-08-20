@@ -197,7 +197,7 @@ function RiderApproved() {
                         <button
                           className="status-btn-st"
                           onClick={() =>
-                            navigate(`/rider/approved/details/${item?._id}`)
+                            navigate(`/dashboard/rider/approved/details/${item?._id}`)
                           }
                         >
                           Approved
@@ -205,6 +205,16 @@ function RiderApproved() {
                       </Cell>
                     </Row>
                   ))
+                )}
+                  {(tableList.length <=0 && !ridersLoading) && (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+
+                    <Cell>No Data Found</Cell>
+                  </Row>
                 )}
               </Body>
             </>

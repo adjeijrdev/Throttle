@@ -51,7 +51,7 @@ export default function VendorApprovedViewDetails() {
       // fetchMoreVendors()
       refetchVendor();
 
-      navigate(`/vendor-account/Denied-Account/details/${id}`, {
+      navigate(`/dashboard/vendor-account/Denied-Account/details/${id}`, {
         replace: true,
       });
     } catch (error) {
@@ -221,8 +221,7 @@ export default function VendorApprovedViewDetails() {
                 <TextItem
                   title="Mobile Money Recipient Name"
                   value={
-                    vendorData?.vendor?.financialDetails?.recipientName
-                      ?.recipientName
+                    vendorData?.vendor?.financialDetails?.mobileMoneyAccount?.recipientName
                   }
                 />
               </div>

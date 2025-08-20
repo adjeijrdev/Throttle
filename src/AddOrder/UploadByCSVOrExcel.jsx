@@ -97,6 +97,7 @@ export default function UploadByCSVOrExcel() {
         },
       });
     }
+    handleRemove()
     setUploading(false);
   };
   return (

@@ -198,13 +198,23 @@ function RiderDenied() {
                         {" "}
                         <button
                           className="status-btn-st"
-                          onClick={() => navigate(`/rider/denied/details/${item?._id}`)}
+                          onClick={() => navigate(`/dashboard/rider/denied/details/${item?._id}`)}
                         >
                           Denied
                         </button>{" "}
                       </Cell>
                     </Row>
                   ))
+                )}
+                  {(tableList.length <=0 && !ridersLoading) && (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+
+                    <Cell>No Data Found</Cell>
+                  </Row>
                 )}
               </Body>
             </>

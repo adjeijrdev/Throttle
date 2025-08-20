@@ -32,39 +32,39 @@
 
 }
 
-.modalContainer button{
-    background-color: white;
-    border: 1px solid #17654F;
-    padding:10px;
-    border-radius: 5px;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    gap:1rem;
-    color: #17654F;
-    cursor: pointer;
-    transition: background 250ms ease-in-out;
-}
 
-.modalContainer button:hover{
-    background-color: #D6E3E0;
-}
-.modalContainer button span{
-    background-color: #17654F;
-    width: 30px;
-    height: 30px;
-    padding:5px;
+.otpBoxContainer{
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
-
+    gap:8px;
 }
 
-.modalContainer button span img{
-    width: 24px;
-    height: 24px;
+
+.otpBoxContainer input{
+    width:50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+/* .otpBoxContainer input:active, */
+.otpBoxContainer input:focus{
+    border:3px solid  #17654F;
+    outline: none;
     
     
+}
+
+.btn{
+    padding:15px 0px;
+
+    color: white;
+    border:0px;
+    border-radius: 8px;
+    margin:0px auto;
+    margin-top:15px;
+    width: 80%;
+    cursor: pointer;
 
 }

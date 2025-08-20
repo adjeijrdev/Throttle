@@ -5,12 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./addOrder.module.css";
 import ImageUpload from "./ImageUpload";
 import { BeatLoader } from "react-spinners";
-import { orderUploadAPI } from "../api/authentication";
+import { orderUploadAPI } from "../api/order";
 import toast from "react-hot-toast";
 import UploadByCSVOrExcel from "./UploadByCSVOrExcel";
+import { useSelector } from "react-redux";
 
 export default function AddOrder() {
   const useFormmethods = useForm({ resolver: zodResolver(addOrderSchema) });
+  const viewAbleTabs = useSelector((state) => state.staffAuth?.viewAbleTabs);
 
   const {
     register,
@@ -26,12 +28,15 @@ export default function AddOrder() {
     formData.append("recipientName", data?.recipient);
     formData.append("recipientNumber", data?.phoneNumber);
     formData.append("paymentAmount", data?.orderPrice);
-    formData.append("deliveryFee", data?.deliveryPrice);
+    if (data?.deliveryPrice) {
+      formData.append("deliveryFee", data?.deliveryPrice);
+    }
     formData.append("destination", data?.destination);
 
     const source = {
       type: "SELF",
     };
+
     formData.append("source", JSON.stringify(source));
 
     if (data.description) {
@@ -158,6 +163,7 @@ export default function AddOrder() {
                     <TextInput
                       title="Order Price(GHC)"
                       name="orderPrice"
+                      // type={"number"}
                       placeholder="amount"
                       isRequired={true}
                       register={() => register("orderPrice")}
@@ -175,45 +181,60 @@ export default function AddOrder() {
                       </h2>
                     )}
                   </div>
-
-                  <div className="input-con">
-                    <TextInput
-                      title="Delivery Fee(GHC)"
-                      name="contact"
-                      placeholder="amount"
-                      isRequired={true}
-                      register={() => register("deliveryPrice")}
-                    />
-                    {validationError?.deliveryPrice && (
-                      <h2
-                        style={{
-                          color: "red",
-                          marginTop: "-1rem",
-                          fontSize: "1.3rem",
-                          fontWeight: "450",
-                        }}
-                      >
-                        {validationError?.deliveryPrice?.message}
-                      </h2>
-                    )}
-                  </div>
+                  {!viewAbleTabs?.includes("Vendor") && (
+                    <div className="input-con">
+                      <TextInput
+                        title="Delivery Fee(GHC)"
+                        // type={"number"}
+                        name="contact"
+                        placeholder="amount"
+                        isRequired={true}
+                        register={() => register("deliveryPrice")}
+                      />
+                      {validationError?.deliveryPrice && (
+                        <h2
+                          style={{
+                            color: "red",
+                            marginTop: "-1rem",
+                            fontSize: "1.3rem",
+                            fontWeight: "450",
+                          }}
+                        >
+                          {validationError?.deliveryPrice?.message}
+                        </h2>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <div className="form-section1">
-                <h3 className={styles.subTitle}>Product description</h3>
+              <div>
                 <div>
+                  <h3 className={styles.subTitle}>Product description</h3>
+                  <div>
+                    <label htmlFor="description" style={{ fontSize: "16px" }}>
+                      Enter product description
+                    </label>
+                    <br />
+                    <textarea
+                      className="text-input"
+                      style={{ height: "150px" }}
+                      {...register("description")}
+                      rows={5}
+                    ></textarea>
+                  </div>
+                  <div>
+                    
+                  </div>
+                </div>
+
+                {/* <div>
                   <label htmlFor="description" style={{ fontSize: "16px" }}>
-                    Enter role description
+                    Unit Quantity
                   </label>
                   <br />
-                  <textarea
-                    className="text-input"
-                    style={{ height: "150px" }}
-                    {...register("description")}
-                    rows={5}
-                  ></textarea>
-                </div>
+                  <input type="number" className={styles.unit_quantity}/>
+                </div> */}
               </div>
 
               <div className="form-section1">
