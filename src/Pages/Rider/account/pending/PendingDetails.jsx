@@ -10,6 +10,7 @@ import DeleteModal from "../../../../Components/DeleteModal";
 import { GET_RIDER } from "../../../../graphql/generalQueries";
 import { approveRiderAPI, deleteRiderAPI } from "../../../../api/authentication";
 import { removeSingleRiderFromCache } from "../../../../graphql/graphqlConfiguration";
+import imgIcon from "../../../../Assets/icons/img.png";
 
 export default function RiderPendingDetails() {
   const navigate = useNavigate();
@@ -167,6 +168,59 @@ export default function RiderPendingDetails() {
       <div>
         <div>
           <div className="ct-staff-form-con1">
+            <div style={{backgroundColor:"pink", padding:"1rem"}}>
+                                                <div  style={{backgroundColor:"yellow", width:"45%", display:"flex",}}>
+                                                   <span style={{width:"5rem",
+                                                              height:"5rem", 
+                                                              borderRadius:"50%", 
+                                                              border:"1px solid black",
+                                                              display:"inline-flex",justifyContent:"center", alignContent:"center",padding:"2rem"}}>
+                                                                       <img
+                                                                          src={imgIcon}
+                                                                          alt=" imgIcon"
+                                                                          style={{ width: "16px", height: "16px" }}
+                                                                        />
+                                                      </span>
+                                                      <div style={{display:"grid", marginLeft:"3rem", gap:"0.3rem"}}>
+                                                        <div style={{fontSize:"2rem",fontWeight:"700"}}>Cameron Williamson</div>
+                                                        <div style={{ fontSize:"1.2rem"}}>cameronwilliamson@gmail.com</div>
+                                                        <button style={{fontsize:"0.8rem"}}>Pending</button>
+                                                      </div>
+                                                </div>
+                                                 
+              <div className="buttons">
+                 <button
+                className="btn-create"
+                onClick={() => {
+                  onApproveRider({
+                    id,
+                    status: "APPROVE",
+                  });
+                 
+                }}
+                disabled={isApproving}
+              >
+                {isApproving ? (
+                  <BeatLoader color="white" />
+                ) : (
+                  "Approve"
+                )}
+              </button>
+              <button
+                className="btn-cancel"
+                onClick={() => {
+                  onDenyRider({
+                    id,
+                    status: "DENIED",
+                  });
+                }}
+                disabled={isDenying}
+              >
+                {isDenying ? <BeatLoader color="white" /> : "Deny Approval"}
+              </button>
+             
+            </div>
+                                               </div>
             <div className="form-section1">
               <h3>Personal Information </h3>
 
@@ -340,39 +394,6 @@ export default function RiderPendingDetails() {
                 </div>
               </div>
             </div>
-
-            <div className="buttons">
-              <button
-                className="btn-cancel"
-                onClick={() => {
-                  onDenyRider({
-                    id,
-                    status: "DENIED",
-                  });
-                }}
-                disabled={isDenying}
-              >
-                {isDenying ? <BeatLoader color="white" /> : "Deny Approval"}
-              </button>
-              <button
-                className="btn-create"
-                onClick={() => {
-                  onApproveRider({
-                    id,
-                    status: "APPROVE",
-                  });
-                 
-                }}
-                disabled={isApproving}
-              >
-                {isApproving ? (
-                  <BeatLoader color="white" />
-                ) : (
-                  "Approve Application"
-                )}
-              </button>
-            </div>
-
           </div>
         </div>
       </div>

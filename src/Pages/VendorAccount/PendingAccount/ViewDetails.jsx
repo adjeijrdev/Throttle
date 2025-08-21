@@ -9,6 +9,7 @@ import { approveVendorAPI, deleteVendorAPI } from "../../../api/authentication";
 import toast from "react-hot-toast";
 import { removeSingleVendrFromCache } from "../../../graphql/graphqlConfiguration";
 import DeleteModal from "../../../Components/DeleteModal";
+import imgIcon from "../../../Assets/icons/img.png";
 
 export default function ViewDetails() {
   const navigate = useNavigate();
@@ -178,6 +179,59 @@ export default function ViewDetails() {
       <div>
         <div>
           <div className="ct-staff-form-con1">
+              <div style={{backgroundColor:"pink", padding:"1rem"}}>
+                                    <div  style={{backgroundColor:"yellow", width:"45%", display:"flex",}}>
+                                       <span style={{width:"5rem",
+                                                  height:"5rem", 
+                                                  borderRadius:"50%", 
+                                                  border:"1px solid black",
+                                                  display:"inline-flex",justifyContent:"center", alignContent:"center",padding:"2rem"}}>
+                                                           <img
+                                                              src={imgIcon}
+                                                              alt=" imgIcon"
+                                                              style={{ width: "16px", height: "16px" }}
+                                                            />
+                                          </span>
+                                          <div style={{display:"grid", marginLeft:"3rem", gap:"0.3rem"}}>
+                                            <div style={{fontSize:"2rem",fontWeight:"700"}}>Ishtari Ghana LTD</div>
+                                            <div style={{ fontSize:"1.2rem"}}>ishtarighana@gmail.com</div>
+                                            <button style={{fontsize:"0.8rem"}}>Pending</button>
+                                          </div>
+                                    </div>
+                                     
+                        <div className="buttons">
+              <button
+                className="btn-cancel"
+                onClick={() => {
+                  onDenyStaff({
+                    id,
+                    status: "DENIED",
+                  });
+                  
+                }}
+                disabled={isDenying}
+              >
+                {isDenying ? <BeatLoader color="white" /> : "Deny Approval"}
+              </button>
+              <button
+                className="btn-create"
+                onClick={() => {
+                  onApproveStaff({
+                    id,
+                    status: "APPROVE",
+                  });
+                  setStatusSwitch("APPROVED");
+                }}
+                disabled={isApproving}
+              >
+                {isApproving ? (
+                  <BeatLoader color="white" />
+                ) : (
+                  "Approve Application"
+                )}
+              </button>
+            </div>
+                                   </div>
             <div className="form-section1">
               <h3>Business Information </h3>
 
@@ -302,39 +356,6 @@ export default function ViewDetails() {
                   <div className="vd-doc"></div>
                 </div> */}
               </div>
-            </div>
-
-            <div className="buttons">
-              <button
-                className="btn-cancel"
-                onClick={() => {
-                  onDenyStaff({
-                    id,
-                    status: "DENIED",
-                  });
-                  
-                }}
-                disabled={isDenying}
-              >
-                {isDenying ? <BeatLoader color="white" /> : "Deny Approval"}
-              </button>
-              <button
-                className="btn-create"
-                onClick={() => {
-                  onApproveStaff({
-                    id,
-                    status: "APPROVE",
-                  });
-                  setStatusSwitch("APPROVED");
-                }}
-                disabled={isApproving}
-              >
-                {isApproving ? (
-                  <BeatLoader color="white" />
-                ) : (
-                  "Approve Application"
-                )}
-              </button>
             </div>
           </div>
         </div>
