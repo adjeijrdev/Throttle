@@ -606,3 +606,94 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   20%, 60% { transform: translateX(-3px); }
   40%, 80% { transform: translateX(3px); }
 }
+
+/* MOBILE PHONE DESIGN */
+@media screen and (max-width: 480px){
+  .form-container {
+  /* width: 100%; */
+  /* max-width: 60rem; */
+  margin: 0.1rem auto;
+  display: flex;
+  /* display: none; */
+  flex-direction: column;
+  justify-content: center;
+  gap:1rem;
+}
+
+.form-title {
+  text-align: center;
+  /* margin-bottom: 2rem; */
+  font-size: 1.5rem;
+  color: #064e3b;
+}
+
+/* STEPPER STYLING */
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.stepper p {
+  color: var(--clr-black);
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+}
+.step-item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+/* .step-item::after {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  right: -50%;
+  width: 100%;
+  height: 10px;
+  background-color: var(--clr-green);
+  z-index: -1;
+}  */
+.step-item:last-child::after {
+  display: none;
+}
+
+.step-circle {
+  width: 2.8rem;
+  height: 2.8rem;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: white;
+  border: 0.125rem solid var(--main-theme);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--main-theme);
+}
+.step-circle.active {
+  background-color: var(--main-theme);
+  color: white;
+}
+.step-circle.completed {
+  background-color: var(--main-theme);
+  color: white;
+}
+
+.step-circle:not(:last-child).completed::after {
+  content: "";
+  position: absolute;
+  top: 27%;
+  left: 61%;
+  width: 90%;
+  height: 2px;
+  background: var(--main-theme);
+}
+
+.step-label {
+  /* margin-top: 0.5rem; */
+  font-size: 0.875rem;
+}
+
+}

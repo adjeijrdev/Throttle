@@ -8,7 +8,8 @@ import { loginAPI } from "../../api/authentication";
 import { BeatLoader } from "react-spinners";
 import toast, { Toaster } from "react-hot-toast";
 import { Input } from "antd";
-import { RxPerson } from "react-icons/rx";
+import { RxPerson, RxLockClosed } from "react-icons/rx";
+
 import "./Login.css";
 
 //importing images
@@ -201,6 +202,7 @@ export default function Login() {
               <div
               className=""
               >
+                
                 <Input.Password
                   placeholder="input password"
                   iconRender={(visible) =>

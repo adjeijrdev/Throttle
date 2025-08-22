@@ -212,7 +212,7 @@ const Stepper = ({ name }) => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={style["form-container"]}
-        enctype="multipart/form-data"
+        encType="multipart/form-data"
       >
         <h2 className={style["form-title"]}>
           Registration process as a {name}

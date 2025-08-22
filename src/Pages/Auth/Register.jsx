@@ -33,10 +33,9 @@ export default function Register() {
           <img src={Logo} alt="Throttle-logo" />
         </div>
         <div className="registring-part-form-contianer">
-          <div className="close" onClick={() => navigate("/login")}>
-            {" "}
+          {/* <div className="close" onClick={() => navigate("/login")}>
            
-          </div>
+          </div> */}
           <Stepper name="Vendor" />
           {/* <VendorStepper /> */}
         </div>

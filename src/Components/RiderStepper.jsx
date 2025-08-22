@@ -433,8 +433,8 @@ const Stepper = ({ name }) => {
 
                   <div>
                     <CustomSelector2
-                      width="290px"
-                      height="29px"
+                      width="29rem"
+                      height="2.9rem"
                       sideBarHeight="20px"
                       options={[
                         {
