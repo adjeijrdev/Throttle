@@ -37,6 +37,8 @@
     gap: 2rem;
     background-color: none;
     padding:1rem;
+    
+    /* background-color: pink; */
 
  }
 
@@ -565,4 +567,57 @@ align-items: center;
   gap: 2rem;
   flex-direction: row;
   float: right;
+}
+
+.dateFilterContainer{
+  display: flex;
+  flex-direction: column;
+  gap:0px;
+  /* background-color: red; */
+}
+
+.dateFilterContainer .dateFilterContainerTitle{
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-left: 8px;
+  /* background-color: yellow; */
+  
+}
+
+.search_filter_con {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  background-color: red;
+  width: 60%;
+  height: 70;
+}
+
+.columnButton {
+  /* background-color:white;
+  color: var(--clr-black);
+   border:1px solid #00000033;
+  border-radius: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+   width: 15rem;
+  padding: 0.8rem;
+  transition: all 250ms ease-in-out; */
+  background-color: white;
+  border: 1px solid #00000033;
+  width: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  transition: background-color 250ms ease-in-out;
+  cursor: pointer;
+  padding: 1rem;
+}
+.columnButton:hover {
+  background-color: var(--input-background);
+  border-color: white;
 }

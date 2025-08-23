@@ -80,7 +80,7 @@ export const GET_ALL_VENDORS = gql`
         _id
         role
         status
-        
+
         businessInfo {
           areaOfOperation
           businessAddress
@@ -395,7 +395,7 @@ export const GET_ALL_ORDERS = gql`
         recipientName
         recipientNumber
         rejectedReasons
-        
+
         source {
           _id
           businessInfo {
@@ -454,15 +454,89 @@ export const GET_ORDER = gql`
       recipientName
       recipientNumber
       rejectedReasons
-      
-        # source {
-        #   _id
-        #   businessInfo {
-        #     companyName
-        #   }
-        # }
+
+      # source {
+      #   _id
+      #   businessInfo {
+      #     companyName
+      #   }
+      # }
       status
       updatedAt
+    }
+  }
+`;
+
+export const GET_ALL_ORDERS_COD = gql`
+  query GET_ALL_ORDERS_COD(
+    $offset: Int!
+    $limit: Int!
+    $search: String!
+    $orderIds: [String]
+    $pickupDateFrom: String
+    $pickupDateTo: String
+    $deliveryDateFrom: String
+    $deliveryDateTo: String
+ 
+    $vendorId: String
+    $assignedTo:String
+  ) {
+    cod(
+      offset: $offset
+      limit: $limit
+      search: $search
+     
+      orderIds: $orderIds
+      pickupDateFrom: $pickupDateFrom
+      pickupDateTo: $pickupDateTo
+      deliveryDateFrom: $deliveryDateFrom
+      deliveryDateTo: $deliveryDateTo
+    
+      vendorId: $vendorId
+      assignedTo: $assignedTo
+    ) {
+      currentPage
+      hasNextPage
+      totalCount
+      completedOrderNum
+      totalRevenue
+      totalDeliveryFee
+      pendingRemittance
+      paidToVendor
+      data {
+        _id
+        assignedTo {
+          ... on Rider {
+            userProfile {
+              fullName
+            }
+          }
+
+          ... on T3PL {
+            businessInfo {
+              companyName
+            }
+          }
+        }
+        orderId
+        paymentStatus
+        deliveryDate
+        deliveryFee
+        destination
+        orderDate
+        paymentAmount
+        paymentNumber
+        productImage
+        source {
+          _id
+          businessInfo {
+            companyName
+          }
+        }
+        status
+        updatedAt
+        createdAt
+      }
     }
   }
 `;
