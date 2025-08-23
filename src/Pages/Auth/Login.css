@@ -14,6 +14,7 @@
   overflow: hidden;
 }
 .green-side {
+  
   width: 66%;
   height: 100%;
   overflow: hidden;
@@ -21,13 +22,13 @@
   display: flex;
   flex-direction: column;
   gap: 0;
+
 }
 .form {
   /* display: none; */
   width: 34%;
   height: 100%;
   background-color: var(--clr-white);
-  
 }
 
 /* GREEN SIDE STYLING WITH TEXT AND IMAGES */
@@ -50,13 +51,12 @@
   left: 13%;
   border-radius: 1.3rem;
   object-fit: cover;
-
 }
 .blurred-box img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-    border-radius: .3rem;
+  border-radius: 0.3rem;
 }
 
 /* MAN MODEL */
@@ -164,22 +164,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap:4rem;
-
+  gap: 4rem;
 }
 
-.login-input-con-st{
-
+.login-input-con-st {
   width: 100%;
   display: flex;
   flex-direction: column;
-  
-  gap:1.5rem;
-  
+
+  gap: 1.5rem;
 }
 /* RADIO BUTTON STYLING */
 .radio-button-group {
-
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -193,11 +189,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap:0.8rem;
-
+  gap: 0.8rem;
 }
 
-.input[type="radio" i]{
+.input[type="radio" i] {
   background-color: green !important;
 }
 
@@ -205,34 +200,29 @@
   display: inline;
   width: 15px;
   height: 15px;
-    cursor: pointer;
-
+  cursor: pointer;
 }
 
 .login-radio-button input[type="radio"]::after {
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    top: 0;
-    left: 0;
-    /* background-color: #6b6b6b; */
-    /* border: 1px solid #CDD4DB; */
-    content: "";
-    display: inline-block;
-    
-
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  top: 0;
+  left: 0;
+  /* background-color: #6b6b6b; */
+  /* border: 1px solid #CDD4DB; */
+  content: "";
+  display: inline-block;
 }
 
 .login-radio-button input[type="radio"]:checked::after {
-    background-color: #17654F !important;
-    outline: 1px solid #17654F ;
-    border: 1px solid white;
-   
+  background-color: #17654f !important;
+  outline: 1px solid #17654f;
+  border: 1px solid white;
 }
 
-
 .login-radio-button input[type="radio"]:checked + label {
-    background-color: white !important;
+  background-color: white !important;
 }
 .login-radio-button label {
   /* padding-left: 30px; */
@@ -240,19 +230,16 @@
   position: relative;
   font-size: 1.6rem;
   font-weight: 500;
-
 }
 
-
 /* line-and-text */
-.line-box{
+.line-box {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   /* margin-top: -2rem; */
   padding: 0;
-
 }
 .line-and-text {
   display: flex;
@@ -263,15 +250,13 @@
   font-size: 1.6rem;
   /* margin-top: 5rem; */
   /* margin-bottom: 5rem; */
-  
 }
 .line-and-text::before,
 .line-and-text::after {
   content: "";
-  
-  flex: 1;
-  border-bottom: 2px solid #F0EDFF;
 
+  flex: 1;
+  border-bottom: 2px solid #f0edff;
 }
 .line-and-text:not(:empty)::before {
   margin-right: 10px;
@@ -286,57 +271,51 @@
 
 /* INPUT FIELDS */
 .login-input-box {
-
   width: 100%;
   display: flex;
   align-items: center;
-  background-color: #CCE1DB;
+  background-color: #cce1db;
 
   height: 4.8rem;
-  
+
   display: flex;
   gap: 1.3rem;
-  padding:0px 1rem;
+  padding: 0px 1rem;
   /* padding: 1.1rem 2.4rem; */
-  border: solid 1px #17654F;
+  border: solid 1px #17654f;
   margin-bottom: 1.3rem;
   /* background-color: #17654F; */
   border-radius: 1.4rem;
   font-size: 9rem;
   transition: background 250ms ease-in-out;
-  
 }
 .login-input-box input {
   background: transparent;
   width: 98%;
   height: 100%;
   /* background-color: red; */
-  
+
   border: none;
   font-size: 1.4rem;
 }
 
-
-.login-input-box:hover{
+.login-input-box:hover {
   /* box-shadow: 2px 1px 5px var(--clr-green); */
-  background-color: #B2CFC7;
+  background-color: #b2cfc7;
   color: black;
   font-style: italic;
   border: solid 0.8px var(--main-theme);
 }
 
-
-
-
 /* .login-input-box input::placeholder {
   color: var(--main-theme)
 } */
 
-.input-fields{
+.input-fields {
   /* background-color: red; */
   display: flex;
   flex-direction: column;
-  gap:0.7rem;
+  gap: 0.7rem;
 }
 /* .input-fields .login_email-box {
   display: flex;
@@ -345,38 +324,31 @@
   align-items: center;
 } */
 
-
-.login-password{
-   background-color: #CCE1DB !important;
+.login-password {
+  background-color: #cce1db !important;
   height: 4.8rem;
-  
+
   border-radius: 1.4rem;
-
-
 }
 
-.login-password:hover{
-  border-color: #17654F !important;
-  border:1px solid yellow;
-
+.login-password:hover {
+  border-color: #17654f !important;
+  border: 1px solid yellow;
 }
 .login-password .ant-input {
   border: none;
   outline: none;
   margin: 0px;
-  background-color: #CCE1DB !important;
+  background-color: #cce1db !important;
   /* border: 1px solid #17654F !important; */
 }
-
-
-
 
 .login-input-box input:focus {
   outline: none;
   border: none;
   background: transparent;
 }
-.button-and-sign-up{
+.button-and-sign-up {
   /* margin-top: -5.5rem; */
   display: flex;
   flex-direction: column;
@@ -384,7 +356,6 @@
   justify-content: center;
   text-align: center;
   width: 100%;
-
 }
 .button-and-sign-up button {
   /* padding: 1.1rem 2.4rem; */
@@ -405,13 +376,12 @@
   transition: all 250ms ease-in-out;
 }
 .button-and-sign-up button:hover,
-.button-and-sign-up button:active{
+.button-and-sign-up button:active {
   background-color: var(--dark-green);
   color: var(--clr-white);
   border: none;
-  
 }
-.button-and-sign-up button:active{
+.button-and-sign-up button:active {
   /* transform: scale(99.7%); */
   font-size: 1.5rem;
   /* color: var(--background-clr); */
@@ -426,12 +396,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border:1px solid yellowgreen
- 
+  
 }
 
-.logo-form img{
-  width: 15rem ;
+.logo-form img {
+  width: 15rem;
 }
 
 .sign-up span {
@@ -447,10 +416,10 @@
 .sign-up span a:hover {
   font-weight: 700;
   color: var(--dark-green);
-  text-decoration:underline;
+  text-decoration: underline;
   cursor: pointer;
 }
-.remember-me{
+.remember-me {
   width: 100%;
   display: flex;
   justify-content: end;
@@ -459,16 +428,98 @@
 
   margin-top: 0.5rem;
 }
-.remember-me p{
+.remember-me p {
   color: gray;
   font-size: larger;
-  cursor:pointer;
-
-
+  cursor: pointer;
 }
 
 
+/* password style */
+/* Target the main wrapper */
+.login-password.ant-input-affix-wrapper {
+  background-color: #cce1db !important;
+  border-color: #17654f !important;
+}
+
+/* Hover state for the wrapper */
+.login-password.ant-input-affix-wrapper:hover {
+  background-color: #b2cfc7 !important;
+  border-color: #17654f !important;
+}
+
+/* Focus state for the wrapper */
+.login-password.ant-input-affix-wrapper:focus-within {
+  background-color: #b2cfc7 !important;
+  border-color: #17654f !important;
+  /* box-shadow: 0 0 0 2px rgba(23, 101, 79, 0.2) !important; */
+}
+
+/* Make sure the input itself doesn't override our background */
+.login-password .ant-input {
+  background-color: transparent !important;
+}
+
+/* Style the eye icon */
+.login-password .ant-input-password-icon {
+  color: #6b6b6b !important;
+}
+
+/* ANIMATIONS */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  t0 {
+    width: 100%;
+  }
+}
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--background-clr);
+  }
+}
+
 /* //MEDIA QUERY */
+/* MOBILE PHONES */
+@media screen and (max-width: 480px) {
+  .green-side {
+    display: none;
+    width: 66%;
+    height: 100%;
+    overflow: hidden;
+    color: var(--clr-white);
+    /* display: flex; */
+    flex-direction: column;
+    gap: 0;
+  }
+  .form {
+  /* display: none; */
+  width: 100%;
+  height: 100%;
+  background-color: var(--clr-white);
+}
+.logo-form {
+  /* margin-bottom: 3.6rem; */
+  /* width: 280px !important; */
+  background-color: black;
+  width: 70%;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*  */
+}
+
+.logo-form img {
+  width: 9rem;
+}
+
+}
 @media screen and (max-width: 976px) {
   .text-on-green {
     width: 80%;
@@ -483,9 +534,8 @@
     display: flex;
     flex-direction: column;
     z-index: 2;
-  }v
-
-  .text-on-green h1 {
+  }
+  v .text-on-green h1 {
     font-size: 1.1rem !important;
     font-weight: 500 !important;
     margin: 0 !important;
@@ -516,46 +566,3 @@
     font-weight: 400;
   }
 }
-
-
-
-/* password style */
-/* Target the main wrapper */
-.login-password.ant-input-affix-wrapper {
-  background-color: #CCE1DB !important;
-  border-color: #17654F !important;
-}
-
-/* Hover state for the wrapper */
-.login-password.ant-input-affix-wrapper:hover {
-  background-color: #B2CFC7 !important;
-  border-color: #17654F !important;
-}
-
-/* Focus state for the wrapper */
-.login-password.ant-input-affix-wrapper:focus-within {
-  background-color: #B2CFC7 !important;
-  border-color: #17654F !important;
-  /* box-shadow: 0 0 0 2px rgba(23, 101, 79, 0.2) !important; */
-}
-
-/* Make sure the input itself doesn't override our background */
-.login-password .ant-input {
-  background-color: transparent !important;
-}
-
-/* Style the eye icon */
-.login-password .ant-input-password-icon {
-  color: #6B6B6B !important;
-}
-
-/* ANIMATIONS */
-@keyframes typing{
-  from { width :0}
-  t0 {width: 100%}
-}
-@keyframes blink-caret{
-  from, to { border-color: transparent }
-  50% { border-color: var(--background-clr)}
-}
-

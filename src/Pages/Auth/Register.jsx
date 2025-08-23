@@ -29,16 +29,18 @@ export default function Register() {
         </div>
       </div>
       <div className="white-right">
-        <div className="logo registering-part-logo">
+        <div className="registering-part-logo">
           <img src={Logo} alt="Throttle-logo" />
         </div>
         <div className="registring-part-form-contianer">
-          <div className="close" onClick={() => navigate("/login")}>
-            {" "}
-            <h1>X</h1>
-          </div>
+          {/* <div className="close" onClick={() => navigate("/login")}>
+           
+          </div> */}
           <Stepper name="Vendor" />
           {/* <VendorStepper /> */}
+        </div>
+        <div className="cancel-box">
+            <h1>Don't want to continue? <span onClick={() => navigate("/login")}>Cancel Registration</span></h1>
         </div>
       </div>
     </div>

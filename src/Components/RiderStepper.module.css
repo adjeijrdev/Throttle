@@ -19,7 +19,7 @@
 .stepper {
   display: flex;
   justify-content: space-between;
-  /* margin-bottom: 3rem; */
+  margin-bottom: 3rem;
   position: relative;
 }
 .stepper p {
@@ -53,19 +53,19 @@
   margin: 0 auto;
   border-radius: 50%;
   background-color: white;
-  border: 0.125rem solid var(--dark-green);
+  border: 0.125rem solid var(--main-theme);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: var(--dark-green);
+  color: var(--main-theme);
 }
 .step-circle.active {
-  background-color: var(--dark-green);
+  background-color: var(--main-theme);
   color: white;
 }
 .step-circle.completed {
-  background-color: var(--dark-green);
+  background-color: var(--main-theme);
   color: white;
 }
 
@@ -76,7 +76,7 @@
   left: 61%;
   width: 90%;
   height: 2px;
-  background: var(--dark-green);
+  background: var(--main-theme);
 }
 
 .step-label {
@@ -119,7 +119,9 @@
   align-items: center;
 }
 .form__grid1{
-  padding: 0 40px;
+  margin: 0rem auto;
+  width: 40rem;
+  align-items: center;
 }
 .form-grid_document {
   display: grid;
@@ -164,7 +166,7 @@
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  margin-top: 14rem;
+  margin-top: 10rem;
 
   /* position: relative; */
 }
@@ -193,7 +195,7 @@
 }
 
 .btn-filled {
-  background-color: var(--dark-green);
+  background-color: var(--main-theme);
   color: white;
   width: 70%;
   border: none;
@@ -201,9 +203,9 @@
 
 .btn-outline {
   background-color: white;
-  color: var(--dark-green);
+  color: var(--main-theme);
   width: 70%;
-  border: 2px solid var(--dark-green);
+  border: 0.8px solid var(--main-theme);
 }
 
 input[type="email"],
@@ -273,7 +275,7 @@ input[type="date"] {
 }
 input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: var(--main-theme);
-  height: 2.67em;
+  height: 2.7em;
   width: 3.5em;
   position: relative;
   right: -1em;
@@ -287,7 +289,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   position: absolute;
   left: 24em;
   width: 5em;
-  height: 4em;
+  height: 2em;
   background-color: var(--main-theme);
   border-radius: 0px 9px 9px 0px;
   pointer-events: none;
@@ -576,27 +578,122 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .error {
   color: #d32f2f; /* Deep red */
-  font-size: 1rem;
+  /* font-size: 1rem;
   margin-top: 4px;
-  width: 100%;
+  width: 100%; */
   /* padding: 6px 12px; */
   padding-left: 6px;
-  background-color: #fdecea; /* Light red background */
-  border-left: 4px solid #f44336;
+ ; /* Light red background */
+  /* border-left: 4px solid #f44336;
   border-radius: 4px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 8px; */
   animation: shake 0.5s ease-in-out;
 }
-
-.error::before {
-  content: "⚠";
-  font-size: 1.3rem;
+.errorMessage{
+  border-left: 3px solid red;
+  border-radius: 2px;
+  padding-left: 10px;
+  margin: -6px;
+  margin-bottom: 0px;
+  color: red;
+   background-color: #fdecea;
 }
 
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   20%, 60% { transform: translateX(-3px); }
   40%, 80% { transform: translateX(3px); }
+}
+
+/* MOBILE PHONE DESIGN */
+@media screen and (max-width: 480px){
+  .form-container {
+  /* width: 100%; */
+  /* max-width: 60rem; */
+  margin: 0.1rem auto;
+  display: flex;
+  /* display: none; */
+  flex-direction: column;
+  justify-content: center;
+  gap:1rem;
+}
+
+.form-title {
+  text-align: center;
+  /* margin-bottom: 2rem; */
+  font-size: 1.5rem;
+  color: #064e3b;
+}
+
+/* STEPPER STYLING */
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.stepper p {
+  color: var(--clr-black);
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+}
+.step-item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+/* .step-item::after {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  right: -50%;
+  width: 100%;
+  height: 10px;
+  background-color: var(--clr-green);
+  z-index: -1;
+}  */
+.step-item:last-child::after {
+  display: none;
+}
+
+.step-circle {
+  width: 2.8rem;
+  height: 2.8rem;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: white;
+  border: 0.125rem solid var(--main-theme);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--main-theme);
+}
+.step-circle.active {
+  background-color: var(--main-theme);
+  color: white;
+}
+.step-circle.completed {
+  background-color: var(--main-theme);
+  color: white;
+}
+
+.step-circle:not(:last-child).completed::after {
+  content: "";
+  position: absolute;
+  top: 27%;
+  left: 61%;
+  width: 90%;
+  height: 2px;
+  background: var(--main-theme);
+}
+
+.step-label {
+  /* margin-top: 0.5rem; */
+  font-size: 0.875rem;
+}
+
 }

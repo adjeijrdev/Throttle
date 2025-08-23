@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 //Importing in-application components
 import DropDownInput from "../Components/DropDownMenuInput/DropDownInput";
 import { useNavigate, Link } from "react-router";
+import PhoneNumberInput from "./Phone/PhoneNumberInput";
 
 //import images
 import LeftSVG from "../Assets/icons/Left.png";
@@ -15,7 +16,7 @@ import img from "../Assets/icons/img.png";
 import padLock from "../Assets/input_icons/padlock.png";
 import EmailIcon from "../Assets/input_icons/emailuser.png";
 import Calendar from "../Assets/icons/Calendar.png";
-import { useForm } from "react-hook-form";
+import { useForm,  Controller } from "react-hook-form";
 import { riderSchema } from "../items/RiderSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CustomSelector2 from "./form/selector/CustomSelecter2";
@@ -42,6 +43,7 @@ const Stepper = ({ name }) => {
     trigger,
     setValue,
     watch,
+    control,
     formState: { errors, isSubmitting, touchedFields, setError },
   } = useForm({
     resolver: zodResolver(riderSchema),
@@ -327,8 +329,8 @@ const Stepper = ({ name }) => {
             border: "1px solid oklch(88.5% 0.062 18.334)",
             // backgroundColor:"oklch(88.5% 0.062 18.334)",
             color: "oklch(39.6% 0.141 25.723)",
-            fontSize: "16px",
-            width: "500px",
+            fontSize: "1.6rem",
+            width: "50rem",
           },
         });
       }
@@ -431,8 +433,8 @@ const Stepper = ({ name }) => {
 
                   <div>
                     <CustomSelector2
-                      width="290px"
-                      height="29px"
+                      width="29rem"
+                      height="2.9rem"
                       sideBarHeight="20px"
                       options={[
                         {
@@ -523,7 +525,7 @@ const Stepper = ({ name }) => {
                     {" "}
                     Mobile Number<sup style={{ color: "red" }}>*</sup>
                   </label>
-                  <input
+                  {/* <input
                     type="text"
                     id="phoneNumber"
                     name="phoneNumber"
@@ -535,7 +537,17 @@ const Stepper = ({ name }) => {
                     <p className={style.error}>
                       {errors?.contactDetails?.phoneNumber?.message}{" "}
                     </p>
-                  )}
+                  )} */}
+                  <Controller
+                    name="phoneNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <PhoneNumberInput
+                        {...field}
+                        error={errors?.contactDetails?.phoneNumber?.message|| ""}
+                      />
+                    )}
+                  />
                 </div>
                 <div className={style["form-group"]}>
                   <label htmlFor="residentialAddress">
@@ -558,7 +570,7 @@ const Stepper = ({ name }) => {
                   <label htmlFor="additionalPhoneNumber">
                     Additional Mobile Number (Optional)
                   </label>
-                  <input
+                  {/* <input
                     id="additionalPhoneNumber"
                     type="text"
                     name="additionalPhoneNumber"
@@ -569,7 +581,17 @@ const Stepper = ({ name }) => {
                     <p className={style.error}>
                       {errors?.contactDetails?.additionalPhoneNumber?.message}{" "}
                     </p>
-                  )}
+                  )} */}
+                  <Controller
+                    name="additionalPhoneNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <PhoneNumberInput
+                        {...field}
+                        error={errors?.contactDetails?.additionalPhoneNumber?.message|| ""}
+                      />
+                    )}
+                  />
                 </div>
                 <div className={style["form-group"]}>
                   <label htmlFor="emergencyContactName">
@@ -609,7 +631,7 @@ const Stepper = ({ name }) => {
                   <label htmlFor="emergencyContactNumber">
                     Emergency contact number<sup>*</sup>
                   </label>
-                  <input
+                  {/* <input
                     type="text"
                     name="emergencyContactNumber"
                     id="emergencyContactNumber"
@@ -620,7 +642,17 @@ const Stepper = ({ name }) => {
                     <p className={style.error}>
                       {errors?.contactDetails?.emergencyContactNumber?.message}{" "}
                     </p>
-                  )}
+                  )} */}
+                  <Controller
+                    name="emergencyContactNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <PhoneNumberInput
+                        {...field}
+                        error={errors?.contactDetails?.emergencyContactNumber?.message|| ""}
+                      />
+                    )}
+                  />
                 </div>
               </div>
             )}
@@ -998,7 +1030,6 @@ const Stepper = ({ name }) => {
         )}
         {/* <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} /> */}
       </form>
-      
     </>
   );
 };

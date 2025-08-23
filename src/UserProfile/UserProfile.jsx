@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./UserProfile.module.css";
 import CustomDatePicker from "../Components/datePicker/CustomDatePicker";
@@ -8,8 +9,14 @@ import badge from "../Assets/icons/carbon_badge.png";
 
 //internal imports
 import Dp from "../Assets/Models/dp.webp";
+import UserProfileModal from "../Modals/UserProfileModal";
 export default function UserProfile() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  const toggleModalOpen = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <div className={style["body"]}>
@@ -19,7 +26,9 @@ export default function UserProfile() {
         </div>
         <div className={style["buttons"]}>
           <button className={style["white"]}>Change Password</button>
-          <button className={style["green"]} onClick={() => navigate("/login")}>Logout</button>
+          <button className={style["green"]} onClick={() => navigate("/login")}>
+            Logout
+          </button>
         </div>
       </div>
       <div className={style["bottom-row"]}>
@@ -44,14 +53,14 @@ export default function UserProfile() {
             </div>
           </div>
 
-          <div className={style["dp-side-button"]}>
-            <p>
-               Edit Profile
+          <div className={style["dp-side-button"]} onClick={toggleModalOpen}>
+            <p onClick={toggleModalOpen}>
+              Edit Profile
               <span>
                 <img src={edit} alt="edit" />
               </span>
-             
             </p>
+            <UserProfileModal isOpen={isModalOpen} onCLose={toggleModalOpen} />
           </div>
         </div>
         <h1 className={style["section-header"]}>Personal Information</h1>
@@ -60,122 +69,66 @@ export default function UserProfile() {
         <div className={style["inputs-area"]}>
           <div className={style["form-grid"]}>
             <div className={style["form-group"]}>
-              <label>
-                Username
-              </label>
-              <input
-                type="text"
-                placeholder="username"
-              />
+              <label>Username</label>
+              <input type="text" placeholder="username" disabled />
             </div>
             <div className={style["form-group"]}>
-              <label>
-                Gender
-              </label>
-              <input
-                type="text"
-                placeholder="gender"
-              />
+              <label>Gender</label>
+              <input type="text" placeholder="gender" disabled />
             </div>
             <div className={style["form-group"]}>
-              <label>
-                ID Type
-              </label>
-              <input
-                type="text"
-                placeholder="id type"
-              />
+              <label>ID Type</label>
+              <input type="text" placeholder="id type" disabled />
             </div>
           </div>
           <div className={style["form-grid"]}>
             <div className={style["form-group"]}>
-              <label>
-                Date Joined
-              </label>
-              <input
-                type="text"
-                placeholder="Date Joined"
-              />
+              <label>Date Joined</label>
+              <input type="text" placeholder="Date Joined" disabled />
             </div>
             <div className={style["form-group"]}>
-              <label>
-                Date of Birth
-              </label>
-              <input
-                type="text"
-                placeholder="Date of Birth"
-              />
+              <label>Date of Birth</label>
+              <input type="text" placeholder="Date of Birth" disabled />
             </div>
             <div className={style["form-group"]}>
-              <label>
-                ID Number
-              </label>
-              <input
-                type="text"
-                placeholder="address"
-              />
+              <label>ID Number</label>
+              <input type="text" placeholder="address" disabled />
             </div>
           </div>
         </div>
         <h1 className={style["section-header"]}>Contact Details</h1>
         <hr />
-        <div className={style["inputs-area"]}> 
+        <div className={style["inputs-area"]}>
           <div className={style["form-grid"]}>
             <div className={style["form-group"]}>
-              <label>
-                Mobile Number
-              </label>
-              <input
-                type="text"
-                placeholder="mobile number"
-              />
+              <label>Mobile Number</label>
+              <input type="text" placeholder="mobile number" disabled />
             </div>
             <div className={style["form-group"]}>
-              <label>
-                Region
-              </label>
-              <input
-                type="text"
-                placeholder="Region"
-              />
+              <label>Region</label>
+              <input type="text" placeholder="Region" disabled />
             </div>
             <div className={style["form-group"]}>
-              <label>
-                Emergency Contact Name
-              </label>
+              <label>Emergency Contact Name</label>
               <input
                 type="text"
                 placeholder="Emergency Contact Name"
+                disabled
               />
             </div>
           </div>
           <div className={style["form-grid"]}>
             <div className={style["form-group"]}>
-              <label>
-                Additional Mobile Number(Optional)
-              </label>
-              <input
-                type="text"
-                placeholder="number"
-              />
+              <label>Additional Mobile Number(Optional)</label>
+              <input type="text" placeholder="number" disabled />
             </div>
             <div className={style["form-group"]}>
-              <label>
-                Residential Address
-              </label>
-              <input
-                type="text"
-                placeholder="address"
-              />
+              <label>Residential Address</label>
+              <input type="text" placeholder="address" disabled />
             </div>
             <div className={style["form-group"]}>
-              <label>
-                Emergency Contact Number
-              </label>
-              <input
-                type="text"
-                placeholder="number"
-              />
+              <label>Emergency Contact Number</label>
+              <input type="text" placeholder="number" disabled />
             </div>
           </div>
         </div>
