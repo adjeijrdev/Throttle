@@ -34,14 +34,18 @@ import {
 import { formatDateTime } from "../../utils/formateDateTime";
 import { useQuery } from "@apollo/client";
 import CustomSearchInput from "../../Components/searchInputBox/CustomSearchInput";
-
+import { payToVendrAPI } from "../../api/order";
+import { BeatLoader } from "react-spinners";
+import toast from "react-hot-toast";
 export default function Cod() {
-  const [orderIds, setOrderIds] = useState("");
+  // const [orderIds, setOrderIds] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const [filterByVendor, setFilterByVendor] = useState(null);
   const [filterByRider, setFilterByRider] = useState(null);
   const [tplStatus, setTplStatus] = useState(null);
+
+  const [search, setSearch] = useState("");
 
   const [statusFilter, setStatusFilter] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -55,6 +59,7 @@ export default function Cod() {
 
   const [deliveryDateFrom, setDeliveryDateFrom] = useState("");
   const [deliveryDateTo, setDeliveryDateTo] = useState("");
+  const [selectedOrders, setSelectedOrders] = useState([]);
 
   const [orders, setOrders] = useState();
 
@@ -89,7 +94,6 @@ export default function Cod() {
   });
 
   useEffect(() => {
-    console.log(riderData);
     const riders = riderData?.riders?.data?.map((rider) => {
       return {
         value: rider?._id,
@@ -136,12 +140,19 @@ export default function Cod() {
   }, []);
 
   useEffect(() => {
+    console.log(orderData);
     setOrders(orderData?.cod);
   }, [orderData]);
 
   useEffect(() => {
+    let orderIds = [];
+    if (search) {
+      let searchedIds = search.split(",");
+      orderIds = [...searchedIds];
+    }
+
     debouncedSearch(
-      "", //search
+      "",
       orderIds,
       pickupDateFrom,
       pickupDateTo,
@@ -152,57 +163,40 @@ export default function Cod() {
       filterByRider?.value // riderId
     );
   }, [
-    orderIds,
     pickupDateFrom,
     pickupDateTo,
     deliveryDateFrom,
     deliveryDateTo,
     filterByVendor,
     filterByRider,
+    search,
   ]);
 
-  // const data = mockOrderData.map((order) => [
-  //   order.dateTime || "",
-  //   order.id || "",
-  //   order.vendor || "",
-  //   order.status || "",
-  //   order.action || "",
-  //   order.orderprice || "",
-  //   order.deliveryfee || "",
-  //   order.rider || "",
-  // ]);
-  // const handleSearch = () => {
-  //   if (!orderIds.trim()) {
-  //     alert("Please enter at least one order ID");
-  //     return;
-  //   }
-
-  //   // Split the input by commas or newlines and trim whitespace
-  //   const ids = orderIds
-  //     .split(/[\n,]+/)
-  //     .map((id) => id.trim())
-  //     .filter((id) => id);
-
-  //   // In a real app, you would make an API call here
-  //   // For now, we'll filter the mock data
-  //   const results = mockOrderData.filter((order) => ids.includes(order.id));
-
-  //   setSearchResults(results);
-  //   setShowTable(true);
-  // };
-
   const handleReset = () => {
-    setOrderIds("");
-    setSearchResults([]);
-    setShowTable(false);
-    setStatusFilter("");
+    setPickupDateFrom("");
+    setPickupDateTo("");
+    setDeliveryDateFrom("");
+    setDeliveryDateTo("");
+    setFilterByVendor(null)
+    setFilterByRider(null)
+
+    setSelectedOrders([]);
+    setOrders([]);
+    setSearch("")
+    // refetchOrders({
+    //   variables:{
+    //     orderIds:[],
+    //     pickupDateFrom:"",
+    //     pickupDateTo:"",
+    //     deliveryDateFrom:"",
+    //     deliveryDateTo:"",
+    //     vendorId:null,
+    //     assignedTo:null
+    //   }
+    // })
   };
 
-  const handleAddAction = (orderId) => {
-    // Handle the add action for the specific order
-    console.log(`Add action triggered for order ${orderId}`);
-    alert(`Add action triggered for order ${orderId}`);
-  };
+
 
   const toggleTable = () => {
     setShowTable(!showTable);
@@ -216,13 +210,6 @@ export default function Cod() {
     "Paid to Vendor": styles.paidto,
     "Undo Paid to Vendor": styles.undopaid,
   };
-  const vendorStatusOptions = [
-    { value: "all", label: "All Vendors" },
-    { value: "delivered", label: "Ishtari Ghana LTD" },
-    { value: "pending", label: "Iplaykora" },
-    { value: "remitted", label: "Snr Arrow" },
-    { value: "remitted", label: "General Electricals" },
-  ];
 
   const tplStatusOptions = [
     { value: "all", label: "All 3PLs" },
@@ -232,16 +219,6 @@ export default function Cod() {
     { value: "remitted", label: "Mckinney Delivery Company" },
     { value: "remitted", label: "No 3PL Select" },
   ];
-  const riderStatusOptions = [
-    { value: "all", label: "All Riders" },
-    { value: "delivered", label: "Esther Howard" },
-    { value: "pending", label: "Leslie Alexander" },
-    { value: "remitted", label: "Robert Fax" },
-    { value: "remitted", label: "Cameron Williamson" },
-    { value: "remitted", label: "No Rider Selected" },
-  ];
-
-  //  const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
@@ -359,6 +336,72 @@ export default function Cod() {
     }
   };
 
+  const handleSetSelectedOrders = (id) => {
+    setSelectedOrders((prevOrders) => {
+      let newOrders;
+
+      if (!prevOrders?.includes(id)) {
+        newOrders = [...prevOrders, id];
+      } else {
+        newOrders = prevOrders?.filter((_id) => _id !== id);
+      }
+
+      return newOrders;
+    });
+  };
+
+  const [unPaidOrderLength, setUnPaidOrderLength] = useState(0);
+  const handleSelectAllOrders = (e) => {
+    let ordersIds = [];
+
+    let _odrs = orders?.data?.filter((d) => {
+      return d?.paymentStatus !== "PAID";
+    });
+    _odrs = _odrs?.map((d) => {
+      return d?._id;
+    });
+
+    if (e.target?.checked == true) {
+      ordersIds = _odrs;
+    } else {
+      ordersIds = [];
+    }
+    setUnPaidOrderLength(_odrs?.length);
+    setSelectedOrders(ordersIds);
+  };
+  useEffect(() => {
+    console.log(selectedOrders);
+  }, [selectedOrders]);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleBulkPayment = async (id) => {
+    setIsSubmitting(true);
+    try {
+      const result =id?  await payToVendrAPI(id):payToVendrAPI(selectedOrders)
+
+      toast.success(result.data.message, {
+        style: {
+          border: "1px solid #17654F",
+          color: "black",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+      refetchOrders();
+    } catch (error) {
+      toast.error(error.message, {
+        style: {
+          border: "1px solid oklch(88.5% 0.062 18.334)",
+          // backgroundColor:"oklch(88.5% 0.062 18.334)",
+          color: "oklch(39.6% 0.141 25.723)",
+          fontSize: "16px",
+          width: "500px",
+        },
+      });
+    }
+    setIsSubmitting(false);
+  };
+
   return (
     <div className="dashboard-content">
       <div>
@@ -379,14 +422,19 @@ export default function Cod() {
           </div>
 
           <div className={styles.search_filter_con}>
-            <button className={styles.columnButton} 
-            // onClick={clearFilters}
+            <button
+              className={styles.columnButton}
+              onClick={()=>handleReset()}
             >
               {" "}
               Clear All Filters
             </button>
-       
-            <CustomSearchInput bgColor={"white"} />
+
+            <CustomSearchInput
+              bgColor={"white"}
+              value={search}
+              onChange={setSearch}
+            />
           </div>
         </div>
 
@@ -573,16 +621,21 @@ export default function Cod() {
           </button>
         </div>
         <div className={styles.btncontainercod}>
+          <button
+            className={styles.sortBtn}
+            onClick={() => handleBulkPayment()}
+          >
+            {/* <MdRestore /> */}
+
+            {isSubmitting ? <BeatLoader color="white" /> : " Paid to Vendor"}
+            {/* <FaCaretDown /> */}
+          </button>
           <button className={styles.sortBtn}>
             <MdRestore />
             Remove Paid to Vendor
             <FaCaretDown />
           </button>
-          <button className={styles.sortBtn}>
-            <MdRestore />
-            Paid to Vendor
-            <FaCaretDown />
-          </button>
+
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className={styles.exportContainer}>
               <button onClick={toggleDropdown} className={styles.columnButton}>
@@ -621,6 +674,8 @@ export default function Cod() {
                       verticalAlign: "middle",
                       filter: "invert(30%)",
                     }}
+                    onChange={(e) => handleSelectAllOrders(e)}
+                    checked={unPaidOrderLength === selectedOrders?.length}
                   />
                 </th>
                 <th>Order ID</th>
@@ -628,6 +683,7 @@ export default function Cod() {
                 <th>Pickup Date & Time</th>
 
                 <th>Delivery Date & Time</th>
+                <th>Paid Date & Time</th>
                 <th>Order Price</th>
                 <th>Delivery Fee</th>
                 <th>3PL/Rider</th>
@@ -637,7 +693,7 @@ export default function Cod() {
             </thead>
             <tbody>
               {orders?.data?.map((order) => (
-                <tr key={order.id}>
+                <tr key={order._id}>
                   <td className={styles.th}>
                     <input
                       type="checkbox"
@@ -646,6 +702,14 @@ export default function Cod() {
                         height: "16px",
                         verticalAlign: "middle",
                       }}
+                      id={order._id}
+                      disabled={order?.paymentStatus === "PAID"}
+                      onChange={(e) => handleSetSelectedOrders(e.target.value)}
+                      value={order._id}
+                      checked={
+                        selectedOrders?.includes(order?._id) &&
+                        order?.paymentStatus !== "PAID"
+                      }
                     />
                   </td>
                   <td>{order?.orderId}</td>
@@ -653,6 +717,8 @@ export default function Cod() {
                   <td>{formatDateTime(order?.orderDate)}</td>
 
                   <td>{formatDateTime(order?.orderDate)}</td>
+                  <td>{formatDateTime(order?.paidDate)}</td>
+
                   <td style={{ color: "red" }}>{order?.paymentAmount}</td>
                   <td style={{ color: "blue" }}>{order?.deliveryFee}</td>
                   <td>{order?.assignedTo?.userProfile?.fullName}</td>
@@ -670,11 +736,19 @@ export default function Cod() {
                       className={`${styles.actionButton} ${
                         actionClass[order.action] || ""
                       }`}
+                      style={{
+                        cursor:
+                          order?.paymentStatus == "PAID"
+                            ? "not-allowed"
+                            : "pointer",
+                      }}
                       disabled={order?.paymentStatus == "PAID" ? true : false}
                       // onClick={() => handleAddAction(order._id)}
-                      onClick={() => console.log("heeeee")}
+                      onClick={() => handleBulkPayment([order?._id])}
                     >
-                      {/* Pay {order?.paymentStatus =="PAID" ? "Pa"} */}
+            {isSubmitting ? <BeatLoader color="white" /> : "Pay"}
+
+                    
                     </button>
                   </td>
                 </tr>

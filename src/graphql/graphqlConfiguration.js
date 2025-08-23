@@ -388,12 +388,12 @@ export function useOrderSearch(query, roleOffset = 0, itemsPerPage = 20) {
 }
 
 export function useOrderCODSearch(query, offset = 0, itemsPerPage = 20) {
-  const [search, { data, loading, error, fetchMore }] = useLazyQuery(query, {
+  const [search, { data, loading, error, fetchMore, refetch }] = useLazyQuery(query, {
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "cache-and-network",
   });
 
-
+  console.log(error)
   useEffect(() => {
     search({
       variables: {
@@ -441,6 +441,7 @@ export function useOrderCODSearch(query, offset = 0, itemsPerPage = 20) {
                 offset: offset,
                 limit: itemsPerPage,
                 search: searchTerm,
+                orderIds:orderIdsTerm,
                 pickupDateFrom,
                 pickupDateTo,
                 deliveryDateFrom,
@@ -461,5 +462,5 @@ export function useOrderCODSearch(query, offset = 0, itemsPerPage = 20) {
     return () => debouncedSearch.cancel();
   }, [debouncedSearch]);
 
-  return { debouncedSearch, data, loading, error, fetchMore };
+  return { debouncedSearch, data, loading, error, fetchMore,refetch };
 }

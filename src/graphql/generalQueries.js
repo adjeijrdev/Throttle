@@ -503,6 +503,7 @@ export const GET_ALL_ORDERS_COD = gql`
       totalDeliveryFee
       pendingRemittance
       paidToVendor
+      
       data {
         _id
         assignedTo {
@@ -524,6 +525,7 @@ export const GET_ALL_ORDERS_COD = gql`
         deliveryFee
         destination
         orderDate
+        paidDate
         paymentAmount
         paymentNumber
         productImage
