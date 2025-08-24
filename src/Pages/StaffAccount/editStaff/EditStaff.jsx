@@ -21,6 +21,7 @@ import {
 } from "../../../graphql/generalQueries";
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router";
+import imgIcon from "../../../Assets/icons/img.png";
 
 const schema = z.object({
   staffId: z.string(),
@@ -64,10 +65,25 @@ function EditStaff() {
     handleSubmit,
     setValue,
     reset,
+    watch,
     formState: { errors: validationError, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
   });
+
+  // Watch the relevant form fields
+const watchedValues = watch();
+const surname = watch('userProfile.fullName.surname');
+const middleName = watch('userProfile.fullName.middleName');
+const firstName = watch('userProfile.fullName.firstName');
+const email = watch('userProfile.email');
+
+// Create dynamic display values
+const displayName = [surname, middleName, firstName]
+  .filter(name => name && name.trim() !== '')
+  .join(' ') || 'Staff Name';
+const displayEmail = email || 'staff@email.com';
+
 
   const {
     loading: staffLoading,
@@ -181,6 +197,43 @@ function EditStaff() {
             onSubmit={handleSubmit(onEditStaff)}
           >
             <div className="ct-staff-form-con1">
+               <div style={{backgroundColor:"white", padding:"1rem"}}>
+                          <div  style={{backgroundColor:"white", width:"45%", display:"flex", justifyContent:"flex-start", alignItems:"center", marginTop:"2rem",padding:"1.5rem"}}>
+                             <span style={{width:"6rem",
+                                        height:"6rem", 
+                                        borderRadius:"50%", 
+                                        border:"1px solid black",
+                                        display:"inline-flex",justifyContent:"center", alignContent:"center",padding:"2rem"}}>
+                                                 <img
+                                                    src={imgIcon}
+                                                    alt=" imgIcon"
+                                                    style={{ width: "16px", height: "16px" }}
+                                                  />
+                                </span>
+                                <div style={{display:"grid", marginLeft:"2rem", gap:"0.3rem"}}>
+                                  <div style={{fontSize:"2rem",fontWeight:"700"}}>{displayName}</div>
+                                  <div style={{ fontSize:"1.2rem"}}>{displayEmail}</div>
+                                  <button style={{fontsize:"0.8rem"}}>Approved</button>
+                                </div>
+                          </div>
+                           <div className="account-create-btn">
+              <button
+                type="button"
+                onClick={() => navigate(-1)}
+                className="btn-cancel"
+              >
+                Cancel
+              </button>
+
+              <button
+                className="btn-create"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? <BeatLoader color="white" /> : "Create"}
+              </button>
+            </div>
+                         </div>
               <div className="form-section1">
                 <h3>Personal Information</h3>
 
@@ -358,24 +411,6 @@ function EditStaff() {
                   )}
                 </div>
               </div>
-            </div>
-
-            <div className="account-create-btn">
-              <button
-                type="button"
-                onClick={() => navigate(-1)}
-                className="btn-cancel"
-              >
-                Cancel
-              </button>
-
-              <button
-                className="btn-create"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? <BeatLoader color="white" /> : "Create"}
-              </button>
             </div>
           </form>
         </div>

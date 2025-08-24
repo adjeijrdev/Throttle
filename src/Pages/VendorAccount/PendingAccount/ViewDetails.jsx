@@ -37,7 +37,9 @@ export default function ViewDetails() {
     },
   });
 
-
+// Extract vendor name and email from your vendorData
+const vendorName = vendorData?.vendor?.businessInfo?.companyName || "Vendor Name";
+const vendorEmail = vendorData?.vendor?.contactDetails?.email || "vendor@email.com";
 
   const { fetchMore: fetchMoreVendors } = useQuery(GET_ALL_VENDORS, {
     variables: {
@@ -179,10 +181,11 @@ export default function ViewDetails() {
       <div>
         <div>
           <div className="ct-staff-form-con1">
-              <div style={{backgroundColor:"pink", padding:"1rem"}}>
-                                    <div  style={{backgroundColor:"yellow", width:"45%", display:"flex",}}>
-                                       <span style={{width:"5rem",
-                                                  height:"5rem", 
+              <div style={{backgroundColor:"white", padding:"1rem"}}>
+                                    <div  style={{backgroundColor:"white", width:"45%", display:"flex",
+                                      justifyContent:"flex-start", alignItems:"center", marginTop:"2rem",padding:"1.5re"}}>
+                                       <span style={{width:"6rem",
+                                                  height:"6rem", 
                                                   borderRadius:"50%", 
                                                   border:"1px solid black",
                                                   display:"inline-flex",justifyContent:"center", alignContent:"center",padding:"2rem"}}>
@@ -192,9 +195,9 @@ export default function ViewDetails() {
                                                               style={{ width: "16px", height: "16px" }}
                                                             />
                                           </span>
-                                          <div style={{display:"grid", marginLeft:"3rem", gap:"0.3rem"}}>
-                                            <div style={{fontSize:"2rem",fontWeight:"700"}}>Ishtari Ghana LTD</div>
-                                            <div style={{ fontSize:"1.2rem"}}>ishtarighana@gmail.com</div>
+                                          <div style={{display:"grid", marginLeft:"2rem", gap:"0.3rem"}}>
+                                            <div style={{fontSize:"2rem",fontWeight:"700"}}>{vendorName}</div>
+                                            <div style={{ fontSize:"1.2rem"}}>{vendorEmail}</div>
                                             <button style={{fontsize:"0.8rem"}}>Pending</button>
                                           </div>
                                     </div>
