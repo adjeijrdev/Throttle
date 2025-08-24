@@ -24,7 +24,7 @@ export default function SignupCard({ onClose }) {
     <div className="modal-background" onClick={onClose}>
       <div className="register-modal-card" onClick={handleCardClick}>
         <h2>Register as?</h2>
-        <img src={Vendors} alt="v" />
+        {/* <img src={Vendors} alt="v" /> */}
         <div
           className="register-modal-button"
           onClick={() => navigate("/register")}

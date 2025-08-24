@@ -217,24 +217,27 @@ const Stepper = ({ name }) => {
         <h2 className={style["form-title"]}>
           Registration process as a {name}
         </h2>
-        <div className={style["stepper"]}>
-          {steps.map((label, index) => (
-            <div className={style["step-item"]} key={index}>
-              <div
-                className={`${style["step-circle"]} ${
-                  index === currentStep
-                    ? style.active
-                    : index < currentStep
-                    ? style.completed
-                    : ""
-                }`}
-              >
-                {index < currentStep ? <img src={check} /> : index + 1}
+        <div className={style["stepper-div"]}>
+          <div className={style["stepper"]}>
+            {steps.map((label, index) => (
+              <div className={style["step-item"]} key={index}>
+                <div
+                  className={`${style["step-circle"]} ${
+                    index === currentStep
+                      ? style.active
+                      : index < currentStep
+                      ? style.completed
+                      : ""
+                  }`}
+                >
+                  {index < currentStep ? <img src={check} /> : index + 1}
+                </div>
+                <p className={style["step-label"]}>{label} </p>
               </div>
-              <p className={style["step-label"]}>{label} </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
         <div className={style["form-input-container"]}>
           <div className={style["form-step"]}>
             {currentStep === 0 && (
@@ -644,15 +647,18 @@ const Stepper = ({ name }) => {
                   // handleSubmit(onSubmit)(); // Trigger form submission
                   toggleModalOpen();
                 } else {
-                  toast.error("Please provide details for all required fields", {
-                    style: {
-                      border: "1px solid oklch(88.5% 0.062 18.334)",
-                      // backgroundColor:"oklch(88.5% 0.062 18.334)",
-                      color: "oklch(39.6% 0.141 25.723)",
-                      fontSize: "16px",
-                      width: "500px",
-                    },
-                  });
+                  toast.error(
+                    "Please provide details for all required fields",
+                    {
+                      style: {
+                        border: "1px solid oklch(88.5% 0.062 18.334)",
+                        // backgroundColor:"oklch(88.5% 0.062 18.334)",
+                        color: "oklch(39.6% 0.141 25.723)",
+                        fontSize: "16px",
+                        width: "500px",
+                      },
+                    }
+                  );
                 }
               }}
             >

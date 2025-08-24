@@ -10,7 +10,6 @@
   justify-content: center;
   margin-top: 0 auto;
   z-index: 100;
-  
 }
 .modal-background .register-modal-card {
   width: 46rem;
@@ -29,7 +28,7 @@
   font-size: 2.8rem;
   font-weight: 700;
   color: var(--main-theme);
-  margin-bottom: -10px;
+  margin-bottom: -1rem;
   animation: fadeIn 0.3s ease;
 }
 .register-modal-button {
@@ -45,16 +44,16 @@
   padding: 1.3rem;
   transition: background-color 0.2s ease;
 }
-.register-modal-button:hover{
- cursor: pointer;
+.register-modal-button:hover {
+  cursor: pointer;
   border: 1.9px solid var(--main-theme);
   background-color: rgba(23, 101, 79, 0.15);
-  
+
   transition: background-color 0.2s ease;
- 
- /* filter: invert(0.8); */
+
+  /* filter: invert(0.8); */
 }
-.register-modal-button:hover p{
+.register-modal-button:hover p {
   color: var(--main-theme);
 }
 .register-modal-button p {
@@ -81,72 +80,78 @@
   }
 }
 
-
 /* MOBILE PHONE */
-@media screen and (max-width: 480px){
+@media screen and (max-width: 480px) {
   .modal-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(128, 128, 128, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 0 auto;
-  z-index: 100;
-  
-}
-.modal-background .register-modal-card {
-  /* width: 46rem; */
-  width: 80%;
-  max-width: 48rem;
-  height: auto;
-  border-radius: 15px;
-  background-color: white;
-  padding: 1.6rem;
-  text-align: center;
-  box-shadow: 3px 2px 19px var(--darker-gray);
-  z-index: 101;
-}
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0 auto;
+    z-index: 100;
+  }
+  .modal-background .register-modal-card {
+    /* width: 46rem; */
+    width: 80%;
+    max-width: 48rem;
+    height: auto;
+    border-radius: 15px;
+    background-color: white;
+    padding: 1.6rem;
+    text-align: center;
+    box-shadow: 3px 2px 19px var(--darker-gray);
+    z-index: 101;
+  }
 
-.modal-background .register-modal-card h2 {
-  padding-top: 5.5px;
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--main-theme);
-  margin-bottom: -20px;
-  animation: fadeIn 0.3s ease;
-}
-.register-modal-button {
-  margin-top: 0px;
-  width: 100%;
-  border: 1.9px solid var(--main-theme);
-  height: 4rem;
-  margin-bottom: 6.2px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 1.3rem;
-  transition: background-color 0.2s ease;
-}
-.register-modal-button:hover p{
-  color: var(--main-theme);
-}
-.register-modal-button p {
-  font-size: 1.2rem;
-  font-weight: 500;
-  padding-top: 9px;
-  color: var(--main-theme);
-}
-.register-modal-button img {
-  width: 25px;
-  height: 25px;
-  background-color: var(--main-theme);
-  padding: 0.4rem;
-  border-radius: 4px;
-  border: 1.5px solid var(--clr-white);
-}
+  .modal-background .register-modal-card h2 {
+    padding-top: 5.5px;
+    font-size: 2.4rem;
+    width: 100%;
+    height: 100%;
+    font-weight: 700;
+    color: var(--main-theme);
+    margin-bottom: 1rem;
+    margin-top: 5px;
+    animation: fadeIn 0.3s ease;
+    z-index: 100;
+  }
+  .register-modal-button {
+    margin-top: 0px;
+    width: 100%;
+    border: 1.9px solid var(--main-theme);
+    height: 4rem;
+    margin-bottom: 6.2px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1.3rem;
+    transition: background-color 0.2s ease;
+    z-index: 100;
+  }
+  .register-modal-button:hover p {
+    color: var(--main-theme);
+    z-index: 100;
+  }
+  .register-modal-button p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    padding-top: 9px;
+    color: var(--main-theme);
+    z-index: 100;
+  }
+  .register-modal-button img {
+    width: 25px;
+    height: 25px;
+    background-color: var(--main-theme);
+    padding: 0.4rem;
+    border-radius: 4px;
+    border: 1.5px solid var(--clr-white);
+    z-index: 100;
+  }
 }

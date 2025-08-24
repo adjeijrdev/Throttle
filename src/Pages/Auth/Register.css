@@ -6,11 +6,6 @@
 .Register-main-container {
   width: 100vw;
   height: 100vh;
-  /* background: radial-gradient(
-    circle at 85% 50%,
-    var(--light-green-gradient),
-    var(--dark-green)
-  ); */
   background: var(--main-theme);
   display: flex;
   align-items: center;
@@ -78,9 +73,9 @@
 /* THE WHITE PART  */
 .registring-part-form-contianer {
   padding-top: 2rem;
-  width: 100rem;
-  height: 62rem;
-  min-width: 109.3rem;
+  width: 90rem;
+  height: 59rem;
+  /* min-width: 109.3rem; */
   background-color: var(--clr-white);
   border-radius: 4px;
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
@@ -167,6 +162,7 @@
     position: relative;
   }
   .registering-part-logo {
+    
     width: 11rem;
     height: 5rem;
     background-color: black;
@@ -175,6 +171,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 35px;
+    margin-bottom: 0px;
   }
   .registering-part-logo img {
     width: 8rem;
@@ -182,20 +180,19 @@
   }
   /* THE WHITE PART  */
   .registring-part-form-contianer {
-    /* display: none; */
     padding-top: 2rem;
     width: 100%;
     height: 100vh;
-    /* min-width: 109.3rem; */
     background-color: var(--clr-white);
     border-radius: 4px;
     margin: 0 auto;
+    box-shadow: none;
   }
 
   /* cancel text */
 .cancel-box {
   position: absolute;
-  bottom: 1.2rem;
+  bottom: 3.2rem;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;

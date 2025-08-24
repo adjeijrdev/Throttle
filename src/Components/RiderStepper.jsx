@@ -16,7 +16,7 @@ import img from "../Assets/icons/img.png";
 import padLock from "../Assets/input_icons/padlock.png";
 import EmailIcon from "../Assets/input_icons/emailuser.png";
 import Calendar from "../Assets/icons/Calendar.png";
-import { useForm,  Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { riderSchema } from "../items/RiderSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CustomSelector2 from "./form/selector/CustomSelecter2";
@@ -347,25 +347,27 @@ const Stepper = ({ name }) => {
         <h2 className={style["form-title"]}>
           Registration process as a {name}
         </h2>
-
-        <div className={style["stepper"]}>
-          {steps.map((label, index) => (
-            <div className={style["step-item"]} key={index}>
-              <div
-                className={`${style["step-circle"]} ${
-                  index === currentStep
-                    ? style.active
-                    : index < currentStep
-                    ? style.completed
-                    : ""
-                }`}
-              >
-                {index < currentStep ? <img src={check} /> : index + 1}
+        <div className={style["stepper-div"]}>
+          <div className={style["stepper"]}>
+            {steps.map((label, index) => (
+              <div className={style["step-item"]} key={index}>
+                <div
+                  className={`${style["step-circle"]} ${
+                    index === currentStep
+                      ? style.active
+                      : index < currentStep
+                      ? style.completed
+                      : ""
+                  }`}
+                >
+                  {index < currentStep ? <img src={check} /> : index + 1}
+                </div>
+                <p className={style["step-label"]}>{label}</p>
               </div>
-              <p className={style["step-label"]}>{label}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
         <div className={style["form-input-container"]}>
           <div className={style["form-step"]}>
             {currentStep === 0 && (
@@ -415,10 +417,12 @@ const Stepper = ({ name }) => {
                   <label>
                     Date of Birth<sup style={{ color: "red" }}>*</sup>{" "}
                   </label>
-                  <CustomDatePicker
-                    date={dateOfBirth}
-                    setDate={setDateOfBirth}
-                  />
+                  <span className={style["custom-styles"]}>
+                    <CustomDatePicker
+                      date={dateOfBirth}
+                      setDate={setDateOfBirth}
+                    />
+                  </span>
 
                   {errors?.dateOfBirth && (
                     <p className={style.error}>
@@ -430,24 +434,26 @@ const Stepper = ({ name }) => {
                   <label>
                     ID Type<sup style={{ color: "red" }}>*</sup>
                   </label>
+                  <span className={style["custom-styles"]}>
+                    <div>
+                      <CustomSelector2
+                        width="29rem"
+                        height="2.9rem"
+                        sideBarHeight="20px"
+                        options={[
+                          {
+                            value: "Driver's License",
+                            label: "Driver's License",
+                          },
+                          { value: "Voter's ID", label: "Voter's ID" },
+                          { value: "Ghana Card", label: "Ghana Card" },
+                        ]}
+                        selectedValue={idType}
+                        setSelectedValue={setIdType}
+                      />
+                    </div>
+                  </span>
 
-                  <div>
-                    <CustomSelector2
-                      width="29rem"
-                      height="2.9rem"
-                      sideBarHeight="20px"
-                      options={[
-                        {
-                          value: "Driver's License",
-                          label: "Driver's License",
-                        },
-                        { value: "Voter's ID", label: "Voter's ID" },
-                        { value: "Ghana Card", label: "Ghana Card" },
-                      ]}
-                      selectedValue={idType}
-                      setSelectedValue={setIdType}
-                    />
-                  </div>
                   {errors?.nationalIdentification?.type && (
                     <p className={style.error}>
                       {errors?.nationalIdentification?.type?.message}{" "}
@@ -544,7 +550,9 @@ const Stepper = ({ name }) => {
                     render={({ field }) => (
                       <PhoneNumberInput
                         {...field}
-                        error={errors?.contactDetails?.phoneNumber?.message|| ""}
+                        error={
+                          errors?.contactDetails?.phoneNumber?.message || ""
+                        }
                       />
                     )}
                   />
@@ -588,7 +596,10 @@ const Stepper = ({ name }) => {
                     render={({ field }) => (
                       <PhoneNumberInput
                         {...field}
-                        error={errors?.contactDetails?.additionalPhoneNumber?.message|| ""}
+                        error={
+                          errors?.contactDetails?.additionalPhoneNumber
+                            ?.message || ""
+                        }
                       />
                     )}
                   />
@@ -649,7 +660,10 @@ const Stepper = ({ name }) => {
                     render={({ field }) => (
                       <PhoneNumberInput
                         {...field}
-                        error={errors?.contactDetails?.emergencyContactNumber?.message|| ""}
+                        error={
+                          errors?.contactDetails?.emergencyContactNumber
+                            ?.message || ""
+                        }
                       />
                     )}
                   />
