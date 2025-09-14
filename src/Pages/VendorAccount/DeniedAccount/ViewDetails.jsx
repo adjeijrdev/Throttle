@@ -140,7 +140,12 @@ const vendorEmail = vendorData?.vendor?.contactDetails?.email || "vendor@email.c
                               <div style={{display:"grid", marginLeft:"2rem", gap:"0.3rem"}}>
                                 <div style={{fontSize:"2rem",fontWeight:"700"}}>{vendorName}</div>
                                 <div style={{ fontSize:"1.2rem"}}>{vendorEmail}</div>
-                                <button style={{fontsize:"0.8rem"}}>Denied</button>
+                                <button style={{
+                                  backgroundColor:"#F2c6c6",
+                                   border:"1px solid #f87979ff",
+                                   width:"10rem",
+                                   borderRadius:"0.2rem"
+                                }}>Denied</button>
                               </div>
                         </div>
                          

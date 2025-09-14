@@ -143,8 +143,14 @@ const vendorEmail = vendorData?.vendor?.contactDetails?.email || "vendor@email.c
                     <div style={{fontSize:"2rem",fontWeight:"700"}}>{vendorName}</div>
                     <div style={{ fontSize:"1.2rem"}}>{vendorEmail}</div>
                     {/* <button style={{fontsize:"0.8rem"}}>Approved</button> */}
-                     <button style={{fontSize:"0.8rem"}}>
-                  {vendorData?.vendor?.status === "APPROVED" ? "Approved" : "Pending Approval"}
+                     <button style={{
+                       backgroundColor:"#99f8c1ff",
+                                   border:"1px solid #4ef493ff",
+                                   width:"10rem",
+                                   borderRadius:"0.2rem"
+                     }}>
+                      Approved
+                  {/* {vendorData?.vendor?.status === "APPROVED" ? "Approved" : "Pending Approval"} */}
                 </button>
                   </div>
             </div>

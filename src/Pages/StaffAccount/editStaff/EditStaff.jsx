@@ -213,7 +213,13 @@ const displayEmail = email || 'staff@email.com';
                                 <div style={{display:"grid", marginLeft:"2rem", gap:"0.3rem"}}>
                                   <div style={{fontSize:"2rem",fontWeight:"700"}}>{displayName}</div>
                                   <div style={{ fontSize:"1.2rem"}}>{displayEmail}</div>
-                                  <button style={{fontsize:"0.8rem"}}>Approved</button>
+                                  <button style={{
+                                   backgroundColor:"#99f8c1ff",
+                                   border:"1px solid #4ef493ff",
+                                   width:"10rem",
+                                   borderRadius:"0.2rem"
+                                   }}>
+                                    Approved</button>
                                 </div>
                           </div>
                            <div className="account-create-btn">
