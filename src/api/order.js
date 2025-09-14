@@ -179,3 +179,24 @@ export const deleteSingleOrderdAPI = async(id)=>{
 
 
 
+
+export const payToVendrAPI = async(formData)=>{
+  try{
+    const response = await api.patch(`/order/payedToVendor`,formData,{
+       headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    return response
+  }catch(error){
+  if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
+    }
+  }
+}

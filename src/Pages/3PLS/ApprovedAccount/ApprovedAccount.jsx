@@ -326,7 +326,7 @@ export default function ApprovedAccount() {
                         className="status-btn-st"
                         onClick={() =>
                           navigate(
-                            "/3pls/Approved-Account/details/1",
+                            "/dashboard/3pls/Approved-Account/details/1",
                             {
                               state: { status: "APPROVED" },
                             }

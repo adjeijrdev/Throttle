@@ -46,7 +46,6 @@ export default function Dashboard(props) {
   const totalNumberOfOrders = orderData?.orders?.totalCount;
 
   useEffect(()=>{
-  console.log("order ",orderData)
 
     setAllOrders(orderData)
   },[orderData])
