@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { removeSingleVendrFromCache } from "../../../graphql/graphqlConfiguration";
 import DeleteModal from "../../../Components/DeleteModal";
 import imgIcon from "../../../Assets/icons/img.png";
+import statusicon from "../../../Assets/icons/statusicon.png";
 
 export default function VendorApprovedViewDetails() {
   const navigate = useNavigate();
@@ -149,7 +150,11 @@ const vendorEmail = vendorData?.vendor?.contactDetails?.email || "vendor@email.c
                                    width:"10rem",
                                    borderRadius:"0.2rem"
                      }}>
-                      Approved
+                      Approved<img
+                                                                      src={statusicon}
+                                                                      alt=" statusicon"
+                                                                      style={{ width: "10px", height: "14px" }}
+                                                                    />
                   {/* {vendorData?.vendor?.status === "APPROVED" ? "Approved" : "Pending Approval"} */}
                 </button>
                   </div>

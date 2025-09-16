@@ -13,6 +13,7 @@ import {
 } from "../../../../api/authentication";
 import { removeSingleRiderFromCache } from "../../../../graphql/graphqlConfiguration";
 import imgIcon from "../../../../Assets/icons/img.png";
+import statusicon from "../../../../Assets/icons/statusicon.png";
 
 export default function RiderDeniedDetails() {
   const navigate = useNavigate();
@@ -146,7 +147,17 @@ const riderEmail = riderData?.rider?.contactDetails?.email || "rider@email.com";
                                           <div style={{display:"grid", marginLeft:"2rem", gap:"0.3rem"}}>
                                             <div style={{fontSize:"2rem",fontWeight:"700"}}>{riderName}</div>
                                             <div style={{ fontSize:"1.2rem"}}>{riderEmail}</div>
-                                            <button style={{fontsize:"0.8rem"}}>Denied</button>
+                                            <button style={{
+                                  backgroundColor:"#F2c6c6",
+                                   border:"1px solid #f87979ff",
+                                   width:"10rem",
+                                   borderRadius:"0.2rem"
+                                }}>Denied<img
+                                                                                src={statusicon}
+                                                                                alt=" statusicon"
+                                                                                style={{ width: "10px", height: "14px" }}
+                                                                              />
+                                </button>
                                           </div>
                                     </div>
                                      

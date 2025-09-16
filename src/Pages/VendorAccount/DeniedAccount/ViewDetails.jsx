@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { removeSingleVendrFromCache } from "../../../graphql/graphqlConfiguration";
 import DeleteModal from "../../../Components/DeleteModal";
 import imgIcon from "../../../Assets/icons/img.png";
+import statusicon from "../../../Assets/icons/statusicon.png";
 
 export default function VendorDeniedViewDetails() {
   const navigate = useNavigate();
@@ -145,7 +146,11 @@ const vendorEmail = vendorData?.vendor?.contactDetails?.email || "vendor@email.c
                                    border:"1px solid #f87979ff",
                                    width:"10rem",
                                    borderRadius:"0.2rem"
-                                }}>Denied</button>
+                                }}>Denied<img
+                                                                                src={statusicon}
+                                                                                alt=" statusicon"
+                                                                                style={{ width: "10px", height: "14px" }}
+                                                                              /></button>
                               </div>
                         </div>
                          

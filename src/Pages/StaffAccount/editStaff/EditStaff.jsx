@@ -22,6 +22,7 @@ import {
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router";
 import imgIcon from "../../../Assets/icons/img.png";
+import statusicon from "../../../Assets/icons/statusicon.png";
 
 const schema = z.object({
   staffId: z.string(),
@@ -219,7 +220,11 @@ const displayEmail = email || 'staff@email.com';
                                    width:"10rem",
                                    borderRadius:"0.2rem"
                                    }}>
-                                    Approved</button>
+                                    Approved<img
+                                                                                    src={statusicon}
+                                                                                    alt=" statusicon"
+                                                                                    style={{ width: "10px", height: "14px" }}
+                                                                                  /></button>
                                 </div>
                           </div>
                            <div className="account-create-btn">

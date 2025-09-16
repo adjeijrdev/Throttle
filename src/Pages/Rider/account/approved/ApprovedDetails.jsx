@@ -11,6 +11,7 @@ import { GET_RIDER } from "../../../../graphql/generalQueries";
 import { approveRiderAPI, deleteRiderAPI } from "../../../../api/authentication";
 import { removeSingleRiderFromCache } from "../../../../graphql/graphqlConfiguration";
 import imgIcon from "../../../../Assets/icons/img.png";
+import statusicon from "../../../../Assets/icons/statusicon.png";
 export default function RiderApprovedDetails() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -146,7 +147,17 @@ const riderEmail = riderData?.rider?.contactDetails?.email || "rider@email.com";
                             <div style={{display:"grid", marginLeft:"2rem", gap:"0.3rem"}}>
                               <div style={{fontSize:"2rem",fontWeight:"700"}}>{riderName}</div>
                               <div style={{ fontSize:"1.2rem"}}>{riderEmail}</div>
-                              <button style={{fontsize:"0.8rem"}}>Approved</button>
+                              <button style={{
+                                   backgroundColor:"#99f8c1ff",
+                                   border:"1px solid #4ef493ff",
+                                   width:"10rem",
+                                   borderRadius:"0.2rem"
+                                   }}>
+                                    Approved <img
+                                                src={statusicon}
+                                                alt=" statusicon"
+                                                style={{ width: "10px", height: "14px" }}
+                                              /></button>
                             </div>
                       </div>
                        <div className="buttons">
