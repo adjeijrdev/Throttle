@@ -9,6 +9,7 @@ export default function CustomSelector2({
   width = "500px",
   sideBarHeight="30px"
 }) {
+  console.log(selectedValue)
   const customStyles = {
     control: (base, state) => ({
       ...base,

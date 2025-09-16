@@ -75,6 +75,8 @@ export const registerVendorAPI = async (formData) => {
     });
 };
 
+
+
 export const approveVendorAPI = async (formData) => {
   return await api.patch("/auth/approval/vendor", formData, {
       headers: {
@@ -305,4 +307,28 @@ export const deleteStaffAPI = async (id) => {
 };
 
 
+export const register3plAPI = async (formData) => {
+  return await axios
+    .post(`${BASE_URL}/auth/register/3pl`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+      },
+      withCredentials: true,
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      if (error?.response?.data?.errors) {
+        throw error?.response?.data?.errors[0];
+      } else {
+        throw (
+          error?.response?.data || {
+            message: "Sorry an error occured on the server",
+          }
+        );
+      }
+    });
+};
 

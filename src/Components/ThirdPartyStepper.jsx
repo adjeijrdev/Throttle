@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { ThirdPartySchema } from "../items/ThirdPartySchema";
 import PhoneNumberInput from "./Phone/PhoneNumberInput";
+import { BeatLoader } from "react-spinners";
 
 //Importing in-application components
 import DropDownInput from "../Components/DropDownMenuInput/DropDownInput";
@@ -12,7 +13,7 @@ import CustomSelector2 from "./form/selector/CustomSelecter2";
 
 //list of the sixteen Regions in Ghana
 import { Regions } from "../items/Ghana-regional-list";
-
+import toast from "react-hot-toast";
 //import images
 import LeftSVG from "../Assets/icons/Left.png";
 import rightSVG from "../Assets/icons/right-svg.png";
@@ -22,6 +23,8 @@ import img from "../Assets/icons/img.png";
 import padLock from "../Assets/input_icons/padlock.png";
 import EmailIcon from "../Assets/input_icons/emailuser.png";
 import Calendar from "../Assets/icons/Calendar.png";
+import { register3plAPI } from "../api/authentication";
+import { useNavigate } from "react-router";
 
 const steps = [
   "Personal info",
@@ -38,9 +41,13 @@ const CustomToast = ({ messages, onClose }) => {
       <div className={style.toastContent}>
         <div className={style.toastHeader}>
           <strong>Please fill in all the fields:</strong>
-          <button onClick={onClose} className={style.toastClose}>×</button>
+          <button onClick={onClose} className={style.toastClose}>
+            ×
+          </button>
         </div>
-        <h1>Kindly go through the form and fill all <br /> empty spaces</h1>
+        <h1>
+          Kindly go through the form and fill all <br /> empty spaces
+        </h1>
       </div>
     </div>
   );
@@ -61,20 +68,23 @@ const Stepper = ({ name }) => {
     setValue,
     watch,
     control,
-    // trigger,
+    trigger,
     getValues,
   } = useForm({
     resolver: zodResolver(ThirdPartySchema),
-    mode: "onSubmit",
+    mode: "all",
     reValidateMode: "onChange",
   });
 
+ 
   //const password visibility toggle functions
   const toggleVisibility = () => setShowPassword((prev) => !prev);
   const toggleVisibility1 = () => setShowPassword1((prev) => !prev);
 
   //modal state { successful Modal}
-  const toggleModalOpen = () => setIsOpen(!isOpen);
+  const toggleModalOpen = () => setIsOpen((prev)=>!prev);
+
+  const navigate = useNavigate();
 
   // Toast functions
   const showToastMessage = (messages) => {
@@ -95,39 +105,146 @@ const Stepper = ({ name }) => {
   const idInputRef = useRef(null);
 
   // Handle file drops
-  const handleFileDrop = useCallback((fieldName, e) => {
-    e.preventDefault();
-    if (e.dataTransfer.files.length > 0) {
-      const file = e.dataTransfer.files[0];
-      if (file.type.startsWith("image/")) {
-        setValue(fieldName, file, { shouldValidate: true });
+  const handleFileDrop = useCallback(
+    (fieldName, e) => {
+      e.preventDefault();
+      if (e.dataTransfer.files.length > 0) {
+        const file = e.dataTransfer.files[0];
+        if (file.type.startsWith("image/")) {
+          setValue(fieldName, file, { shouldValidate: true });
+        }
       }
-    }
-  }, [setValue]);
+    },
+    [setValue]
+  );
 
   // Handle file selection
-  const handleFileSelect = useCallback((fieldName, e) => {
-    if (e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setValue(fieldName, file, { shouldValidate: true });
-    }
-  }, [setValue]);
+  const handleFileSelect = useCallback(
+    (fieldName, e) => {
+      if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        setValue(fieldName, file, { shouldValidate: true });
+      }
+    },
+    [setValue]
+  );
 
   // Open file dialog
   const openFileDialog = (ref) => ref.current?.click();
 
   // Form submission
-  const onSubmit = (data) => {
-    console.log(data)
-    console.log("Form data:", data);
-    toggleModalOpen();
+  const onSubmit = async(data) => {
+    // toggleModalOpen();
+    console.log("hello formsubmitting working",data)
+   
+    
+    const formData = new FormData();
+  
+     // Step 1: Business Info
+    const businessInfo = {
+      companyName: data.companyName,
+      streetAddress: data.streetAddress,
+      registrationNumber: data.registrationNumber,
+      gpsAddress: data.gpsAddress,
+      region: data?.region?.value,
+      yearsInOperation: data.yearsInOperation || undefined,
+     
+    };
+    formData.append("businessInfo", JSON.stringify(businessInfo));
+
+    // Step 2: Contact Details
+    const contactDetails = {
+      name: data.primaryContact,
+      email: data.email,
+      phoneNumber: data.phoneNumber,
+      additionalPhoneNumber: data.officeLine,
+      position: data.position,
+      ghanaCardNumber: data.ghanaCardNumber,
+      password: data.password,
+    };
+    formData.append("contactDetails", JSON.stringify(contactDetails));
+
+    const hasBankDetails =
+      data?.financialDetails?.bankAccountDetails &&
+      (data?.financialDetails?.bankAccountDetails?.bankName ||
+        data?.financialDetails?.bankAccountDetails?.accountNumber ||
+        data?.financialDetails?.bankAccountDetails?.recipientName);
+    
+    const hasMomoDetails =
+      data?.financialDetails?.mobileMoneyAccount &&
+      (data?.financialDetails?.mobileMoneyAccount?.phoneNumber ||
+        data?.financialDetails?.mobileMoneyAccount?.recipientName);
+
+    if (hasBankDetails || hasMomoDetails) {
+      const financialDetails = {};
+
+      const bank = data?.financialDetails?.bankAccountDetails;
+      if (
+        bank &&
+        (bank?.bankName || bank?.accountNumber || bank?.recipientName)
+      ) {
+        const bankAccount = {
+          bankName: bank?.bankName,
+          accountNumber: bank?.accountNumber,
+          recipientName: bank?.recipientName,
+        };
+
+        financialDetails.bankAccountDetails = bankAccount;
+      }
+
+      const momo = data?.financialDetails?.mobileMoneyAccount;
+      if (momo && (momo?.recipientName || momo?.phoneNumber)) {
+        const mobileMoneyAccount = {
+          phoneNumber: momo.recipientName,
+          recipientName: momo.phoneNumber,
+        };
+        financialDetails.mobileMoneyAccount = mobileMoneyAccount;
+      }
+
+
+      formData.append("financialDetails", JSON.stringify(financialDetails));
+    }
+
+       if (data.businessLogo) {
+      formData.append("businessLogo", data.businessLogo);
+    }
+
+    if (data.registrationCertificate){
+      formData.append("businessCertificate", data.registrationCertificate)
+    }
+
+       try {
+          const result = await register3plAPI(formData);
+    
+          toast.success(result?.data?.message, {
+            style: {
+              border: "1px solid #17654F",
+              // backgroundColor:"oklch(88.5% 0.062 18.334)",
+              color: "black",
+              fontSize: "16px",
+              width: "500px",
+            },
+          });
+    
+          navigate("/");
+        } catch (error) {
+          toast.error(error?.message, {
+            style: {
+              border: "1px solid oklch(88.5% 0.062 18.334)",
+              // backgroundColor:"oklch(88.5% 0.062 18.334)",
+              color: "oklch(39.6% 0.141 25.723)",
+              fontSize: "16px",
+              width: "500px",
+            },
+          });
+        }
   };
 
   // Handle form submission with error toast
   const onError = (errors) => {
-    console.log("Form errors:", errors);
-    const errorMessages = Object.values(errors).map(error => error.message);
-    
+  
+    const errorMessages = Object.values(errors).map((error) => error.message);
+
     if (errorMessages.length > 0) {
       showToastMessage(errorMessages);
     } else {
@@ -155,10 +272,15 @@ const Stepper = ({ name }) => {
       {showToast && (
         <CustomToast messages={toastMessages} onClose={closeToast} />
       )}
-      
+
       {/* Use handleSubmit with two parameters: onSubmit for success, onError for errors */}
-      <form onSubmit={handleSubmit(onSubmit, onError)} className={style["form-container"]}>
-        <h2 className={style["form-title"]}>Registration process as a {name}</h2>
+      <form
+        onSubmit={handleSubmit(onSubmit, onError)}
+        className={style["form-container"]}
+      >
+        <h2 className={style["form-title"]}>
+          Registration process as a {name}
+        </h2>
 
         <div className={style["stepper"]}>
           {steps.map((label, index) => (
@@ -172,68 +294,90 @@ const Stepper = ({ name }) => {
                     : ""
                 }`}
               >
-                {index < currentStep ? <img src={check} alt="check" /> : index + 1}
+                {index < currentStep ? (
+                  <img src={check} alt="check" />
+                ) : (
+                  index + 1
+                )}
               </div>
               <p className={style["step-label"]}>{label}</p>
             </div>
           ))}
         </div>
-        
+
         <div className={style["form-input-container"]}>
           <div className={style["form-step"]}>
             {/* Step 1 - Personal Info */}
             {currentStep === 0 && (
               <div className={style["form-grid"]}>
                 <div className={style["form-group"]}>
-                  <label>Company Name<sup>*</sup></label>
+                  <label>
+                    Company Name<sup style={{color:"red"}}>*</sup>
+                  </label>
                   <input
                     type="text"
                     {...register("companyName")}
                     placeholder="business name"
                   />
                   {errors.companyName && (
-                    <p className={style.errorMessage}>{errors.companyName.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.companyName.message}
+                    </p>
                   )}
                 </div>
 
                 <div className={style["form-group"]}>
-                  <label>Street Address<sup>*</sup></label>
+                  <label>
+                    Street Address<sup style={{color:"red"}}>*</sup>
+                  </label>
                   <input
                     type="text"
                     {...register("streetAddress")}
                     placeholder="location"
                   />
                   {errors.streetAddress && (
-                    <p className={style.errorMessage}>{errors.streetAddress.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.streetAddress.message}
+                    </p>
                   )}
                 </div>
 
                 <div className={style["form-group"]}>
-                  <label>Business Registration Number<sup>*</sup></label>
+                  <label>
+                    Business Registration Number<sup style={{color:"red"}}>*</sup>
+                  </label>
                   <input
                     type="text"
                     {...register("registrationNumber")}
                     placeholder="Registration Number"
                   />
                   {errors.registrationNumber && (
-                    <p className={style.errorMessage}>{errors.registrationNumber.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.registrationNumber.message}
+                    </p>
                   )}
                 </div>
 
                 <div className={style["form-group"]}>
-                  <label>GPS Address<sup>*</sup></label>
+                  <label>
+                    GPS Address<sup style={{color:"red"}}>*</sup>
+                  </label>
                   <input
                     type="text"
                     {...register("gpsAddress")}
                     placeholder="address"
                   />
                   {errors.gpsAddress && (
-                    <p className={style.errorMessage}>{errors.gpsAddress.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.gpsAddress.message}
+                    </p>
                   )}
                 </div>
 
                 <div className={style["form-group"]}>
-                  <label>Region<sup>*</sup></label>
+                  <label>
+                    Region<sup style={{color:"red"}}>*</sup>
+                  </label>
                   <Controller
                     name="region"
                     control={control}
@@ -249,19 +393,25 @@ const Stepper = ({ name }) => {
                     )}
                   />
                   {errors.region && (
-                    <p className={style.errorMessage}>{errors.region.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.region.message}
+                    </p>
                   )}
                 </div>
 
                 <div className={style["form-group"]}>
-                  <label>Years in Operation<sup>*</sup></label>
+                  <label>
+                    Years in Operation<sup style={{color:"red"}}>*</sup>
+                  </label>
                   <input
                     type="text"
                     {...register("yearsInOperation")}
                     placeholder="year"
                   />
                   {errors.yearsInOperation && (
-                    <p className={style.errorMessage}>{errors.yearsInOperation.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.yearsInOperation.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -271,19 +421,25 @@ const Stepper = ({ name }) => {
             {currentStep === 1 && (
               <div className={style["form-grid"]}>
                 <div className={style["form-group"]}>
-                  <label>Primary Contact Person<sup>*</sup></label>
+                  <label>
+                    Primary Contact Person<sup style={{color:"red"}}>*</sup>
+                  </label>
                   <input
                     type="text"
                     {...register("primaryContact")}
                     placeholder="Name"
                   />
                   {errors.primaryContact && (
-                    <p className={style.errorMessage}>{errors.primaryContact.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.primaryContact.message}
+                    </p>
                   )}
                 </div>
 
                 <div className={style["form-group"]}>
-                  <label>Phone Number<sup>*</sup></label>
+                  <label>
+                    Phone Number<sup style={{color:"red"}}>*</sup>
+                  </label>
                   <Controller
                     name="phoneNumber"
                     control={control}
@@ -297,35 +453,45 @@ const Stepper = ({ name }) => {
                 </div>
 
                 <div className={style["form-group"]}>
-                  <label>Position/Role(Operations Manager)<sup>*</sup></label>
+                  <label>
+                    Position/Role(Operations Manager)<sup style={{color:"red"}}>*</sup>
+                  </label>
                   <input
                     type="text"
                     {...register("position")}
                     placeholder="Position"
                   />
                   {errors.position && (
-                    <p className={style.errorMessage}>{errors.position.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.position.message}
+                    </p>
                   )}
                 </div>
 
                 <div className={style["form-group"]}>
-                  <label>Ghana Card Number<sup>*</sup></label>
+                  <label>
+                    Ghana Card Number<sup style={{color:"red"}}>*</sup>
+                  </label>
                   <input
                     type="text"
                     {...register("ghanaCardNumber")}
                     placeholder="number"
                   />
                   {errors.ghanaCardNumber && (
-                    <p className={style.errorMessage}>{errors.ghanaCardNumber.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.ghanaCardNumber.message}
+                    </p>
                   )}
                 </div>
 
                 <div className={style["form-group"]}>
-                  <label>Email Address<sup>*</sup></label>
-                  <input 
-                    type="text" 
-                    {...register("email")} 
-                    placeholder="Email" 
+                  <label>
+                    Email Address<sup style={{color:"red"}}>*</sup>
+                  </label>
+                  <input
+                    type="text"
+                    {...register("email")}
+                    placeholder="Email"
                   />
                   {errors.email && (
                     <p className={style.errorMessage}>{errors.email.message}</p>
@@ -333,7 +499,9 @@ const Stepper = ({ name }) => {
                 </div>
 
                 <div className={style["form-group"]}>
-                  <label>Office Line<sup>*</sup></label>
+                  <label>
+                    Office Line
+                  </label>
                   <Controller
                     name="officeLine"
                     control={control}
@@ -345,7 +513,9 @@ const Stepper = ({ name }) => {
                     )}
                   />
                   {errors.officeLine && (
-                    <p className={style.errorMessage}>{errors.officeLine.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.officeLine.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -353,70 +523,119 @@ const Stepper = ({ name }) => {
 
             {/* Step 3 - Payment & Billings */}
             {currentStep === 2 && (
-              <div className={style["form-grid"]}>
-                <div className={style["form-group"]}>
-                  <label>Bank Name</label>
-                  <input
-                    type="text"
-                    {...register("bankName")}
-                    placeholder="bank name"
-                  />
-                  {errors.bankName && (
-                    <p className={style.errorMessage}>{errors.bankName.message}</p>
-                  )}
-                </div>
-
-                <div className={style["form-group"]}>
-                  <label>Mobile Money Name</label>
-                  <input
-                    type="text"
-                    {...register("mobileMoneyName")}
-                    placeholder="momo name"
-                  />
-                  {errors.mobileMoneyName && (
-                    <p className={style.errorMessage}>{errors.mobileMoneyName.message}</p>
-                  )}
-                </div>
-
-                <div className={style["form-group"]}>
-                  <label>Bank Account Name<sup>*</sup></label>
-                  <input
-                    type="text"
-                    {...register("bankAccountName")}
-                    placeholder="account name"
-                  />
-                  {errors.bankAccountName && (
-                    <p className={style.errorMessage}>{errors.bankAccountName.message}</p>
-                  )}
-                </div>
-
-                <div className={style["form-group"]}>
-                  <label>Mobile Money Number<sup>*</sup></label>
-                  <Controller
-                    name="mobileMoneyNumber"
-                    control={control}
-                    render={({ field }) => (
-                      <PhoneNumberInput
-                        {...field}
-                        error={errors.mobileMoneyNumber?.message || ""}
-                      />
+              <div>
+                {errors?.financialDetails?.message && (
+                  <div className={style.errorMessage} style={{
+                    marginBottom:"20px"
+                  }}>
+                    {errors?.financialDetails?.message}{" "}
+                  </div>
+                )}
+                <div className={style["form-grid"]}>
+                  <div className={style["form-group"]}>
+                    <label>Bank Name</label>
+                    <input
+                      type="text"
+                      {...register(
+                        "financialDetails.bankAccountDetails.bankName"
+                      )}
+                      placeholder="bank name"
+                    />
+                    {errors?.financialDetails?.bankAccountDetails?.bankName
+                      ?.message && (
+                      <p className={style.errorMessage}>
+                        {
+                          errors.financialDetails.bankAccountDetails.bankName
+                            .message
+                        }
+                      </p>
                     )}
-                  />
-                  {errors.mobileMoneyNumber && (
-                    <p className={style.errorMessage}>{errors.mobileMoneyNumber.message}</p>
-                  )}
-                </div>
+                  </div>
 
-                <div className={style["form-group"]}>
-                  <label>Bank Account Number<sup>*</sup></label>
-                  <input
-                    type="text"
-                    {...register("bankAccountNumber")}
-                    placeholder="account number"
-                  />
-                  {errors.bankAccountNumber && (
-                    <p className={style.errorMessage}>{errors.bankAccountNumber.message}</p>
-                  )}
+                  <div className={style["form-group"]}>
+                    <label>Mobile Money Recipient Name</label>
+                    <input
+                      type="text"
+                      {...register(
+                        "financialDetails.mobileMoneyAccount.recipientName"
+                      )}
+                      placeholder="recipient name"
+                    />
+                    {errors?.financialDetails?.mobileMoneyAccount?.recipientName
+                      ?.message && (
+                      <p className={style.errorMessage}>
+                        {
+                          errors.financialDetails.mobileMoneyAccount
+                            .recipientName.message
+                        }
+                      </p>
+                    )}
+                  </div>
+
+                  <div className={style["form-group"]}>
+                    <label>
+                      Bank Account Recipient Name<sup>*</sup>
+                    </label>
+                    <input
+                      type="text"
+                      {...register(
+                        "financialDetails.bankAccountDetails.recipientName"
+                      )}
+                      placeholder="account name"
+                    />
+                    {errors?.financialDetails?.bankAccountDetails?.recipientName
+                      ?.message && (
+                      <p className={style.errorMessage}>
+                        {
+                          errors.financialDetails.bankAccountDetails
+                            .recipientName.message
+                        }
+                      </p>
+                    )}
+                  </div>
+
+                  <div className={style["form-group"]}>
+                    <label>
+                      Mobile Money Number<sup>*</sup>
+                    </label>
+                    <Controller
+                      name="financialDetails.mobileMoneyAccount.phoneNumber"
+                      control={control}
+                      render={({ field }) => (
+                        <PhoneNumberInput
+                          {...field}
+                          error={
+                            errors?.financialDetails?.mobileMoneyAccount
+                              ?.phoneNumber?.message || ""
+                          }
+                        />
+                      )}
+                    />
+                    {errors.mobileMoneyNumber && (
+                      <p className={style.errorMessage}>
+                        {errors.mobileMoneyNumber.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className={style["form-group"]}>
+                    <label>
+                      Bank Account Number<sup>*</sup>
+                    </label>
+                    <input
+                      type="text"
+                      name="banknumber"
+                      {...register("financialDetails.bankAccountDetails.accountNumber")}
+                      placeholder="account number"
+                    />
+                    {errors?.financialDetails?.bankAccountDetails?.accountNumber
+                      ?.message && (
+                      <p className={style.errorMessage}>
+                        { errors.financialDetails.bankAccountDetails
+                            .accountNumber.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
@@ -426,7 +645,9 @@ const Stepper = ({ name }) => {
               <div className={style.gridbox}>
                 <div className={style.grid1}>
                   <div className={style["upload-container"]}>
-                    <p>Business Registration Certificate<sup>*</sup></p>
+                    <p>
+                      Business Registration Certificate
+                    </p>
                     <div
                       className={style["drop-box"]}
                       onDrop={(e) => handleFileDrop("licenseImage", e)}
@@ -460,14 +681,18 @@ const Stepper = ({ name }) => {
                       onChange={(e) => handleFileSelect("licenseImage", e)}
                     />
                     {errors.licenseImage && (
-                      <p className={style.errorMessage}>{errors.licenseImage.message}</p>
+                      <p className={style.errorMessage}>
+                        {errors.licenseImage.message}
+                      </p>
                     )}
                   </div>
                 </div>
 
                 <div className={style.grid2}>
                   <div className={style["upload-container"]}>
-                    <p>Business Logo<sup>*</sup></p>
+                    <p>
+                      Business Logo
+                    </p>
                     <div
                       className={style["drop-box"]}
                       onDrop={(e) => handleFileDrop("idImage", e)}
@@ -501,7 +726,9 @@ const Stepper = ({ name }) => {
                       onChange={(e) => handleFileSelect("idImage", e)}
                     />
                     {errors.idImage && (
-                      <p className={style.errorMessage}>{errors.idImage.message}</p>
+                      <p className={style.errorMessage}>
+                        {errors.idImage.message}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -512,7 +739,9 @@ const Stepper = ({ name }) => {
             {currentStep === 4 && (
               <div className={style["form__grid"]}>
                 <div className={style["form-group"]}>
-                  <label>Password<sup>*</sup></label>
+                  <label>
+                    Password<sup>*</sup>
+                  </label>
                   <div className={style["Account-details-password"]}>
                     <img src={padLock} alt="padlock" />
                     <input
@@ -529,12 +758,16 @@ const Stepper = ({ name }) => {
                     </button>
                   </div>
                   {errors.password && (
-                    <p className={style.errorMessage}>{errors.password.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.password.message}
+                    </p>
                   )}
                 </div>
 
                 <div className={style["form-group"]}>
-                  <label>Confirm Password<sup>*</sup></label>
+                  <label>
+                    Confirm Password<sup>*</sup>
+                  </label>
                   <div className={style["Account-details-password"]}>
                     <img src={padLock} alt="padlock" />
                     <input
@@ -551,7 +784,9 @@ const Stepper = ({ name }) => {
                     </button>
                   </div>
                   {errors.confirmPassword && (
-                    <p className={style.errorMessage}>{errors.confirmPassword.message}</p>
+                    <p className={style.errorMessage}>
+                      {errors.confirmPassword.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -561,26 +796,76 @@ const Stepper = ({ name }) => {
 
         <div className={style.buttons}>
           {currentStep > 0 && (
-            <button type="button" className={style["btn-outline"]} onClick={prevStep}>
+            <button
+              type="button"
+              className={style["btn-outline"]}
+              onClick={prevStep}
+            >
               <img src={LeftSVG} className={style.btn} alt="left" /> Previous
             </button>
           )}
           {currentStep < steps.length - 1 ? (
-            <button type="button" className={style["btn-filled"]} onClick={nextStep}>
+            <button
+              type="button"
+              className={style["btn-filled"]}
+              onClick={()=>{nextStep()}}
+            >
               Next <img className={style.btn} src={rightSVG} alt="right" />
             </button>
           ) : (
-            <button 
-              type="submit" 
+            <button
+              type="button"
               className={style["btn-filled"]}
               disabled={isSubmitting}
+              onClick={async () => {
+                const isValid = await trigger();
+              
+                if (isValid) {
+                  toggleModalOpen();
+                } else {
+                    showToastMessage()
+                }
+              }}
             >
-              {isSubmitting ? "Registering..." : "Register"}
+              Register
             </button>
           )}
         </div>
 
-        <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} />
+           {/* ---------------------------------------modal----------------------------------- */}
+                {isOpen && (
+                  <div
+                    className={style["modal-background"]}
+                    // onClick={onClose}
+                  >
+                    <div
+                      className={style["main-card"]}
+                      // onClick={handleCardClick}
+                    >
+                      <img src={check} alt="success check" />
+                      <div className={style.text}>
+                        <h1>Registration Successful!</h1>
+                        <h2 className={style.subtitle}>
+                          Thank you for registering your business on{" "}
+                          <span>THROTTLE.</span>
+                        </h2>
+                        <p>
+                          Your account is currently under review and will be approved
+                          and activated shortly. <br />A confirmation email will be sent
+                          to your registered email address once approval is
+                          <br /> complete.
+                        </p>
+                        <h2>We appreciate your interest in partnering with us!</h2>
+                      </div>
+                      <div className={style.button}>
+                        <button type="submit">
+
+                       {isSubmitting ? <BeatLoader color="white" /> : "Ok"}{" "}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
       </form>
     </>
   );

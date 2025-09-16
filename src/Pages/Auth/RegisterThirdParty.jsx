@@ -34,7 +34,7 @@ export default function RegisterThirdParty() {
           <ThirdPartyStepper name="Third-Party Logistics" />
         </div>
          <div className="cancel-box">
-            <h1>Don't want to continue? <span onClick={() => navigate("/login")}>Cancel Registration</span></h1>
+            <h1>Don't want to continue? <span onClick={() => navigate("/")}>Cancel Registration</span></h1>
         </div>
       </div>
     </div>
