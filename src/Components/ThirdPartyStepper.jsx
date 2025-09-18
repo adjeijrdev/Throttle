@@ -84,6 +84,7 @@ const Stepper = ({ name }) => {
   //modal state { successful Modal}
   const toggleModalOpen = () => setIsOpen((prev)=>!prev);
 
+  console.log("watchers",watch())
   const navigate = useNavigate();
 
   // Toast functions
@@ -134,10 +135,7 @@ const Stepper = ({ name }) => {
 
   // Form submission
   const onSubmit = async(data) => {
-    // toggleModalOpen();
-    console.log("hello formsubmitting working",data)
-   
-    
+
     const formData = new FormData();
   
      // Step 1: Business Info
@@ -195,8 +193,8 @@ const Stepper = ({ name }) => {
       const momo = data?.financialDetails?.mobileMoneyAccount;
       if (momo && (momo?.recipientName || momo?.phoneNumber)) {
         const mobileMoneyAccount = {
-          phoneNumber: momo.recipientName,
-          recipientName: momo.phoneNumber,
+          phoneNumber:momo.phoneNumber ,
+          recipientName:momo.recipientName ,
         };
         financialDetails.mobileMoneyAccount = mobileMoneyAccount;
       }
@@ -208,6 +206,7 @@ const Stepper = ({ name }) => {
        if (data.businessLogo) {
       formData.append("businessLogo", data.businessLogo);
     }
+   
 
     if (data.registrationCertificate){
       formData.append("businessCertificate", data.registrationCertificate)
@@ -238,6 +237,9 @@ const Stepper = ({ name }) => {
             },
           });
         }
+
+    toggleModalOpen();
+
   };
 
   // Handle form submission with error toast
@@ -264,8 +266,8 @@ const Stepper = ({ name }) => {
   };
 
   // Watch files for preview
-  const licenseImage = watch("licenseImage");
-  const idImage = watch("idImage");
+  const registrationCertificate= watch("registrationCertificate");
+  const businessLogo = watch("businessLogo");
 
   return (
     <>
@@ -650,13 +652,13 @@ const Stepper = ({ name }) => {
                     </p>
                     <div
                       className={style["drop-box"]}
-                      onDrop={(e) => handleFileDrop("licenseImage", e)}
+                      onDrop={(e) => handleFileDrop("registrationCertificate", e)}
                       onDragOver={(e) => e.preventDefault()}
                       onClick={() => openFileDialog(licenseInputRef)}
                     >
-                      {licenseImage ? (
+                      {registrationCertificate ? (
                         <img
-                          src={URL.createObjectURL(licenseImage)}
+                          src={URL.createObjectURL(registrationCertificate)}
                           alt="License preview"
                           className={style["preview-image"]}
                         />
@@ -678,11 +680,11 @@ const Stepper = ({ name }) => {
                       accept="image/*"
                       ref={licenseInputRef}
                       style={{ display: "none" }}
-                      onChange={(e) => handleFileSelect("licenseImage", e)}
+                      onChange={(e) => handleFileSelect("registrationCertificate", e)}
                     />
-                    {errors.licenseImage && (
+                    {errors.registrationCertificate && (
                       <p className={style.errorMessage}>
-                        {errors.licenseImage.message}
+                        {errors.registrationCertificate.message}
                       </p>
                     )}
                   </div>
@@ -695,13 +697,13 @@ const Stepper = ({ name }) => {
                     </p>
                     <div
                       className={style["drop-box"]}
-                      onDrop={(e) => handleFileDrop("idImage", e)}
+                      onDrop={(e) => handleFileDrop("businessLogo", e)}
                       onDragOver={(e) => e.preventDefault()}
                       onClick={() => openFileDialog(idInputRef)}
                     >
-                      {idImage ? (
+                      {businessLogo ? (
                         <img
-                          src={URL.createObjectURL(idImage)}
+                          src={URL.createObjectURL(businessLogo)}
                           alt="ID Preview"
                           className={style["preview-image"]}
                         />
@@ -723,11 +725,11 @@ const Stepper = ({ name }) => {
                       accept="image/*"
                       ref={idInputRef}
                       style={{ display: "none" }}
-                      onChange={(e) => handleFileSelect("idImage", e)}
+                      onChange={(e) => handleFileSelect("businessLogo", e)}
                     />
-                    {errors.idImage && (
+                    {errors.businessLogo && (
                       <p className={style.errorMessage}>
-                        {errors.idImage.message}
+                        {errors.businessLogo.message}
                       </p>
                     )}
                   </div>

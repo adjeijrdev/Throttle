@@ -47,6 +47,10 @@ export default function AddOrder() {
       formData.append("productImage", data?.productImage);
     }
 
+    if (data?.quantity){
+      formData.append("quantity", data?.quantity)
+    }
+
     try {
       const result = await orderUploadAPI(formData);
 
@@ -211,30 +215,41 @@ export default function AddOrder() {
               <div>
                 <div>
                   <h3 className={styles.subTitle}>Product description</h3>
-                  <div>
-                    <label htmlFor="description" style={{ fontSize: "16px" }}>
-                      Enter product description
-                    </label>
-                    <br />
-                    <textarea
-                      className="text-input"
-                      style={{ height: "150px" }}
-                      {...register("description")}
-                      rows={5}
-                    ></textarea>
-                  </div>
-                  <div>
-                    
+                  <div className={styles.productDesContainer}>
+                    <div>
+                      <label htmlFor="description" style={{ fontSize: "16px" }}>
+                        Enter product description
+                      </label>
+                      <br />
+                      <textarea
+                        className="text-input"
+                        style={{ height: "150px" }}
+                        {...register("description")}
+                        rows={5}
+                      ></textarea>
+                    </div>
+
+                    <div>
+                      <label htmlFor="description" style={{ fontSize: "16px" }}>
+                        Unit Quantity
+                      </label>
+                      <br />
+                      <input type="number" min={1} className={styles.unit_quantity}  {...register("quantity")}/> <br/>
+                      {validationError?.quantity && (
+                        <h2
+                          style={{
+                            color: "red",
+                            marginTop: "1rem",
+                            fontSize: "1.3rem",
+                            fontWeight: "450",
+                          }}
+                        >
+                          {validationError?.quantity?.message}
+                        </h2>
+                      )}
+                    </div>
                   </div>
                 </div>
-
-                {/* <div>
-                  <label htmlFor="description" style={{ fontSize: "16px" }}>
-                    Unit Quantity
-                  </label>
-                  <br />
-                  <input type="number" className={styles.unit_quantity}/>
-                </div> */}
               </div>
 
               <div className="form-section1">

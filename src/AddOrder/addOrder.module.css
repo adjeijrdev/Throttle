@@ -236,17 +236,30 @@
   scale: 0.95;
 }
 
+.productDesContainer{
+  display: flex;
+  gap:5rem;
+}
+
 .unit_quantity {
   border-radius: 1.4rem !important;
-  border: 0.1rem solid #17654f !important;
+    border: 0.1rem solid #17654F !important;
+
   height: 5rem !important;
   width: 9.2rem !important;
   padding: 1.4rem !important;
-  background-color: white;
+  background-color: #CCE1DB !important;
   stroke-width: 0.1rem !important;
   transition: background 250ms ease-in-out;
 }
 
-.unit_quantity:hover {
-  background-color: #17654f;
+.unit_quantity:hover .unit_quantity:active {
+  background-color: #dce9e5;
+    border-color: #17654F !important;
+
+}
+
+.unit_quantity:focus{
+    background-color: #E8F7F3 !important;
+    border-color: #17654F !important;
 }

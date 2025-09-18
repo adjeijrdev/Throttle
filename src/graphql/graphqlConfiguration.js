@@ -257,6 +257,11 @@ export const removeSingleVendrFromCache = (vendorId) => {
   graphqlConfiguration.cache.gc();
 };
 
+export const removeSingle3PLFromCache = (T3plId) => {
+  graphqlConfiguration.cache.evict({ id: `T3PL:${T3plId}` });
+  graphqlConfiguration.cache.gc();
+};
+
 export const removeSingleRiderFromCache = (riderId) => {
   graphqlConfiguration.cache.evict({ id: `Rider:${riderId}` });
   graphqlConfiguration.cache.gc();

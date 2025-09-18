@@ -15,6 +15,12 @@ export const addOrderSchema = z.object({
           message: "Only positive number is allowed",
         }).optional(),
     description: z.string().trim().optional(),
+    quantity:z
+            .string({ required_error: "Quantity required" })
+            .transform((val) => Number.parseInt(val))
+            .refine((val) => Number.isInteger(val) && val > 0, {
+              message: "Please provide a positive integer greater than 1",
+            }).optional(),
     productImage:  z.instanceof(File)
           .refine((file) => file.size <= 5 * 1024 * 1024, "Max file size is 5MB")
           .refine(

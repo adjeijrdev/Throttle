@@ -34,7 +34,7 @@ import EditRole from "./Pages/StaffAccount/StaffRole/EditRole";
 import StaffList from "./Pages/StaffAccount/StaffList/StaffList";
 import ViewDetails from "./Pages/VendorAccount/PendingAccount/ViewDetails";
 import PendingAccountLayout from "./Pages/VendorAccount/PendingAccount/PendingAccountLayout";
-import PendingAccountLayout3PL from "./Pages/3PLS/PendingAccount/PendingAccountLayout";
+import PendingAccountLayout3PL from "./Pages/3PLS/DeniedAccount/DeniedAccountLayout";
 import ViewDetails3PL from "./Pages/3PLS/PendingAccount/viewDetails";
 
 import { Offline, Online } from "react-detect-offline";
@@ -63,6 +63,11 @@ import OrderDetails from "./AddOrder/OrderDetails";
 import UserProfile from "./UserProfile/UserProfile";
 import { useSelector } from "react-redux";
 import PageNotFound from "./Pages/PageNotFound/PageNotFound";
+import ApprovedAccountLayout3PL from "./Pages/3PLS/DeniedAccount/DeniedAccountLayout";
+import DeniedAccountLayout3PL from "./Pages/3PLS/DeniedAccount/DeniedAccountLayout";
+import T3plPendingDetails3PL from "./Pages/3PLS/PendingAccount/PendingDetails";
+import T3plDeniedDetails3PL from "./Pages/3PLS/DeniedAccount/DeniedDetails";
+import T3plApprovedDetails3PL from "./Pages/3PLS/ApprovedAccount/approvedDetails";
 
 export default function App() {
   const viewAbleTabs = useSelector((state) => state.staffAuth?.viewAbleTabs);
@@ -111,27 +116,7 @@ export default function App() {
                 <Route path="cod" element={<Cod />} />
               )}
 
-              {viewAbleTabs?.includes("Approve 3PL") && (
-                <>
-                  {/* 3PLs */}
-                  <Route path="3pls" element={<ThirdParties />} />
-                  <Route
-                    path="3pls/Pending-Account"
-                    element={<ThirdPartiesPending />}
-                  />
-                  <Route
-                    path="3pls/Approved-Account"
-                    element={<PendingAccountLayout3PL />}
-                  >
-                    <Route index element={<ThirdPartiesApproved />} />
-                    <Route path="details/:id" element={<ViewDetails3PL />} />
-                  </Route>
-                  <Route
-                    path="3pls/Denied-Account"
-                    element={<ThirdPartiesDenied />}
-                  />
-                </>
-              )}
+              
 
               {viewAbleTabs?.includes("Approve Rider") && (
                 <>
@@ -195,6 +180,37 @@ export default function App() {
                       path="Denied-Account/details/:id"
                       element={<VendorDeniedViewDetails />}
                     />
+                  </Route>
+                </>
+              )}
+
+              {viewAbleTabs?.includes("Approve 3PL") && (
+                <>
+                  {/* 3PLs */}
+                  <Route path="3pls" element={<ThirdParties />} />
+                  <Route
+                    path="3pls/Pending-Account"
+                    element={<PendingAccountLayout3PL/>}
+                  >
+                    <Route index element={<ThirdPartiesPending/>}/>
+
+                    <Route path="details/:id" element={<T3plPendingDetails3PL/>} />
+                  </Route>
+
+                  <Route
+                    path="3pls/Approved-Account"
+                    element={<ApprovedAccountLayout3PL />}
+                  >
+                    <Route index element={<ThirdPartiesApproved />} />
+                    <Route path="details/:id" element={<T3plApprovedDetails3PL />} />
+                  </Route>
+                  
+                  <Route
+                    path="3pls/Denied-Account"
+                    element={<DeniedAccountLayout3PL/>}
+                  >
+                     <Route index element={<ThirdPartiesDenied />} />
+                    <Route path="details/:id" element={<T3plDeniedDetails3PL/>} />
                   </Route>
                 </>
               )}

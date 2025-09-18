@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  gap: 15px;
+}
+
+.imgCircle {
+  border: 1px solid #979595;
+  height: 10rem;
+  width: 10rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.imgCircle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  gap: -15px;
+}
+
+.textContainer h1 {
+  font-weight: bold;
+  font-size: 2.6rem;
+  text-decoration: none;
+}
+
+.textContainer h2 {
+  font-weight: 400;
+  font-size: 1.6rem;
+  margin-top: -5px;
+}
+
+.badgeContainer {
+  background-color: #c3f9d5;
+  padding: 5px 10px;
+
+  border-radius: 4px;
+  font-size: 500;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: fit-content;
+  gap: 1px;
+}

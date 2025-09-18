@@ -27,7 +27,7 @@ import getDisplayAbleTabes from "../../items/Links";
 const schema = z.object({
   email: z.string().trim().email("⚠ Invalid email"),
   password: z.string().trim(),
-  role: z.enum(["STAFF", "VENDOR", "3PL", "RIDER"], {
+  role: z.enum(["STAFF", "VENDOR", "T3PL", "RIDER"], {
     required_error: "Please select your role",
   })
   .default("STAFF"),
@@ -56,7 +56,7 @@ const dispatch = useDispatch()
 
     try {
       const result = await loginAPI(data);
-     console.log(result)
+
        dispatch(setViewAbleTabs(result?.data?.viewAbleTabs))
        
           const SideNavLinks= getDisplayAbleTabes(result?.data?.viewAbleTabs);
@@ -170,7 +170,7 @@ const dispatch = useDispatch()
                 <input
                   type="radio"
                   id="3PL"
-                  value="3PL"
+                  value="T3PL"
                   {...register("role")}
                 />
                 <label htmlFor="3PL">3PL</label>

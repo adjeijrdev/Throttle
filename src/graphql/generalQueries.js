@@ -449,6 +449,7 @@ export const GET_ORDER = gql`
       paymentAmount
       paymentNumber
       paymentStatus
+      quantity
       productImage
       productDescription
       recipientName
@@ -529,6 +530,7 @@ export const GET_ALL_ORDERS_COD = gql`
         paymentAmount
         paymentNumber
         productImage
+        quantity
         source {
           _id
           businessInfo {
@@ -539,6 +541,125 @@ export const GET_ALL_ORDERS_COD = gql`
         updatedAt
         createdAt
       }
+    }
+  }
+`;
+
+
+
+
+export const GET_ALL_3PLS = gql`
+  query GET_ALL_3PLS(
+    $offset: Int!
+    $limit: Int!
+    $status: Status!
+    $search: String!
+  ) {
+    T3pls(offset: $offset, limit: $limit, status: $status, search: $search) {
+      currentPage
+      hasNextPage
+      totalCount
+      data {
+        _id
+        businessInfo{
+        companyName
+        businessDescription
+        webApplicationDomainName
+        businessAddress
+        registrationNumber
+        areaOfOperation
+        yearsInOpertion
+        businessCertificate
+        logo
+        gpsAddress
+        region
+        streetAddress
+        }
+
+      contactDetails{
+        phoneNumber
+        email
+        name
+        additionalPhoneNumber
+        position
+        ghanaCardNumber
+        }
+        
+        preference {
+          enable2FA
+          enableEmailNotification
+        }
+
+        financialDetails {
+          bankAccountDetails {
+            accountNumber
+            bankName
+            recipientName
+          }
+          mobileMoneyAccount {
+            phoneNumber
+            recipientName
+          }
+        }
+       
+        status
+        createdAt
+      }
+    }
+  }
+`;
+
+
+export const GET_3PL = gql`
+  query GET_3PL(
+    $id: ID!
+  ) {
+    T3pl(id:$id) {
+     
+        _id
+        businessInfo{
+        companyName
+        businessDescription
+        webApplicationDomainName
+        businessAddress
+        registrationNumber
+        areaOfOperation
+        yearsInOpertion
+        businessCertificate
+        logo
+        gpsAddress
+        region
+        streetAddress
+        }
+
+      contactDetails{
+        phoneNumber
+        email
+        name
+        additionalPhoneNumber
+        position
+        ghanaCardNumber
+        }
+        
+        preference {
+          enable2FA
+          enableEmailNotification
+        }
+
+        financialDetails {
+          bankAccountDetails {
+            accountNumber
+            bankName
+            recipientName
+          }
+          mobileMoneyAccount {
+            phoneNumber
+            recipientName
+          }
+        }
+       
+        status
+        createdAt
     }
   }
 `;

@@ -111,8 +111,8 @@ const Stepper = ({ name }) => {
       const momo = data?.financialDetails?.mobileMoneyAccount;
       if (momo && (momo?.recipientName || momo?.phoneNumber)) {
         const mobileMoneyAccount = {
-          phoneNumber: momo.recipientName,
-          recipientName: momo.phoneNumber,
+          phoneNumber: momo.phoneNumber,
+          recipientName:momo.recipientName ,
         };
         financialDetails.mobileMoneyAccount = mobileMoneyAccount;
       }

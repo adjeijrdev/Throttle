@@ -95,10 +95,12 @@
 .form-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  gap: 1.5rem;
+  gap: 0.5rem 1rem;
+  
   /* margin-bottom: 2rem; */
   justify-content: center;
   align-items: center;
+
 }
 
 .form-group {
@@ -113,7 +115,7 @@
 .form__grid {
   display: grid;
   grid-template-rows: repeat(minmax(20rem, 1fr));
-  gap: 1rem;
+  gap: 10rem;
   /* margin-bottom: 2rem; */
   justify-content: center;
   align-items: center;
@@ -122,6 +124,7 @@
   margin: 0rem auto;
   width: 40rem;
   align-items: center;
+
 }
 .form-grid_document {
   display: grid;
@@ -166,8 +169,8 @@
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  margin-top: 10rem;
-
+  margin-top: 9rem;
+  margin-bottom: 1rem;
   /* position: relative; */
 }
 
@@ -578,17 +581,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .error {
   color: #d32f2f; /* Deep red */
-  /* font-size: 1rem;
+  font-size: 1rem;
   margin-top: 4px;
-  width: 100%; */
+  width: 100%;
   /* padding: 6px 12px; */
   padding-left: 6px;
  ; /* Light red background */
-  /* border-left: 4px solid #f44336;
+  border-left: 4px solid #f44336;
   border-radius: 4px;
   display: flex;
   align-items: center;
-  gap: 8px; */
+   background-color: #fdecea;
+  gap: 8px;
   animation: shake 0.5s ease-in-out;
 }
 .errorMessage{

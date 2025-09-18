@@ -56,7 +56,7 @@ financialDetails: z.object({
 
   // Validate bank details if any bank field exists
   if (bank && (bank?.bankName?.trim() || bank?.recipientName?.trim() || bank?.accountNumber?.trim())) {
-  console.log("working heeee",val)
+
 
     if (!bank?.accountNumber?.trim()) {
       ctx.addIssue({
@@ -109,24 +109,20 @@ financialDetails: z.object({
 }),
   // Step 4: Document Uploads
  businessLogo: z
-          .instanceof(File)
-          .refine((file) => file.size <= 5 * 1024 * 1024, "Max file size is 5MB")
-          .refine(
-            (file) =>
-              ["image/jpeg", "image/png", "image/svg+xml"].includes(file.type),
-            "Only JPEG, PNG, or SVG files are allowed"
-          )
-          .optional(),
+    .instanceof(File, { message: "Business logo is required" })
+    .refine(file => file.size <= 5 * 1024 * 1024, "Max file size is 5MB")
+    .refine(
+      file => ['image/jpeg', 'image/png', 'image/svg+xml'].includes(file.type),
+      "Only JPEG, PNG, or SVG files are allowed"
+    ).optional(),
 
-    registrationCertificate: z
-          .instanceof(File)
-          .refine((file) => file.size <= 5 * 1024 * 1024, "Max file size is 5MB")
-          .refine(
-            (file) =>
-              ["image/jpeg", "image/png", "image/svg+xml"].includes(file.type),
-            "Only JPEG, PNG, or SVG files are allowed"
-          )
-          .optional(),
+    registrationCertificate:  z
+    .instanceof(File, { message: "Registration certificate is required" })
+    .refine(file => file.size <= 5 * 1024 * 1024, "Max file size is 5MB")
+    .refine(
+      file => ['image/jpeg', 'image/png', 'application/pdf'].includes(file.type),
+      "Only JPEG, PNG, or PDF files are allowed"
+    ).optional(),
 
   // Step 5: Account Details
   password: z.string()

@@ -1,8 +1,8 @@
-import React from "react";
+
 import PasswordTextInput from "../../../Components/form/password/PasswordTextInput";
 import CustomBoxRadioBtn from "../../../Components/form/radiobtn/CustomBoxRadioBtn";
 import CustomSelector from "../../../Components/form/selector/CustomSelector";
-import TextInput from "../../../Components/form/TextInput";
+
 import { useNavigate, useLocation } from "react-router";
 
 export default function ViewDetails3PL() {

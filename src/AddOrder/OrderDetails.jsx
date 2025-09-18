@@ -367,6 +367,12 @@ export default function OrderDetails() {
                       {formatDateTime(orderData?.order?.deliveryDate || "")}
                     </p>
                   </div>
+                  <div className={styles.con_box}>
+                    <p className={styles.con_box_title}>Unity Quantity</p>
+                    <p className={styles.con_box_value}>
+                      {orderData?.order?.quantity}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className={styles.con1}>

@@ -43,9 +43,9 @@ function RiderPending() {
   
     
   const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchRider(value);
-    debouncedSearch(value);
+  
+    setSearchRider(e);
+    debouncedSearch(e);
   };
 
   const totalNumberOfRiders = ridersData?.riders?.totalCount;

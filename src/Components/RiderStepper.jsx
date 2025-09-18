@@ -520,9 +520,8 @@ const Stepper = ({ name }) => {
             {/* step 2- Contact Details */}
             {currentStep === 1 && (
               <div className={style["form-grid"]}>
-                <div className={style["form-group"]}>
+                <div className={style["form-group"]}  >
                   <label htmlFor="phoneNumber">
-                    {" "}
                     Mobile Number<sup style={{ color: "red" }}>*</sup>
                   </label>
                   {/* <input
@@ -549,7 +548,7 @@ const Stepper = ({ name }) => {
                     )}
                   />
                 </div>
-                <div className={style["form-group"]}>
+                <div className={style["form-group"]} >
                   <label htmlFor="residentialAddress">
                     Residential Address<sup style={{ color: "red" }}>*</sup>
                   </label>
@@ -900,8 +899,13 @@ const Stepper = ({ name }) => {
 
             {/* Step 5 - Account Details */}
             {currentStep === 5 && (
-              <div className={style["form__grid"]}>
-                <div className={style["form-group"]}>
+              <div className={style["form__grid"]} style={{
+                  // display:"flex",
+                  // flexDirection:"column",
+                  gap:"2rem",
+                  // backgroundColor:"red"
+              }} >
+                <div className={style["form-group"]} >
                   <label htmlFor="password">
                     Password<sup style={{ color: "red" }}>*</sup>
                   </label>
@@ -926,8 +930,9 @@ const Stepper = ({ name }) => {
                   )}
                 </div>
 
-                <label htmlFor="confirmpassword">
-                  Confirm Password<sup>*</sup>
+                <div className={style["form-group"]}>
+                    <label htmlFor="confirmpassword">
+                  Confirm Password<sup style={{ color: "red" }}>*</sup>
                 </label>
                 <div className={style["Account-details-password"]}>
                   <img src={padLock} alt="padlock" />
@@ -951,6 +956,8 @@ const Stepper = ({ name }) => {
                     {errors?.confirmpassword?.message}{" "}
                   </p>
                 )}
+                </div>
+                
               </div>
             )}
 

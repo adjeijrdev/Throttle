@@ -30,13 +30,13 @@ export const riderSchema = z
         .trim()
         .min(10, { message: "phone number is required" })
         .max(20)
-        .regex(/^\d{10,20}$/, {
+        .regex(/^\+?\d{10,20}$/, {
           message: "Phone number should contain only numbers",
         }),
       additionalPhoneNumber: z
         .string()
         .trim()
-        .regex(/^\d{10,20}$/, {
+        .regex(/^\+?\d{10,20}$/, {
           message: "Provide correct phone number and must contain only numbers",
         })
         .optional()
@@ -56,7 +56,7 @@ export const riderSchema = z
       emergencyContactNumber: z
         .string()
         .trim()
-        .regex(/^\d{10,20}$/, {
+        .regex(/^\+?\d{10,20}$/, {
           message: "Provide correct phone number and must contain only numbers",
         })
         .optional()

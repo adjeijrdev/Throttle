@@ -1,0 +1,38 @@
+
+
+.container{
+    background-color: #17654F;
+    width: 24.7rem;
+
+    border:none;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 400;
+    padding: 9px 18px;
+    border-radius: 8px;
+    transition: background-color 250ms ease-in-out;
+    cursor: pointer;
+}
+
+.container:hover{
+    background-color: #1f886a;
+
+}
+
+.outlineContainer{
+       width: 24.7rem;
+        background-color: white;
+        border: 1px solid #17654F;
+    color: #17654F;
+    font-size: 1.4rem;
+    font-weight: 400;
+    padding: 9px 18px;
+    border-radius: 8px;
+    transition: background-color 250ms ease-in-out;
+    cursor: pointer;
+}
+
+.outlineContainer:hover{
+    background-color: #b8ddd3;
+
+}
