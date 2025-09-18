@@ -586,7 +586,7 @@ export default function OrderDetails() {
                 )}
 
                 {orderData?.order?.status !== "ASSIGNED" &&
-                  orderData?.order?.status !== "ORDER PLACED" && viewAbleTabs?.includes("T3PL")  && (
+                  orderData?.order?.status !== "ORDER PLACED" &&( viewAbleTabs?.includes("T3PL") || viewAbleTabs?.includes("RIDER"))  && (
                     <button
                       className={styles.assignBtn}
                       onClick={() => setChangeOrderStatusModal(true)}
