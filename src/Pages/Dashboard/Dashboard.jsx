@@ -25,9 +25,6 @@ import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 
 export default function Dashboard(props) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 2;
-
   const itemsPerPage = 15;
   const [itemOffset, setItemOffset] = useState(0);
   const [searchItem, setSearchItem] = useState("");
@@ -46,7 +43,7 @@ export default function Dashboard(props) {
   const totalNumberOfOrders = orderData?.orders?.totalCount;
 
   useEffect(()=>{
-
+    console.log(orderData)
     setAllOrders(orderData)
   },[orderData])
 
@@ -334,10 +331,6 @@ export default function Dashboard(props) {
     setDateRange({ start: null, end: null }); // Clear both start and end dates
     setSelectionPhase("start"); // Reset selection phase
   };
-
-
-
- 
 
 
   const [showAddOrderDropdown, setShowAddOrderDropdown] = useState(false);

@@ -1,11 +1,7 @@
 import { Link, useNavigate } from "react-router";
 
-// import "./StaffRole.css";
-import { format, parseISO } from "date-fns";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, forwardRef} from "react";
 import { Spin } from "antd";
-
-import { useQuery } from "@apollo/client";
 
 import {
   Table,
@@ -19,40 +15,35 @@ import {
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
 
-import { GET_ALL_RIDERS } from "../../graphql/generalQueries";
+import { GET_ALL_3PLS, GET_ALL_RIDERS } from "../../graphql/generalQueries";
 import PaginatedTabs from "../../Components/paginationTab/paginationTabs";
 import styles from "./AssignRiderFilter.module.css"
-import { useSearch, useSearchB } from "../../graphql/graphqlConfiguration";
+import {  useSearchB } from "../../graphql/graphqlConfiguration";
 import CustomSearchInput from "../../Components/searchInputBox/CustomSearchInput";
 
 
 
-const   Assign3PLTableFilter= forwardRef((props,ref)=>{
+const   Assign3PLTableFilter= forwardRef(({ handleAssignOrder  },ref)=>{
 const [itemOffset, setItemOffset] = useState(0);
-  const [isDeleteModal, setDeleteModal] = useState(false);
-  const [searchRider,setSearchRider] = useState("");
-  let itemsPerPage = 15;
+    const [search3pl, setSearch3pl] = useState("");
 
-  let navigate = useNavigate();
-
+  let itemsPerPage = 10;
    
   const {
     debouncedSearch,
-    loading: ridersLoading,
-    data: ridersData,
-    error: riderError,
-    fetchMore: fetchMoreRiders,
-  } = useSearchB(GET_ALL_RIDERS,itemOffset,itemsPerPage, "APPROVED");
+    loading: T3plLoading,
+    data: T3plData,
+    error: T3plError,
+    fetchMore: fetchMoreT3pls,
+  } = useSearchB(GET_ALL_3PLS, itemOffset, itemsPerPage, "APPROVED");
 
 
-
-    const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchRider(value);
-    debouncedSearch(value);
+   const handleSearch = (e) => {
+    setSearch3pl(e);
+    debouncedSearch(e);
   };
 
-  const totalNumberOfRiders = ridersData?.riders?.totalCount;
+  const totalNumberOf3Pls = T3plData?.T3pls?.totalCount;
 
   const tableTheme = useTheme([
     getTheme(),
@@ -141,14 +132,14 @@ const [itemOffset, setItemOffset] = useState(0);
            
                   <CustomSearchInput
                     bgColor={"white"}
-                    placeholder="Search by full name, contact or vehicle"
-                    value={searchRider}
+                    placeholder="Search by company name, region or contact"
+                    value={search3pl}
                     onChange={handleSearch}
                   />
                 </div>
       <div >
         <Table
-          data={{ nodes: [...(ridersData?.riders.data || [])] }}
+          data={{ nodes: [...(T3plData?.T3pls?.data || [])] }}
           theme={tableTheme}
         >
           {(tableList) => (
@@ -157,10 +148,10 @@ const [itemOffset, setItemOffset] = useState(0);
                 <HeaderRow>
 
                   {/* <HeaderCell>Rider ID</HeaderCell> */}
-                  <HeaderCell>Full name</HeaderCell>
+                  <HeaderCell>Company Name</HeaderCell>
                  
-                  <HeaderCell>Contact</HeaderCell>
-                  <HeaderCell>Vehicle</HeaderCell>
+                  <HeaderCell>Contact Person</HeaderCell>
+                  <HeaderCell>Region</HeaderCell>
                   {/* <HeaderCell>City of Operation</HeaderCell> */}
                   
                   <HeaderCell>Action</HeaderCell>
@@ -168,7 +159,8 @@ const [itemOffset, setItemOffset] = useState(0);
               </Header>
 
               <Body>
-                {ridersLoading ? (
+
+                {T3plLoading ? (
                   <Row>
                     <Cell></Cell>
                     <Cell></Cell>
@@ -182,26 +174,37 @@ const [itemOffset, setItemOffset] = useState(0);
                   </Row>
                 ) : (
                   tableList.map((item) => (
-                    <Row key={item._id} item={item}>
+                    <Row key={item?._id} item={item}>
                       
-                      <Cell>{item?.userProfile?.fullName}</Cell>
+                      <Cell>{item?.businessInfo?.companyName}</Cell>
                      
                       <Cell>{item?.contactDetails?.phoneNumber}</Cell>
                       <Cell>
-                        {item?.vehicleInfo?.vehicleType}
+                        {item?.businessInfo?.region}
                       </Cell>
                      
                       <Cell>
                         {" "}
                         <button
                           className="status-btn-st"
-                          onClick={() => navigate(`/rider/approved/details/${item?._id}`)}
+                          onClick={()=>handleAssignOrder({assignToID:item?._id, assignToModelName:"T3PL"})}
                         >
                           Assign
                         </button>{" "}
                       </Cell>
                     </Row>
                   ))
+                )}
+
+                {(!T3plLoading && tableList?.length === 0 )&& (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    
+                    <Cell>No Data</Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                  </Row>
                 )}
               </Body>
             </>
@@ -211,11 +214,11 @@ const [itemOffset, setItemOffset] = useState(0);
         <div className="pagination-tab">
     
            <PaginatedTabs
-            totalRecords={totalNumberOfRiders}
+            totalRecords={totalNumberOf3Pls}
             setItemOffset={setItemOffset}
             offSet={itemOffset}
             itemsPerPage={itemsPerPage}
-            fetchMore={fetchMoreRiders}
+            fetchMore={fetchMoreT3pls}
           />
         </div>
       </div>

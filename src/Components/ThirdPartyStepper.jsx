@@ -84,12 +84,11 @@ const Stepper = ({ name }) => {
   //modal state { successful Modal}
   const toggleModalOpen = () => setIsOpen((prev)=>!prev);
 
-  console.log("watchers",watch())
+  
   const navigate = useNavigate();
 
   // Toast functions
   const showToastMessage = (messages) => {
-    console.log("Showing toast with messages:", messages);
     setToastMessages(messages);
     setShowToast(true);
     setTimeout(() => {

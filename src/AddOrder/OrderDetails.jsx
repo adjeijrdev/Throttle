@@ -546,6 +546,7 @@ export default function OrderDetails() {
             )}
 
             {!viewAbleTabs?.includes("Vendor") && (
+              
               <div className={styles.changeStatusContainer}>
                 <div className={styles.down_title}>
                   {orderData?.order?.status === "ORDER PLACED"
@@ -585,7 +586,7 @@ export default function OrderDetails() {
                 )}
 
                 {orderData?.order?.status !== "ASSIGNED" &&
-                  orderData?.order?.status !== "ORDER PLACED" && (
+                  orderData?.order?.status !== "ORDER PLACED" && viewAbleTabs?.includes("T3PL")  && (
                     <button
                       className={styles.assignBtn}
                       onClick={() => setChangeOrderStatusModal(true)}
@@ -605,6 +606,21 @@ export default function OrderDetails() {
                         </span>
                       )}
                     </button>
+                  )}
+
+                  {orderData?.order?.status !== "ASSIGNED" &&
+                  orderData?.order?.status !== "ORDER PLACED" && viewAbleTabs?.includes("SELF")  && (
+                    <button
+                    className={styles.assignBtn}
+                    disabled={true}
+                    style={{
+                      backgroundColor:"gray",
+                      cursor:" not-allowed"
+                    }}
+                  >
+                    In Transit
+                    
+                  </button>
                   )}
               </div>
             )}
@@ -627,7 +643,7 @@ export default function OrderDetails() {
             />
           )}
           {showAssign3PLFiltersTable && (
-            <Assign3PLTableFilter ref={show3plAssignTBRef} />
+            <Assign3PLTableFilter ref={show3plAssignTBRef}  handleAssignOrder={handleAssignOrder} />
           )}
           {showChangeOrderStatusModal && (
             <ChangeOrderStatusModal

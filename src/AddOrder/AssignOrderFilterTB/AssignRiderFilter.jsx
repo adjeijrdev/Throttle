@@ -5,8 +5,6 @@ import { format, parseISO } from "date-fns";
 import { useState, useEffect, forwardRef } from "react";
 import { Spin } from "antd";
 
-import { useQuery } from "@apollo/client";
-
 import {
   Table,
   Header,
