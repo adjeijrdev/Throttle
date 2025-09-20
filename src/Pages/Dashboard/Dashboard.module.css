@@ -1,13 +1,21 @@
 .DashbD_head_container {
   display: flex;
-  flex-wrap: wrap;
-  /* gap:1.5rem; */
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  column-gap: 2.4rem;
-  row-gap: 2.4rem;
-  margin: 0px auto;
-  /* justify-content: center; */
-  /* background-color: pink; */
+ 
+  margin:auto;
+}
+
+.sub_card_Container{
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(290px, max-content));
+  flex-wrap: wrap;
+  justify-content: center;
+  gap:1rem;
+  max-width:100%;
+  
+  margin: 0 auto;
 }
 
 .dashboard_top {

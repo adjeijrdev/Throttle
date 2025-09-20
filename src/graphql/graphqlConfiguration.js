@@ -357,7 +357,10 @@ export function useOrderSearch(query, roleOffset = 0, itemsPerPage = 20) {
         offset: roleOffset,
         limit: itemsPerPage,
         search: "",
+        pickupDateFrom: "",
+        pickupDateTo:"",
         entityFilter: "",
+        
         orderIds: [],
       },
     });
@@ -365,11 +368,13 @@ export function useOrderSearch(query, roleOffset = 0, itemsPerPage = 20) {
 
   const debouncedSearch = useMemo(
     () =>
-      debounce((searchTerm, entityFilterTerm, orderIdsTerm) => {
+      debounce((searchTerm,pickupDateFrom,pickupDateTo, entityFilterTerm, orderIdsTerm,) => {
         if (
           searchTerm.trim().length >= 0 ||
           entityFilterTerm.trim().length >= 0 ||
-          orderIdsTerm?.length >= 0
+          orderIdsTerm?.length >= 0 || 
+          pickupDateTo?.length >=0 || 
+          pickupDateFrom?.length >=0
         ) {
           search({
             variables: {
@@ -378,6 +383,8 @@ export function useOrderSearch(query, roleOffset = 0, itemsPerPage = 20) {
               search: searchTerm,
               entityFilter: entityFilterTerm,
               orderIds: orderIdsTerm,
+              pickupDateFrom:pickupDateFrom,
+              pickupDateTo: pickupDateTo
             },
           });
         }

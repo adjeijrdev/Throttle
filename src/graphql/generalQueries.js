@@ -342,6 +342,8 @@ export const GET_ALL_ORDERS = gql`
     $offset: Int!
     $limit: Int!
     $search: String!
+    $pickupDateFrom:String,
+    $pickupDateTo:String,
     $entityFilter: String!
     $orderIds: [String]
   ) {
@@ -349,6 +351,8 @@ export const GET_ALL_ORDERS = gql`
       offset: $offset
       limit: $limit
       search: $search
+      pickupDateFrom: $pickupDateFrom,
+      pickupDateTo: $pickupDateTo,
       entityFilter: $entityFilter
       orderIds: $orderIds
     ) {
@@ -478,21 +482,20 @@ export const GET_ALL_ORDERS_COD = gql`
     $pickupDateTo: String
     $deliveryDateFrom: String
     $deliveryDateTo: String
- 
     $vendorId: String
-    $assignedTo:String
+    $assignedTo: String
   ) {
     cod(
       offset: $offset
       limit: $limit
       search: $search
-     
+
       orderIds: $orderIds
       pickupDateFrom: $pickupDateFrom
       pickupDateTo: $pickupDateTo
       deliveryDateFrom: $deliveryDateFrom
       deliveryDateTo: $deliveryDateTo
-    
+
       vendorId: $vendorId
       assignedTo: $assignedTo
     ) {
@@ -504,7 +507,7 @@ export const GET_ALL_ORDERS_COD = gql`
       totalDeliveryFee
       pendingRemittance
       paidToVendor
-      
+
       data {
         _id
         assignedTo {
@@ -545,9 +548,6 @@ export const GET_ALL_ORDERS_COD = gql`
   }
 `;
 
-
-
-
 export const GET_ALL_3PLS = gql`
   query GET_ALL_3PLS(
     $offset: Int!
@@ -561,30 +561,30 @@ export const GET_ALL_3PLS = gql`
       totalCount
       data {
         _id
-        businessInfo{
-        companyName
-        businessDescription
-        webApplicationDomainName
-        businessAddress
-        registrationNumber
-        areaOfOperation
-        yearsInOpertion
-        businessCertificate
-        logo
-        gpsAddress
-        region
-        streetAddress
+        businessInfo {
+          companyName
+          businessDescription
+          webApplicationDomainName
+          businessAddress
+          registrationNumber
+          areaOfOperation
+          yearsInOpertion
+          businessCertificate
+          logo
+          gpsAddress
+          region
+          streetAddress
         }
 
-      contactDetails{
-        phoneNumber
-        email
-        name
-        additionalPhoneNumber
-        position
-        ghanaCardNumber
+        contactDetails {
+          phoneNumber
+          email
+          name
+          additionalPhoneNumber
+          position
+          ghanaCardNumber
         }
-        
+
         preference {
           enable2FA
           enableEmailNotification
@@ -601,7 +601,7 @@ export const GET_ALL_3PLS = gql`
             recipientName
           }
         }
-       
+
         status
         createdAt
       }
@@ -609,15 +609,11 @@ export const GET_ALL_3PLS = gql`
   }
 `;
 
-
 export const GET_3PL = gql`
-  query GET_3PL(
-    $id: ID!
-  ) {
-    T3pl(id:$id) {
-     
-        _id
-        businessInfo{
+  query GET_3PL($id: ID!) {
+    T3pl(id: $id) {
+      _id
+      businessInfo {
         companyName
         businessDescription
         webApplicationDomainName
@@ -630,36 +626,36 @@ export const GET_3PL = gql`
         gpsAddress
         region
         streetAddress
-        }
+      }
 
-      contactDetails{
+      contactDetails {
         phoneNumber
         email
         name
         additionalPhoneNumber
         position
         ghanaCardNumber
-        }
-        
-        preference {
-          enable2FA
-          enableEmailNotification
-        }
+      }
 
-        financialDetails {
-          bankAccountDetails {
-            accountNumber
-            bankName
-            recipientName
-          }
-          mobileMoneyAccount {
-            phoneNumber
-            recipientName
-          }
+      preference {
+        enable2FA
+        enableEmailNotification
+      }
+
+      financialDetails {
+        bankAccountDetails {
+          accountNumber
+          bankName
+          recipientName
         }
-       
-        status
-        createdAt
+        mobileMoneyAccount {
+          phoneNumber
+          recipientName
+        }
+      }
+
+      status
+      createdAt
     }
   }
 `;
