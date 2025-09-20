@@ -23,6 +23,7 @@ import { Spin } from "antd";
 import { formatDateTime } from "../../utils/formateDateTime";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 export default function Dashboard(props) {
   const itemsPerPage = 15;
@@ -45,6 +46,8 @@ export default function Dashboard(props) {
   } = useOrderSearch(GET_ALL_ORDERS, itemOffset, itemsPerPage);
 
   const totalNumberOfOrders = orderData?.orders?.totalCount;
+  
+  const viewAbleTabs = useSelector((state) => state.staffAuth?.viewAbleTabs);
 
   useEffect(() => {
     setAllOrders(orderData);
@@ -448,6 +451,8 @@ export default function Dashboard(props) {
               bgColor="white"
               bordercolor="1px solid gray"
             />
+            {
+              !( ( viewAbleTabs?.includes("T3PL") || viewAbleTabs?.includes("RIDER"))) &&
             <StatCard
               title="Order PLACED (NEW)"
               value={allOrders?.orders?.totalNumOfOderPlaced}
@@ -456,6 +461,9 @@ export default function Dashboard(props) {
               bgColor="#A6CFFF"
               bordercolor="1px solid #95bbe7ff"
             />
+            }
+
+
             <StatCard
               title="Order Completed"
               value={allOrders?.orders?.totalNumberOfCompleted}
