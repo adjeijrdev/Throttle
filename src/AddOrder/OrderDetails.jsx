@@ -22,7 +22,7 @@ import { FailedModal } from "./failedModal/FailedModal";
 import { RejectedModal } from "./rejectedModal/RejectedModal";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
-
+import productImageIcon from "../Assets/icons/orderImg.png"
 export default function OrderDetails() {
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [showAssignRiderFiltersTable, setShowAssignRiderFilterTable] =
@@ -261,7 +261,7 @@ export default function OrderDetails() {
             </div>
 
             {
-              !viewAbleTabs?.includes("Vendor") && (
+              viewAbleTabs?.includes("SELF") && (
                  <button
               className={styles.deleteOrder}
               onClick={() => handleDeleteOrder()}
@@ -280,7 +280,7 @@ export default function OrderDetails() {
               <div
                 className={styles.productImge}
                 style={{
-                  backgroundImage: `url(${orderData?.order?.productImage})`,
+                  backgroundImage: orderData?.order?.productImage ? `url(${orderData?.order?.productImage})`: `url(${productImageIcon})` ,
                   width: "90%",
                   height: "90%",
                   backgroundSize: "contain",
@@ -288,7 +288,7 @@ export default function OrderDetails() {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                {!orderData?.order?.productImage && "Product Image"}
+                
               </div>
               <div className={styles.detailsLeftRight}>
                 <div className={styles.detailsLeftTitle}>
@@ -586,7 +586,7 @@ export default function OrderDetails() {
                 )}
 
                 {orderData?.order?.status !== "ASSIGNED" &&
-                  orderData?.order?.status !== "ORDER PLACED" && viewAbleTabs?.includes("T3PL")  && (
+                  orderData?.order?.status !== "ORDER PLACED" &&( viewAbleTabs?.includes("T3PL") || viewAbleTabs?.includes("RIDER"))  && (
                     <button
                       className={styles.assignBtn}
                       onClick={() => setChangeOrderStatusModal(true)}

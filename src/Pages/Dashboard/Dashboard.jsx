@@ -23,29 +23,35 @@ import { Spin } from "antd";
 import { formatDateTime } from "../../utils/formateDateTime";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 export default function Dashboard(props) {
   const itemsPerPage = 15;
   const [itemOffset, setItemOffset] = useState(0);
   const [searchItem, setSearchItem] = useState("");
   const [allOrders, setAllOrders] = useState();
-  const navigate = useNavigate()
-    const {
-      debouncedSearch,
-      data: orderData,
-      loading: orderLoading,
-      error: orderError,
-      fetchMore: fetchMoreOrder,
-      refetch: refetchOrders
-    } = useOrderSearch(GET_ALL_ORDERS, itemOffset, itemsPerPage);
+  const [orderFilterBy, setOrderFilterBy] = useState({
+    status: "",
+    startDate: "",
+    endDate: "",
+  });
+  const navigate = useNavigate();
+  const {
+    debouncedSearch,
+    data: orderData,
+    loading: orderLoading,
+    error: orderError,
+    fetchMore: fetchMoreOrder,
+    refetch: refetchOrders,
+  } = useOrderSearch(GET_ALL_ORDERS, itemOffset, itemsPerPage);
 
-    
   const totalNumberOfOrders = orderData?.orders?.totalCount;
+  
+  const viewAbleTabs = useSelector((state) => state.staffAuth?.viewAbleTabs);
 
-  useEffect(()=>{
-    console.log(orderData)
-    setAllOrders(orderData)
-  },[orderData])
+  useEffect(() => {
+    setAllOrders(orderData);
+  }, [orderData]);
 
   const [filter, setFilter] = useState("All");
 
@@ -55,7 +61,7 @@ export default function Dashboard(props) {
   });
   const [selectionPhase, setSelectionPhase] = useState("start");
   const [showDateFilter, setShowDateFilter] = useState(false);
-
+  const [dateFilterIsClick, setDateFilterIsClick] = useState(false);
   const [stateDateRingeState, setDateRingeState] = useState([
     {
       startDate: new Date(),
@@ -72,19 +78,7 @@ export default function Dashboard(props) {
     buttonDateRangePickerRef
   );
 
-  const formatDate = (dateString) => {
-    try {
-      if (!dateString) return null;
-      const [day, month, year] = dateString.split("-");
-      return new Date(`${year}-${month}-${day}`);
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      return null;
-    }
-  };
   const [enteredDate, setEnteredDate] = useState("");
-
-
 
   const filterOptions = [
     "All",
@@ -97,15 +91,28 @@ export default function Dashboard(props) {
     "Rejected",
   ];
 
-  const handleOrderStatusFilter =(filter_by)=>{
-
-    if(filter_by=="All"){
-      return ""
-    }else{
-      return filter_by?.toUpperCase()
+  const handleOrderStatusFilter = (filter_by) => {
+    if (filter_by == "All") {
+      return "";
+    } else {
+      return filter_by?.toUpperCase();
     }
+  };
 
-  }
+  useEffect(() => {
+    
+    if (dateFilterIsClick) {
+      debouncedSearch(
+        orderFilterBy.status,
+        stateDateRingeState[0]?.startDate,
+        stateDateRingeState[0]?.endDate,
+        "",
+        []
+      );
+    } else {
+      debouncedSearch(orderFilterBy.status, "", "", "", []);
+    }
+  }, [orderFilterBy, stateDateRingeState]);
 
   const statusClass = {
     Completed: styles.completed,
@@ -117,16 +124,14 @@ export default function Dashboard(props) {
     "Order Placed": styles.inProgress,
   };
 
-
-
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
-    const toggleDropdownRef = useRef(null);
+  const toggleDropdownRef = useRef(null);
   const toggleDropdownIgnoreRef = useRef(null);
   useClickOutside(
-    toggleDropdownRef ,
+    toggleDropdownRef,
     () => toggleDropdown(),
     toggleDropdownIgnoreRef
   );
@@ -134,18 +139,20 @@ export default function Dashboard(props) {
   const exportToCSV = () => {
     const rows = orderData?.orders?.data?.map((o) => ({
       "Order ID": o.orderId,
-      "Description": o.productDescription,
+      Description: o.productDescription,
       "Pickup Date and Time": formatDateTime(o.orderDate),
       Destination: o.destination,
       Recipient: o.recipientName,
       "Recipient's Tel": o.recipientNumber,
-      Status:o.status,
+      Status: o.status,
       Vendor: o.source?.type,
-      "Assigned To": o.assignedTo?.userProfile?.fullName || o.assignedTo?.businessInfo?.companyName ,
+      "Assigned To":
+        o.assignedTo?.userProfile?.fullName ||
+        o.assignedTo?.businessInfo?.companyName,
       "Delivery Fee": o.deliveryFee,
       "Payment Amount": o.paymentAmount,
-      "Total Payment": (o.paymentAmount + o.deliveryFee),
-      "Delivery Date":  formatDateTime(o.deliveryDate),
+      "Total Payment": o.paymentAmount + o.deliveryFee,
+      "Delivery Date": formatDateTime(o.deliveryDate),
       "Order Image": o.productImage,
     }));
 
@@ -161,24 +168,26 @@ export default function Dashboard(props) {
   };
 
   const exportToExcel = () => {
-    const data = orderData?.orders?.data?.map((o)=>{
+    const data = orderData?.orders?.data?.map((o) => {
       return {
-      "Order ID": o.orderId,
-      "Description": o.productDescription,
-      "Pickup Date and Time": formatDateTime(o.orderDate),
-      Destination: o.destination,
-      Recipient: o.recipientName,
-      "Recipient's Tel": o.recipientNumber,
-      Status:o.status,
-      Vendor: o.source?.type,
-      "Assigned To": o.assignedTo?.userProfile?.fullName || o.assignedTo?.businessInfo?.companyName ,
-      "Delivery Fee": o.deliveryFee,
-      "Payment Amount": o.paymentAmount,
-      "Total Payment": (o.paymentAmount + o.deliveryFee),
-      "Delivery Date": formatDateTime(o.deliveryDate),
-      "Order Image": o.productImage,
-    }
-    })
+        "Order ID": o.orderId,
+        Description: o.productDescription,
+        "Pickup Date and Time": formatDateTime(o.orderDate),
+        Destination: o.destination,
+        Recipient: o.recipientName,
+        "Recipient's Tel": o.recipientNumber,
+        Status: o.status,
+        Vendor: o.source?.type,
+        "Assigned To":
+          o.assignedTo?.userProfile?.fullName ||
+          o.assignedTo?.businessInfo?.companyName,
+        "Delivery Fee": o.deliveryFee,
+        "Payment Amount": o.paymentAmount,
+        "Total Payment": o.paymentAmount + o.deliveryFee,
+        "Delivery Date": formatDateTime(o.deliveryDate),
+        "Order Image": o.productImage,
+      };
+    });
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
@@ -196,14 +205,14 @@ export default function Dashboard(props) {
       // Check if there's data to export
       if (!orderData?.orders?.data) {
         toast.error("No orders to export", {
-                style: {
-                  border: "1px solid oklch(88.5% 0.062 18.334)",
-                  // backgroundColor:"oklch(88.5% 0.062 18.334)",
-                  color: "oklch(39.6% 0.141 25.723)",
-                  fontSize: "16px",
-                  width: "500px",
-                },
-              });
+          style: {
+            border: "1px solid oklch(88.5% 0.062 18.334)",
+            // backgroundColor:"oklch(88.5% 0.062 18.334)",
+            color: "oklch(39.6% 0.141 25.723)",
+            fontSize: "16px",
+            width: "500px",
+          },
+        });
         setShowDropdown(false);
         return;
       }
@@ -237,18 +246,20 @@ export default function Dashboard(props) {
       const data = orderData?.orders?.data?.map((order) => [
         order.orderId || "",
         order.productDescription || "",
-       formatDateTime(order.orderDate)  || "",
+        formatDateTime(order.orderDate) || "",
         order.destination || "",
         order.recipientName || "",
         order.recipientNumber || "",
-        
+
         order.status || "",
         order.source?.type || "",
-         order.assignedTo?.userProfile?.fullName || order.assignedTo?.businessInfo?.companyName|| "",
+        order.assignedTo?.userProfile?.fullName ||
+          order.assignedTo?.businessInfo?.companyName ||
+          "",
         order.paymentAmount || "",
         order.deliveryFee || "",
-        (order.deliveryFee + order.paymentAmount) || "",
-         formatDateTime(order.deliveryDate) || "",
+        order.deliveryFee + order.paymentAmount || "",
+        formatDateTime(order.deliveryDate) || "",
       ]);
 
       // Generate the table
@@ -291,7 +302,7 @@ export default function Dashboard(props) {
     },
     { key: "map", label: "Map" },
     { key: "orderId", label: "Order ID" },
-    {key: "description", label:"Description"},
+    { key: "description", label: "Description" },
     { key: "dateTime", label: "Pickup Date, Time" },
     { key: "destination", label: "Destination" },
     { key: "recipient", label: "Recipient" },
@@ -310,11 +321,11 @@ export default function Dashboard(props) {
   );
 
   const [showColsDropdown, setShowColsDropdown] = useState(false);
-  const colsDropRef = useRef(null)
-  const showColsDropDownRefIgnore = useRef(null)
+  const colsDropRef = useRef(null);
+  const showColsDropDownRefIgnore = useRef(null);
   const toggleColDropdown = () => setShowColsDropdown((prev) => !prev);
 
-   useClickOutside(
+  useClickOutside(
     colsDropRef,
     () => setShowColsDropdown(false),
     showColsDropDownRefIgnore
@@ -326,12 +337,21 @@ export default function Dashboard(props) {
 
   // Update your clearFilters function
   const clearFilters = () => {
-    setEnteredDate("");
     setFilter("All");
-    setDateRange({ start: null, end: null }); // Clear both start and end dates
-    setSelectionPhase("start"); // Reset selection phase
+    setOrderFilterBy({
+      status: "",
+      startDate: "",
+      endDate: "",
+    });
+    setDateRange([
+      {
+        startDate: new Date(),
+        endDate: new Date(),
+        key: "selection",
+      },
+    ]);
+    setDateFilterIsClick(false);
   };
-
 
   const [showAddOrderDropdown, setShowAddOrderDropdown] = useState(false);
   const showAddOrderDropdownRef = useRef(null);
@@ -358,7 +378,7 @@ export default function Dashboard(props) {
 
   const [isHeaderSelected, setIsHeaderSelected] = useState(false);
 
-    const assignOrderStatusBackground = (status) => {
+  const assignOrderStatusBackground = (status) => {
     switch (status) {
       case "ORDER PLACED":
         return "#A6CFFF";
@@ -397,9 +417,10 @@ export default function Dashboard(props) {
               className={styles.date__control}
               onClick={(event) => {
                 event.stopPropagation(), setShowDateFilter((prev) => !prev);
+                setDateFilterIsClick(true);
               }}
             >
-              {stateDateRingeState[0]
+              {dateFilterIsClick
                 ? `${format(
                     stateDateRingeState[0]?.startDate,
                     "dd/MM/yyyy"
@@ -421,70 +442,77 @@ export default function Dashboard(props) {
         </div>
 
         <div className={styles.DashbD_head_container}>
-          <StatCard
-            title="All Orders"
-            value={allOrders?.orders?.totalNumberOfOrders}
-            img={staticon}
-            change="+5.4% this week"
-            bgColor="white"
-            bordercolor="1px solid gray"
-          />
-          <StatCard
-            title="Order PLACED (NEW)"
-            value={allOrders?.orders?.totalNumOfOderPlaced}
-            img={staticon}
-            change="+5.4% this week"
-            bgColor="#A6CFFF"
-            bordercolor="1px solid #95bbe7ff"
-          />
-          <StatCard
-            title="Order Completed"
-            value={allOrders?.orders?.totalNumberOfCompleted}
-            img={staticon}
-            change="+5.4% this week"
-            bgColor="#C3F9D5"
-            bordercolor="1px solid #19D256"
-          />
-          <StatCard
-            title="Order Failed"
-            value={allOrders?.orders?.totalNumberOfFailed}
-            img={staticon}
-            change="+5.4% this week"
-            bgColor="#FF9ABA"
-            bordercolor="1px solid #FF1861"
-          />
-          <StatCard
-            title="Order Rejected"
-            value={allOrders?.orders?.totalNumberOfRejected}
-            img={staticon}
-            change="+5.4% this week"
-            bgColor="#FFC9C9"
-            bordercolor="1px solid #FF8787"
-          />
-          <StatCard
-            title="Order in Transit"
-            value={allOrders?.orders?.totalNumOfInTransit}
-            img={staticon}
-            change="+5.4% this week"
-            bgColor="#88AEF1"
-            bordercolor="1px solid #1158D3"
-          />
-          <StatCard
-            title="Order Assigned"
-            value={allOrders?.orders?.totalNumberOfAssigned}
-            img={staticon}
-            change="+5.4% this week"
-            bgColor="#FFEC8B"
-            bordercolor="1px solid #DBBA11"
-          />
-          <StatCard
-            title="Order Returned"
-            value={allOrders?.orders?.totalNumberOfReturned}
-            img={staticon}
-            change="+5.4% this week"
-            bgColor="#AFAFAF"
-            bordercolor="1px solid #737373"
-          />
+          <div className={styles.sub_card_Container}>
+            <StatCard
+              title="All Orders"
+              value={allOrders?.orders?.totalNumberOfOrders}
+              img={staticon}
+              change="+5.4% this week"
+              bgColor="white"
+              bordercolor="1px solid gray"
+            />
+            {
+              !( ( viewAbleTabs?.includes("T3PL") || viewAbleTabs?.includes("RIDER"))) &&
+            <StatCard
+              title="Order PLACED (NEW)"
+              value={allOrders?.orders?.totalNumOfOderPlaced}
+              img={staticon}
+              change="+5.4% this week"
+              bgColor="#A6CFFF"
+              bordercolor="1px solid #95bbe7ff"
+            />
+            }
+
+
+            <StatCard
+              title="Order Completed"
+              value={allOrders?.orders?.totalNumberOfCompleted}
+              img={staticon}
+              change="+5.4% this week"
+              bgColor="#C3F9D5"
+              bordercolor="1px solid #19D256"
+            />
+            <StatCard
+              title="Order Failed"
+              value={allOrders?.orders?.totalNumberOfFailed}
+              img={staticon}
+              change="+5.4% this week"
+              bgColor="#FF9ABA"
+              bordercolor="1px solid #FF1861"
+            />
+            <StatCard
+              title="Order Rejected"
+              value={allOrders?.orders?.totalNumberOfRejected}
+              img={staticon}
+              change="+5.4% this week"
+              bgColor="#FFC9C9"
+              bordercolor="1px solid #FF8787"
+            />
+            <StatCard
+              title="Order in Transit"
+              value={allOrders?.orders?.totalNumOfInTransit}
+              img={staticon}
+              change="+5.4% this week"
+              bgColor="#88AEF1"
+              bordercolor="1px solid #1158D3"
+            />
+            <StatCard
+              title="Order Assigned"
+              value={allOrders?.orders?.totalNumberOfAssigned}
+              img={staticon}
+              change="+5.4% this week"
+              bgColor="#FFEC8B"
+              bordercolor="1px solid #DBBA11"
+            />
+            <StatCard
+              title="Order Returned"
+              value={allOrders?.orders?.totalNumberOfReturned}
+              img={staticon}
+              change="+5.4% this week"
+              bgColor="#AFAFAF"
+              bordercolor="1px solid #737373"
+            />
+          </div>
         </div>
 
         <div
@@ -544,7 +572,10 @@ export default function Dashboard(props) {
                 <Eye size={16} /> Columns <ChevronDown size={16} />
               </button>
               {showColsDropdown && (
-                <div className={styles.columnDropdown} ref={showColsDropDownRefIgnore}>
+                <div
+                  className={styles.columnDropdown}
+                  ref={showColsDropDownRefIgnore}
+                >
                   {allColumns.map((col) => (
                     <label key={col.key} className={styles.checkboxItem}>
                       <input
@@ -562,7 +593,7 @@ export default function Dashboard(props) {
             <button
               ref={buttonAddOrderRef}
               className={styles.addorder}
-              onClick={()=>navigate("/addOrder")}
+              onClick={() => navigate("/dashboard/addOrder")}
             >
               Add Order +
             </button>
@@ -583,7 +614,14 @@ export default function Dashboard(props) {
             {filterOptions.map((option) => (
               <button
                 key={option}
-                onClick={() => {setFilter(option),  debouncedSearch(handleOrderStatusFilter(option),"",[])}}
+                onClick={() => {
+                  setFilter(option),
+                    setOrderFilterBy({
+                      status: handleOrderStatusFilter(option),
+                      startDate: stateDateRingeState[0]?.startDate,
+                      endDate: stateDateRingeState[0]?.endDate,
+                    });
+                }}
                 className={`${styles.filterButton} ${
                   filter === option ? styles.activeFilter : ""
                 }`}
@@ -594,211 +632,213 @@ export default function Dashboard(props) {
           </div>
 
           {/* Table */}
-       
-            <div className={styles.tableconMain}>
-              <table className={styles.table}>
-                <thead className={styles.tableheader}>
+
+          <div className={styles.tableconMain}>
+            <table className={styles.table}>
+              <thead className={styles.tableheader}>
+                <tr
+                  onClick={() => setIsHeaderSelected(!isHeaderSelected)}
+                  className={`${styles.headerRow} ${
+                    isHeaderSelected ? styles.selectedHeader : ""
+                  }`}
+                >
+                  {visibleCols.box && (
+                    <th className={styles.th}>
+                      <input
+                        type="checkbox"
+                        checked={isHeaderSelected}
+                        onChange={(e) => {
+                          setIsHeaderSelected(e.target.checked);
+                          e.stopPropagation();
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </th>
+                  )}
+                  {visibleCols["map"] && (
+                    <th className={styles.thSmall}>Map</th>
+                  )}
+                  {visibleCols.orderId && (
+                    <th className={styles.th}>Order ID</th>
+                  )}
+                  {visibleCols.description && (
+                    <th className={styles.th}>Description</th>
+                  )}
+                  {visibleCols.dateTime && (
+                    <th className={styles.th}>Pickup Date, Time</th>
+                  )}
+
+                  {visibleCols.destination && (
+                    <th className={[styles.th]}>Destination</th>
+                  )}
+                  {visibleCols.recipient && (
+                    <th className={styles.th}>Recipient</th>
+                  )}
+                  {visibleCols.phone && (
+                    <th className={styles.th}>Recipient's Tel</th>
+                  )}
+
+                  {visibleCols.status && <th className={styles.th}>Status</th>}
+                  {visibleCols.vendor && <th className={styles.th}>Vendor</th>}
+
+                  {visibleCols.orderdate && (
+                    <th className={styles.th}>Delivery Date, Time</th>
+                  )}
+                  {visibleCols.tpl && <th className={styles.th}>3PL/Rider</th>}
+
+                  {visibleCols.payAmount && (
+                    <th className={styles.th}>Payment Amount</th>
+                  )}
+                  {visibleCols.deliveryAmount && (
+                    <th className={styles.th}>Delivery Fee</th>
+                  )}
+                  {visibleCols.grantTotal && (
+                    <th className={styles.th}>Grand Total</th>
+                  )}
+                </tr>
+              </thead>
+
+              <tbody>
+                {orderLoading && !allOrders?.orders?.data && (
+                  <tr>
+                    <td
+                      style={{
+                        width: "100%",
+                        textAlign: "center",
+                        padding: "4rem 0rem",
+                      }}
+                      colSpan={12}
+                    >
+                      <Spin size="large" className="loading-spinner" />
+                    </td>
+                  </tr>
+                )}
+
+                {allOrders?.orders?.data?.map((order, index) => (
                   <tr
-                    onClick={() => setIsHeaderSelected(!isHeaderSelected)}
-                    className={`${styles.headerRow} ${
-                      isHeaderSelected ? styles.selectedHeader : ""
+                    key={order?._id} // Use orderId as key instead of index
+                    onClick={(e) => {
+                      // Don't trigger row selection if clicking on a link or button
+                      // if (
+                      //   e.target.tagName !== "A" &&
+                      //   e.target.tagName !== "BUTTON"
+                      // ) {
+                      //   toggleRowSelection(order?._id);
+                      // }
+                      navigate(`/dashboard/main/orders/${order?._id}`);
+                    }}
+                    className={`${styles.tableRow} ${
+                      selectedRows.includes(order?._id)
+                        ? styles.selectedRow
+                        : ""
                     }`}
                   >
                     {visibleCols.box && (
-                      <th className={styles.th}>
+                      <td
+                        className={styles.td}
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <input
                           type="checkbox"
-                          checked={isHeaderSelected}
+                          checked={selectedRows.includes(order?._id)}
                           onChange={(e) => {
-                            setIsHeaderSelected(e.target.checked);
-                            e.stopPropagation();
+                            toggleRowSelection(order?._id, e);
                           }}
-                          onClick={(e) => e.stopPropagation()}
                         />
-                      </th>
+                      </td>
                     )}
-                    {visibleCols["map"] && (
-                      <th className={styles.thSmall}>Map</th>
+                    {visibleCols.map && (
+                      <td className={styles.td}>
+                        {" "}
+                        <img
+                          src={locationIcon}
+                          alt="Location Icon"
+                          style={{ width: "16px", height: "16px" }}
+                        />
+                      </td>
                     )}
-                      {visibleCols.orderId && (
-                      <th className={styles.th}>Order ID</th>
+                    {visibleCols.orderId && (
+                      <td className={styles.td}>{order?.orderId}</td>
                     )}
-                     {visibleCols.description && (
-                      <th className={styles.th}>Description</th>
+                    {visibleCols.description && (
+                      <td className={styles.td}>{order?.productDescription}</td>
                     )}
                     {visibleCols.dateTime && (
-                      <th className={styles.th}>Pickup Date, Time</th>
+                      <td className={styles.td}>
+                        {formatDateTime(order?.orderDate)}
+                      </td>
                     )}
-                  
+
                     {visibleCols.destination && (
-                      <th className={[styles.th]} >Destination</th>
+                      <td className={styles.td}>{order?.destination}</td>
                     )}
+
                     {visibleCols.recipient && (
-                      <th className={styles.th}>Recipient</th>
+                      <td className={styles.td}>{order?.recipientName}</td>
                     )}
                     {visibleCols.phone && (
-                      <th className={styles.th}>Recipient's Tel</th>
+                      <td className={styles.td}>{order?.recipientNumber}</td>
                     )}
-                   
+
                     {visibleCols.status && (
-                      <th className={styles.th}>Status</th>
+                      <td className={styles.td}>
+                        <span
+                          className={`${styles.status} ${
+                            statusClass[order.status]
+                          }`}
+                          style={{
+                            backgroundColor: assignOrderStatusBackground(
+                              order?.status
+                            ),
+                          }}
+                        >
+                          {order?.status}
+                        </span>
+                      </td>
                     )}
                     {visibleCols.vendor && (
-                      <th className={styles.th}>Vendor</th>
+                      <td className={styles.td}>
+                        {order?.source == null
+                          ? "SELF"
+                          : order?.source?.businessInfo?.companyName}
+                      </td>
                     )}
-                    
                     {visibleCols.orderdate && (
-                      <th className={styles.th}>Delivery Date, Time</th>
+                      <td className={styles.td}>
+                        {formatDateTime(order?.deliveryDate)}
+                      </td>
                     )}
-                    {visibleCols.tpl && <th className={styles.th}>3PL/Rider</th>}
+                    {visibleCols.tpl && (
+                      <td className={styles.td}>
+                        {order?.assignedTo?.userProfile &&
+                          order?.assignedTo?.userProfile?.fullName}
+                      </td>
+                    )}
 
-                    
-                     {visibleCols.payAmount && (
-                      <th className={styles.th}>Payment Amount</th>
+                    {visibleCols.payAmount && (
+                      <td className={styles.td}>GHC {order?.paymentAmount}</td>
                     )}
                     {visibleCols.deliveryAmount && (
-                      <th className={styles.th}>Delivery Fee</th>
+                      <td className={styles.td}>
+                        {order?.deliveryFee && `GHC ${order?.deliveryFee}`}
+                      </td>
                     )}
-                     {visibleCols.grantTotal && (
-                      <th className={styles.th}>Grand Total</th>
+                    {visibleCols.grantTotal && (
+                      <td className={styles.td}>
+                        GHC {order?.paymentAmount + order?.deliveryFee}
+                      </td>
                     )}
                   </tr>
-                </thead>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-                
-                <tbody>
-                  {
-                    
-                      (orderLoading && !allOrders?.orders?.data) &&(
-
-                        <tr>
-                          
-                          <td style={{width:"100%", textAlign:"center",padding:"4rem 0rem"}} colSpan={12}>
-                         <Spin size="large" className="loading-spinner" />
-
-                          </td>
-
-                    </tr>
-                      ) 
-                  }
-
-                  {
-                      
-                  allOrders?.orders?.data?.map((order, index) => (
-                    <tr
-                      key={order?._id} // Use orderId as key instead of index
-                      onClick={(e) => {
-                        // Don't trigger row selection if clicking on a link or button
-                        // if (
-                        //   e.target.tagName !== "A" &&
-                        //   e.target.tagName !== "BUTTON"
-                        // ) {
-                        //   toggleRowSelection(order?._id);
-                        // }
-                          navigate(`/dashboard/main/orders/${order?._id}`)
-                        
-                      }}
-                      
-                      className={`${styles.tableRow} ${
-                        selectedRows.includes(order?._id)
-                          ? styles.selectedRow
-                          : ""
-                      }`}
-                    >
-                      {visibleCols.box && (
-                        <td
-                          className={styles.td}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={selectedRows.includes(order?._id)}
-                            onChange={(e) => {
-                              toggleRowSelection(order?._id, e);
-                            }}
-                          />
-                        </td>
-                      )}
-                      {visibleCols.map && (
-                        <td className={styles.td}>
-                          {" "}
-                          <img
-                            src={locationIcon}
-                            alt="Location Icon"
-                            style={{ width: "16px", height: "16px" }}
-                          />
-                        </td>
-                      )}
-                      {visibleCols.orderId && (
-                        <td className={styles.td}>{order?.orderId}</td>
-                      )}
-                      {visibleCols.description && (
-                        <td className={styles.td}>{order?.productDescription}</td>
-                      )}
-                      {visibleCols.dateTime && (
-                        <td className={styles.td}>{formatDateTime(order?.orderDate)}</td>
-                      )}
-                      
-                      {visibleCols.destination && (
-                        <td className={styles.td}>{order?.destination}</td>
-                      )}
-                     
-                      {visibleCols.recipient && (
-                        <td className={styles.td}>{order?.recipientName}</td>
-                      )}
-                      {visibleCols.phone && (
-                        <td className={styles.td}>{order?.recipientNumber}</td>
-                      )}
-                      
-                      {visibleCols.status && (
-                        <td className={styles.td}>
-                          <span
-
-                            className={`${styles.status} ${
-                              statusClass[order.status]
-                            }`}
-                            style={{
-                              backgroundColor:assignOrderStatusBackground(order?.status)
-                            }}
-                          >
-                            {order?.status}
-                          </span>
-                        </td>
-                      )}
-                      {visibleCols.vendor && (
-                        <td className={styles.td}>{order?.source == null ? "SELF": order?.source?.businessInfo?.companyName}</td>
-                      )}
-                       {visibleCols.orderdate && (
-                        <td className={styles.td}>{formatDateTime(order?.deliveryDate) }</td>
-                      )}
-                      {visibleCols.tpl && (
-                        <td className={styles.td}>{order?.assignedTo?.userProfile &&  order?.assignedTo?.userProfile?.fullName}</td>
-                      )}
-                      
-                     
-                      {visibleCols.payAmount && (
-                        <td className={styles.td}>GHC {order?.paymentAmount}</td>
-                      )}
-                      {visibleCols.deliveryAmount && (
-                        <td className={styles.td}>{order?.deliveryFee && `GHC ${order?.deliveryFee}` }</td>
-                      )}
-                      {visibleCols.grantTotal && (
-                        <td className={styles.td}>GHC {(order?.paymentAmount + order?.deliveryFee)}</td>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
- 
-              {  (!orderLoading && !allOrders?.orders?.data)
-           
-                      &&  <div className={styles.noResults}>No orders found  </div>
-              }
-          
+          {!orderLoading && !allOrders?.orders?.data && (
+            <div className={styles.noResults}>No orders found </div>
+          )}
         </div>
-         <div className="pagination-tab">
-         
+        <div className="pagination-tab">
           <PaginatedTabs
             totalRecords={totalNumberOfOrders}
             setItemOffset={setItemOffset}
@@ -808,12 +848,6 @@ export default function Dashboard(props) {
           />
         </div>
       </div>
-
-      
     </div>
   );
 }
-
-
-
-
