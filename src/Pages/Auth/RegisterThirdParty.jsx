@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
 
-//importing Componenets
+// Importing Components
 import ThirdPartyStepper from "../../Components/ThirdPartyStepper";
 
-//import images
+// Import images
 import BluredBackground from "../../Assets/blured_dashboard.png";
 import Logo from "../../Assets/logos/LOGO-img.png";
 
 export default function RegisterThirdParty() {
   const navigate = useNavigate();
+  
   return (
     <div className="Register-main-container">
       <div className="green-left">
@@ -33,8 +34,8 @@ export default function RegisterThirdParty() {
         <div className="registring-part-form-contianer">
           <ThirdPartyStepper name="Third-Party Logistics" />
         </div>
-         <div className="cancel-box">
-            <h1>Don't want to continue? <span onClick={() => navigate("/")}>Cancel Registration</span></h1>
+        <div className="cancel-box">
+          <h1>Don't want to continue? <span onClick={() => navigate("/")}>Cancel Registration</span></h1>
         </div>
       </div>
     </div>

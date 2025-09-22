@@ -11,6 +11,7 @@ import VendorStepper from "../../Components/Stepper_and_registration/VendorStepp
 
 export default function Register() {
   const navigate = useNavigate();
+
   return (
     <div className="Register-main-container">
       <div className="green-left">
@@ -28,19 +29,30 @@ export default function Register() {
           <img src={BluredBackground} alt="Blurred-box" />
         </div>
       </div>
+
       <div className="white-right">
         <div className="registering-part-logo">
           <img src={Logo} alt="Throttle-logo" />
         </div>
+
         <div className="registring-part-form-contianer">
-          {/* <div className="close" onClick={() => navigate("/login")}>
-           
-          </div> */}
+          {/* Option 1: Close button removed */}
+          {/* <div className="close" onClick={() => navigate("/login")}></div> */}
+
+          {/* Option 2: Close button with "X" */}
+          <div className="close" onClick={() => navigate("/login")}>
+            <h1>X</h1>
+          </div>
+
           <Stepper name="Vendor" />
           {/* <VendorStepper /> */}
         </div>
+
         <div className="cancel-box">
-            <h1>Don't want to continue? <span onClick={() => navigate("/")}>Cancel Registration</span></h1>
+          <h1>
+            Don't want to continue?{" "}
+            <span onClick={() => navigate("/")}>Cancel Registration</span>
+          </h1>
         </div>
       </div>
     </div>

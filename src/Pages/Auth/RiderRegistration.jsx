@@ -1,15 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import "./RiderRegistration.css";
 
-//import images
+// Import images
 import BluredBackground from "../../Assets/blured_dashboard.png";
 import Logo from "../../Assets/logos/LOGO-img.png";
 
-//importing personal component
+// Importing personal component
 import RiderStepper from "../../Components/RiderStepper";
 
 export default function RiderRegistration() {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
+  
   return (
     <div className="Register-main-container">
       <div className="green-left">
@@ -32,11 +33,10 @@ export default function RiderRegistration() {
           <img src={Logo} alt="Throttle-logo" />
         </div>
         <div className="registring-part-form-contianer">
-  
           <RiderStepper name="Rider"/>
         </div>
-         <div className="cancel-box">
-            <h1>Don't want to continue? <span onClick={() => navigate("/")}>Cancel Registration</span></h1>
+        <div className="cancel-box">
+          <h1>Don't want to continue? <span onClick={() => navigate("/")}>Cancel Registration</span></h1>
         </div>
       </div>
     </div>
