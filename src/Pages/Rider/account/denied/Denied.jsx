@@ -19,30 +19,35 @@ import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
 import { GET_ALL_RIDERS } from "../../../../graphql/generalQueries";
 import { useQuery } from "@apollo/client";
+import { useSearchB } from "../../../../graphql/graphqlConfiguration";
+import CustomSearchInput from "../../../../Components/searchInputBox/CustomSearchInput";
 
 function RiderDenied() {
   const [itemOffset, setItemOffset] = useState(0);
   const [isDeleteModal, setDeleteModal] = useState(false);
+   const [searchRider,setSearchRider] = useState("");
+
   let itemsPerPage = 15;
 
   let navigate = useNavigate();
 
-    const {
-      loading: ridersLoading,
-      data: ridersData,
-      error: riderError,
-      fetchMore: fetchMoreRiders,
-      refetch: refetchRiders,
-    } = useQuery(GET_ALL_RIDERS, {
-      variables: {
-        offset: itemOffset,
-        limit: itemsPerPage,
-        status: "DENIED",
-      },
-      notifyOnNetworkStatusChange: true,
-    });
   
+    const {
+    debouncedSearch,
+    loading: ridersLoading,
+    data: ridersData,
+    error: riderError,
+    fetchMore: fetchMoreRiders,
+    } = useSearchB(GET_ALL_RIDERS,itemOffset,itemsPerPage, "DENIED")
+  
+   
     const totalNumberOfRiders = ridersData?.riders?.totalCount;
+
+        const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchRider(value);
+    debouncedSearch(value);
+  };
 
 
   const tableTheme = useTheme([
@@ -130,6 +135,16 @@ function RiderDenied() {
       <div className="vd-pending-title">Pending 3PL Accounts</div>
 
       <div className="table-container-st">
+
+                  <div className="full-search-container">
+          
+                  <CustomSearchInput
+                    bgColor={"white"}
+                    placeholder="Search by full name, contact or vehicle"
+                    value={searchRider}
+                    onChange={handleSearch}
+                  />
+                </div>
         <Table data={{ nodes: [...(ridersData?.riders.data || [])] }} theme={tableTheme}>
           {(tableList) => (
             <>
@@ -142,7 +157,7 @@ function RiderDenied() {
                   <HeaderCell>Full name</HeaderCell>
                   <HeaderCell>Gender</HeaderCell>
                   <HeaderCell>Mobile Number</HeaderCell>
-                  <HeaderCell>Driver's License</HeaderCell>
+                  <HeaderCell>Vehicle</HeaderCell>
                   {/* <HeaderCell>City of Operation</HeaderCell> */}
                   <HeaderCell>Year</HeaderCell>
                   <HeaderCell>Status</HeaderCell>
@@ -173,7 +188,8 @@ function RiderDenied() {
                       <Cell>{item?.userProfile?.gender}</Cell>
                       <Cell>{item?.contactDetails?.phoneNumber}</Cell>
                       <Cell>
-                        {item?.professionalDetails?.driverLicenseNumber}
+                                                {item?.vehicleInfo?.vehicleType}
+
                       </Cell>
                       <Cell>
                         {item?.professionalDetails?.yearsOfDrivingExperience}
@@ -182,13 +198,23 @@ function RiderDenied() {
                         {" "}
                         <button
                           className="status-btn-st"
-                          onClick={() => navigate(`/rider/denied/details/${item?._id}`)}
+                          onClick={() => navigate(`/dashboard/rider/denied/details/${item?._id}`)}
                         >
                           Denied
                         </button>{" "}
                       </Cell>
                     </Row>
                   ))
+                )}
+                  {(tableList.length <=0 && !ridersLoading) && (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+
+                    <Cell>No Data Found</Cell>
+                  </Row>
                 )}
               </Body>
             </>

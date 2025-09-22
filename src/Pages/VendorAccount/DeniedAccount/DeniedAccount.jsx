@@ -187,7 +187,7 @@ function DeniedAccount() {
                           className="status-btn-st"
                           onClick={() =>
                             navigate(
-                              `/vendor-account/Denied-Account/details/${item?._id}`,
+                              `/dashboard/vendor-account/Denied-Account/details/${item?._id}`,
                             )
                           }
                         >
@@ -196,6 +196,17 @@ function DeniedAccount() {
                       </Cell>
                     </Row>
                   ))
+                )}
+
+                {(tableList.length <=0 && !vendorLoading) && (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+
+                    <Cell>No Data Found</Cell>
+                  </Row>
                 )}
               </Body>
             </>

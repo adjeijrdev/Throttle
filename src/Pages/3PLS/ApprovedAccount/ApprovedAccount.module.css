@@ -1,0 +1,12 @@
+
+
+.headerContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerContainerButtons{
+    gap:15px;
+    display: flex;
+}

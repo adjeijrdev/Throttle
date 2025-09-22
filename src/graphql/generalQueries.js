@@ -80,6 +80,7 @@ export const GET_ALL_VENDORS = gql`
         _id
         role
         status
+
         businessInfo {
           areaOfOperation
           businessAddress
@@ -216,8 +217,13 @@ export const GET_VENDOR = gql`
 `;
 
 export const GET_ALL_RIDERS = gql`
-  query GET_ALL_Riders($offset: Int!, $limit: Int!, $status: Status!) {
-    riders(offset: $offset, limit: $limit, status: $status) {
+  query GET_ALL_Riders(
+    $offset: Int!
+    $limit: Int!
+    $status: Status!
+    $search: String!
+  ) {
+    riders(offset: $offset, limit: $limit, status: $status, search: $search) {
       currentPage
       hasNextPage
       totalCount
@@ -327,6 +333,329 @@ export const GET_RIDER = gql`
         phoneNumber
         residentailAddress
       }
+    }
+  }
+`;
+
+export const GET_ALL_ORDERS = gql`
+  query GET_ALL_ORDERS(
+    $offset: Int!
+    $limit: Int!
+    $search: String!
+    $pickupDateFrom:String,
+    $pickupDateTo:String,
+    $entityFilter: String!
+    $orderIds: [String]
+  ) {
+    orders(
+      offset: $offset
+      limit: $limit
+      search: $search
+      pickupDateFrom: $pickupDateFrom,
+      pickupDateTo: $pickupDateTo,
+      entityFilter: $entityFilter
+      orderIds: $orderIds
+    ) {
+      currentPage
+      hasNextPage
+      totalCount
+      totalNumberOfOrders
+      totalNumOfOderPlaced
+      totalNumOfInTransit
+      totalNumberOfAssigned
+      totalNumberOfCompleted
+      totalNumberOfReturned
+      totalNumberOfFailed
+      totalNumberOfRejected
+      data {
+        _id
+        assignedTo {
+          ... on Rider {
+            userProfile {
+              fullName
+            }
+          }
+
+          ... on T3PL {
+            businessInfo {
+              companyName
+            }
+          }
+        }
+        paymentStatus
+        deliveryDate
+        deliveryFee
+        destination
+        location {
+          lat
+          lng
+        }
+        orderDate
+        orderId
+        paymentAmount
+        paymentNumber
+        productDescription
+        productImage
+        recipientName
+        recipientNumber
+        rejectedReasons
+
+        source {
+          _id
+          businessInfo {
+            companyName
+          }
+        }
+        status
+        updatedAt
+        createdAt
+      }
+    }
+  }
+`;
+
+export const GET_ORDER = gql`
+  query GET_ORDER($orderId: ID!) {
+    order(id: $orderId) {
+      _id
+
+      assignedTo {
+        ... on Rider {
+          userProfile {
+            fullName
+          }
+          contactDetails {
+            phoneNumber
+            additionalPhoneNumber
+          }
+          vehicleInfo {
+            vehicleType
+          }
+        }
+
+        ... on T3PL {
+          businessInfo {
+            companyName
+          }
+        }
+      }
+
+      createdAt
+      deliveryDate
+      deliveryFee
+      destination
+      location {
+        lat
+        lng
+      }
+      orderDate
+      orderId
+      paymentAmount
+      paymentNumber
+      paymentStatus
+      quantity
+      productImage
+      productDescription
+      recipientName
+      recipientNumber
+      rejectedReasons
+
+      # source {
+      #   _id
+      #   businessInfo {
+      #     companyName
+      #   }
+      # }
+      status
+      updatedAt
+    }
+  }
+`;
+
+export const GET_ALL_ORDERS_COD = gql`
+  query GET_ALL_ORDERS_COD(
+    $offset: Int!
+    $limit: Int!
+    $search: String!
+    $orderIds: [String]
+    $pickupDateFrom: String
+    $pickupDateTo: String
+    $deliveryDateFrom: String
+    $deliveryDateTo: String
+    $vendorId: String
+    $assignedTo: String
+  ) {
+    cod(
+      offset: $offset
+      limit: $limit
+      search: $search
+
+      orderIds: $orderIds
+      pickupDateFrom: $pickupDateFrom
+      pickupDateTo: $pickupDateTo
+      deliveryDateFrom: $deliveryDateFrom
+      deliveryDateTo: $deliveryDateTo
+
+      vendorId: $vendorId
+      assignedTo: $assignedTo
+    ) {
+      currentPage
+      hasNextPage
+      totalCount
+      completedOrderNum
+      totalRevenue
+      totalDeliveryFee
+      pendingRemittance
+      paidToVendor
+
+      data {
+        _id
+        assignedTo {
+          ... on Rider {
+            userProfile {
+              fullName
+            }
+          }
+
+          ... on T3PL {
+            businessInfo {
+              companyName
+            }
+          }
+        }
+        orderId
+        paymentStatus
+        deliveryDate
+        deliveryFee
+        destination
+        orderDate
+        paidDate
+        paymentAmount
+        paymentNumber
+        productImage
+        quantity
+        source {
+          _id
+          businessInfo {
+            companyName
+          }
+        }
+        status
+        updatedAt
+        createdAt
+      }
+    }
+  }
+`;
+
+export const GET_ALL_3PLS = gql`
+  query GET_ALL_3PLS(
+    $offset: Int!
+    $limit: Int!
+    $status: Status!
+    $search: String!
+  ) {
+    T3pls(offset: $offset, limit: $limit, status: $status, search: $search) {
+      currentPage
+      hasNextPage
+      totalCount
+      data {
+        _id
+        businessInfo {
+          companyName
+          businessDescription
+          webApplicationDomainName
+          businessAddress
+          registrationNumber
+          areaOfOperation
+          yearsInOpertion
+          businessCertificate
+          logo
+          gpsAddress
+          region
+          streetAddress
+        }
+
+        contactDetails {
+          phoneNumber
+          email
+          name
+          additionalPhoneNumber
+          position
+          ghanaCardNumber
+        }
+
+        preference {
+          enable2FA
+          enableEmailNotification
+        }
+
+        financialDetails {
+          bankAccountDetails {
+            accountNumber
+            bankName
+            recipientName
+          }
+          mobileMoneyAccount {
+            phoneNumber
+            recipientName
+          }
+        }
+
+        status
+        createdAt
+      }
+    }
+  }
+`;
+
+export const GET_3PL = gql`
+  query GET_3PL($id: ID!) {
+    T3pl(id: $id) {
+      _id
+      businessInfo {
+        companyName
+        businessDescription
+        webApplicationDomainName
+        businessAddress
+        registrationNumber
+        areaOfOperation
+        yearsInOpertion
+        businessCertificate
+        logo
+        gpsAddress
+        region
+        streetAddress
+      }
+
+      contactDetails {
+        phoneNumber
+        email
+        name
+        additionalPhoneNumber
+        position
+        ghanaCardNumber
+      }
+
+      preference {
+        enable2FA
+        enableEmailNotification
+      }
+
+      financialDetails {
+        bankAccountDetails {
+          accountNumber
+          bankName
+          recipientName
+        }
+        mobileMoneyAccount {
+          phoneNumber
+          recipientName
+        }
+      }
+
+      status
+      createdAt
     }
   }
 `;

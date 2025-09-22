@@ -20,29 +20,31 @@ import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
 import { GET_ALL_RIDERS } from "../../../../graphql/generalQueries";
 import PaginatedTabs from "../../../../Components/paginationTab/paginationTabs";
-
+import CustomSearchInput from "../../../../Components/searchInputBox/CustomSearchInput";
+import { useSearchB } from "../../../../graphql/graphqlConfiguration";
 
 function RiderApproved() {
   const [itemOffset, setItemOffset] = useState(0);
   const [isDeleteModal, setDeleteModal] = useState(false);
+  const [searchRider, setSearchRider] = useState("");
+
   let itemsPerPage = 15;
 
   let navigate = useNavigate();
 
   const {
+    debouncedSearch,
     loading: ridersLoading,
     data: ridersData,
     error: riderError,
     fetchMore: fetchMoreRiders,
-    refetch: refetchRiders,
-  } = useQuery(GET_ALL_RIDERS, {
-    variables: {
-      offset: itemOffset,
-      limit: itemsPerPage,
-      status: "APPROVED",
-    },
-    notifyOnNetworkStatusChange: true,
-  });
+  } = useSearchB(GET_ALL_RIDERS, itemOffset, itemsPerPage, "APPROVED");
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchRider(value);
+    debouncedSearch(value);
+  };
 
   const totalNumberOfRiders = ridersData?.riders?.totalCount;
 
@@ -131,6 +133,14 @@ function RiderApproved() {
       <div className="vd-pending-title">Approved Riders Accounts</div>
 
       <div className="table-container-st">
+        <div className="full-search-container">
+          <CustomSearchInput
+            bgColor={"white"}
+            placeholder="Search by full name, contact or vehicle"
+            value={searchRider}
+            onChange={handleSearch}
+          />
+        </div>
         <Table
           data={{ nodes: [...(ridersData?.riders.data || [])] }}
           theme={tableTheme}
@@ -146,7 +156,7 @@ function RiderApproved() {
                   <HeaderCell>Full name</HeaderCell>
                   <HeaderCell>Gender</HeaderCell>
                   <HeaderCell>Mobile Number</HeaderCell>
-                  <HeaderCell>Driver's License</HeaderCell>
+                  <HeaderCell>Vehicle</HeaderCell>
                   {/* <HeaderCell>City of Operation</HeaderCell> */}
                   <HeaderCell>Year</HeaderCell>
                   <HeaderCell>Status</HeaderCell>
@@ -177,7 +187,7 @@ function RiderApproved() {
                       <Cell>{item?.userProfile?.gender}</Cell>
                       <Cell>{item?.contactDetails?.phoneNumber}</Cell>
                       <Cell>
-                        {item?.professionalDetails?.driverLicenseNumber}
+                        {item?.vehicleInfo?.vehicleType}
                       </Cell>
                       <Cell>
                         {item?.professionalDetails?.yearsOfDrivingExperience}
@@ -186,7 +196,9 @@ function RiderApproved() {
                         {" "}
                         <button
                           className="status-btn-st"
-                          onClick={() => navigate(`/rider/approved/details/${item?._id}`)}
+                          onClick={() =>
+                            navigate(`/dashboard/rider/approved/details/${item?._id}`)
+                          }
                         >
                           Approved
                         </button>{" "}
@@ -194,14 +206,23 @@ function RiderApproved() {
                     </Row>
                   ))
                 )}
+                  {(tableList.length <=0 && !ridersLoading) && (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+
+                    <Cell>No Data Found</Cell>
+                  </Row>
+                )}
               </Body>
             </>
           )}
         </Table>
 
         <div className="pagination-tab">
-           
-           <PaginatedTabs
+          <PaginatedTabs
             totalRecords={totalNumberOfRiders}
             setItemOffset={setItemOffset}
             offSet={itemOffset}

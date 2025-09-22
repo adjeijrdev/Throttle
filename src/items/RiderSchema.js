@@ -1,5 +1,6 @@
 import { z } from "zod/v3";
 
+
 export const riderSchema = z
   .object({
     fullName: z.string().min(1, "Please provide your fullname!!!"),
@@ -24,18 +25,11 @@ export const riderSchema = z
         }),
     }),
     contactDetails: z.object({
-      phoneNumber: z
-        .string({ message: "phone number required" })
-        .trim()
-        .min(10, { message: "phone number is required" })
-        .max(20)
-        .regex(/^\d{10,20}$/, {
-          message: "Phone number should contain only numbers",
-        }),
+      phoneNumber:z.string().trim().regex(/^\+[\w\s]{12,20}$/, {message: "Provide correct phone number and must contain only numbers"}).optional(),
       additionalPhoneNumber: z
         .string()
         .trim()
-        .regex(/^\d{10,20}$/, {
+        .regex(/^\+?\d{10,20}$/, {
           message: "Provide correct phone number and must contain only numbers",
         })
         .optional()
@@ -55,7 +49,7 @@ export const riderSchema = z
       emergencyContactNumber: z
         .string()
         .trim()
-        .regex(/^\d{10,20}$/, {
+        .regex(/^\+?\d{10,20}$/, {
           message: "Provide correct phone number and must contain only numbers",
         })
         .optional()

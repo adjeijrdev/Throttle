@@ -1,9 +1,7 @@
-import React from 'react'
-
 import { Outlet } from "react-router";
 
 
-export default function PendingAccountLayout3PL() {
+export default function DashBoardLayout() {
   return (
     <div> <Outlet/></div>
   )

@@ -2,17 +2,13 @@
 .main-container-box {
   width: 100vw;
   height: 100vh;
-  /* background: radial-gradient(
-    circle at 200% 20%,
-    var(--light-green-gradient),
-    var(--dark-green)
-  ); */
   background: var(--main-theme);
   display: flex;
   align-items: center;
-  justify-items: center;
+  justify-content: center;
   overflow: hidden;
 }
+
 .green-side {
   width: 66%;
   height: 100%;
@@ -22,60 +18,62 @@
   flex-direction: column;
   gap: 0;
 }
+
 .form {
-  /* display: none; */
   width: 34%;
   height: 100%;
   background-color: var(--clr-white);
-  
 }
 
 /* GREEN SIDE STYLING WITH TEXT AND IMAGES */
 .green-side .TextBox {
   width: 100%;
   height: 20%;
-  margin-top: rem;
+  margin-top: 1rem;
   margin-left: 5rem;
 }
+
 .green-side .Images {
   width: 100%;
   height: 80%;
 }
 
 .blurred-box {
-  width: 100%;
-  height: 69%;
+  width: 79%;
+  height: 65%;
   position: relative;
-  top: 42%;
-  left: -3rem;
-  border-radius: 0.3rem;
+  top: 28%;
+  left: 13%;
+  border-radius: 1.3rem;
+  object-fit: cover;
 }
+
 .blurred-box img {
   width: 80%;
   height: 96%;
   margin-top: -9.3rem;
-
   margin-left: 20rem;
-  object-fit: initial;
+  object-fit: cover;
+  border-radius: 0.3rem;
 }
+
+/* MAN MODEL */
 .man-box {
-  width: 56%;
-  height: 90rem;
+  width: 60%;
+  height: 125%;
   z-index: 3;
   position: relative;
-  top: -88%;
+  top: -91.6%;
   padding: 0;
   margin: 0;
-
-  /* border: #ff0000 solid 2rem; */
 }
+
 .man-box img {
-  /* display: none; */
   width: 100%;
   height: 100%;
   margin-top: -3rem;
-  /* object-fit: fill; */
 }
+
 .text-on-green {
   width: 80%;
   height: 10%;
@@ -85,66 +83,57 @@
   padding: 5.5rem 3rem;
   margin-top: 4rem;
   margin-left: 2rem;
-  /* display: relative; */
   line-height: 1;
   display: flex;
   flex-direction: column;
-  /* outline: 1px solid red; */
   z-index: 2;
-  /* padding: 6rem 1rem 1rem 1rem; */
 }
+
 .text-on-green h1 {
   font-family: "Poppins", sans-serif;
-  font-size: clamp(15px, 6.6rem, 65px);
+  font-size: clamp(20px, 6.1rem, 70px);
   font-weight: 150;
   font-style: normal;
-  margin-bottom: 0%;
-  padding-bottom: 0px;
-  margin: 0px;
+  margin: -3rem 10rem 2rem 0rem;
+  margin-left: 6rem;
   padding: 0px;
   line-height: 1;
   white-space: normal;
-
-  /* overflow: hidden;
-  border-right: 15em solid var(--background-clr);
-  white-space: nowrap;
-  letter-spacing: 15em;
-  animation:
-      typing 3.5s steps(30, end),
-      blink-caret .75s step-end infinite; */
 }
+
 .to-text {
   font-family: "Sacramento", cursive;
   font-weight: 400;
   font-style: normal;
 }
+
 .throttle-text {
   font-weight: 350;
 }
+
 .text-on-green h3 {
   font-family: "Poppins", sans-serif;
-  font-size: 3.3rem;
+  font-size: 3rem;
   font-weight: 250;
   font-style: normal;
   padding: 0px;
-  margin: -1.6rem 0px 0px 0px;
-  display: relative;
+  margin: -2.9rem 0px 6px 0px;
+  margin-left: 6rem;
+  position: relative;
   top: -27rem;
   line-height: 1;
   white-space: normal;
 }
+
 .text-on-green pre {
   font-family: "Poppins", sans-serif;
-  font-size: 2.1rem;
+  font-size: 1.9rem;
   font-weight: 120;
   font-style: normal;
   padding: 2.5rem 0 0 0;
-  margin: 0px;
+  margin-left: 12rem;
   line-height: 1.3;
   white-space: normal;
-  margin-left: 12rem;
-  /* display: relative;
-  top: -27rem; */
 }
 
 /* FORM STYLING */
@@ -157,28 +146,23 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap:4rem;
-
+  gap: 4rem;
 }
 
-.login-input-con-st{
-
+.login-input-con-st {
   width: 100%;
   display: flex;
   flex-direction: column;
-  
-  gap:1.5rem;
-  
+  gap: 1.5rem;
 }
+
 /* RADIO BUTTON STYLING */
 .radio-button-group {
-
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  /* margin: 8px; */
   width: 100%;
 }
 
@@ -186,56 +170,43 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap:0.8rem;
-
+  gap: 0.8rem;
 }
 
-.input[type="radio" i]{
-  background-color: green !important;
-}
-
-<<<<<<< HEAD
 .login-radio-button input[type="radio"] {
   display: inline;
   width: 15px;
   height: 15px;
-    cursor: pointer;
-
+  cursor: pointer;
 }
 
 .login-radio-button input[type="radio"]::after {
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    top: 0;
-    left: 0;
-    /* background-color: #6b6b6b; */
-    /* border: 1px solid #CDD4DB; */
-    content: "";
-    display: inline-block;
-    
-
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  top: 0;
+  left: 0;
+  content: "";
+  display: inline-block;
 }
 
 .login-radio-button input[type="radio"]:checked::after {
-    background-color: #17654F !important;
-    outline: 1px solid #17654F ;
-    border: 1px solid white;
-   
+  background-color: #17654f !important;
+  outline: 1px solid #17654f;
+  border: 1px solid white;
 }
-
 
 .login-radio-button input[type="radio"]:checked + label {
-    background-color: white !important;
+  background-color: white !important;
 }
+
 .login-radio-button label {
-  /* padding-left: 30px; */
   cursor: pointer;
   position: relative;
   font-size: 1.6rem;
   font-weight: 500;
+}
 
-=======
 .radio-button label {
   background-color: transparent;
   outline: none;
@@ -263,12 +234,12 @@ input[type="radio"]:checked + label::before {
   box-shadow: inset 0 0 0 3px #fff;
 }
 
-
 .radio-button input[type="radio"]:focus + label {
   outline: none;
   box-shadow: none;
   background-color: transparent;
 }
+
 .radio-button label,
 .radio-button label:focus,
 .radio-button label:focus-visible,
@@ -278,9 +249,7 @@ input[type="radio"]:checked + label::before {
   outline: none !important;
   box-shadow: none !important;
   border: none !important;
->>>>>>> 1629fed3d9b0cc2c542e44a6a2f598e420caf503
 }
-
 
 /* line-and-text */
 .line-box {
@@ -288,40 +257,35 @@ input[type="radio"]:checked + label::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* margin-top: -2rem; */
   padding: 0;
-
 }
+
 .line-and-text {
   display: flex;
   width: 80%;
   align-items: center;
   text-align: center;
-<<<<<<< HEAD
   font-weight: 500;
   font-size: 1.6rem;
-  /* margin-top: 5rem; */
-  /* margin-bottom: 5rem; */
-  
-=======
   margin-top: 5rem;
   margin-bottom: 5rem;
->>>>>>> 1629fed3d9b0cc2c542e44a6a2f598e420caf503
 }
+
 .line-and-text::before,
 .line-and-text::after {
   content: "";
-
   flex: 1;
   border-bottom: 2px solid #F0EDFF;
-
 }
+
 .line-and-text:not(:empty)::before {
   margin-right: 10px;
 }
+
 .line-and-text:not(:empty)::after {
   margin-left: 10px;
 }
+
 .line-and-text span {
   font-size: 14px;
   color: #333;
@@ -329,159 +293,116 @@ input[type="radio"]:checked + label::before {
 
 /* INPUT FIELDS */
 .login-input-box {
-
   width: 100%;
   display: flex;
   align-items: center;
-  background-color: #CCE1DB;
-
+  background-color: #cce1db;
   height: 4.8rem;
-  
-  display: flex;
   gap: 1.3rem;
-  padding:0px 1rem;
-  /* padding: 1.1rem 2.4rem; */
-  border: solid 1px #17654F;
+  padding: 0px 1rem;
+  border: solid 1px #17654f;
   margin-bottom: 1.3rem;
-  /* background-color: #17654F; */
   border-radius: 1.4rem;
   font-size: 9rem;
   transition: background 250ms ease-in-out;
-  
 }
+
 .login-input-box input {
   background: transparent;
   width: 98%;
   height: 100%;
-  /* background-color: red; */
-  
   border: none;
   font-size: 1.4rem;
 }
 
-<<<<<<< HEAD
-
-.login-input-box:hover{
-  /* box-shadow: 2px 1px 5px var(--clr-green); */
+.login-input-box:hover {
   background-color: #B2CFC7;
-=======
+}
+
 .input-box:hover {
   box-shadow: 2px 1px 5px var(--clr-green);
   background-color: transparent;
->>>>>>> 1629fed3d9b0cc2c542e44a6a2f598e420caf503
   color: black;
   font-style: italic;
   border: solid 0.8px var(--main-theme);
 }
-<<<<<<< HEAD
 
-
-
-
-/* .login-input-box input::placeholder {
-  color: var(--main-theme)
-} */
-
-.input-fields{
-  /* background-color: red; */
-=======
 .input-box input {
   background: transparent;
-  /* padding: 0.2rem; */
   border: none;
   font-size: 1.4rem;
 }
+
 .input-box input::placeholder {
   color: var(--main-theme);
 }
+
 .input-fields .login_email-box {
->>>>>>> 1629fed3d9b0cc2c542e44a6a2f598e420caf503
   display: flex;
   flex-direction: column;
-  gap:0.7rem;
+  gap: 0.7rem;
 }
-<<<<<<< HEAD
-/* .input-fields .login_email-box {
-  display: flex;
-  justify-content: center;
-  gap: 3rem;
-  align-items: center;
-} */
 
-
-.login-password{
-   background-color: #CCE1DB !important;
+.login-password {
+  background-color: #cce1db !important;
   height: 4.8rem;
-  
   border-radius: 1.4rem;
+}
 
-
-=======
 .input-fields .login_email-box input {
   border: none;
   margin-left: -14px;
 }
+
 .input-password-box-1 {
   align-items: center;
-  justify-items: center;
   justify-content: center;
 }
+
 .input-password-box-1 input {
   width: 90%;
 }
+
 .input-password-box-1 button {
   background-color: transparent;
   border: none;
   align-items: center;
-  justify-items: center;
   text-align: center;
 }
+
 .input-password-box-1 button svg {
   color: rgb(82, 82, 82);
   width: 20px;
   height: 20px;
->>>>>>> 1629fed3d9b0cc2c542e44a6a2f598e420caf503
 }
 
-.login-password:hover{
-  border-color: #17654F !important;
-  border:1px solid yellow;
-
+.login-password:hover {
+  border-color: #17654f !important;
+  border: 1px solid #17654f;
 }
+
 .login-password .ant-input {
   border: none;
   outline: none;
   margin: 0px;
-  background-color: #CCE1DB !important;
-  /* border: 1px solid #17654F !important; */
+  background-color: #cce1db !important;
 }
-
-
-
 
 .login-input-box input:focus {
   outline: none;
   border: none;
   background: transparent;
 }
-<<<<<<< HEAD
-.button-and-sign-up{
-  /* margin-top: -5.5rem; */
+
+.button-and-sign-up {
   display: flex;
   flex-direction: column;
-=======
-.button-and-sign-up {
-  margin-top: -5.5rem;
-  display: column;
->>>>>>> 1629fed3d9b0cc2c542e44a6a2f598e420caf503
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 100%;
-
 }
+
 .button-and-sign-up button {
-  /* padding: 1.1rem 2.4rem; */
   width: 100%;
   border: solid 1px var(--main-theme);
   margin-bottom: 1rem;
@@ -498,108 +419,142 @@ input[type="radio"]:checked + label::before {
   justify-content: center;
   transition: all 250ms ease-in-out;
 }
-<<<<<<< HEAD
+
 .button-and-sign-up button:hover,
-.button-and-sign-up button:active{
-=======
-.button-and-sign-up button:hover {
-  /* background-color: rgba(23,101, 79, 0.8); */
->>>>>>> 1629fed3d9b0cc2c542e44a6a2f598e420caf503
+.button-and-sign-up button:active {
   background-color: var(--dark-green);
   color: var(--clr-white);
   border: none;
-<<<<<<< HEAD
-  
 }
-.button-and-sign-up button:active{
-  /* transform: scale(99.7%); */
-  font-size: 1.5rem;
-=======
-  /* color: var(--background-clr); */
-  /* border: solid 1px var(--clr-white); */
-  box-shadow: 2px 1px 5px var(--main-theme);
-}
+
 .button-and-sign-up button:active {
-  background-color: var(--main-theme);
-  height: 6rem;
-  font-size: 2rem;
-  color: var(--dark-green);
-  border: none;
->>>>>>> 1629fed3d9b0cc2c542e44a6a2f598e420caf503
-  /* color: var(--background-clr); */
+  font-size: 1.5rem;
+  box-shadow: 2px 1px 5px var(--main-theme);
 }
 
 .logo-form {
-  /* margin-bottom: 3.6rem; */
-  /* width: 280px !important; */
   background-color: black;
   width: 100%;
   height: 8rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border:1px solid yellowgreen
- 
 }
 
-.logo-form img{
-  width: 15rem ;
+.logo-form img {
+  width: 15rem;
 }
 
 .sign-up span {
   margin-top: 3px;
   font-size: 1.4rem;
 }
+
 .sign-up span a {
   text-decoration: none;
   color: var(--dark-green);
   font-weight: 500;
   font-size: 1.5rem;
 }
+
 .sign-up span a:hover {
   font-weight: 700;
   color: var(--dark-green);
   text-decoration: underline;
   cursor: pointer;
 }
+
 .remember-me {
   width: 100%;
   display: flex;
   justify-content: end;
   align-items: center;
-  /* padding-right: 2.1rem; */
-
   margin-top: 0.5rem;
 }
+
 .remember-me p {
   color: gray;
   font-size: larger;
-<<<<<<< HEAD
-  cursor:pointer;
-
-
-=======
   cursor: pointer;
->>>>>>> 1629fed3d9b0cc2c542e44a6a2f598e420caf503
 }
 
-/* //MEDIA QUERY */
+/* password style */
+.login-password.ant-input-affix-wrapper {
+  background-color: #cce1db !important;
+  border-color: #17654f !important;
+}
+
+.login-password.ant-input-affix-wrapper:hover {
+  background-color: #b2cfc7 !important;
+  border-color: #17654f !important;
+}
+
+.login-password.ant-input-affix-wrapper:focus-within {
+  background-color: #b2cfc7 !important;
+  border-color: #17654f !important;
+}
+
+.login-password .ant-input {
+  background-color: transparent !important;
+}
+
+.login-password .ant-input-password-icon {
+  color: #6b6b6b !important;
+}
+
+/* ANIMATIONS */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--background-clr);
+  }
+}
+
+/* MEDIA QUERY - MOBILE PHONES */
+@media screen and (max-width: 480px) {
+  .green-side {
+    display: none;
+  }
+  
+  .form {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .logo-form {
+    width: 70%;
+    height: 5rem;
+  }
+  
+  .logo-form img {
+    width: 9rem;
+  }
+}
+
 @media screen and (max-width: 976px) {
   .text-on-green {
     width: 80%;
     height: auto;
     min-width: 100px;
     min-height: 60px;
-    text-align: left;
     padding: 3rem 2rem;
     margin-top: 2px;
     position: relative;
     line-height: 1.2;
-    display: flex;
-    flex-direction: column;
-    z-index: 2;
   }
-  v .text-on-green h1 {
+  
+  .text-on-green h1 {
     font-size: 1.1rem !important;
     font-weight: 500 !important;
     margin: 0 !important;
@@ -630,62 +585,3 @@ input[type="radio"]:checked + label::before {
     font-weight: 400;
   }
 }
-
-
-
-/* password style */
-/* Target the main wrapper */
-.login-password.ant-input-affix-wrapper {
-  background-color: #CCE1DB !important;
-  border-color: #17654F !important;
-}
-
-/* Hover state for the wrapper */
-.login-password.ant-input-affix-wrapper:hover {
-  background-color: #B2CFC7 !important;
-  border-color: #17654F !important;
-}
-
-/* Focus state for the wrapper */
-.login-password.ant-input-affix-wrapper:focus-within {
-  background-color: #B2CFC7 !important;
-  border-color: #17654F !important;
-  /* box-shadow: 0 0 0 2px rgba(23, 101, 79, 0.2) !important; */
-}
-
-/* Make sure the input itself doesn't override our background */
-.login-password .ant-input {
-  background-color: transparent !important;
-}
-
-/* Style the eye icon */
-.login-password .ant-input-password-icon {
-  color: #6B6B6B !important;
-}
-
-/* ANIMATIONS */
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  t0 {
-    width: 100%;
-  }
-}
-@keyframes blink-caret {
-  from,
-  to {
-    border-color: transparent;
-  }
-  50% {
-    border-color: var(--background-clr);
-  }
-}
-<<<<<<< HEAD
-@keyframes blink-caret{
-  from, to { border-color: transparent }
-  50% { border-color: var(--background-clr)}
-}
-
-=======
->>>>>>> 1629fed3d9b0cc2c542e44a6a2f598e420caf503

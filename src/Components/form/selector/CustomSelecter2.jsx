@@ -1,4 +1,3 @@
-import React from "react";
 import Select from "react-select";
 import AsyncSelect from "react-select/async";
 export default function CustomSelector2({
@@ -10,6 +9,7 @@ export default function CustomSelector2({
   width = "500px",
   sideBarHeight="30px"
 }) {
+  console.log(selectedValue)
   const customStyles = {
     control: (base, state) => ({
       ...base,

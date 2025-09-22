@@ -111,8 +111,8 @@ const Stepper = ({ name }) => {
       const momo = data?.financialDetails?.mobileMoneyAccount;
       if (momo && (momo?.recipientName || momo?.phoneNumber)) {
         const mobileMoneyAccount = {
-          phoneNumber: momo.recipientName,
-          recipientName: momo.phoneNumber,
+          phoneNumber: momo.phoneNumber,
+          recipientName:momo.recipientName ,
         };
         financialDetails.mobileMoneyAccount = mobileMoneyAccount;
       }
@@ -137,7 +137,7 @@ const Stepper = ({ name }) => {
         },
       });
 
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       toast.error(error?.message, {
         style: {
@@ -212,7 +212,7 @@ const Stepper = ({ name }) => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={style["form-container"]}
-        enctype="multipart/form-data"
+        encType="multipart/form-data"
       >
         <h2 className={style["form-title"]}>
           Registration process as a {name}
@@ -695,7 +695,7 @@ const Stepper = ({ name }) => {
         {/* <SuccessfulRegistration isOpen={isOpen} onClose={toggleModalOpen} /> */}
       </form>
 
-      <div className={style.cancel_registration_btn}>
+      {/* <div className={style.cancel_registration_btn}>
         Don't want to continue?{" "}
         <Link
           to="/login"
@@ -704,7 +704,7 @@ const Stepper = ({ name }) => {
           {" "}
           Cancel Registration
         </Link>
-      </div>
+      </div> */}
     </>
   );
 };

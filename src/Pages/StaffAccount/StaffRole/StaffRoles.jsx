@@ -57,7 +57,6 @@ function StaffRoles() {
   });
   const totalNumberOfRoles = roleData?.roles?.totalCount;
 
-
   let navigate = useNavigate();
 
   const tableTheme = useTheme([
@@ -221,7 +220,7 @@ function StaffRoles() {
           <button
             className="btn-new-role"
             onClick={() => {
-              navigate("/staff-account/create-Role");
+              navigate("/dashboard/staff-account/create-Role");
             }}
           >
             Create New Role <span className="new-plus">+</span>
@@ -296,7 +295,6 @@ function StaffRoles() {
                         {/* working on show staff modal */}
                         <button
                           onClick={() => {
-                           
                             setShowStaffModal({
                               state: true,
                               assignTo: item?.assignTo,
@@ -311,7 +309,7 @@ function StaffRoles() {
                         <span className="btn-container">
                           <button
                             onClick={(e) =>
-                              navigate(`/staff-account/edit-role/${item._id}`)
+                              navigate(`/dashboard/staff-account/edit-role/${item._id}`)
                             }
                           >
                             Edit
@@ -329,6 +327,8 @@ function StaffRoles() {
                     </Row>
                   ))
                 )}
+
+               
               </Body>
             </>
           )}
@@ -343,6 +343,19 @@ function StaffRoles() {
             fetchMore={fetchMoreRoles}
           />
         </div>
+
+        {
+          (!roleLoading && (!roleData?.data && roleData?.data?.length === 0)) && (
+            <div
+            style={{
+              textAlign:"center",
+              fontSize:"16px"
+            }}
+            >
+              No Data 
+            </div>
+          )
+        }
       </div>
     </div>
   );

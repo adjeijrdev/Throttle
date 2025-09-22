@@ -1,5 +1,5 @@
 import { z } from "zod/v3";
-import toast from "react-hot-toast";
+
 export const VendorSchema = z
   .object({
     // Step 1: Business Info

@@ -192,7 +192,7 @@ function ApprovedAccount() {
                           className="status-btn-st"
                           onClick={() =>
                             navigate(
-                              `/vendor-account/Approved-Account/details/${item?._id}`
+                              `/dashboard/vendor-account/Approved-Account/details/${item?._id}`
                             )
                           }
                         >
@@ -201,6 +201,16 @@ function ApprovedAccount() {
                       </Cell>
                     </Row>
                   ))
+                )}
+                {(tableList.length <=0 && !vendorLoading) && (
+                  <Row>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+                    <Cell></Cell>
+
+                    <Cell>No Data Found</Cell>
+                  </Row>
                 )}
               </Body>
             </>

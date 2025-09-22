@@ -75,6 +75,8 @@ export const registerVendorAPI = async (formData) => {
     });
 };
 
+
+
 export const approveVendorAPI = async (formData) => {
   return await api.patch("/auth/approval/vendor", formData, {
       headers: {
@@ -304,3 +306,73 @@ export const deleteStaffAPI = async (id) => {
   }
 };
 
+
+export const register3plAPI = async (formData) => {
+  for (let pair of formData.entries()) {
+  console.log(pair[0], pair[1]);
+}
+  return await axios
+    .post(`${BASE_URL}/auth/register/3pl`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+      },
+      withCredentials: true,
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      if (error?.response?.data?.errors) {
+        throw error?.response?.data?.errors[0];
+      } else {
+        throw (
+          error?.response?.data || {
+            message: "Sorry an error occured on the server",
+          }
+        );
+      }
+    });
+};
+
+export const approve3PLAPI = async (formData) => {
+  return await api.patch("/auth/approval/3pl", formData, {
+      headers: {
+        Accept: "application/json",
+      },
+      withCredentials: true,
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      if (error?.response?.data?.errors) {
+        throw error?.response?.data?.errors[0];
+      } else {
+        throw (
+          error?.response?.data || {
+            message: "Sorry an error occured on the server",
+          }
+        );
+      }
+    });
+};
+
+
+
+export const delete3plAPI = async (T3plId) => {
+  try {
+    const response = await api.delete(`/auth/3pl/${T3plId}`);
+    return response.data;
+  } catch (error) {
+    if (error?.response?.data?.errors) {
+      throw error?.response?.data?.errors[0];
+    } else {
+      throw (
+        error?.response?.data || {
+          message: "Sorry an error occured on the server",
+        }
+      );
+    }
+  }
+};
