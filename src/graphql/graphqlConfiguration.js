@@ -51,7 +51,7 @@ const errorLink = onError(
                   }
                 )
                 .then(() => {
-                  console.log("errrrrrro working");
+                  
                   resolvePendingRequests();
                   isRefreshing = false;
                 })
@@ -64,7 +64,7 @@ const errorLink = onError(
                     error.response.data.errorCode === "EXPIRED_REFRESH_TOKEN"
                   ) {
                     // Redirect to login
-                    window.location.href = "/login";
+                    window.location.href = "/";
                   }
                 });
             }
