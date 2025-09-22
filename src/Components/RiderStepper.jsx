@@ -3,7 +3,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import style from "./RiderStepper.module.css";
 import toast from "react-hot-toast";
 //Importing in-application components
-import DropDownInput from "../Components/DropDownMenuInput/DropDownInput";
 import { useNavigate, Link } from "react-router";
 import PhoneNumberInput from "./Phone/PhoneNumberInput";
 

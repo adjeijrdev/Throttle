@@ -47,7 +47,7 @@ import RiderLayout from "./Pages/Rider/RiderLayout";
 import Pending from "./Pages/Rider/account/pending/Pending";
 import RiderPending from "./Pages/Rider/account/pending/Pending";
 import RiderApproved from "./Pages/Rider/account/approved/Approved";
-import RiderPendingLayout from "./Pages/Rider/account/pending/pendingLayout";
+import RiderPendingLayout from "./Pages/Rider/account/pending/PendingLayout";
 import RiderApprovedLayout from "./Pages/Rider/account/approved/ApprovedLayout";
 import RiderDeniedLayout from "./Pages/Rider/account/denied/DeniedLayout";
 import RiderDenied from "./Pages/Rider/account/denied/Denied";
