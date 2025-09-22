@@ -8,7 +8,7 @@ import PhoneNumberInput from "./Phone/PhoneNumberInput";
 import { BeatLoader } from "react-spinners";
 
 //Importing in-application components
-import DropDownInput from "../Components/DropDownMenuInput/DropDownInput.jsx";
+//import DropDownInput from "../Components/DropDownMenuInput/DropDownInput.jsx";
 import CustomSelector2 from "./form/selector/CustomSelecter2";
 
 //list of the sixteen Regions in Ghana
